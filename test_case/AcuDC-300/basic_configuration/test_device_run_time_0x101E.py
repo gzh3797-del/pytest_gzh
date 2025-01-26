@@ -1,0 +1,24 @@
+import time
+
+from comm.modbus_set_attr import *
+from tools.log import Log
+
+Log(str(__file__).split("\\")[-1])
+
+device_run_time = [0, 600, 1800, 3600, 0]
+
+
+def setup_function():
+    pass
+
+
+def test_device_run_time_0x101E():
+    rtu_result = []
+    for i in device_run_time:
+        ret = set_device_run_time(conn_mode=modbus_config["conn_mode"], value=i)
+        rtu_result.append(ret)
+    assert rtu_result == [True, True, True, True, True]
+
+
+def teardown_function():
+    pass
