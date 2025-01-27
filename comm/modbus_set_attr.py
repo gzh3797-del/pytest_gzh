@@ -18,7 +18,6 @@ def set_meter_password(conn_mode, value):
     return True
 
 
-# set_meter_password(conn_mode='tcp', value=0000)
 def set_pt1(conn_mode, value):
     client = ModbusRtuOrTcp(conn_mode=conn_mode)
     ret = client.write_registers(address=basic_configuration['PT1 word']['Start(Dec)'],
@@ -462,23 +461,6 @@ def set_modbus_tcp_port(conn_mode, value):
         logging.error('Modbus TCP port ret is:{}'.format(ret))
         return False
     return True
-
-
-# set_modbus_tcp_port(conn_mode='tcp', value=65535)
-# set_modbus_tcp_port(conn_mode='tcp', value=65535)
-# set_modbus_tcp_port(conn_mode='tcp', value=1)
-# time.sleep(2)
-# set_modbus_tcp_port(conn_mode='tcp', value=2)
-# time.sleep(2)
-# set_modbus_tcp_port(conn_mode='tcp', value=502)
-# time.sleep(2)
-# set_modbus_tcp_port(conn_mode='tcp', value=65533)
-# time.sleep(2)
-# set_modbus_tcp_port(conn_mode='tcp', value=65534)
-# time.sleep(2)
-# set_modbus_tcp_port(conn_mode='tcp', value=65535)
-# time.sleep(2)
-# set_modbus_tcp_port(conn_mode='tcp', value=502)
 
 
 def set_demand_calculation_method(conn_mode, value):
@@ -1105,9 +1087,3 @@ def clear_data_log4(conn_mode):
                                  values=1, slave=1)
     client.close()
     return ret
-
-# print(clear_data_log4(conn_mode='rtu'))
-# print(set_import_energy_measurement(conn_mode='tcp', value=2), set_export_energy_measurement(conn_mode='tcp', value=2),
-#       set_net_energy_measurement(conn_mode='tcp', value=2), set_total_energy_measurement(conn_mode='tcp', value=2),
-#       set_import_charge_measurement(conn_mode='tcp', value=4), set_export_charge_measurement(conn_mode='tcp', value=4),
-#       set_net_charge_measurement(conn_mode='tcp', value=4), set_total_charge_measurement(conn_mode='tcp', value=4))

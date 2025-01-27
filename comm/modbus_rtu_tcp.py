@@ -21,10 +21,10 @@ class ModbusRtuOrTcp:
         except TimeoutError:
             logging.error("modbus rtu connect fail")
             self.client.close()
-        # else:
-        #     print('modbus rtu connect no error')
-        # finally:
-        #     print('modbus rtu connect execute completed')
+        else:
+            logging.error('modbus rtu connect no error')
+        finally:
+            logging.info('modbus rtu connect execute completed')
 
     def close(self):
         self.client.close()

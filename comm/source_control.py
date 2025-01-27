@@ -61,7 +61,7 @@ def sour_para_conf(input_method='直接'):
         校验秒数:1;
         <End>'''
     else:
-        print('电流输入方式错误，请重新配置')
+        logging.error('电流输入方式错误，请重新配置')
     re = SourCon()
     re.send(data)
     re.close()
@@ -209,9 +209,7 @@ def set_wire(way: str):
     set_cmd = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x00, 0x01, 0x20, int(bin_to_hex(way))]
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
-    print(pdu)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
@@ -328,13 +326,11 @@ def set_gear_switching_mode(mode: str = '00000000'):
     try:
         int(mode, 2)  # 使用int()函数，第二个参数2表示二进制
     except ValueError:
-        print(f"{mode}不是一个有效的二进制字符串")
+        logging.error(f"{mode}不是一个有效的二进制字符串")
     set_cmd = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x05, 0x40, 0x04, int(bin_to_hex(mode))]
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
-    print(pdu)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
@@ -363,13 +359,10 @@ def set_harmonic_content(harmonic_content: list):
         pdu = pdu.replace('0x', '').zfill(10)
         pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
         set_cmd += pdu
-        print(set_cmd)
 
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
-    print(pdu)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
@@ -395,9 +388,7 @@ def set_harmonic_phase(harmonic_phase: list):
 
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
-    print(pdu)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
@@ -464,12 +455,9 @@ def set_harmonic_switch(uc_hc: str, ub_hc: str, ua_hc: str, ic_hc: str, ib_hc: s
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16)]
     set_cmd += pdu
     set_cmd.append(int(bin_to_hex(total_switch), 16))
-    print(set_cmd)
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
-    print(pdu)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
@@ -492,13 +480,11 @@ def clear_overload_lock(overload_flag: str):
     try:
         int(overload_flag, 2)  # 使用int()函数，第二个参数2表示二进制
     except ValueError:
-        print(f"{overload_flag}不是一个有效的二进制字符串")
+        logging.error(f"{overload_flag}不是一个有效的二进制字符串")
     set_cmd = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x00, 0x01, 0x80, int(bin_to_hex(overload_flag))]
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
-    print(pdu)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
@@ -573,5 +559,3 @@ def harmonic_settings_and_switches():
     source_control = Cl3021SourCon()
     source_control.send(pdu)
     source_control.close()
-
-
