@@ -1,5 +1,4 @@
 import logging
-import time
 
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
 from tools.excel_operate import dcpara_addr_get
@@ -405,14 +404,6 @@ def get_meter_password(conn_mode):
     return ret[0]
 
 
-# while True:
-#     time.sleep(5)
-#     ret = get_meter_password(conn_mode='rtu')
-#     with open("test.txt", "a") as f:
-#         f.write(str(ret) + '_________' + str(time.strftime('%Y%m%d%H%M%S')) + '\n')  # 自带文件关闭功能，不需要再写f.close()
-#     print(ret, '_________', time.strftime('%Y%m%d%H%M%S'))
-
-
 def get_rs485_baudrate(conn_mode):
     client = ModbusRtuOrTcp(conn_mode=conn_mode)
     ret = client.read_measurement(address=basic_configuration['RS485 baud rate word']['Start(Dec)'],
@@ -605,9 +596,6 @@ def get_ct2(conn_mode):
     return ret
 
 
-# print(get_pt1(conn_mode='tcp'))
-
-
 def get_demand_calculation_method(conn_mode):
     client = ModbusRtuOrTcp(conn_mode=conn_mode)
     ret = client.read_measurement(address=basic_configuration['Demand calculation method word']['Start(Dec)'],
@@ -777,8 +765,6 @@ def get_voltage_input_type(conn_mode):
     ret: list = client.read_measurement(address=System_Infomation['Voltage Input Type']['Start(Dec)'],
                                         count=int(System_Infomation['Voltage Input Type']['Reg']), slave=1)
     client.close()
-    # hex_ret = str((hex(ret[0])[2:6]))
-    # ret: str = bytes.fromhex(hex_ret).decode('ascii')
     return ret[0]
 
 
@@ -787,8 +773,6 @@ def get_current_input_type(conn_mode):
     ret: list = client.read_measurement(address=System_Infomation['Current Input Type']['Start(Dec)'],
                                         count=int(System_Infomation['Current Input Type']['Reg']), slave=1)
     client.close()
-    # hex_ret = str((hex(ret[0])[2:6]))
-    # ret: str = bytes.fromhex(hex_ret).decode('ascii')
     return ret[0]
 
 
@@ -797,8 +781,6 @@ def get_power_supply_type(conn_mode):
     ret: list = client.read_measurement(address=System_Infomation['Power Supply Type']['Start(Dec)'],
                                         count=int(System_Infomation['Power Supply Type']['Reg']), slave=1)
     client.close()
-    # hex_ret = str((hex(ret[0])[2:6]))
-    # ret: str = bytes.fromhex(hex_ret).decode('ascii')
     return ret[0]
 
 
@@ -821,8 +803,6 @@ def get_device_type(conn_mode):
     ret: list = client.read_measurement(address=System_Infomation['Device Type']['Start(Dec)'],
                                         count=int(System_Infomation['Device Type']['Reg']), slave=1)
     client.close()
-    # hex_ret = str((hex(ret[0])[2:6]))
-    # ret: str = bytes.fromhex(hex_ret).decode('ascii')
     return ret[0]
 
 
@@ -831,8 +811,6 @@ def get_reserved(conn_mode):
     ret: list = client.read_measurement(address=System_Infomation['Reserved']['Start(Dec)'],
                                         count=int(System_Infomation['Reserved']['Reg']), slave=1)
     client.close()
-    # hex_ret = str((hex(ret[0])[2:6]))
-    # ret: str = bytes.fromhex(hex_ret).decode('ascii')
     return ret
 
 

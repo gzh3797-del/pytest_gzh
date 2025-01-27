@@ -243,7 +243,7 @@ def run():
             sheet.write(i + 1, 21, 'null')
             if volt_cur_list[i + 1][2] < 0:
                 time.sleep(3)
-                sour_output(voltage=0, current=volt_cur_list[i + 1][2], current_direction='反向')
+                sour_output(voltage=0, current=volt_cur_list[i + 1][2])
             else:
                 time.sleep(3)
                 sour_output(voltage=0, current=volt_cur_list[i + 1][2])
