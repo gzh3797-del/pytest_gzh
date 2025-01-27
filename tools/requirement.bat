@@ -1,0 +1,13 @@
+pip install xlwt==1.3.0
+pip install crcmod==1.7
+pip install matplotlib==3.9.3
+pip install numpy==2.1.3
+pip install opencv-python==4.10.0.84
+pip install openpyxl==3.1.5
+pip install paramiko==3.5.0
+pip install pyinstaller==6.11.1
+pip install pymodbus==3.7.4
+pip install pyserial==3.5
+pip install pytest==8.3.3
+pip install pywinauto==0.6.8
+pip install selenium==4.27.1
