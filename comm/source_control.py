@@ -575,13 +575,3 @@ def harmonic_settings_and_switches():
     source_control.close()
 
 
-def read_ac():
-    """
-    请求读取ABC三相电流，电压，功率，相位，频率 数值。
-    :return:
-    """
-    set_cmd = [0x81, 0x01, 0x25, 0x0f, 0xa0, 0x02, 0x7f, 0xff, 0x80, 0x3f, 0xff, 0xff, 0x0f, 0x80, 0x39]
-    pdu = bytearray(set_cmd)
-    source_control = Cl3021SourCon()
-    source_control.send(pdu)
-    source_control.close()
