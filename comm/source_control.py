@@ -137,9 +137,10 @@ class Cl3021SourCon:
     def __init__(self):
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.udp_socket.settimeout(3)
+        print(modbus_config['local']['ip'], modbus_config['local']['port'])
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
-        print(modbus_config['local']['ip'],modbus_config['local']['port'])
+
 
     def send(self, hex_data):
         ret = self.udp_socket.sendto(hex_data, self.dest_addr)
@@ -236,7 +237,7 @@ def set_ac(quc: float, qub: float, qua: float, qic: float, qib: float, qia: floa
     :param f: 频率
     :return:
     """
-    set_cmd = [0x81, 0x01, 0x07, 0x49, 0xa3, 0x05, 0x46, 0x3f]
+    set_cmd = [0x81, 0x01, 0x25, 0x49, 0xa3, 0x05, 0x46, 0x3f]
     pdu = str(hex(int(quc * 10000))).replace('0x', '').zfill(8)
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)).replace('0x', '').zfill(8)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16)]
@@ -265,41 +266,41 @@ def set_ac(quc: float, qub: float, qua: float, qic: float, qib: float, qia: floa
     set_cmd.append(0xFF)
     pdu = str(hex(int(uc * 10000))).replace('0x', '').zfill(8)
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
-    pdu = pdu.replace('0x', '')
+    pdu = pdu.replace('0x', '').zfill(10)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
     set_cmd += pdu
     pdu = str(hex(int(ub * 10000))).replace('0x', '').zfill(8)
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
-    pdu = pdu.replace('0x', '')
+    pdu = pdu.replace('0x', '').zfill(10)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
     set_cmd += pdu
     pdu = str(hex(int(ua * 10000))).replace('0x', '').zfill(8)
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
-    pdu = pdu.replace('0x', '')
+    pdu = pdu.replace('0x', '').zfill(10)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
     set_cmd += pdu
     pdu = str(hex(int(ic * 10000))).replace('0x', '').zfill(8)
-    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fa'
-    pdu = pdu.replace('0x', '')
+    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
+    pdu = pdu.replace('0x', '').zfill(10)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
     set_cmd += pdu
     pdu = str(hex(int(ib * 10000))).replace('0x', '').zfill(8)
-    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fa'
-    pdu = pdu.replace('0x', '')
+    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
+    pdu = pdu.replace('0x', '').zfill(10)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
     set_cmd += pdu
     pdu = str(hex(int(ia * 10000))).replace('0x', '').zfill(8)
-    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fa'
-    pdu = pdu.replace('0x', '')
+    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
+    pdu = pdu.replace('0x', '').zfill(10)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
     set_cmd += pdu
     pdu = str(hex(int(f * 10000))).replace('0x', '').zfill(8)
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16))
-    pdu = pdu.replace('0x', '')
+    pdu = pdu.replace('0x', '').zfill(8)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16)]
     set_cmd += pdu
     set_cmd += [0x07, 0x07, 0x3F, 0x3F, 0x00]
-    xor = xor_sum(set_cmd[1:-1])
+    xor = xor_sum(set_cmd[1:])
     set_cmd.append(int(hex(xor).replace('0x', ''), 16))
     print(set_cmd)
     pdu = bytearray(set_cmd)
