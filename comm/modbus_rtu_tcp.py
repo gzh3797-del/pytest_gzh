@@ -22,7 +22,7 @@ class ModbusRtuOrTcp:
             logging.error("modbus rtu connect fail")
             self.client.close()
         else:
-            logging.error('modbus rtu connect no error')
+            logging.info('modbus rtu connect no error')
         finally:
             logging.info('modbus rtu connect execute completed')
 
