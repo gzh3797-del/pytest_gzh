@@ -242,7 +242,6 @@ def set_ac(quc: float, qub: float, qua: float, qic: float, qib: float, qia: floa
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)).replace('0x', '').zfill(8)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16)]
     set_cmd += pdu
-    print(set_cmd)
     pdu = str(hex(int(qub * 10000))).replace('0x', '').zfill(8)
     pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)).replace('0x', '').zfill(8)
     pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16)]
@@ -302,13 +301,11 @@ def set_ac(quc: float, qub: float, qua: float, qic: float, qib: float, qia: floa
     set_cmd += [0x07, 0x07, 0x3F, 0x3F, 0x00]
     xor = xor_sum(set_cmd[1:])
     set_cmd.append(int(hex(xor).replace('0x', ''), 16))
-    print(set_cmd)
     pdu = bytearray(set_cmd)
     source_control = Cl3021SourCon()
-    print(pdu)
     ret = source_control.send(pdu)
     source_control.close()
-    time.sleep(5)
+    time.sleep(10)
     return ret
 
 

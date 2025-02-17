@@ -29,17 +29,18 @@ def frequency_precision_measure():
         sheet.write(i + 1, 0, frequency_list[i + 1][0])
         sheet.write(i + 1, 1, frequency_list[i + 1][1])
         if frequency_list[i + 1][1] != 'null' and frequency_list[i + 1][2] != 'null':
-            # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 1, 1, 1, frequency_list[i + 1][1])
+            ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 1, 1, 1, frequency_list[i + 1][1])
             frequency = read_frequency(frequency_list[i + 1][1], 10)
             scale = abs(frequency - frequency_list[i + 1][1]) / frequency_list[i + 1][1]
             sheet.write(i + 1, 2, frequency)
             sheet.write(i + 1, 3, f'{scale:.3%}')
-            if scale <= frequency_list[i + 1][2] / 100:
+            print(scale)
+            if scale * 100 <= frequency_list[i + 1][2]:
                 sheet.write(i + 1, 4, 'Passed')
             else:
                 sheet.write(i + 1, 4, 'Failed')
         if frequency_list[i + 1][1] != 'null' and frequency_list[i + 1][2] == 'null':
-            # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 1, 1, 1, frequency_list[i + 1][1])
+            ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 1, 1, 1, frequency_list[i + 1][1])
             frequency = read_frequency(frequency_list[i + 1][1], 10)
             sheet.write(i + 1, 2, frequency)
             if frequency != 0:
@@ -83,8 +84,8 @@ def line_to_neutral_voltage_precision_measure():
         sheet.write(i + 1, 3, voltage_list[i + 1][3])
         if voltage_list[i + 1][4] != 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
             2] != 'null' and voltage_list[i + 1][3] != 'null':
-            # ret = set_ac(120, 240, 0, 120, 240, 0, voltage_list[i + 1][3], voltage_list[i + 1][2],
-            #              voltage_list[i + 1][1], 1, 1, 1, 50)
+            ret = set_ac(120, 240, 0, 120, 240, 0, voltage_list[i + 1][3], voltage_list[i + 1][2],
+                         voltage_list[i + 1][1], 1, 1, 1, 50)
             Average_Vol = (voltage_list[i + 1][1] + voltage_list[i + 1][2] + voltage_list[i + 1][3]) / 3
             Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], 10)
             Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], 10)
@@ -92,7 +93,7 @@ def line_to_neutral_voltage_precision_measure():
             Read_Average_Vol = Read_Average_ln_Voltage(Average_Vol, 10)
             scale_A = abs(Phase_A - voltage_list[i + 1][1]) / voltage_list[i + 1][1]
             scale_B = abs(Phase_B - voltage_list[i + 1][2]) / voltage_list[i + 1][2]
-            scale_C = abs(Phase_B - voltage_list[i + 1][3]) / voltage_list[i + 1][3]
+            scale_C = abs(Phase_C - voltage_list[i + 1][3]) / voltage_list[i + 1][3]
             scale_Average_Vol = abs(Read_Average_Vol - Average_Vol) / Average_Vol
             sheet.write(i + 1, 4, Phase_A)
             sheet.write(i + 1, 5, Phase_B)
@@ -102,15 +103,15 @@ def line_to_neutral_voltage_precision_measure():
             sheet.write(i + 1, 9, f'{scale_B:.2%}')
             sheet.write(i + 1, 10, f'{scale_C:.2%}')
             sheet.write(i + 1, 11, f'{scale_Average_Vol:.2%}')
-            if scale_A <= voltage_list[i + 1][4] / 100 and scale_B <= voltage_list[i + 1][4] / 100 and scale_C <= \
-                    voltage_list[i + 1][4] / 100:
+            if scale_A * 100 <= voltage_list[i + 1][4] and scale_B * 100 <= voltage_list[i + 1][4] and scale_C * 100 <= \
+                    voltage_list[i + 1][4]:
                 sheet.write(i + 1, 12, 'Passed')
             else:
                 sheet.write(i + 1, 12, 'Failed')
         if voltage_list[i + 1][4] == 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
             2] != 'null' and voltage_list[i + 1][3] != 'null':
-            # ret = set_ac(120, 240, 0, 120, 240, 0, voltage_list[i + 1][3], voltage_list[i + 1][2],
-            #              voltage_list[i + 1][1], 1, 1, 1, 50)
+            ret = set_ac(120, 240, 0, 120, 240, 0, voltage_list[i + 1][3], voltage_list[i + 1][2],
+                         voltage_list[i + 1][1], 1, 1, 1, 50)
             Average_Vol = (voltage_list[i + 1][1] + voltage_list[i + 1][2] + voltage_list[i + 1][3]) / 3
             Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], 10)
             Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], 10)
@@ -174,8 +175,8 @@ def line_to_line_voltage_precision_measure():
         sheet.write(i + 1, 5, voltage_list[i + 1][5])
         sheet.write(i + 1, 6, voltage_list[i + 1][6])
         if voltage_list[i + 1][7] != 'null':
-            # ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
-            #              voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
+            ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
+                         voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
             line_voltage_list = line_to_line_voltage_calculate(voltage_list[i + 1][1], voltage_list[i + 1][2],
                                                                voltage_list[i + 1][3],
                                                                voltage_list[i + 1][4], voltage_list[i + 1][5],
@@ -197,14 +198,14 @@ def line_to_line_voltage_precision_measure():
             sheet.write(i + 1, 12, f'{scale_BC:.2%}')
             sheet.write(i + 1, 13, f'{scale_CA:.2%}')
             sheet.write(i + 1, 14, f'{scale_Average_ll_Voltage:.2%}')
-            if scale_AB <= voltage_list[i + 1][7] / 100 and scale_BC <= voltage_list[i + 1][7] / 100 and scale_CA <= \
-                    voltage_list[i + 1][7] / 100:
+            if scale_AB * 100 <= voltage_list[i + 1][7] and scale_BC * 100 <= voltage_list[i + 1][
+                7] and scale_CA * 100 <= voltage_list[i + 1][7]:
                 sheet.write(i + 1, 15, 'Passed')
             else:
                 sheet.write(i + 1, 15, 'Failed')
         if voltage_list[i + 1][7] == 'null':
-            # ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
-            #              voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
+            ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
+                         voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
             line_voltage_list = line_to_line_voltage_calculate(voltage_list[i + 1][1], voltage_list[i + 1][2],
                                                                voltage_list[i + 1][3],
                                                                voltage_list[i + 1][4], voltage_list[i + 1][5],
@@ -273,8 +274,8 @@ def Current_5A_333mV_CT_precision_measure():
             sheet.write(i + 1, 3, Current_list[i + 1][3])
             if Current_list[i + 1][1] != 'null' and Current_list[i + 1][2] != 'null' and Current_list[i + 1][
                 3] != 'null' and Current_list[i + 1][4] != 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
                 Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], 10)
                 Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], 10)
@@ -292,9 +293,9 @@ def Current_5A_333mV_CT_precision_measure():
                 sheet.write(i + 1, 9, f'{scale_B_Current:.2%}')
                 sheet.write(i + 1, 10, f'{scale_C_Current:.2%}')
                 sheet.write(i + 1, 11, f'{scale_Iavg:.2%}')
-                if scale_A_Current <= Current_list[i + 1][4] / 100 and scale_B_Current <= Current_list[i + 1][
-                    4] / 100 and scale_C_Current <= Current_list[i + 1][4] / 100 and scale_Iavg <= Current_list[i + 1][
-                    4] / 100:
+                if scale_A_Current * 100 <= Current_list[i + 1][4] and scale_B_Current * 100 <= Current_list[i + 1][
+                    4] and scale_C_Current * 100 <= Current_list[i + 1][4] and scale_Iavg * 100 <= Current_list[i + 1][
+                    4]:
                     sheet.write(i + 1, 12, 'Passed')
                 else:
                     sheet.write(i + 1, 12, 'Failed')
@@ -309,8 +310,8 @@ def Current_5A_333mV_CT_precision_measure():
                 if Current_list[i + 1][3] == 'null':
                     Current_list[i + 1][3] = 0
                     sheet.write(i + 1, 10, 'null')
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
                 Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], 10)
                 Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], 10)
@@ -343,15 +344,15 @@ def Current_5A_333mV_CT_precision_measure():
                         sheet.write(i + 1, 10, 'null')
                 scale_Iavg = abs(Iavg - Average_Current) / Average_Current
                 sheet.write(i + 1, 11, f'{scale_Iavg:.2%}')
-                if scale_A_Current <= Current_list[i + 1][4] / 100 and scale_B_Current <= Current_list[i + 1][
-                    4] / 100 and scale_C_Current <= Current_list[i + 1][4] / 100 and scale_Iavg <= Current_list[i + 1][
-                    4] / 100:
+                if scale_A_Current * 100 <= Current_list[i + 1][4] and scale_B_Current * 100 <= Current_list[i + 1][
+                    4] and scale_C_Current * 100 <= Current_list[i + 1][4] and scale_Iavg * 100 <= Current_list[i + 1][
+                    4]:
                     sheet.write(i + 1, 12, 'Passed')
                 else:
                     sheet.write(i + 1, 12, 'Failed')
             if Current_list[i + 1][4] == 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
                 Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], 10)
                 Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], 10)
@@ -398,8 +399,8 @@ def Current_5A_333mV_CT_precision_measure():
             sheet.write(i + 2, 2, Current_list[i + 1][2])
             sheet.write(i + 2, 3, Current_list[i + 1][3])
             if Current_list[i + 1][4] != 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], 10)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], 10)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], 10)
@@ -430,17 +431,18 @@ def Current_5A_333mV_CT_precision_measure():
                 sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
                 sheet.write(i + 2, 14, f'{scale_User_Channel_2_Current:.2%}')
                 sheet.write(i + 2, 15, f'{scale_User_Channel_3_Current:.2%}')
-                if scale_Input_Channel_1_Current <= Current_list[i + 1][4] / 100 and scale_Input_Channel_2_Current <= \
-                        Current_list[i + 1][4] / 100 and scale_Input_Channel_3_Current <= Current_list[i + 1][
-                    4] / 100 and scale_User_Channel_1_Current <= Current_list[i + 1][
-                    4] / 100 and scale_User_Channel_2_Current <= Current_list[i + 1][
-                    4] / 100 and scale_User_Channel_3_Current <= Current_list[i + 1][4] / 100:
+                if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
+                    4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
+                    4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
+                    4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
+                    4] and scale_User_Channel_2_Current * 100 <= Current_list[i + 1][
+                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][4]:
                     sheet.write(i + 2, 16, 'Passed')
                 else:
                     sheet.write(i + 2, 16, 'Failed')
             if Current_list[i + 1][4] == 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], 10)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], 10)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], 10)
@@ -512,8 +514,8 @@ def Current_20A_100mA_CT_precision_measure():
             sheet.write(i + 1, 3, Current_list[i + 1][3])
             if Current_list[i + 1][1] != 'null' and Current_list[i + 1][2] != 'null' and Current_list[i + 1][
                 3] != 'null' and Current_list[i + 1][4] != 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
                 Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], 10)
                 Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], 10)
@@ -531,9 +533,9 @@ def Current_20A_100mA_CT_precision_measure():
                 sheet.write(i + 1, 9, f'{scale_B_Current:.2%}')
                 sheet.write(i + 1, 10, f'{scale_C_Current:.2%}')
                 sheet.write(i + 1, 11, f'{scale_Iavg:.2%}')
-                if scale_A_Current <= Current_list[i + 1][4] / 100 and scale_B_Current <= Current_list[i + 1][
-                    4] / 100 and scale_C_Current <= Current_list[i + 1][4] / 100 and scale_Iavg <= Current_list[i + 1][
-                    4] / 100:
+                if scale_A_Current * 100 <= Current_list[i + 1][4] and scale_B_Current * 100 <= Current_list[i + 1][
+                    4] and scale_C_Current * 100 <= Current_list[i + 1][4] and scale_Iavg * 100 <= Current_list[i + 1][
+                    4]:
                     sheet.write(i + 1, 12, 'Passed')
                 else:
                     sheet.write(i + 1, 12, 'Failed')
@@ -548,8 +550,8 @@ def Current_20A_100mA_CT_precision_measure():
                 if Current_list[i + 1][3] == 'null':
                     Current_list[i + 1][3] = 0
                     sheet.write(i + 1, 10, 'null')
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
                 Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], 10)
                 Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], 10)
@@ -582,15 +584,15 @@ def Current_20A_100mA_CT_precision_measure():
                         sheet.write(i + 1, 10, 'null')
                 scale_Iavg = abs(Iavg - Average_Current) / Average_Current
                 sheet.write(i + 1, 11, f'{scale_Iavg:.2%}')
-                if scale_A_Current <= Current_list[i + 1][4] / 100 and scale_B_Current <= Current_list[i + 1][
-                    4] / 100 and scale_C_Current <= Current_list[i + 1][4] / 100 and scale_Iavg <= Current_list[i + 1][
-                    4] / 100:
+                if scale_A_Current * 100 <= Current_list[i + 1][4] and scale_B_Current * 100 <= Current_list[i + 1][
+                    4] and scale_C_Current * 100 <= Current_list[i + 1][4] and scale_Iavg * 100 <= Current_list[i + 1][
+                    4]:
                     sheet.write(i + 1, 12, 'Passed')
                 else:
                     sheet.write(i + 1, 12, 'Failed')
             if Current_list[i + 1][4] == 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
                 Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], 10)
                 Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], 10)
@@ -637,8 +639,8 @@ def Current_20A_100mA_CT_precision_measure():
             sheet.write(i + 2, 2, Current_list[i + 1][2])
             sheet.write(i + 2, 3, Current_list[i + 1][3])
             if Current_list[i + 1][4] != 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], 10)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], 10)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], 10)
@@ -669,17 +671,18 @@ def Current_20A_100mA_CT_precision_measure():
                 sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
                 sheet.write(i + 2, 14, f'{scale_User_Channel_2_Current:.2%}')
                 sheet.write(i + 2, 15, f'{scale_User_Channel_3_Current:.2%}')
-                if scale_Input_Channel_1_Current <= Current_list[i + 1][4] / 100 and scale_Input_Channel_2_Current <= \
-                        Current_list[i + 1][4] / 100 and scale_Input_Channel_3_Current <= Current_list[i + 1][
-                    4] / 100 and scale_User_Channel_1_Current <= Current_list[i + 1][
-                    4] / 100 and scale_User_Channel_2_Current <= Current_list[i + 1][
-                    4] / 100 and scale_User_Channel_3_Current <= Current_list[i + 1][4] / 100:
+                if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
+                    4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
+                    4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
+                    4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
+                    4] and scale_User_Channel_2_Current * 100 <= Current_list[i + 1][
+                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][4]:
                     sheet.write(i + 2, 16, 'Passed')
                 else:
                     sheet.write(i + 2, 16, 'Failed')
             if Current_list[i + 1][4] == 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], 10)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], 10)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], 10)
@@ -743,8 +746,8 @@ def Phase_Voltage_Angle_precision_measure():
         sheet.write(i + 1, 3, Voltage_Angle_list[i + 1][3])
         if Voltage_Angle_list[i + 1][3] != 'null' and Voltage_Angle_list[i + 1][1] != 'null' and \
                 Voltage_Angle_list[i + 1][2] != 'null' and Voltage_Angle_list[i + 1][3] != 'null':
-            # ret = set_ac(Voltage_Angle_list[i + 1][3], Voltage_Angle_list[i + 1][2], Voltage_Angle_list[i + 1][1], 120,
-            #              240, 0, 100, 100, 100, 1, 1, 1, 50)
+            ret = set_ac(Voltage_Angle_list[i + 1][3], Voltage_Angle_list[i + 1][2], Voltage_Angle_list[i + 1][1], 120,
+                         240, 0, 100, 100, 100, 1, 1, 1, 50)
             Phase_A_Voltage_Angle = Read_Phase_A_Voltage_Angle(Voltage_Angle_list[i + 1][1], 10)
             Phase_B_Voltage_Angle = Read_Phase_B_Voltage_Angle(Voltage_Angle_list[i + 1][2], 10)
             Phase_C_Voltage_Angle = Read_Phase_C_Voltage_Angle(Voltage_Angle_list[i + 1][3], 10)
@@ -758,8 +761,8 @@ def Phase_Voltage_Angle_precision_measure():
             sheet.write(i + 1, 7, 'null')
             sheet.write(i + 1, 8, f'{scale_B_Voltage_Angle:.2%}')
             sheet.write(i + 1, 9, f'{scale_C_Voltage_Angle:.2%}')
-            if Phase_A_Voltage_Angle == 0 and scale_B_Voltage_Angle <= Voltage_Angle_list[i + 1][
-                4] / 100 and scale_C_Voltage_Angle <= Voltage_Angle_list[i + 1][4] / 100:
+            if Phase_A_Voltage_Angle == 0 and scale_B_Voltage_Angle * 100 <= Voltage_Angle_list[i + 1][
+                4] and scale_C_Voltage_Angle * 100 <= Voltage_Angle_list[i + 1][4]:
                 sheet.write(i + 1, 10, 'Passed')
             else:
                 sheet.write(i + 1, 10, 'Failed')
@@ -788,7 +791,7 @@ def Input1_Current_Angle_precision_measure():
         sheet.write(i + 1, 1, Input_Current_Angle[i + 1][1])
         if Input_Current_Angle[i + 1][4] != 'null' and Input_Current_Angle[i + 1][1] != 'null' and \
                 Input_Current_Angle[i + 1][2] == 'null':
-            # ret = set_ac(120, 240, 0, 120, 240, Input_Current_Angle[i + 1][1], 100, 100, 100, 1, 1, 1, 50)
+            ret = set_ac(120, 240, 0, 120, 240, Input_Current_Angle[i + 1][1], 100, 100, 100, 1, 1, 1, 50)
             Input_Channel_1_Current_Phase_Angle = Read_Input_Channel_1_Current_Phase_Angle(
                 Input_Current_Angle[i + 1][1], 10)
             sheet.write(i + 1, 2, Input_Channel_1_Current_Phase_Angle)
@@ -802,7 +805,7 @@ def Input1_Current_Angle_precision_measure():
                 scale_Input1_Current_Angle = abs(
                     Input_Channel_1_Current_Phase_Angle - Input_Current_Angle[i + 1][1] / Input_Current_Angle[i + 1][1])
                 sheet.write(i + 1, 3, f'{scale_Input1_Current_Angle:.2%}')
-                if scale_Input1_Current_Angle <= Input_Current_Angle[i + 1][4] / 100:
+                if scale_Input1_Current_Angle * 100 <= Input_Current_Angle[i + 1][4]:
                     sheet.write(i + 1, 4, 'Passed')
                 else:
                     sheet.write(i + 1, 4, 'Failed')
@@ -907,11 +910,11 @@ def Power_5A_333mV_CT_precision_measure():
         sheet.write(i + 1, 12, Power_5A_333mV_CT_list[i + 1][12])
         if Power_5A_333mV_CT_list[i + 1][14] == 'user1' and Power_5A_333mV_CT_list[i + 1][13] != 'null' or \
                 Power_5A_333mV_CT_list[i + 1][15] == 'True Reactive Power':
-            # set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
-            #        Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
-            #        Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
-            #        Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
-            #        Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
+            set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
+                   Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
+                   Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
+                   Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
+                   Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
             AcuRev4100_Power = Read_AcuRev4100_Power(Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][2],
                                                      Power_5A_333mV_CT_list[i + 1][3], Power_5A_333mV_CT_list[i + 1][4],
                                                      Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][6],
@@ -931,21 +934,21 @@ def Power_5A_333mV_CT_precision_measure():
                     scale_list.append(AcuRev4100_Power[j][1])
             if Power_5A_333mV_CT_list[i + 1][15] != 'True Reactive Power':
                 for k in range(len(scale_list)):
-                    if k != 'null' and scale_list[k] <= Power_5A_333mV_CT_list[i + 1][13] / 100:
+                    if scale_list[k] != 'null' and scale_list[k] * 100 <= Power_5A_333mV_CT_list[i + 1][13]:
                         sheet.write(i + 1, 52, 'Passed')
                         continue
                     else:
                         sheet.write(i + 1, 52, 'Failed')
                         break
             else:
-                if Power_5A_333mV_CT_list[i+1][7] - Power_5A_333mV_CT_list[i+1][10] == 0:
+                if Power_5A_333mV_CT_list[i + 1][7] - Power_5A_333mV_CT_list[i + 1][10] == 0:
                     if AcuRev4100_Power[1][0] == AcuRev4100_Power[5][0] == AcuRev4100_Power[9][0] == \
                             AcuRev4100_Power[13][0] == AcuRev4100_Power[17][0] == AcuRev4100_Power[21][0] == \
                             AcuRev4100_Power[25][0] == 0:
                         sheet.write(i + 1, 52, 'Passed')
                 else:
                     for k in range(len(scale_list)):
-                        if k != 'null' and scale_list[k] <= Power_5A_333mV_CT_list[i + 1][13] / 100:
+                        if scale_list[k] != 'null' and scale_list[k] * 100 <= Power_5A_333mV_CT_list[i + 1][13]:
                             sheet.write(i + 1, 52, 'Passed')
                             continue
                         else:
@@ -953,11 +956,11 @@ def Power_5A_333mV_CT_precision_measure():
                             break
 
         if Power_5A_333mV_CT_list[i + 1][14] == 'user1' and Power_5A_333mV_CT_list[i + 1][13] == 'null':
-            # set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
-            #        Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
-            #        Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
-            #        Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
-            #        Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
+            set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
+                   Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
+                   Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
+                   Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
+                   Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
             AcuRev4100_Power = Read_AcuRev4100_Power(Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][2],
                                                      Power_5A_333mV_CT_list[i + 1][3], Power_5A_333mV_CT_list[i + 1][4],
                                                      Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][6],
@@ -990,11 +993,11 @@ def Power_5A_333mV_CT_precision_measure():
                         sheet.write(i + 1, 52, 'Failed')
                         break
         if Power_5A_333mV_CT_list[i + 1][14] == 'user1,user2,user3' and Power_5A_333mV_CT_list[i + 1][13] != 'null':
-            # set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
-            #        Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
-            #        Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
-            #        Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
-            #        Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
+            set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
+                   Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
+                   Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
+                   Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
+                   Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
             AcuRev4100_Power = Read_AcuRev4100_Power(Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][2],
                                                      Power_5A_333mV_CT_list[i + 1][3], Power_5A_333mV_CT_list[i + 1][4],
                                                      Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][6],
@@ -1006,10 +1009,15 @@ def Power_5A_333mV_CT_precision_measure():
                                                      Power_5A_333mV_CT_list[i + 1][14])
             scale_list = []
             for j in range(len(AcuRev4100_Power)):
-                sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]},{AcuRev4100_Power[j][1]:.2%}')
-                scale_list.append(AcuRev4100_Power[j][1])
+                if AcuRev4100_Power[j][1] != 'null':
+                    sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]},{AcuRev4100_Power[j][1]:.2%}')
+                    scale_list.append(AcuRev4100_Power[j][1])
+                else:
+                    sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]},{AcuRev4100_Power[j][1]}')
+                    scale_list.append(AcuRev4100_Power[j][1])
+
             for k in range(len(scale_list)):
-                if scale_list[k] <= Power_5A_333mV_CT_list[i + 1][13] / 100:
+                if scale_list[k] != 'null' and scale_list[k] * 100 <= Power_5A_333mV_CT_list[i + 1][13]:
                     sheet.write(i + 1, 52, 'Passed')
                     continue
                 else:
@@ -1116,15 +1124,21 @@ def Power_20A_100mA_CT_precision_measure():
         sheet.write(i + 1, 12, Power_20A_100mA_CT_list[i + 1][12])
         if Power_20A_100mA_CT_list[i + 1][14] == 'user1' and Power_20A_100mA_CT_list[i + 1][13] != 'null' or \
                 Power_20A_100mA_CT_list[i + 1][15] == 'True Reactive Power':
-            # set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8], Power_20A_100mA_CT_list[i + 1][7],
-            #        Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
-            #        Power_20A_100mA_CT_list[i + 1][10], Power_20A_100mA_CT_list[i + 1][3],
-            #        Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1], Power_20A_100mA_CT_list[i + 1][6],
-            #        Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1], Power_20A_100mA_CT_list[i + 1][2],
-                                                     Power_20A_100mA_CT_list[i + 1][3], Power_20A_100mA_CT_list[i + 1][4],
-                                                     Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][6],
-                                                     Power_20A_100mA_CT_list[i + 1][7], Power_20A_100mA_CT_list[i + 1][8],
+            set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
+                   Power_20A_100mA_CT_list[i + 1][7],
+                   Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
+                   Power_20A_100mA_CT_list[i + 1][10], Power_20A_100mA_CT_list[i + 1][3],
+                   Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1],
+                   Power_20A_100mA_CT_list[i + 1][6],
+                   Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
+            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1],
+                                                     Power_20A_100mA_CT_list[i + 1][2],
+                                                     Power_20A_100mA_CT_list[i + 1][3],
+                                                     Power_20A_100mA_CT_list[i + 1][4],
+                                                     Power_20A_100mA_CT_list[i + 1][5],
+                                                     Power_20A_100mA_CT_list[i + 1][6],
+                                                     Power_20A_100mA_CT_list[i + 1][7],
+                                                     Power_20A_100mA_CT_list[i + 1][8],
                                                      Power_20A_100mA_CT_list[i + 1][9],
                                                      Power_20A_100mA_CT_list[i + 1][10],
                                                      Power_20A_100mA_CT_list[i + 1][11],
@@ -1140,7 +1154,7 @@ def Power_20A_100mA_CT_precision_measure():
                     scale_list.append(AcuRev4100_Power[j][1])
             if Power_20A_100mA_CT_list[i + 1][15] != 'True Reactive Power':
                 for k in range(len(scale_list)):
-                    if k != 'null' and scale_list[k] <= Power_20A_100mA_CT_list[i + 1][13] / 100:
+                    if scale_list[k] != 'null' and scale_list[k] * 100 <= Power_20A_100mA_CT_list[i + 1][13]:
                         sheet.write(i + 1, 52, 'Passed')
                         continue
                     else:
@@ -1154,7 +1168,7 @@ def Power_20A_100mA_CT_precision_measure():
                         sheet.write(i + 1, 52, 'Passed')
                 else:
                     for k in range(len(scale_list)):
-                        if k != 'null' and scale_list[k] <= Power_20A_100mA_CT_list[i + 1][13] / 100:
+                        if scale_list[k] != 'null' and scale_list[k] * 100 <= Power_20A_100mA_CT_list[i + 1][13]:
                             sheet.write(i + 1, 52, 'Passed')
                             continue
                         else:
@@ -1162,15 +1176,21 @@ def Power_20A_100mA_CT_precision_measure():
                             break
 
         if Power_20A_100mA_CT_list[i + 1][14] == 'user1' and Power_20A_100mA_CT_list[i + 1][13] == 'null':
-            # set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8], Power_20A_100mA_CT_list[i + 1][7],
-            #        Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
-            #        Power_20A_100mA_CT_list[i + 1][10], Power_20A_100mA_CT_list[i + 1][3],
-            #        Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1], Power_20A_100mA_CT_list[i + 1][6],
-            #        Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1], Power_20A_100mA_CT_list[i + 1][2],
-                                                     Power_20A_100mA_CT_list[i + 1][3], Power_20A_100mA_CT_list[i + 1][4],
-                                                     Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][6],
-                                                     Power_20A_100mA_CT_list[i + 1][7], Power_20A_100mA_CT_list[i + 1][8],
+            set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
+                   Power_20A_100mA_CT_list[i + 1][7],
+                   Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
+                   Power_20A_100mA_CT_list[i + 1][10], Power_20A_100mA_CT_list[i + 1][3],
+                   Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1],
+                   Power_20A_100mA_CT_list[i + 1][6],
+                   Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
+            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1],
+                                                     Power_20A_100mA_CT_list[i + 1][2],
+                                                     Power_20A_100mA_CT_list[i + 1][3],
+                                                     Power_20A_100mA_CT_list[i + 1][4],
+                                                     Power_20A_100mA_CT_list[i + 1][5],
+                                                     Power_20A_100mA_CT_list[i + 1][6],
+                                                     Power_20A_100mA_CT_list[i + 1][7],
+                                                     Power_20A_100mA_CT_list[i + 1][8],
                                                      Power_20A_100mA_CT_list[i + 1][9],
                                                      Power_20A_100mA_CT_list[i + 1][10],
                                                      Power_20A_100mA_CT_list[i + 1][11],
@@ -1199,15 +1219,21 @@ def Power_20A_100mA_CT_precision_measure():
                         sheet.write(i + 1, 52, 'Failed')
                         break
         if Power_20A_100mA_CT_list[i + 1][14] == 'user1,user2,user3' and Power_20A_100mA_CT_list[i + 1][13] != 'null':
-            # set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8], Power_20A_100mA_CT_list[i + 1][7],
-            #        Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
-            #        Power_20A_100mA_CT_list[i + 1][10], Power_20A_100mA_CT_list[i + 1][3],
-            #        Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1], Power_20A_100mA_CT_list[i + 1][6],
-            #        Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1], Power_20A_100mA_CT_list[i + 1][2],
-                                                     Power_20A_100mA_CT_list[i + 1][3], Power_20A_100mA_CT_list[i + 1][4],
-                                                     Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][6],
-                                                     Power_20A_100mA_CT_list[i + 1][7], Power_20A_100mA_CT_list[i + 1][8],
+            set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
+                   Power_20A_100mA_CT_list[i + 1][7],
+                   Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
+                   Power_20A_100mA_CT_list[i + 1][10], Power_20A_100mA_CT_list[i + 1][3],
+                   Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1],
+                   Power_20A_100mA_CT_list[i + 1][6],
+                   Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
+            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1],
+                                                     Power_20A_100mA_CT_list[i + 1][2],
+                                                     Power_20A_100mA_CT_list[i + 1][3],
+                                                     Power_20A_100mA_CT_list[i + 1][4],
+                                                     Power_20A_100mA_CT_list[i + 1][5],
+                                                     Power_20A_100mA_CT_list[i + 1][6],
+                                                     Power_20A_100mA_CT_list[i + 1][7],
+                                                     Power_20A_100mA_CT_list[i + 1][8],
                                                      Power_20A_100mA_CT_list[i + 1][9],
                                                      Power_20A_100mA_CT_list[i + 1][10],
                                                      Power_20A_100mA_CT_list[i + 1][11],
@@ -1215,10 +1241,14 @@ def Power_20A_100mA_CT_precision_measure():
                                                      Power_20A_100mA_CT_list[i + 1][14])
             scale_list = []
             for j in range(len(AcuRev4100_Power)):
-                sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]},{AcuRev4100_Power[j][1]:.2%}')
-                scale_list.append(AcuRev4100_Power[j][1])
+                if AcuRev4100_Power[j][1] != 'null':
+                    sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]},{AcuRev4100_Power[j][1]:.2%}')
+                    scale_list.append(AcuRev4100_Power[j][1])
+                else:
+                    sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]},{AcuRev4100_Power[j][1]}')
+                    scale_list.append(AcuRev4100_Power[j][1])
             for k in range(len(scale_list)):
-                if scale_list[k] <= Power_20A_100mA_CT_list[i + 1][13] / 100:
+                if scale_list[k] != 'null' and scale_list[k] * 100 <= Power_20A_100mA_CT_list[i + 1][13]:
                     sheet.write(i + 1, 52, 'Passed')
                     continue
                 else:

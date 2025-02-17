@@ -21,5 +21,5 @@ def line_to_line_voltage_calculate(ua: float, ub: float, uc: float, va_angle: fl
 
 
 if __name__ == '__main__':
-    ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 2, 2, 2, 50)
+    ret = set_ac(120, 240, 0, 240, 120, 0, 50, 50, 50, 5, 4, 3, 50)
     print(ret)
