@@ -1,6 +1,6 @@
 {
   "rtu": {
-    "port": "COM3",
+    "port": "COM8",
     "baudrate": 19200,
     "parity": "N",
     "slaveid": 1
