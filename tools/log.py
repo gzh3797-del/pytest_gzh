@@ -5,8 +5,6 @@ import os
 from tools.mkDir import mk_dir
 
 root_path = str(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace("\\", "/")
-logging.getLogger("faker").setLevel(logging.ERROR)
-logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 
 class Log(object):
@@ -28,9 +26,3 @@ class Log(object):
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
 
-# if __name__ == '__main__':
-#     Log(str(__file__).split("\\")[-1])
-#     logging.info("111222")
-#     logging.error("111222")
-#     logging.debug("111222")
-#     logging.warning("111222")
