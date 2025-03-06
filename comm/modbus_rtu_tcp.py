@@ -2,7 +2,9 @@ import logging
 from pymodbus.client import ModbusSerialClient, ModbusTcpClient
 from modbus_config import modbus_config
 import socket
+import serial
 import struct
+import crcmod
 
 
 class ModbusRtuOrTcp:
@@ -125,3 +127,61 @@ class ModbusTcp6A:
             return start_addr, len(values), data_recv  # 返回报文
         else:
             return struct.unpack(f">{len(values) * 2}H", bytearray(data_recv[8:])), data_recv
+
+
+class SerialRtu:
+    def __init__(self, conn_mode='rtu'):
+        try:
+            self.ser = serial.Serial(port=modbus_config['rtu']['port'], baudrate=modbus_config['rtu']['baudrate'],
+                                     parity=modbus_config['rtu']['parity'])
+            if self.ser.is_open:
+                logging.info("打开串口成功。")
+            else:
+                logging.error("打开串口失败。")
+        except Exception as e:
+            logging.error("打开串口异常：{}".format(e))
+
+    def close(self):
+        self.ser.close()
+
+    def write_func6A_registers(self, address, count, values: list, slave, funccode=0x6A):
+        data = [
+            slave,
+            funccode,  # 功能码
+            address >> 8 & 0xff,  # 起始地址高位字节
+            address & 0xff,  # 起始地址低位字节
+            len(values) >> 8 & 0xff,  # 写入的数量高字节
+            len(values) & 0xff,  # 写入的数量低字节
+            len(values) * 2  # 字节数
+        ]
+        pdu = bytearray(data)
+        for value in values:
+            pdu.extend([(value >> 8) & 0xff, value & 0xff])
+        crc32_func = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
+        ret1 = str(hex(crc32_func(pdu)))
+        pdu.extend([int(ret1[4:6], 16) & 0xff])
+        pdu.extend([int(ret1[2:4], 16) & 0xff])
+        try:
+            address_hex = hex(int(address))[2:6]
+            if count < 16:
+                count_hex = '0' + hex(int(count))[2:4]
+            else:
+                count_hex = hex(int(count))[2:4]
+            if count < 8:
+                count_hex_2 = '0' + hex(int(count * 2))[2:4]
+            else:
+                count_hex_2 = hex(int(count * 2))[2:4]
+            compare_str = str('0' + str(slave)) + '6a' + str(address_hex) + '00' + str(count_hex)
+            ret1 = self.ser.write(pdu)
+            str1 = ''
+            for i in range(6):
+                byte_seq = self.ser.read()
+                byte_seq1 = byte_seq[0]
+                str1 += f'0x{byte_seq1:02x}'
+            str1 = str1.replace('0x', '')
+            if str1 == compare_str:
+                return True
+            else:
+                return False
+        except Exception as e:
+            return e

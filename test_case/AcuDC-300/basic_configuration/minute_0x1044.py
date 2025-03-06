@@ -1,5 +1,3 @@
-import time
-
 from comm.modbus_set_attr import *
 from tools.log import Log
 
