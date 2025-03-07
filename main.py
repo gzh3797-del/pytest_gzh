@@ -4,13 +4,13 @@ import pytest
 from tools.mkDir import mk_dir
 
 project_path = os.path.dirname(os.path.abspath(__file__))
-sheet = ['basic_configuration']
+sheet = ['Frequency']
 
 
 def run():
     localtime = time.strftime('%Y%m%d%H%M%S', time.localtime())
     for i in sheet:
-        test_case_path = project_path + '/test_case/{}/'.format(i).replace('/', '\\')
+        test_case_path = project_path + '/test_case/AcuRev4100/{}/'.format(i).replace('/', '\\')
         test_case_path.replace('/', '\\')
         html_path = project_path + '/report/html/'.replace('/', '\\') + ""
         mk_dir(html_path)
