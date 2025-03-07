@@ -1331,7 +1331,7 @@ def Power_20A_100mA_CT_precision_measure():
                         continue
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k+13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
                         break
             else:
                 if Power_20A_100mA_CT_list[i + 1][7] - Power_20A_100mA_CT_list[i + 1][10] == 0:
@@ -2201,7 +2201,7 @@ def Sequence_Component_precision_measure():
         sheet.write(i + 1, 4, Sequence_Component_list[i + 1][4])
         sheet.write(i + 1, 5, Sequence_Component_list[i + 1][5])
         sheet.write(i + 1, 6, Sequence_Component_list[i + 1][6])
-        if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] != 'VUF':
+        if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == 'VUF':
             set_ac(Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
                    Sequence_Component_list[i + 1][4], 120, 240, 0, Sequence_Component_list[i + 1][3],
                    Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 1, 1, 1, 50)
@@ -2211,18 +2211,14 @@ def Sequence_Component_precision_measure():
                                                                      Sequence_Component_list[i + 1][4],
                                                                      Sequence_Component_list[i + 1][5],
                                                                      Sequence_Component_list[i + 1][6])
-            # Acu4100_Voltage_Zero_Sequence = Read_Voltage_Zero_Sequence_Magnitude(sequence_component_List[0], 10)
-            # Acu4100_Voltage_Zero_Sequence_Angle = Read_Voltage_Zero_Sequence_Angle(sequence_component_List[1], 10)
-            # Acu4100_Voltage_Positive_Sequence = Read_Voltage_Positive_Sequence_Magnitude(sequence_component_List[2], 10)
-            # Acu4100_Voltage_Positive_Angle = Read_Voltage_Positive_Sequence_Angle(sequence_component_List[3], 10)
-            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], 10)
+            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
             sheet.write(i + 1, 13, f'VUF:{VUF:.2%}')
             if sequence_component_List[6] * 0.99 <= VUF <= sequence_component_List[6] * 1.01:
                 sheet.write(i + 1, 14, f'Passed')
             else:
                 sheet.write(i + 1, 14, f'Failed')
-        if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] != 'CUF':
-            set_ac(120, 240, 0,Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
+        if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == 'CUF':
+            set_ac(120, 240, 0, Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
                    Sequence_Component_list[i + 1][4], 50, 50, 50, Sequence_Component_list[i + 1][3],
                    Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 50)
             sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
@@ -2231,7 +2227,71 @@ def Sequence_Component_precision_measure():
                                                                      Sequence_Component_list[i + 1][4],
                                                                      Sequence_Component_list[i + 1][5],
                                                                      Sequence_Component_list[i + 1][6])
-            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], 10)
+            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
+            sheet.write(i + 1, 13, f'CUF:{CUF:.2%}')
+            if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
+                sheet.write(i + 1, 14, f'Passed')
+            else:
+                sheet.write(i + 1, 14, f'Failed')
+        if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == '相电压序分量':
+            set_ac(Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
+                   Sequence_Component_list[i + 1][4], 120, 240, 0, Sequence_Component_list[i + 1][3],
+                   Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 1, 1, 1, 50)
+            sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
+                                                                     Sequence_Component_list[i + 1][2],
+                                                                     Sequence_Component_list[i + 1][3],
+                                                                     Sequence_Component_list[i + 1][4],
+                                                                     Sequence_Component_list[i + 1][5],
+                                                                     Sequence_Component_list[i + 1][6])
+            Acu4100_Voltage_Zero_Sequence = Read_Voltage_Zero_Sequence_Magnitude(sequence_component_List[0], times=20)
+            Acu4100_Voltage_Zero_Sequence_Angle = Read_Voltage_Zero_Sequence_Angle(sequence_component_List[1], times=20)
+            Acu4100_Voltage_Positive_Sequence = Read_Voltage_Positive_Sequence_Magnitude(sequence_component_List[2],
+                                                                                         times=20)
+            Acu4100_Voltage_Positive_Angle = Read_Voltage_Positive_Sequence_Angle(sequence_component_List[3], times=20)
+            Acu4100_Voltage_Negative_Sequence = Read_Voltage_Negative_Sequence_Magnitude(sequence_component_List[4],
+                                                                                         times=20)
+            Acu4100_Voltage_Negative_Angle = Read_Voltage_Negative_Sequence_Angle(sequence_component_List[5], times=20)
+            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
+            sheet.write(i + 1, 7, f'{Acu4100_Voltage_Zero_Sequence}')
+            sheet.write(i + 1, 8, f'{Acu4100_Voltage_Zero_Sequence_Angle}')
+            sheet.write(i + 1, 9, f'{Acu4100_Voltage_Positive_Sequence}')
+            sheet.write(i + 1, 10, f'{Acu4100_Voltage_Positive_Angle}')
+            sheet.write(i + 1, 11, f'{Acu4100_Voltage_Negative_Sequence}')
+            sheet.write(i + 1, 12, f'{Acu4100_Voltage_Negative_Angle}')
+            sheet.write(i + 1, 13, f'{VUF:.2%}')
+            if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
+                sheet.write(i + 1, 14, f'Passed')
+            else:
+                sheet.write(i + 1, 14, f'Failed')
+        if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == '用户序分量':
+            set_ac(120, 240, 0, Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
+                   Sequence_Component_list[i + 1][4], 50, 50, 50, Sequence_Component_list[i + 1][3],
+                   Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 50)
+            sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
+                                                                     Sequence_Component_list[i + 1][2],
+                                                                     Sequence_Component_list[i + 1][3],
+                                                                     Sequence_Component_list[i + 1][4],
+                                                                     Sequence_Component_list[i + 1][5],
+                                                                     Sequence_Component_list[i + 1][6])
+            Acu4100_Voltage_Zero_Sequence = Read_User_Channel_1_Current_Zero_Sequence_Magnitude(
+                sequence_component_List[0], times=20)
+            Acu4100_Voltage_Zero_Sequence_Angle = Read_User_Channel_1_Current_Zero_Sequence_Angle(
+                sequence_component_List[1], times=20)
+            Acu4100_Voltage_Positive_Sequence = Read_User_Channel_1_Current_Positive_Sequence_Magnitude(
+                sequence_component_List[2], times=20)
+            Acu4100_Voltage_Positive_Angle = Read_User_Channel_1_Current_Positive_Sequence_Angle(
+                sequence_component_List[3], times=20)
+            Acu4100_Voltage_Negative_Sequence = Read_User_Channel_1_Current_Negative_Sequence_Magnitude(
+                sequence_component_List[4], times=20)
+            Acu4100_Voltage_Negative_Angle = Read_User_Channel_1_Current_Negative_Sequence_Angle(
+                sequence_component_List[5], times=20)
+            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
+            sheet.write(i + 1, 7, f'{Acu4100_Voltage_Zero_Sequence}')
+            sheet.write(i + 1, 8, f'{Acu4100_Voltage_Zero_Sequence_Angle}')
+            sheet.write(i + 1, 9, f'{Acu4100_Voltage_Positive_Sequence}')
+            sheet.write(i + 1, 10, f'{Acu4100_Voltage_Positive_Angle}')
+            sheet.write(i + 1, 11, f'{Acu4100_Voltage_Negative_Sequence}')
+            sheet.write(i + 1, 12, f'{Acu4100_Voltage_Negative_Angle}')
             sheet.write(i + 1, 13, f'CUF:{CUF:.2%}')
             if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
                 sheet.write(i + 1, 14, f'Passed')
