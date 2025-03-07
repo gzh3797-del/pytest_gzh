@@ -2259,7 +2259,7 @@ def Sequence_Component_precision_measure():
             sheet.write(i + 1, 11, f'{Acu4100_Voltage_Negative_Sequence}')
             sheet.write(i + 1, 12, f'{Acu4100_Voltage_Negative_Angle}')
             sheet.write(i + 1, 13, f'{VUF:.2%}')
-            if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
+            if sequence_component_List[6] * 0.99 <= VUF <= sequence_component_List[6] * 1.01:
                 sheet.write(i + 1, 14, f'Passed')
             else:
                 sheet.write(i + 1, 14, f'Failed')
