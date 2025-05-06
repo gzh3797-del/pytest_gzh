@@ -4,7 +4,7 @@ import pytest
 from tools.mkDir import mk_dir
 
 project_path = os.path.dirname(os.path.abspath(__file__))
-sheet = ['Frequency']
+sheet = ['basic_configuration']
 
 
 def run():
