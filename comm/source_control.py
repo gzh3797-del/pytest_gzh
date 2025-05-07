@@ -10,9 +10,9 @@ class SourceControlError(Exception):
 
 
 class SourCon:
-    def __init__(self):
+    def __init__(self, timeout=5):
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.udp_socket.settimeout(2)
+        self.udp_socket.settimeout(timeout)
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
 
@@ -34,7 +34,7 @@ class SourCon:
         self.udp_socket.close()
 
 
-def sour_para_conf(input_method='直接'):
+def sour_para_conf(input_method='直接', pluse_cons=500):
     data = ''
     if input_method == '直接':
         data = '''<参数配置>
@@ -44,10 +44,10 @@ def sour_para_conf(input_method='直接'):
         标定电流:500;
         分流器额定:18mV;
         被检表阻抗:0.0000277Ω;
-        脉冲常数:21600;
+        脉冲常数:{};
         校验圈数:自动;
         校验秒数:1;
-        <End>'''
+        <End>'''.format(pluse_cons)
     elif input_method == '间接':
         data = '''<参数配置>
         电流接入方式:间接接入式;
@@ -61,7 +61,7 @@ def sour_para_conf(input_method='直接'):
         校验秒数:1;
         <End>'''
     else:
-        logging.error('电流输入方式错误，请重新配置')
+        print('电流输入方式错误，请重新配置')
     re = SourCon()
     re.send(data)
     re.close()
@@ -133,6 +133,17 @@ def sour_stop():
     re.close()
 
 
+def get_verification_error(times=5, timeout=10):
+    data = '''<误差读取>
+        统计次数:{};
+        <End>'''.format(times)
+    re = SourCon(timeout=timeout)
+    re.send(data)
+    recive_ret = re.recv()
+    re.close()
+    return float(recive_ret.split(':')[1].split(';')[0])
+
+
 class Cl3021SourCon:
     def __init__(self):
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -140,7 +151,6 @@ class Cl3021SourCon:
         print(modbus_config['local']['ip'], modbus_config['local']['port'])
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
-
 
     def send(self, hex_data):
         ret = self.udp_socket.sendto(hex_data, self.dest_addr)
