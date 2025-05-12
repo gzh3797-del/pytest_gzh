@@ -6,7 +6,7 @@ from tools.excel_operate import data_read, dcpara_addr_get
 import numpy as np
 
 dc_para_addr = dcpara_addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Readings')
-volt_cur_list = data_read(r'/test_case/AcuDC300/dc_data.xlsx', 'Sheet1')
+volt_cur_list = data_read(r'/comm/test_data/dc_data.xlsx', 'Sheet1')
 Log(str(__file__).split("\\")[-1])
 my_workbook = xlwt.Workbook()
 sheet = my_workbook.add_sheet('precision para')

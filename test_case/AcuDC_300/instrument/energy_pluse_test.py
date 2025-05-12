@@ -21,7 +21,7 @@ def get_pulse_accuracy(vol, cur, times=0.2, pluse_mode=0):
 
 
 def run():
-    volt_cur_list = data_read(r'./dc_data.xlsx', 'Sheet1')
+    volt_cur_list = data_read(r'../../../comm/test_data/dc_data.xlsx', 'Sheet1')
     Log(str(__file__).split("\\")[-1])
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('energy pluse test', cell_overwrite_ok=True)

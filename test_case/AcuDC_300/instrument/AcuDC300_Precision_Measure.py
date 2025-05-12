@@ -5,7 +5,7 @@ import xlwt
 from tools.excel_operate import data_read
 from modbus_config import modbus_config
 
-volt_cur_list = data_read(r'./test_case.xlsx', 'test_data')
+volt_cur_list = data_read(r'../../../comm/test_data/test_case.xlsx', 'test_data')
 Log(str(__file__).split("\\")[-1])
 my_workbook = xlwt.Workbook()
 sheet = my_workbook.add_sheet('precision para', cell_overwrite_ok=True)
