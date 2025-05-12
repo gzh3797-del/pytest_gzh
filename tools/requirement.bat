@@ -1,3 +1,4 @@
+pip install --upgrade pip
 pip install xlwt==1.3.0
 pip install crcmod==1.7
 pip install matplotlib==3.9.3
