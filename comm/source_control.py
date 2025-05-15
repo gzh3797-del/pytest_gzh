@@ -511,7 +511,7 @@ def switch_device_screen_interface(inter: int):
     :return:
     """
     set_cmd = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x00, 0x10, 0x80, inter]
-    xor = xor_sum(set_cmd[1:-1])
+    xor = xor_sum(set_cmd[1:])
     set_cmd.append(int(xor))
     pdu = bytearray(set_cmd)
     source_control = Cl3021SourCon()
@@ -572,3 +572,38 @@ def harmonic_settings_and_switches():
     source_control = Cl3021SourCon()
     source_control.send(pdu)
     source_control.close()
+
+
+def read_ac():
+    """
+
+    :return:
+    """
+    set_cmd = [0x81, 0x01, 0x25, 0x0d, 0xa0, 0x02, 0x3d, 0xff, 0x3f, 0xff, 0xff, 0x0f]
+    xor = xor_sum(set_cmd[1:])
+    set_cmd.append(int(xor))
+    pdu = bytearray(set_cmd)
+    source_control = Cl3021SourCon()
+    ret = source_control.send(pdu)
+    print(ret)
+    print(ret[1][0].hex())
+    source_control.close()
+
+
+def voltage_gear_update(gear):
+    """
+
+    :param gear: 值 0：600V 档位，值 1：480V 档位，值 2：240V 档位，值 3：120V 档位，值 4：60V 档位，值 5：30V 档位，
+    :return:
+    """
+    # gear=hex(gear)
+    # print(gear)
+    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x07, 0x02, 0x02, 0x02, gear]
+    xor = xor_sum(set_cmd[1:])
+    print(set_cmd)
+    set_cmd.append(int(xor))
+    pdu = bytearray(set_cmd)
+    # source_control = Cl3021SourCon()
+    # ret = source_control.send(pdu)
+    # print(ret)
+    # source_control.close()
