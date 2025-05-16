@@ -1,6 +1,7 @@
 import time
 
 from AcuRev4100_modbus_get import *
+import threading
 
 # volt_cur_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'test_data')
 Log(str(__file__).split("\\")[-1])
@@ -12,7 +13,7 @@ Log(str(__file__).split("\\")[-1])
 def frequency_precision_measure():
     frequency_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'frequency')
     print(frequency_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('frequency_precision_measure', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, '频率输入值')
@@ -32,45 +33,47 @@ def frequency_precision_measure():
         sheet.write(i + 1, 1, frequency_list[i + 1][1])
         if frequency_list[i + 1][1] != 'null' and frequency_list[i + 1][2] != 'null':
             ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 1, 1, 1, frequency_list[i + 1][1])
-            frequency = read_frequency(frequency_list[i + 1][1], times=20)
+            frequency = read_frequency(frequency_list[i + 1][1], times=40)
             scale = abs(frequency - frequency_list[i + 1][1]) / frequency_list[i + 1][1]
             sheet.write(i + 1, 2, frequency)
             sheet.write(i + 1, 3, f'{scale:.3%}')
-            print(scale)
             if scale * 100 <= frequency_list[i + 1][2]:
                 sheet.write(i + 1, 4, 'Passed')
             else:
                 sheet.write(i + 1, 4, 'Failed')
         if frequency_list[i + 1][1] != 'null' and frequency_list[i + 1][2] == 'null':
             ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 1, 1, 1, frequency_list[i + 1][1])
-            frequency = read_frequency(frequency_list[i + 1][1], times=20)
+            frequency = read_frequency(frequency_list[i + 1][1], times=40)
             sheet.write(i + 1, 2, frequency)
             if frequency != 0:
                 sheet.write(i + 1, 4, 'Passed')
             else:
                 sheet.write(i + 1, 4, 'Failed')
     # mes.close()
-    # my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def line_to_neutral_voltage_precision_measure():
     voltage_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Line_to_Neutral_Voltage')
     print(voltage_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('line_to_neutral_voltage', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Van输入值')
     sheet.write(0, 2, 'Vbn输入值')
     sheet.write(0, 3, 'Vcn输入值')
-    sheet.write(0, 4, '电表实际Van值')
-    sheet.write(0, 5, '电表实际Vbn值')
-    sheet.write(0, 6, '电表实际Vcn值')
-    sheet.write(0, 7, '电表实际Vlnavg值')
-    sheet.write(0, 8, 'Van精度')
-    sheet.write(0, 9, 'Vbn精度')
-    sheet.write(0, 10, 'Vcn精度')
-    sheet.write(0, 11, 'Vlnavg精度')
-    sheet.write(0, 12, '测试结果')
+    sheet.write(0, 4, 'Va电压角度输入值')
+    sheet.write(0, 5, 'Vb电压角度输入值')
+    sheet.write(0, 6, 'Vc电压角度输入值')
+    sheet.write(0, 7, '电表实际Van值')
+    sheet.write(0, 8, '电表实际Vbn值')
+    sheet.write(0, 9, '电表实际Vcn值')
+    sheet.write(0, 10, '电表实际Vlnavg值')
+    sheet.write(0, 11, 'Van精度')
+    sheet.write(0, 12, 'Vbn精度')
+    sheet.write(0, 13, 'Vcn精度')
+    sheet.write(0, 14, 'Vlnavg精度')
+    sheet.write(0, 15, '测试结果')
     for i in range(len(voltage_list)):
         if i == 0:
             logging.info('测试进度:{}'.format(voltage_list[i]))
@@ -84,65 +87,106 @@ def line_to_neutral_voltage_precision_measure():
         sheet.write(i + 1, 1, voltage_list[i + 1][1])
         sheet.write(i + 1, 2, voltage_list[i + 1][2])
         sheet.write(i + 1, 3, voltage_list[i + 1][3])
-        if voltage_list[i + 1][4] != 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
-            2] != 'null' and voltage_list[i + 1][3] != 'null':
+        sheet.write(i + 1, 4, voltage_list[i + 1][4])
+        sheet.write(i + 1, 5, voltage_list[i + 1][5])
+        sheet.write(i + 1, 6, voltage_list[i + 1][6])
+        if voltage_list[i + 1][7] != 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
+            2] != 'null' and voltage_list[i + 1][3] != 'null' and voltage_list[i + 1][8] == 'null':
             ret = set_ac(120, 240, 0, 120, 240, 0, voltage_list[i + 1][3], voltage_list[i + 1][2],
                          voltage_list[i + 1][1], 1, 1, 1, 50)
             Average_Vol = (voltage_list[i + 1][1] + voltage_list[i + 1][2] + voltage_list[i + 1][3]) / 3
-            Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], times=20)
-            Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], times=20)
-            Phase_C = Read_Phase_C_Voltage(voltage_list[i + 1][3], times=20)
-            Read_Average_Vol = Read_Average_ln_Voltage(Average_Vol, times=20)
+            Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], times=40)
+            Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], times=40)
+            Phase_C = Read_Phase_C_Voltage(voltage_list[i + 1][3], times=40)
+            Read_Average_Vol = Read_Average_ln_Voltage(Average_Vol, times=40)
             scale_A = abs(Phase_A - voltage_list[i + 1][1]) / voltage_list[i + 1][1]
             scale_B = abs(Phase_B - voltage_list[i + 1][2]) / voltage_list[i + 1][2]
             scale_C = abs(Phase_C - voltage_list[i + 1][3]) / voltage_list[i + 1][3]
             scale_Average_Vol = abs(Read_Average_Vol - Average_Vol) / Average_Vol
-            sheet.write(i + 1, 4, Phase_A)
-            sheet.write(i + 1, 5, Phase_B)
-            sheet.write(i + 1, 6, Phase_C)
-            sheet.write(i + 1, 7, Read_Average_Vol)
-            sheet.write(i + 1, 8, f'{scale_A:.2%}')
-            sheet.write(i + 1, 9, f'{scale_B:.2%}')
-            sheet.write(i + 1, 10, f'{scale_C:.2%}')
-            sheet.write(i + 1, 11, f'{scale_Average_Vol:.2%}')
-            if scale_A * 100 <= voltage_list[i + 1][4] and scale_B * 100 <= voltage_list[i + 1][4] and scale_C * 100 <= \
-                    voltage_list[i + 1][4]:
-                sheet.write(i + 1, 12, 'Passed')
+            sheet.write(i + 1, 7, Phase_A)
+            sheet.write(i + 1, 8, Phase_B)
+            sheet.write(i + 1, 9, Phase_C)
+            sheet.write(i + 1, 10, Read_Average_Vol)
+            sheet.write(i + 1, 11, f'{scale_A:.2%}')
+            sheet.write(i + 1, 12, f'{scale_B:.2%}')
+            sheet.write(i + 1, 13, f'{scale_C:.2%}')
+            sheet.write(i + 1, 14, f'{scale_Average_Vol:.2%}')
+            if scale_A * 100 <= voltage_list[i + 1][7] and scale_B * 100 <= voltage_list[i + 1][7] and scale_C * 100 <= \
+                    voltage_list[i + 1][7]:
+                sheet.write(i + 1, 15, 'Passed')
             else:
-                sheet.write(i + 1, 12, 'Failed')
-        if voltage_list[i + 1][4] == 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
-            2] != 'null' and voltage_list[i + 1][3] != 'null':
+                sheet.write(i + 1, 15, 'Failed')
+        if voltage_list[i + 1][7] == 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
+            2] != 'null' and voltage_list[i + 1][3] != 'null' and voltage_list[i + 1][8] == 'null':
             ret = set_ac(120, 240, 0, 120, 240, 0, voltage_list[i + 1][3], voltage_list[i + 1][2],
                          voltage_list[i + 1][1], 1, 1, 1, 50)
             Average_Vol = (voltage_list[i + 1][1] + voltage_list[i + 1][2] + voltage_list[i + 1][3]) / 3
-            Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], times=20)
-            Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], times=20)
-            Phase_C = Read_Phase_C_Voltage(voltage_list[i + 1][3], times=20)
-            Read_Average_Vol = Read_Average_ln_Voltage(Average_Vol, times=20)
-            sheet.write(i + 1, 4, Phase_A)
-            sheet.write(i + 1, 5, Phase_B)
-            sheet.write(i + 1, 6, Phase_C)
-            sheet.write(i + 1, 7, Read_Average_Vol)
-            sheet.write(i + 1, 8, 'null')
-            sheet.write(i + 1, 9, 'null')
-            sheet.write(i + 1, 10, 'null')
+            Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], times=40)
+            Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], times=40)
+            Phase_C = Read_Phase_C_Voltage(voltage_list[i + 1][3], times=40)
+            Read_Average_Vol = Read_Average_ln_Voltage(Average_Vol, times=40)
+            sheet.write(i + 1, 7, Phase_A)
+            sheet.write(i + 1, 8, Phase_B)
+            sheet.write(i + 1, 9, Phase_C)
+            sheet.write(i + 1, 10, Read_Average_Vol)
             sheet.write(i + 1, 11, 'null')
+            sheet.write(i + 1, 12, 'null')
+            sheet.write(i + 1, 13, 'null')
+            sheet.write(i + 1, 14, 'null')
             if voltage_list[i + 1][1] < 10 and voltage_list[i + 1][2] < 10 and voltage_list[i + 1][3] < 10:
                 if Phase_A == Phase_B == Phase_C == Read_Average_Vol == 0:
-                    sheet.write(i + 1, 12, 'Passed')
+                    sheet.write(i + 1, 15, 'Passed')
+                    print('Passed')
                 else:
-                    sheet.write(i + 1, 12, 'Failed')
+                    sheet.write(i + 1, 15, 'Failed')
             else:
                 if Phase_A != 0 and Phase_B != 0 and Phase_C != 0 and Read_Average_Vol != 0:
-                    sheet.write(i + 1, 12, 'Passed')
+                    sheet.write(i + 1, 15, 'Passed')
+                    print('Passed')
                 else:
-                    sheet.write(i + 1, 12, 'Failed')
+                    sheet.write(i + 1, 15, 'Failed')
+
+        if voltage_list[i + 1][7] != 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
+            2] != 'null' and voltage_list[i + 1][3] != 'null' and voltage_list[i + 1][8] != 'null':
+            if voltage_list[i + 1][8] == 'ABC':
+                Set_Phase_Order(0)
+                sheet.write(i + 1, 16, '相序设置：ABC')
+            if voltage_list[i + 1][8] == 'ACB':
+                Set_Phase_Order(1)
+                sheet.write(i + 1, 16, '相序设置：ACB')
+            ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
+                         voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
+            Average_Vol = (voltage_list[i + 1][1] + voltage_list[i + 1][2] + voltage_list[i + 1][3]) / 3
+            Phase_A = Read_Phase_A_Voltage(voltage_list[i + 1][1], times=40)
+            Phase_B = Read_Phase_B_Voltage(voltage_list[i + 1][2], times=40)
+            Phase_C = Read_Phase_C_Voltage(voltage_list[i + 1][3], times=40)
+            Read_Average_Vol = Read_Average_ln_Voltage(Average_Vol, times=40)
+            scale_A = abs(Phase_A - voltage_list[i + 1][1]) / voltage_list[i + 1][1]
+            scale_B = abs(Phase_B - voltage_list[i + 1][2]) / voltage_list[i + 1][2]
+            scale_C = abs(Phase_C - voltage_list[i + 1][3]) / voltage_list[i + 1][3]
+            scale_Average_Vol = abs(Read_Average_Vol - Average_Vol) / Average_Vol
+            sheet.write(i + 1, 7, Phase_A)
+            sheet.write(i + 1, 8, Phase_B)
+            sheet.write(i + 1, 9, Phase_C)
+            sheet.write(i + 1, 10, Read_Average_Vol)
+            sheet.write(i + 1, 11, f'{scale_A:.2%}')
+            sheet.write(i + 1, 12, f'{scale_B:.2%}')
+            sheet.write(i + 1, 13, f'{scale_C:.2%}')
+            sheet.write(i + 1, 14, f'{scale_Average_Vol:.2%}')
+            if scale_A * 100 <= voltage_list[i + 1][7] and scale_B * 100 <= voltage_list[i + 1][7] and scale_C * 100 <= \
+                    voltage_list[i + 1][7]:
+                sheet.write(i + 1, 15, 'Passed')
+            else:
+                sheet.write(i + 1, 15, 'Failed')
+            time.sleep(0.2)
+            Set_Phase_Order(0)
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def line_to_line_voltage_precision_measure():
     voltage_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Line_to_Line_Voltage')
     print(voltage_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('line_to_line_voltage', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Van输入值')
@@ -176,7 +220,7 @@ def line_to_line_voltage_precision_measure():
         sheet.write(i + 1, 4, voltage_list[i + 1][4])
         sheet.write(i + 1, 5, voltage_list[i + 1][5])
         sheet.write(i + 1, 6, voltage_list[i + 1][6])
-        if voltage_list[i + 1][7] != 'null':
+        if voltage_list[i + 1][7] != 'null' and voltage_list[i + 1][8] == 'null':
             ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
                          voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
             line_voltage_list = line_to_line_voltage_calculate(voltage_list[i + 1][1], voltage_list[i + 1][2],
@@ -184,10 +228,10 @@ def line_to_line_voltage_precision_measure():
                                                                voltage_list[i + 1][4], voltage_list[i + 1][5],
                                                                voltage_list[i + 1][6])
             Average_line_voltage = (line_voltage_list[0] + line_voltage_list[1] + line_voltage_list[2]) / 3
-            Phase_AB_Voltage = Read_Phase_AB_Voltage(line_voltage_list[0], times=20)
-            Phase_BC_Voltage = Read_Phase_BC_Voltage(line_voltage_list[1], times=20)
-            Phase_CA_Voltage = Read_Phase_CA_Voltage(line_voltage_list[2], times=20)
-            Average_ll_Voltage = Read_Average_ll_Voltage(Average_line_voltage, times=20)
+            Phase_AB_Voltage = Read_Phase_AB_Voltage(line_voltage_list[0], times=40)
+            Phase_BC_Voltage = Read_Phase_BC_Voltage(line_voltage_list[1], times=40)
+            Phase_CA_Voltage = Read_Phase_CA_Voltage(line_voltage_list[2], times=40)
+            Average_ll_Voltage = Read_Average_ll_Voltage(Average_line_voltage, times=40)
             sheet.write(i + 1, 7, Phase_AB_Voltage)
             sheet.write(i + 1, 8, Phase_BC_Voltage)
             sheet.write(i + 1, 9, Phase_CA_Voltage)
@@ -205,7 +249,7 @@ def line_to_line_voltage_precision_measure():
                 sheet.write(i + 1, 15, 'Passed')
             else:
                 sheet.write(i + 1, 15, 'Failed')
-        if voltage_list[i + 1][7] == 'null':
+        if voltage_list[i + 1][7] == 'null' and voltage_list[i + 1][8] == 'null':
             ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
                          voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
             line_voltage_list = line_to_line_voltage_calculate(voltage_list[i + 1][1], voltage_list[i + 1][2],
@@ -213,10 +257,10 @@ def line_to_line_voltage_precision_measure():
                                                                voltage_list[i + 1][4], voltage_list[i + 1][5],
                                                                voltage_list[i + 1][6])
             Average_line_voltage = (line_voltage_list[0] + line_voltage_list[1] + line_voltage_list[2]) / 3
-            Phase_AB_Voltage = Read_Phase_AB_Voltage(line_voltage_list[0], times=20)
-            Phase_BC_Voltage = Read_Phase_BC_Voltage(line_voltage_list[1], times=20)
-            Phase_CA_Voltage = Read_Phase_CA_Voltage(line_voltage_list[2], times=20)
-            Average_ll_Voltage = Read_Average_ll_Voltage(Average_line_voltage, times=20)
+            Phase_AB_Voltage = Read_Phase_AB_Voltage(line_voltage_list[0], times=40)
+            Phase_BC_Voltage = Read_Phase_BC_Voltage(line_voltage_list[1], times=40)
+            Phase_CA_Voltage = Read_Phase_CA_Voltage(line_voltage_list[2], times=40)
+            Average_ll_Voltage = Read_Average_ll_Voltage(Average_line_voltage, times=40)
             sheet.write(i + 1, 7, Phase_AB_Voltage)
             sheet.write(i + 1, 8, Phase_BC_Voltage)
             sheet.write(i + 1, 9, Phase_CA_Voltage)
@@ -236,6 +280,45 @@ def line_to_line_voltage_precision_measure():
                 else:
                     sheet.write(i + 1, 15, 'Failed')
 
+        if voltage_list[i + 1][7] != 'null' and voltage_list[i + 1][8] != 'null':
+            if voltage_list[i + 1][8] == 'ABC':
+                Set_Phase_Order(0)
+                sheet.write(i + 1, 16, '相序设置：ABC')
+            if voltage_list[i + 1][8] == 'ACB':
+                Set_Phase_Order(1)
+                sheet.write(i + 1, 16, '相序设置：ACB')
+            ret = set_ac(voltage_list[i + 1][6], voltage_list[i + 1][5], voltage_list[i + 1][4], 120, 240, 0,
+                         voltage_list[i + 1][3], voltage_list[i + 1][2], voltage_list[i + 1][1], 1, 1, 1, 50)
+            line_voltage_list = line_to_line_voltage_calculate(voltage_list[i + 1][1], voltage_list[i + 1][2],
+                                                               voltage_list[i + 1][3],
+                                                               voltage_list[i + 1][4], voltage_list[i + 1][5],
+                                                               voltage_list[i + 1][6])
+            Average_line_voltage = (line_voltage_list[0] + line_voltage_list[1] + line_voltage_list[2]) / 3
+            Phase_AB_Voltage = Read_Phase_AB_Voltage(line_voltage_list[0], times=40)
+            Phase_BC_Voltage = Read_Phase_BC_Voltage(line_voltage_list[1], times=40)
+            Phase_CA_Voltage = Read_Phase_CA_Voltage(line_voltage_list[2], times=40)
+            Average_ll_Voltage = Read_Average_ll_Voltage(Average_line_voltage, times=40)
+            sheet.write(i + 1, 7, Phase_AB_Voltage)
+            sheet.write(i + 1, 8, Phase_BC_Voltage)
+            sheet.write(i + 1, 9, Phase_CA_Voltage)
+            sheet.write(i + 1, 10, Average_ll_Voltage)
+            scale_AB = abs(Phase_AB_Voltage - line_voltage_list[0]) / line_voltage_list[0]
+            scale_BC = abs(Phase_BC_Voltage - line_voltage_list[1]) / line_voltage_list[1]
+            scale_CA = abs(Phase_CA_Voltage - line_voltage_list[2]) / line_voltage_list[2]
+            scale_Average_ll_Voltage = abs(Average_ll_Voltage - Average_line_voltage) / Average_line_voltage
+            sheet.write(i + 1, 11, f'{scale_AB:.2%}')
+            sheet.write(i + 1, 12, f'{scale_BC:.2%}')
+            sheet.write(i + 1, 13, f'{scale_CA:.2%}')
+            sheet.write(i + 1, 14, f'{scale_Average_ll_Voltage:.2%}')
+            if scale_AB * 100 <= voltage_list[i + 1][7] and scale_BC * 100 <= voltage_list[i + 1][
+                7] and scale_CA * 100 <= voltage_list[i + 1][7]:
+                sheet.write(i + 1, 15, 'Passed')
+            else:
+                sheet.write(i + 1, 15, 'Failed')
+            time.sleep(0.2)
+            Set_Phase_Order(0)
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
+
 
 def Current_5A_333mV_CT_precision_measure():
     Current_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Current_5A_333mV_CT')
@@ -245,7 +328,7 @@ def Current_5A_333mV_CT_precision_measure():
         if 'Input and user' in Current:
             j = i
             break
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Current_5A_333mV_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Phase A Current输入值')
@@ -275,14 +358,14 @@ def Current_5A_333mV_CT_precision_measure():
             sheet.write(i + 1, 2, Current_list[i + 1][2])
             sheet.write(i + 1, 3, Current_list[i + 1][3])
             if Current_list[i + 1][1] != 'null' and Current_list[i + 1][2] != 'null' and Current_list[i + 1][
-                3] != 'null' and Current_list[i + 1][4] != 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                3] != 'null' and Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == 'null':
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
-                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=20)
-                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=20)
-                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=20)
-                Iavg = Read_System_Average_Current(Average_Current, times=20)
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
                 sheet.write(i + 1, 4, Phase_A_Current)
                 sheet.write(i + 1, 5, Phase_B_Current)
                 sheet.write(i + 1, 6, Phase_C_Current)
@@ -302,7 +385,7 @@ def Current_5A_333mV_CT_precision_measure():
                 else:
                     sheet.write(i + 1, 12, 'Failed')
             if Current_list[i + 1][1] == 'null' or Current_list[i + 1][2] == 'null' or Current_list[i + 1][
-                3] == 'null' and Current_list[i + 1][4] != 'null':
+                3] == 'null' and Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == 'null':
                 if Current_list[i + 1][1] == 'null':
                     Current_list[i + 1][1] = 0
                     sheet.write(i + 1, 8, 'null')
@@ -312,13 +395,13 @@ def Current_5A_333mV_CT_precision_measure():
                 if Current_list[i + 1][3] == 'null':
                     Current_list[i + 1][3] = 0
                     sheet.write(i + 1, 10, 'null')
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
-                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=20)
-                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=20)
-                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=20)
-                Iavg = Read_System_Average_Current(Average_Current, times=20)
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
                 sheet.write(i + 1, 4, Phase_A_Current)
                 sheet.write(i + 1, 5, Phase_B_Current)
                 sheet.write(i + 1, 6, Phase_C_Current)
@@ -352,14 +435,14 @@ def Current_5A_333mV_CT_precision_measure():
                     sheet.write(i + 1, 12, 'Passed')
                 else:
                     sheet.write(i + 1, 12, 'Failed')
-            if Current_list[i + 1][4] == 'null':
-                # ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
-                #              Current_list[i + 1][1], 50)
+            if Current_list[i + 1][4] == 'null' and Current_list[i + 1][6] == 'null':
+                ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
+                             Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
-                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=20)
-                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=20)
-                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=20)
-                Iavg = Read_System_Average_Current(Average_Current, times=20)
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
                 sheet.write(i + 1, 4, Phase_A_Current)
                 sheet.write(i + 1, 5, Phase_B_Current)
                 sheet.write(i + 1, 6, Phase_C_Current)
@@ -378,6 +461,39 @@ def Current_5A_333mV_CT_precision_measure():
                         sheet.write(i + 1, 12, 'Passed')
                     else:
                         sheet.write(i + 1, 12, 'Failed')
+
+            if Current_list[i + 1][1] != 'null' and Current_list[i + 1][2] != 'null' and Current_list[i + 1][
+                3] != 'null' and Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == 'ABC':
+                Set_Phase_Order(0)
+                sheet.write(i + 1, 13, '相序设置：ABC')
+                sheet.write(i + 1, 14,
+                            f'输入相角：{Current_list[i + 1][7]}、{Current_list[i + 1][8]}、{Current_list[i + 1][9]}')
+                ret = set_ac(120, 240, 0, Current_list[i + 1][9], Current_list[i + 1][8], Current_list[i + 1][7], 50,
+                             50, 50, Current_list[i + 1][3], Current_list[i + 1][2], Current_list[i + 1][1], 50)
+                Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
+                sheet.write(i + 1, 4, Phase_A_Current)
+                sheet.write(i + 1, 5, Phase_B_Current)
+                sheet.write(i + 1, 6, Phase_C_Current)
+                sheet.write(i + 1, 7, Iavg)
+                scale_A_Current = abs(Phase_A_Current - Current_list[i + 1][1]) / Current_list[i + 1][1]
+                scale_B_Current = abs(Phase_B_Current - Current_list[i + 1][2]) / Current_list[i + 1][2]
+                scale_C_Current = abs(Phase_C_Current - Current_list[i + 1][3]) / Current_list[i + 1][3]
+                scale_Iavg = abs(Iavg - Average_Current) / Average_Current
+                sheet.write(i + 1, 8, f'{scale_A_Current:.2%}')
+                sheet.write(i + 1, 9, f'{scale_B_Current:.2%}')
+                sheet.write(i + 1, 10, f'{scale_C_Current:.2%}')
+                sheet.write(i + 1, 11, f'{scale_Iavg:.2%}')
+                if scale_A_Current * 100 <= Current_list[i + 1][4] and scale_B_Current * 100 <= Current_list[i + 1][
+                    4] and scale_C_Current * 100 <= Current_list[i + 1][4] and scale_Iavg * 100 <= Current_list[i + 1][
+                    4]:
+                    sheet.write(i + 1, 12, 'Passed')
+                else:
+                    sheet.write(i + 1, 12, 'Failed')
+
         elif Current_list[i + 1][5] == 'Input and user':
             sheet.write(j, 0, '测试用例')
             sheet.write(j, 1, 'Phase A Current输入值')
@@ -389,13 +505,19 @@ def Current_5A_333mV_CT_precision_measure():
             sheet.write(j, 7, '电表实际User1 Current值')
             sheet.write(j, 8, '电表实际User2 Current值')
             sheet.write(j, 9, '电表实际User3 Current值')
-            sheet.write(j, 10, 'Input1 精度')
-            sheet.write(j, 11, 'Input2 精度')
-            sheet.write(j, 12, 'Input3 精度')
-            sheet.write(j, 13, 'User1 精度')
-            sheet.write(j, 14, 'User2 精度')
-            sheet.write(j, 15, 'User3 精度')
-            sheet.write(j, 16, '测试结果')
+            sheet.write(j, 10, '电表实际Phase A Current值值')
+            sheet.write(j, 11, '电表实际Phase B Current值值')
+            sheet.write(j, 12, '电表实际Phase C Current值值')
+            sheet.write(j, 13, 'Input1 精度')
+            sheet.write(j, 14, 'Input2 精度')
+            sheet.write(j, 15, 'Input3 精度')
+            sheet.write(j, 16, 'User1 精度')
+            sheet.write(j, 17, 'User2 精度')
+            sheet.write(j, 18, 'User3 精度')
+            sheet.write(j, 19, 'Phase A 精度')
+            sheet.write(j, 20, 'Phase B 精度')
+            sheet.write(j, 21, 'Phase C 精度')
+            sheet.write(j, 22, '测试结果')
             sheet.write(i + 2, 0, Current_list[i + 1][0])
             sheet.write(i + 2, 1, Current_list[i + 1][1])
             sheet.write(i + 2, 2, Current_list[i + 1][2])
@@ -404,18 +526,25 @@ def Current_5A_333mV_CT_precision_measure():
                 Set_Service_Configuration(0)
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=20)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
+                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
+                Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
+                Phase_B_Current = Read_Phase_B_Current(0, times=40)
+                Phase_C_Current = Read_Phase_C_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
                 sheet.write(i + 2, 7, User_Channel_1_Current)
                 sheet.write(i + 2, 8, User_Channel_2_Current)
                 sheet.write(i + 2, 9, User_Channel_3_Current)
+                sheet.write(i + 2, 10, Phase_A_Current)
+                sheet.write(i + 2, 11, Phase_B_Current)
+                sheet.write(i + 2, 12, Phase_C_Current)
                 scale_Input_Channel_1_Current = abs(Input_Channel_1_Current - Current_list[i + 1][1]) / \
                                                 Current_list[i + 1][1]
                 scale_Input_Channel_2_Current = abs(Input_Channel_2_Current - Current_list[i + 1][2]) / \
@@ -428,32 +557,38 @@ def Current_5A_333mV_CT_precision_measure():
                                                Current_list[i + 1][2]
                 scale_User_Channel_3_Current = abs(User_Channel_3_Current - Current_list[i + 1][3]) / \
                                                Current_list[i + 1][3]
-                sheet.write(i + 2, 10, f'{scale_Input_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 11, f'{scale_Input_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 12, f'{scale_Input_Channel_3_Current:.2%}')
-                sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 14, f'{scale_User_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 15, f'{scale_User_Channel_3_Current:.2%}')
+                scale_Phase_A_Current = abs(Phase_A_Current - Phase_A_Current_standard) / Phase_A_Current_standard
+                sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
+                sheet.write(i + 2, 15, f'{scale_Input_Channel_3_Current:.2%}')
+                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 17, f'{scale_User_Channel_2_Current:.2%}')
+                sheet.write(i + 2, 18, f'{scale_User_Channel_3_Current:.2%}')
+                sheet.write(i + 2, 19, f'{scale_Phase_A_Current:.2%}')
+                sheet.write(i + 2, 20, f'null')
+                sheet.write(i + 2, 21, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_2_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][4]:
-                    sheet.write(i + 2, 16, 'Passed')
+                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][
+                    4] and scale_Phase_A_Current * 100 <= Current_list[i + 1][
+                    4] and Phase_B_Current == Phase_C_Current == 0:
+                    sheet.write(i + 2, 22, 'Passed')
                 else:
-                    sheet.write(i + 2, 16, 'Failed')
+                    sheet.write(i + 2, 22, 'Failed')
             if Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == '2E3p3w':
                 Set_Service_Configuration(1)
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 0, Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(0, times=20)
-                User_Channel_1_standard_Current = Current_list[i + 1][1] + Current_list[i + 1][2]
-                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_standard_Current, times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(0, times=40)
+                User_Channel_1_standard_Current = (Current_list[i + 1][1] + Current_list[i + 1][2]) / 2
+                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_standard_Current, times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
@@ -466,32 +601,33 @@ def Current_5A_333mV_CT_precision_measure():
                                                 Current_list[i + 1][2]
                 scale_User_Channel_1_Current = abs(User_Channel_1_Current - User_Channel_1_standard_Current) / \
                                                User_Channel_1_standard_Current
-                sheet.write(i + 2, 10, f'{scale_Input_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 11, f'{scale_Input_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 12, f'null')
-                sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 14, f'null')
+                sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
                 sheet.write(i + 2, 15, f'null')
+                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 17, f'null')
+                sheet.write(i + 2, 18, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and Input_Channel_3_Current == User_Channel_2_Current == User_Channel_3_Current == 0:
-                    sheet.write(i + 2, 16, 'Passed')
+                    sheet.write(i + 2, 22, 'Passed')
                 else:
-                    sheet.write(i + 2, 16, 'Failed')
+                    sheet.write(i + 2, 22, 'Failed')
 
             if Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == '3E3p4w':
                 Set_Service_Configuration(4)
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=20)
-                User_Channel_1_Standard_Current = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][
-                    3]
-                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_Standard_Current, times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
+                User_Channel_1_Standard_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] +
+                                                   Current_list[i + 1][
+                                                       3]) / 3
+                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_Standard_Current, times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
@@ -506,55 +642,63 @@ def Current_5A_333mV_CT_precision_measure():
                                                 Current_list[i + 1][3]
                 scale_User_Channel_1_Current = abs(User_Channel_1_Current - User_Channel_1_Standard_Current) / \
                                                User_Channel_1_Standard_Current
-                sheet.write(i + 2, 10, f'{scale_Input_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 11, f'{scale_Input_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 12, f'{scale_Input_Channel_3_Current:.2%}')
-                sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 14, f'null')
-                sheet.write(i + 2, 15, f'null')
+                sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
+                sheet.write(i + 2, 15, f'{scale_Input_Channel_3_Current:.2%}')
+                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 17, f'null')
+                sheet.write(i + 2, 18, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and User_Channel_2_Current == User_Channel_3_Current == 0:
-                    sheet.write(i + 2, 16, 'Passed')
+                    sheet.write(i + 2, 22, 'Passed')
                 else:
-                    sheet.write(i + 2, 16, 'Failed')
+                    sheet.write(i + 2, 22, 'Failed')
 
             if Current_list[i + 1][4] == 'null' and Current_list[i + 1][6] == '1E1p2w':
                 Set_Service_Configuration(0)
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=20)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
+                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
+                Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
+                Phase_B_Current = Read_Phase_B_Current(0, times=40)
+                Phase_C_Current = Read_Phase_C_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
                 sheet.write(i + 2, 7, User_Channel_1_Current)
                 sheet.write(i + 2, 8, User_Channel_2_Current)
                 sheet.write(i + 2, 9, User_Channel_3_Current)
-                sheet.write(i + 2, 10, f'null')
-                sheet.write(i + 2, 11, f'null')
-                sheet.write(i + 2, 12, f'null')
+                sheet.write(i + 2, 10, Phase_A_Current)
+                sheet.write(i + 2, 11, Phase_B_Current)
+                sheet.write(i + 2, 12, Phase_C_Current)
                 sheet.write(i + 2, 13, f'null')
                 sheet.write(i + 2, 14, f'null')
                 sheet.write(i + 2, 15, f'null')
+                sheet.write(i + 2, 16, f'null')
+                sheet.write(i + 2, 17, f'null')
+                sheet.write(i + 2, 18, f'null')
                 if Current_list[i + 1][1] >= 0.005 and Current_list[i + 1][2] >= 0.005 and Current_list[i + 1][
                     3] >= 0.005:
-                    if Input_Channel_1_Current != 0 and Input_Channel_2_Current != 0 and Input_Channel_3_Current != 0 and User_Channel_1_Current != 0 and User_Channel_2_Current != 0 and User_Channel_3_Current != 0:
-                        sheet.write(i + 2, 16, 'Passed')
+                    if Phase_A_Current != 0 and Input_Channel_1_Current != 0 and Input_Channel_2_Current != 0 and Input_Channel_3_Current != 0 and User_Channel_1_Current != 0 and User_Channel_2_Current != 0 and User_Channel_3_Current != 0:
+                        sheet.write(i + 2, 22, 'Passed')
                     else:
-                        sheet.write(i + 2, 16, 'Failed')
+                        sheet.write(i + 2, 22, 'Failed')
                 if Current_list[i + 1][1] == 0 and Current_list[i + 1][2] == 0 and Current_list[i + 1][
                     3] == 0:
                     if Input_Channel_1_Current == Input_Channel_2_Current == Input_Channel_3_Current == User_Channel_1_Current == User_Channel_2_Current == User_Channel_3_Current == 0:
-                        sheet.write(i + 2, 16, 'Passed')
+                        sheet.write(i + 2, 22, 'Passed')
                     else:
-                        sheet.write(i + 2, 16, 'Failed')
+                        sheet.write(i + 2, 22, 'Failed')
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Current_20A_100mA_CT_precision_measure():
@@ -565,7 +709,7 @@ def Current_20A_100mA_CT_precision_measure():
         if 'Input and user' in Current:
             j = i
             break
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Current_20A_100mA_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Phase A Current输入值')
@@ -599,10 +743,10 @@ def Current_20A_100mA_CT_precision_measure():
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
-                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=20)
-                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=20)
-                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=20)
-                Iavg = Read_System_Average_Current(Average_Current, times=20)
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
                 sheet.write(i + 1, 4, Phase_A_Current)
                 sheet.write(i + 1, 5, Phase_B_Current)
                 sheet.write(i + 1, 6, Phase_C_Current)
@@ -635,10 +779,10 @@ def Current_20A_100mA_CT_precision_measure():
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
-                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=20)
-                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=20)
-                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=20)
-                Iavg = Read_System_Average_Current(Average_Current, times=20)
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
                 sheet.write(i + 1, 4, Phase_A_Current)
                 sheet.write(i + 1, 5, Phase_B_Current)
                 sheet.write(i + 1, 6, Phase_C_Current)
@@ -676,10 +820,10 @@ def Current_20A_100mA_CT_precision_measure():
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
                 Average_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]) / 3
-                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=20)
-                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=20)
-                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=20)
-                Iavg = Read_System_Average_Current(Average_Current, times=20)
+                Phase_A_Current = Read_Phase_A_Current(Current_list[i + 1][1], times=40)
+                Phase_B_Current = Read_Phase_B_Current(Current_list[i + 1][2], times=40)
+                Phase_C_Current = Read_Phase_C_Current(Current_list[i + 1][3], times=40)
+                Iavg = Read_System_Average_Current(Average_Current, times=40)
                 sheet.write(i + 1, 4, Phase_A_Current)
                 sheet.write(i + 1, 5, Phase_B_Current)
                 sheet.write(i + 1, 6, Phase_C_Current)
@@ -709,33 +853,47 @@ def Current_20A_100mA_CT_precision_measure():
             sheet.write(j, 7, '电表实际User1 Current值')
             sheet.write(j, 8, '电表实际User2 Current值')
             sheet.write(j, 9, '电表实际User3 Current值')
-            sheet.write(j, 10, 'Input1 精度')
-            sheet.write(j, 11, 'Input2 精度')
-            sheet.write(j, 12, 'Input3 精度')
-            sheet.write(j, 13, 'User1 精度')
-            sheet.write(j, 14, 'User2 精度')
-            sheet.write(j, 15, 'User3 精度')
-            sheet.write(j, 16, '测试结果')
+            sheet.write(j, 10, '电表实际Phase A Current值值')
+            sheet.write(j, 11, '电表实际Phase B Current值值')
+            sheet.write(j, 12, '电表实际Phase C Current值值')
+            sheet.write(j, 13, 'Input1 精度')
+            sheet.write(j, 14, 'Input2 精度')
+            sheet.write(j, 15, 'Input3 精度')
+            sheet.write(j, 16, 'User1 精度')
+            sheet.write(j, 17, 'User2 精度')
+            sheet.write(j, 18, 'User3 精度')
+            sheet.write(j, 19, 'Phase A 精度')
+            sheet.write(j, 20, 'Phase B 精度')
+            sheet.write(j, 21, 'Phase C 精度')
+            sheet.write(j, 22, '测试结果')
             sheet.write(i + 2, 0, Current_list[i + 1][0])
             sheet.write(i + 2, 1, Current_list[i + 1][1])
             sheet.write(i + 2, 2, Current_list[i + 1][2])
             sheet.write(i + 2, 3, Current_list[i + 1][3])
             if Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == '1E1p2w':
                 Set_Service_Configuration(0)
+                sheet.write(i + 2, 23, '1E1p2w')
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=20)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
+                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
+                Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
+                Phase_B_Current = Read_Phase_B_Current(0, times=40)
+                Phase_C_Current = Read_Phase_C_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
                 sheet.write(i + 2, 7, User_Channel_1_Current)
                 sheet.write(i + 2, 8, User_Channel_2_Current)
                 sheet.write(i + 2, 9, User_Channel_3_Current)
+                sheet.write(i + 2, 10, Phase_A_Current)
+                sheet.write(i + 2, 11, Phase_B_Current)
+                sheet.write(i + 2, 12, Phase_C_Current)
                 scale_Input_Channel_1_Current = abs(Input_Channel_1_Current - Current_list[i + 1][1]) / \
                                                 Current_list[i + 1][1]
                 scale_Input_Channel_2_Current = abs(Input_Channel_2_Current - Current_list[i + 1][2]) / \
@@ -748,32 +906,39 @@ def Current_20A_100mA_CT_precision_measure():
                                                Current_list[i + 1][2]
                 scale_User_Channel_3_Current = abs(User_Channel_3_Current - Current_list[i + 1][3]) / \
                                                Current_list[i + 1][3]
-                sheet.write(i + 2, 10, f'{scale_Input_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 11, f'{scale_Input_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 12, f'{scale_Input_Channel_3_Current:.2%}')
-                sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 14, f'{scale_User_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 15, f'{scale_User_Channel_3_Current:.2%}')
+                scale_Phase_A_Current = abs(Phase_A_Current - Phase_A_Current_standard) / Phase_A_Current_standard
+                sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
+                sheet.write(i + 2, 15, f'{scale_Input_Channel_3_Current:.2%}')
+                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 17, f'{scale_User_Channel_2_Current:.2%}')
+                sheet.write(i + 2, 18, f'{scale_User_Channel_3_Current:.2%}')
+                sheet.write(i + 2, 19, f'{scale_Phase_A_Current:.2%}')
+                sheet.write(i + 2, 20, f'null')
+                sheet.write(i + 2, 21, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_2_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][4]:
-                    sheet.write(i + 2, 16, 'Passed')
+                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][
+                    4] and scale_Phase_A_Current * 100 <= Current_list[i + 1][
+                    4] and Phase_B_Current == Phase_C_Current == 0:
+                    sheet.write(i + 2, 22, 'Passed')
                 else:
-                    sheet.write(i + 2, 16, 'Failed')
+                    sheet.write(i + 2, 22, 'Failed')
             if Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == '2E3p3w':
                 Set_Service_Configuration(1)
+                sheet.write(i + 2, 23, '2E3p3w')
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, 0, Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(0, times=20)
-                User_Channel_1_standard_Current = Current_list[i + 1][1] + Current_list[i + 1][2]
-                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_standard_Current, times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(0, times=40)
+                User_Channel_1_standard_Current = (Current_list[i + 1][1] + Current_list[i + 1][2]) / 2
+                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_standard_Current, times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
@@ -786,32 +951,34 @@ def Current_20A_100mA_CT_precision_measure():
                                                 Current_list[i + 1][2]
                 scale_User_Channel_1_Current = abs(User_Channel_1_Current - User_Channel_1_standard_Current) / \
                                                User_Channel_1_standard_Current
-                sheet.write(i + 2, 10, f'{scale_Input_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 11, f'{scale_Input_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 12, f'null')
-                sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 14, f'null')
+                sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
                 sheet.write(i + 2, 15, f'null')
+                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 17, f'null')
+                sheet.write(i + 2, 18, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and Input_Channel_3_Current == User_Channel_2_Current == User_Channel_3_Current == 0:
-                    sheet.write(i + 2, 16, 'Passed')
+                    sheet.write(i + 2, 22, 'Passed')
                 else:
-                    sheet.write(i + 2, 16, 'Failed')
+                    sheet.write(i + 2, 22, 'Failed')
 
             if Current_list[i + 1][4] != 'null' and Current_list[i + 1][6] == '3E3p4w':
                 Set_Service_Configuration(4)
+                sheet.write(i + 2, 23, '3E3p4w')
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=20)
-                User_Channel_1_Standard_Current = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][
-                    3]
-                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_Standard_Current, times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
+                User_Channel_1_Standard_Current = (Current_list[i + 1][1] + Current_list[i + 1][2] +
+                                                   Current_list[i + 1][
+                                                       3]) / 3
+                User_Channel_1_Current = Read_User_Channel_1_Current(User_Channel_1_Standard_Current, times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(0, times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
@@ -826,59 +993,67 @@ def Current_20A_100mA_CT_precision_measure():
                                                 Current_list[i + 1][3]
                 scale_User_Channel_1_Current = abs(User_Channel_1_Current - User_Channel_1_Standard_Current) / \
                                                User_Channel_1_Standard_Current
-                sheet.write(i + 2, 10, f'{scale_Input_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 11, f'{scale_Input_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 12, f'{scale_Input_Channel_3_Current:.2%}')
-                sheet.write(i + 2, 13, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 14, f'null')
-                sheet.write(i + 2, 15, f'null')
+                sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
+                sheet.write(i + 2, 15, f'{scale_Input_Channel_3_Current:.2%}')
+                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                sheet.write(i + 2, 17, f'null')
+                sheet.write(i + 2, 18, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
                     4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and User_Channel_2_Current == User_Channel_3_Current == 0:
-                    sheet.write(i + 2, 16, 'Passed')
+                    sheet.write(i + 2, 22, 'Passed')
                 else:
-                    sheet.write(i + 2, 16, 'Failed')
+                    sheet.write(i + 2, 22, 'Failed')
             if Current_list[i + 1][4] == 'null' and Current_list[i + 1][6] == '1E1p2w':
                 ret = set_ac(120, 240, 0, 120, 240, 0, 50, 50, 50, Current_list[i + 1][3], Current_list[i + 1][2],
                              Current_list[i + 1][1], 50)
-                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=20)
-                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=20)
-                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=20)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=20)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=20)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=20)
+                Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
+                Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
+                Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
+                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
+                Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
+                Phase_B_Current = Read_Phase_B_Current(0, times=40)
+                Phase_C_Current = Read_Phase_C_Current(0, times=40)
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
                 sheet.write(i + 2, 7, User_Channel_1_Current)
                 sheet.write(i + 2, 8, User_Channel_2_Current)
                 sheet.write(i + 2, 9, User_Channel_3_Current)
-                sheet.write(i + 2, 10, f'null')
-                sheet.write(i + 2, 11, f'null')
-                sheet.write(i + 2, 12, f'null')
+                sheet.write(i + 2, 10, Phase_A_Current)
+                sheet.write(i + 2, 11, Phase_B_Current)
+                sheet.write(i + 2, 12, Phase_C_Current)
                 sheet.write(i + 2, 13, f'null')
                 sheet.write(i + 2, 14, f'null')
                 sheet.write(i + 2, 15, f'null')
+                sheet.write(i + 2, 16, f'null')
+                sheet.write(i + 2, 17, f'null')
+                sheet.write(i + 2, 18, f'null')
                 if Current_list[i + 1][1] >= 0.02 and Current_list[i + 1][2] >= 0.02 and Current_list[i + 1][
                     3] >= 0.02:
-                    if Input_Channel_1_Current != 0 and Input_Channel_2_Current != 0 and Input_Channel_3_Current != 0 and User_Channel_1_Current != 0 and User_Channel_2_Current != 0 and User_Channel_3_Current != 0:
-                        sheet.write(i + 2, 16, 'Passed')
+                    if Phase_A_Current != 0 and Input_Channel_1_Current != 0 and Input_Channel_2_Current != 0 and Input_Channel_3_Current != 0 and User_Channel_1_Current != 0 and User_Channel_2_Current != 0 and User_Channel_3_Current != 0:
+                        sheet.write(i + 2, 22, 'Passed')
                     else:
-                        sheet.write(i + 2, 16, 'Failed')
+                        sheet.write(i + 2, 22, 'Failed')
                 if Current_list[i + 1][1] == 0 and Current_list[i + 1][2] == 0 and Current_list[i + 1][
                     3] == 0:
                     if Input_Channel_1_Current == Input_Channel_2_Current == Input_Channel_3_Current == User_Channel_1_Current == User_Channel_2_Current == User_Channel_3_Current == 0:
-                        sheet.write(i + 2, 16, 'Passed')
+                        sheet.write(i + 2, 22, 'Passed')
                     else:
-                        sheet.write(i + 2, 16, 'Failed')
+                        sheet.write(i + 2, 22, 'Failed')
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Phase_Voltage_Angle_precision_measure():
     Voltage_Angle_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Phase_Voltage_Angle')
     print(Voltage_Angle_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Phase_Voltage_Angle', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Phase A Voltage Angle输入值')
@@ -908,9 +1083,9 @@ def Phase_Voltage_Angle_precision_measure():
                 Voltage_Angle_list[i + 1][2] != 'null' and Voltage_Angle_list[i + 1][3] != 'null':
             ret = set_ac(Voltage_Angle_list[i + 1][3], Voltage_Angle_list[i + 1][2], Voltage_Angle_list[i + 1][1], 120,
                          240, 0, 100, 100, 100, 1, 1, 1, 50)
-            Phase_A_Voltage_Angle = Read_Phase_A_Voltage_Angle(Voltage_Angle_list[i + 1][1], times=20)
-            Phase_B_Voltage_Angle = Read_Phase_B_Voltage_Angle(Voltage_Angle_list[i + 1][2], times=20)
-            Phase_C_Voltage_Angle = Read_Phase_C_Voltage_Angle(Voltage_Angle_list[i + 1][3], times=20)
+            Phase_A_Voltage_Angle = Read_Phase_A_Voltage_Angle(Voltage_Angle_list[i + 1][1], times=40)
+            Phase_B_Voltage_Angle = Read_Phase_B_Voltage_Angle(Voltage_Angle_list[i + 1][2], times=40)
+            Phase_C_Voltage_Angle = Read_Phase_C_Voltage_Angle(Voltage_Angle_list[i + 1][3], times=40)
             sheet.write(i + 1, 4, Phase_A_Voltage_Angle)
             sheet.write(i + 1, 5, Phase_B_Voltage_Angle)
             sheet.write(i + 1, 6, Phase_C_Voltage_Angle)
@@ -927,12 +1102,13 @@ def Phase_Voltage_Angle_precision_measure():
                 sheet.write(i + 1, 10, 'Passed')
             else:
                 sheet.write(i + 1, 10, 'Failed')
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Input1_Current_Angle_precision_measure():
     Input_Current_Angle = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Input_Current_Angle')
     print(Input_Current_Angle)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Input_Current_Angle', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Phase A Current Angle输入值')
@@ -954,7 +1130,7 @@ def Input1_Current_Angle_precision_measure():
                 Input_Current_Angle[i + 1][2] == 'null':
             ret = set_ac(120, 240, 0, 120, 240, Input_Current_Angle[i + 1][1], 100, 100, 100, 1, 1, 1, 50)
             Input_Channel_1_Current_Phase_Angle = Read_Input_Channel_1_Current_Phase_Angle(
-                Input_Current_Angle[i + 1][1], times=20)
+                Input_Current_Angle[i + 1][1], times=40)
             sheet.write(i + 1, 2, Input_Channel_1_Current_Phase_Angle)
             if Input_Current_Angle[i + 1][1] == 0:
                 sheet.write(i + 1, 3, 'null')
@@ -969,12 +1145,13 @@ def Input1_Current_Angle_precision_measure():
                     sheet.write(i + 1, 4, 'Passed')
                 else:
                     sheet.write(i + 1, 4, 'Failed')
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Power_5A_333mV_CT_precision_measure():
     Power_5A_333mV_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Power_5A_333mV_CT')
     print(Power_5A_333mV_CT_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Power_5A_333mV_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Va输入值')
@@ -1068,7 +1245,7 @@ def Power_5A_333mV_CT_precision_measure():
         sheet.write(i + 1, 10, Power_5A_333mV_CT_list[i + 1][10])
         sheet.write(i + 1, 11, Power_5A_333mV_CT_list[i + 1][11])
         sheet.write(i + 1, 12, Power_5A_333mV_CT_list[i + 1][12])
-        if Power_5A_333mV_CT_list[i + 1][14] == 'user1' and Power_5A_333mV_CT_list[i + 1][13] != 'null' or \
+        if Power_5A_333mV_CT_list[i + 1][14] == '3E3p4w' and Power_5A_333mV_CT_list[i + 1][13] != 'null' or \
                 Power_5A_333mV_CT_list[i + 1][15] == 'True Reactive Power':
             Set_Service_Configuration(4)
             Set_Reactive_Power_Calculation_Methodme(0)
@@ -1077,15 +1254,19 @@ def Power_5A_333mV_CT_precision_measure():
                    Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
                    Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
                    Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][2],
-                                                     Power_5A_333mV_CT_list[i + 1][3], Power_5A_333mV_CT_list[i + 1][4],
-                                                     Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][6],
-                                                     Power_5A_333mV_CT_list[i + 1][7], Power_5A_333mV_CT_list[i + 1][8],
-                                                     Power_5A_333mV_CT_list[i + 1][9],
-                                                     Power_5A_333mV_CT_list[i + 1][10],
-                                                     Power_5A_333mV_CT_list[i + 1][11],
-                                                     Power_5A_333mV_CT_list[i + 1][12],
-                                                     Power_5A_333mV_CT_list[i + 1][14])
+            AcuRev4100_Power = Read_AcuRev4100_Power_new(Power_5A_333mV_CT_list[i + 1][1],
+                                                         Power_5A_333mV_CT_list[i + 1][2],
+                                                         Power_5A_333mV_CT_list[i + 1][3],
+                                                         Power_5A_333mV_CT_list[i + 1][4],
+                                                         Power_5A_333mV_CT_list[i + 1][5],
+                                                         Power_5A_333mV_CT_list[i + 1][6],
+                                                         Power_5A_333mV_CT_list[i + 1][7],
+                                                         Power_5A_333mV_CT_list[i + 1][8],
+                                                         Power_5A_333mV_CT_list[i + 1][9],
+                                                         Power_5A_333mV_CT_list[i + 1][10],
+                                                         Power_5A_333mV_CT_list[i + 1][11],
+                                                         Power_5A_333mV_CT_list[i + 1][12],
+                                                         Power_5A_333mV_CT_list[i + 1][14])
             scale_list = []
             for j in range(len(AcuRev4100_Power)):
                 if AcuRev4100_Power[j][1] != 'null':
@@ -1101,7 +1282,7 @@ def Power_5A_333mV_CT_precision_measure():
                         continue
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                         break
             else:
                 if Power_5A_333mV_CT_list[i + 1][7] - Power_5A_333mV_CT_list[i + 1][10] == 0:
@@ -1116,10 +1297,10 @@ def Power_5A_333mV_CT_precision_measure():
                             continue
                         else:
                             sheet.write(i + 1, 53, 'Failed')
-                            sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                            sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                             break
 
-        if Power_5A_333mV_CT_list[i + 1][14] == 'user1' and Power_5A_333mV_CT_list[i + 1][13] == 'null':
+        if Power_5A_333mV_CT_list[i + 1][14] == '3E3p4w' and Power_5A_333mV_CT_list[i + 1][13] == 'null':
             Set_Service_Configuration(4)
             Set_Reactive_Power_Calculation_Methodme(0)
             set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
@@ -1127,15 +1308,19 @@ def Power_5A_333mV_CT_precision_measure():
                    Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
                    Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
                    Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][2],
-                                                     Power_5A_333mV_CT_list[i + 1][3], Power_5A_333mV_CT_list[i + 1][4],
-                                                     Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][6],
-                                                     Power_5A_333mV_CT_list[i + 1][7], Power_5A_333mV_CT_list[i + 1][8],
-                                                     Power_5A_333mV_CT_list[i + 1][9],
-                                                     Power_5A_333mV_CT_list[i + 1][10],
-                                                     Power_5A_333mV_CT_list[i + 1][11],
-                                                     Power_5A_333mV_CT_list[i + 1][12],
-                                                     Power_5A_333mV_CT_list[i + 1][14])
+            AcuRev4100_Power = Read_AcuRev4100_Power_new(Power_5A_333mV_CT_list[i + 1][1],
+                                                         Power_5A_333mV_CT_list[i + 1][2],
+                                                         Power_5A_333mV_CT_list[i + 1][3],
+                                                         Power_5A_333mV_CT_list[i + 1][4],
+                                                         Power_5A_333mV_CT_list[i + 1][5],
+                                                         Power_5A_333mV_CT_list[i + 1][6],
+                                                         Power_5A_333mV_CT_list[i + 1][7],
+                                                         Power_5A_333mV_CT_list[i + 1][8],
+                                                         Power_5A_333mV_CT_list[i + 1][9],
+                                                         Power_5A_333mV_CT_list[i + 1][10],
+                                                         Power_5A_333mV_CT_list[i + 1][11],
+                                                         Power_5A_333mV_CT_list[i + 1][12],
+                                                         Power_5A_333mV_CT_list[i + 1][14])
             Power_list = []
             for j in range(len(AcuRev4100_Power)):
                 sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]}')
@@ -1149,7 +1334,7 @@ def Power_5A_333mV_CT_precision_measure():
                         break
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 14}列数据')
                         break
             else:
                 for k in range(len(Power_list)):
@@ -1158,24 +1343,28 @@ def Power_5A_333mV_CT_precision_measure():
                         continue
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 14}列数据')
                         break
-        if Power_5A_333mV_CT_list[i + 1][14] == 'user1,user2,user3' and Power_5A_333mV_CT_list[i + 1][13] != 'null':
+        if Power_5A_333mV_CT_list[i + 1][14] == '1E1p2w' and Power_5A_333mV_CT_list[i + 1][13] != 'null':
             Set_Service_Configuration(0)
             set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
                    Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
                    Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
                    Power_5A_333mV_CT_list[i + 1][2], Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][6],
                    Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_5A_333mV_CT_list[i + 1][1], Power_5A_333mV_CT_list[i + 1][2],
-                                                     Power_5A_333mV_CT_list[i + 1][3], Power_5A_333mV_CT_list[i + 1][4],
-                                                     Power_5A_333mV_CT_list[i + 1][5], Power_5A_333mV_CT_list[i + 1][6],
-                                                     Power_5A_333mV_CT_list[i + 1][7], Power_5A_333mV_CT_list[i + 1][8],
-                                                     Power_5A_333mV_CT_list[i + 1][9],
-                                                     Power_5A_333mV_CT_list[i + 1][10],
-                                                     Power_5A_333mV_CT_list[i + 1][11],
-                                                     Power_5A_333mV_CT_list[i + 1][12],
-                                                     Power_5A_333mV_CT_list[i + 1][14])
+            AcuRev4100_Power = Read_AcuRev4100_Power_new(Power_5A_333mV_CT_list[i + 1][1],
+                                                         Power_5A_333mV_CT_list[i + 1][2],
+                                                         Power_5A_333mV_CT_list[i + 1][3],
+                                                         Power_5A_333mV_CT_list[i + 1][4],
+                                                         Power_5A_333mV_CT_list[i + 1][5],
+                                                         Power_5A_333mV_CT_list[i + 1][6],
+                                                         Power_5A_333mV_CT_list[i + 1][7],
+                                                         Power_5A_333mV_CT_list[i + 1][8],
+                                                         Power_5A_333mV_CT_list[i + 1][9],
+                                                         Power_5A_333mV_CT_list[i + 1][10],
+                                                         Power_5A_333mV_CT_list[i + 1][11],
+                                                         Power_5A_333mV_CT_list[i + 1][12],
+                                                         Power_5A_333mV_CT_list[i + 1][14])
             scale_list = []
             for j in range(len(AcuRev4100_Power)):
                 if AcuRev4100_Power[j][1] != 'null':
@@ -1191,14 +1380,15 @@ def Power_5A_333mV_CT_precision_measure():
                     continue
                 else:
                     sheet.write(i + 1, 53, 'Failed')
-                    sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                    sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                     break
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Power_20A_100mA_CT_precision_measure():
     Power_20A_100mA_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Power_20A_100mA_CT')
     print(Power_20A_100mA_CT_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Power_20A_100mA_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Va输入值')
@@ -1292,7 +1482,7 @@ def Power_20A_100mA_CT_precision_measure():
         sheet.write(i + 1, 10, Power_20A_100mA_CT_list[i + 1][10])
         sheet.write(i + 1, 11, Power_20A_100mA_CT_list[i + 1][11])
         sheet.write(i + 1, 12, Power_20A_100mA_CT_list[i + 1][12])
-        if Power_20A_100mA_CT_list[i + 1][14] == 'user1' and Power_20A_100mA_CT_list[i + 1][13] != 'null' or \
+        if Power_20A_100mA_CT_list[i + 1][14] == '3E3p4w' and Power_20A_100mA_CT_list[i + 1][13] != 'null' or \
                 Power_20A_100mA_CT_list[i + 1][15] == 'True Reactive Power':
             Set_Service_Configuration(4)
             Set_Reactive_Power_Calculation_Methodme(0)
@@ -1303,19 +1493,19 @@ def Power_20A_100mA_CT_precision_measure():
                    Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1],
                    Power_20A_100mA_CT_list[i + 1][6],
                    Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1],
-                                                     Power_20A_100mA_CT_list[i + 1][2],
-                                                     Power_20A_100mA_CT_list[i + 1][3],
-                                                     Power_20A_100mA_CT_list[i + 1][4],
-                                                     Power_20A_100mA_CT_list[i + 1][5],
-                                                     Power_20A_100mA_CT_list[i + 1][6],
-                                                     Power_20A_100mA_CT_list[i + 1][7],
-                                                     Power_20A_100mA_CT_list[i + 1][8],
-                                                     Power_20A_100mA_CT_list[i + 1][9],
-                                                     Power_20A_100mA_CT_list[i + 1][10],
-                                                     Power_20A_100mA_CT_list[i + 1][11],
-                                                     Power_20A_100mA_CT_list[i + 1][12],
-                                                     Power_20A_100mA_CT_list[i + 1][14])
+            AcuRev4100_Power = Read_AcuRev4100_Power_new(Power_20A_100mA_CT_list[i + 1][1],
+                                                         Power_20A_100mA_CT_list[i + 1][2],
+                                                         Power_20A_100mA_CT_list[i + 1][3],
+                                                         Power_20A_100mA_CT_list[i + 1][4],
+                                                         Power_20A_100mA_CT_list[i + 1][5],
+                                                         Power_20A_100mA_CT_list[i + 1][6],
+                                                         Power_20A_100mA_CT_list[i + 1][7],
+                                                         Power_20A_100mA_CT_list[i + 1][8],
+                                                         Power_20A_100mA_CT_list[i + 1][9],
+                                                         Power_20A_100mA_CT_list[i + 1][10],
+                                                         Power_20A_100mA_CT_list[i + 1][11],
+                                                         Power_20A_100mA_CT_list[i + 1][12],
+                                                         Power_20A_100mA_CT_list[i + 1][14])
             scale_list = []
             for j in range(len(AcuRev4100_Power)):
                 if AcuRev4100_Power[j][1] != 'null':
@@ -1331,7 +1521,7 @@ def Power_20A_100mA_CT_precision_measure():
                         continue
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                         break
             else:
                 if Power_20A_100mA_CT_list[i + 1][7] - Power_20A_100mA_CT_list[i + 1][10] == 0:
@@ -1346,10 +1536,10 @@ def Power_20A_100mA_CT_precision_measure():
                             continue
                         else:
                             sheet.write(i + 1, 53, 'Failed')
-                            sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                            sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                             break
 
-        if Power_20A_100mA_CT_list[i + 1][14] == 'user1' and Power_20A_100mA_CT_list[i + 1][13] == 'null':
+        if Power_20A_100mA_CT_list[i + 1][14] == '3E3p4w' and Power_20A_100mA_CT_list[i + 1][13] == 'null':
             Set_Service_Configuration(4)
             Set_Reactive_Power_Calculation_Methodme(0)
             set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
@@ -1359,19 +1549,19 @@ def Power_20A_100mA_CT_precision_measure():
                    Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1],
                    Power_20A_100mA_CT_list[i + 1][6],
                    Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1],
-                                                     Power_20A_100mA_CT_list[i + 1][2],
-                                                     Power_20A_100mA_CT_list[i + 1][3],
-                                                     Power_20A_100mA_CT_list[i + 1][4],
-                                                     Power_20A_100mA_CT_list[i + 1][5],
-                                                     Power_20A_100mA_CT_list[i + 1][6],
-                                                     Power_20A_100mA_CT_list[i + 1][7],
-                                                     Power_20A_100mA_CT_list[i + 1][8],
-                                                     Power_20A_100mA_CT_list[i + 1][9],
-                                                     Power_20A_100mA_CT_list[i + 1][10],
-                                                     Power_20A_100mA_CT_list[i + 1][11],
-                                                     Power_20A_100mA_CT_list[i + 1][12],
-                                                     Power_20A_100mA_CT_list[i + 1][14])
+            AcuRev4100_Power = Read_AcuRev4100_Power_new(Power_20A_100mA_CT_list[i + 1][1],
+                                                         Power_20A_100mA_CT_list[i + 1][2],
+                                                         Power_20A_100mA_CT_list[i + 1][3],
+                                                         Power_20A_100mA_CT_list[i + 1][4],
+                                                         Power_20A_100mA_CT_list[i + 1][5],
+                                                         Power_20A_100mA_CT_list[i + 1][6],
+                                                         Power_20A_100mA_CT_list[i + 1][7],
+                                                         Power_20A_100mA_CT_list[i + 1][8],
+                                                         Power_20A_100mA_CT_list[i + 1][9],
+                                                         Power_20A_100mA_CT_list[i + 1][10],
+                                                         Power_20A_100mA_CT_list[i + 1][11],
+                                                         Power_20A_100mA_CT_list[i + 1][12],
+                                                         Power_20A_100mA_CT_list[i + 1][14])
             Power_list = []
             for j in range(len(AcuRev4100_Power)):
                 sheet.write(i + 1, j + 13, f'{AcuRev4100_Power[j][0]}')
@@ -1385,7 +1575,7 @@ def Power_20A_100mA_CT_precision_measure():
                         break
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 14}列数据')
                         break
             else:
                 for k in range(len(Power_list)):
@@ -1394,9 +1584,9 @@ def Power_20A_100mA_CT_precision_measure():
                         continue
                     else:
                         sheet.write(i + 1, 53, 'Failed')
-                        sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                        sheet.write(i + 1, 54, f'请检查{k + 14}列数据')
                         break
-        if Power_20A_100mA_CT_list[i + 1][14] == 'user1,user2,user3' and Power_20A_100mA_CT_list[i + 1][13] != 'null':
+        if Power_20A_100mA_CT_list[i + 1][14] == '1E1p2w' and Power_20A_100mA_CT_list[i + 1][13] != 'null':
             Set_Service_Configuration(0)
             Set_Reactive_Power_Calculation_Methodme(0)
             set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
@@ -1406,19 +1596,19 @@ def Power_20A_100mA_CT_precision_measure():
                    Power_20A_100mA_CT_list[i + 1][2], Power_20A_100mA_CT_list[i + 1][1],
                    Power_20A_100mA_CT_list[i + 1][6],
                    Power_20A_100mA_CT_list[i + 1][5], Power_20A_100mA_CT_list[i + 1][4], 50)
-            AcuRev4100_Power = Read_AcuRev4100_Power(Power_20A_100mA_CT_list[i + 1][1],
-                                                     Power_20A_100mA_CT_list[i + 1][2],
-                                                     Power_20A_100mA_CT_list[i + 1][3],
-                                                     Power_20A_100mA_CT_list[i + 1][4],
-                                                     Power_20A_100mA_CT_list[i + 1][5],
-                                                     Power_20A_100mA_CT_list[i + 1][6],
-                                                     Power_20A_100mA_CT_list[i + 1][7],
-                                                     Power_20A_100mA_CT_list[i + 1][8],
-                                                     Power_20A_100mA_CT_list[i + 1][9],
-                                                     Power_20A_100mA_CT_list[i + 1][10],
-                                                     Power_20A_100mA_CT_list[i + 1][11],
-                                                     Power_20A_100mA_CT_list[i + 1][12],
-                                                     Power_20A_100mA_CT_list[i + 1][14])
+            AcuRev4100_Power = Read_AcuRev4100_Power_new(Power_20A_100mA_CT_list[i + 1][1],
+                                                         Power_20A_100mA_CT_list[i + 1][2],
+                                                         Power_20A_100mA_CT_list[i + 1][3],
+                                                         Power_20A_100mA_CT_list[i + 1][4],
+                                                         Power_20A_100mA_CT_list[i + 1][5],
+                                                         Power_20A_100mA_CT_list[i + 1][6],
+                                                         Power_20A_100mA_CT_list[i + 1][7],
+                                                         Power_20A_100mA_CT_list[i + 1][8],
+                                                         Power_20A_100mA_CT_list[i + 1][9],
+                                                         Power_20A_100mA_CT_list[i + 1][10],
+                                                         Power_20A_100mA_CT_list[i + 1][11],
+                                                         Power_20A_100mA_CT_list[i + 1][12],
+                                                         Power_20A_100mA_CT_list[i + 1][14])
             scale_list = []
             for j in range(len(AcuRev4100_Power)):
                 if AcuRev4100_Power[j][1] != 'null':
@@ -1433,14 +1623,15 @@ def Power_20A_100mA_CT_precision_measure():
                     continue
                 else:
                     sheet.write(i + 1, 53, 'Failed')
-                    sheet.write(i + 1, 54, f'请检查{k + 13}行数据')
+                    sheet.write(i + 1, 54, f'请检查{k + 14}列数据,精度{scale_list[k] * 100}%')
                     break
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Load_Nature_measure():
     Load_Nature_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Load_Nature')
     print(Load_Nature_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Load_Nature', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Va输入值')
@@ -1498,13 +1689,13 @@ def Load_Nature_measure():
                 Set_Service_Configuration(0)
             else:
                 Set_Service_Configuration(4)
-            # set_ac(Load_Nature_list[i + 1][9], Load_Nature_list[i + 1][8],
-            #        Load_Nature_list[i + 1][7],
-            #        Load_Nature_list[i + 1][12], Load_Nature_list[i + 1][11],
-            #        Load_Nature_list[i + 1][10], Load_Nature_list[i + 1][3],
-            #        Load_Nature_list[i + 1][2], Load_Nature_list[i + 1][1],
-            #        Load_Nature_list[i + 1][6],
-            #        Load_Nature_list[i + 1][5], Load_Nature_list[i + 1][4], 50)
+            set_ac(Load_Nature_list[i + 1][9], Load_Nature_list[i + 1][8],
+                   Load_Nature_list[i + 1][7],
+                   Load_Nature_list[i + 1][12], Load_Nature_list[i + 1][11],
+                   Load_Nature_list[i + 1][10], Load_Nature_list[i + 1][3],
+                   Load_Nature_list[i + 1][2], Load_Nature_list[i + 1][1],
+                   Load_Nature_list[i + 1][6],
+                   Load_Nature_list[i + 1][5], Load_Nature_list[i + 1][4], 50)
             standard_Load_Nature = []
             user1_standard_Load_Nature = Load_Nature_calculate(Load_Nature_list[i + 1][7], Load_Nature_list[i + 1][10])
             Input1_standard_Load_Nature = Load_Nature_calculate(Load_Nature_list[i + 1][7], Load_Nature_list[i + 1][10])
@@ -1545,15 +1736,16 @@ def Load_Nature_measure():
                 sheet.write(i + 1, 21, 'Passed')
             else:
                 sheet.write(i + 1, 21, 'Failed')
+                sheet.write(i + 1, 22, f'标准值：{standard_Load_Nature}')
         if Load_Nature_list[i + 1][13] == '多种负载类型' and Load_Nature_list[i + 1][14] != '1E1p2w':
             Set_Service_Configuration(4)
-            # set_ac(Load_Nature_list[i + 1][9], Load_Nature_list[i + 1][8],
-            #        Load_Nature_list[i + 1][7],
-            #        Load_Nature_list[i + 1][12], Load_Nature_list[i + 1][11],
-            #        Load_Nature_list[i + 1][10], Load_Nature_list[i + 1][3],
-            #        Load_Nature_list[i + 1][2], Load_Nature_list[i + 1][1],
-            #        Load_Nature_list[i + 1][6],
-            #        Load_Nature_list[i + 1][5], Load_Nature_list[i + 1][4], 50)
+            set_ac(Load_Nature_list[i + 1][9], Load_Nature_list[i + 1][8],
+                   Load_Nature_list[i + 1][7],
+                   Load_Nature_list[i + 1][12], Load_Nature_list[i + 1][11],
+                   Load_Nature_list[i + 1][10], Load_Nature_list[i + 1][3],
+                   Load_Nature_list[i + 1][2], Load_Nature_list[i + 1][1],
+                   Load_Nature_list[i + 1][6],
+                   Load_Nature_list[i + 1][5], Load_Nature_list[i + 1][4], 50)
             standard_Load_Nature = []
             Input1_standard_Load_Nature = Load_Nature_calculate(Load_Nature_list[i + 1][7], Load_Nature_list[i + 1][10])
             Input2_standard_Load_Nature = Load_Nature_calculate(Load_Nature_list[i + 1][8], Load_Nature_list[i + 1][11])
@@ -1616,12 +1808,14 @@ def Load_Nature_measure():
                 sheet.write(i + 1, 21, 'Passed')
             else:
                 sheet.write(i + 1, 21, 'Failed')
+                sheet.write(i + 1, 22, f'标准值：{standard_Load_Nature}')
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Energy_5A_333mV_CT_measure():
     Energy_5A_333mV_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_5A_333mV_CT')
     print(Energy_5A_333mV_CT_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_5A_333mV_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Va输入值')
@@ -1769,32 +1963,41 @@ def Energy_5A_333mV_CT_measure():
         sheet.write(i + 1, 13, Energy_5A_333mV_CT_list[i + 1][13])
         if Energy_5A_333mV_CT_list[i + 1][15] == '3E3p4w' and Energy_5A_333mV_CT_list[i + 1][14] != 'null':
             Set_Service_Configuration(4)
-            # set_ac(Energy_5A_333mV_CT_list[i + 1][9], Energy_5A_333mV_CT_list[i + 1][8],
-            #        Energy_5A_333mV_CT_list[i + 1][7],
-            #        Energy_5A_333mV_CT_list[i + 1][12], Energy_5A_333mV_CT_list[i + 1][11],
-            #        Energy_5A_333mV_CT_list[i + 1][10], Energy_5A_333mV_CT_list[i + 1][3],
-            #        Energy_5A_333mV_CT_list[i + 1][2], Energy_5A_333mV_CT_list[i + 1][1],
-            #        Energy_5A_333mV_CT_list[i + 1][6],
-            #        Energy_5A_333mV_CT_list[i + 1][5], Energy_5A_333mV_CT_list[i + 1][4], 50)
-            # Set_Clear_energy(1)
-            # time.sleep(60 * Energy_5A_333mV_CT_list[i + 1][13])
-            Read_Energy_scale_list = Read_Energy_scale(Energy_5A_333mV_CT_list[i + 1][1],
-                                                       Energy_5A_333mV_CT_list[i + 1][2],
-                                                       Energy_5A_333mV_CT_list[i + 1][3],
-                                                       Energy_5A_333mV_CT_list[i + 1][4],
-                                                       Energy_5A_333mV_CT_list[i + 1][5],
-                                                       Energy_5A_333mV_CT_list[i + 1][6],
-                                                       Energy_5A_333mV_CT_list[i + 1][7],
-                                                       Energy_5A_333mV_CT_list[i + 1][8],
-                                                       Energy_5A_333mV_CT_list[i + 1][9],
-                                                       Energy_5A_333mV_CT_list[i + 1][10],
-                                                       Energy_5A_333mV_CT_list[i + 1][11],
-                                                       Energy_5A_333mV_CT_list[i + 1][12],
-                                                       Energy_5A_333mV_CT_list[i + 1][13],
-                                                       Energy_5A_333mV_CT_list[i + 1][15])
+            time.sleep(1)
+            Set_Device_Reboot(1)
+            time.sleep(15)
+            set_ac(Energy_5A_333mV_CT_list[i + 1][9], Energy_5A_333mV_CT_list[i + 1][8],
+                   Energy_5A_333mV_CT_list[i + 1][7],
+                   Energy_5A_333mV_CT_list[i + 1][12], Energy_5A_333mV_CT_list[i + 1][11],
+                   Energy_5A_333mV_CT_list[i + 1][10], Energy_5A_333mV_CT_list[i + 1][3],
+                   Energy_5A_333mV_CT_list[i + 1][2], Energy_5A_333mV_CT_list[i + 1][1],
+                   Energy_5A_333mV_CT_list[i + 1][6],
+                   Energy_5A_333mV_CT_list[i + 1][5], Energy_5A_333mV_CT_list[i + 1][4], 50)
+            Set_Clear_energy(1)
+            thread_a = threading.Thread(target=wait_minutes, args=(Energy_5A_333mV_CT_list[i + 1][13],))
+            thread_b = threading.Thread(target=hold_rs485_connect, args=(Energy_5A_333mV_CT_list[i + 1][13],))
+            thread_a.start()
+            thread_b.start()
+            thread_a.join()
+            thread_b.join()
+            ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+            Read_Energy_scale_list = Read_Energy_scale_new(Energy_5A_333mV_CT_list[i + 1][1],
+                                                           Energy_5A_333mV_CT_list[i + 1][2],
+                                                           Energy_5A_333mV_CT_list[i + 1][3],
+                                                           Energy_5A_333mV_CT_list[i + 1][4],
+                                                           Energy_5A_333mV_CT_list[i + 1][5],
+                                                           Energy_5A_333mV_CT_list[i + 1][6],
+                                                           Energy_5A_333mV_CT_list[i + 1][7],
+                                                           Energy_5A_333mV_CT_list[i + 1][8],
+                                                           Energy_5A_333mV_CT_list[i + 1][9],
+                                                           Energy_5A_333mV_CT_list[i + 1][10],
+                                                           Energy_5A_333mV_CT_list[i + 1][11],
+                                                           Energy_5A_333mV_CT_list[i + 1][12],
+                                                           Energy_5A_333mV_CT_list[i + 1][13],
+                                                           Energy_5A_333mV_CT_list[i + 1][15])
             for j in range(len(Read_Energy_scale_list[0])):
                 if Read_Energy_scale_list[1][j] != 'null':
-                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.2%}')
+                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.3%}')
                 else:
                     sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},null')
             for k in range(len(Read_Energy_scale_list[1])):
@@ -1804,36 +2007,47 @@ def Energy_5A_333mV_CT_measure():
                     continue
                 else:
                     sheet.write(i + 1, 104, f'Failed')
-                    sheet.write(i + 1, 105, f'{k + 14}列精度不达标或null')
+                    sheet.write(i + 1, 105, f'{k + 15}列精度不达标或null')
                     break
         if Energy_5A_333mV_CT_list[i + 1][15] == '1E1p2w' and Energy_5A_333mV_CT_list[i + 1][14] != 'null':
             Set_Service_Configuration(0)
-            # set_ac(Energy_5A_333mV_CT_list[i + 1][9], Energy_5A_333mV_CT_list[i + 1][8],
-            #        Energy_5A_333mV_CT_list[i + 1][7],
-            #        Energy_5A_333mV_CT_list[i + 1][12], Energy_5A_333mV_CT_list[i + 1][11],
-            #        Energy_5A_333mV_CT_list[i + 1][10], Energy_5A_333mV_CT_list[i + 1][3],
-            #        Energy_5A_333mV_CT_list[i + 1][2], Energy_5A_333mV_CT_list[i + 1][1],
-            #        Energy_5A_333mV_CT_list[i + 1][6],
-            #        Energy_5A_333mV_CT_list[i + 1][5], Energy_5A_333mV_CT_list[i + 1][4], 50)
-            # Set_Clear_energy(1)
-            # time.sleep(60 * Energy_5A_333mV_CT_list[i + 1][13])
-            Read_Energy_scale_list = Read_Energy_scale(Energy_5A_333mV_CT_list[i + 1][1],
-                                                       Energy_5A_333mV_CT_list[i + 1][2],
-                                                       Energy_5A_333mV_CT_list[i + 1][3],
-                                                       Energy_5A_333mV_CT_list[i + 1][4],
-                                                       Energy_5A_333mV_CT_list[i + 1][5],
-                                                       Energy_5A_333mV_CT_list[i + 1][6],
-                                                       Energy_5A_333mV_CT_list[i + 1][7],
-                                                       Energy_5A_333mV_CT_list[i + 1][8],
-                                                       Energy_5A_333mV_CT_list[i + 1][9],
-                                                       Energy_5A_333mV_CT_list[i + 1][10],
-                                                       Energy_5A_333mV_CT_list[i + 1][11],
-                                                       Energy_5A_333mV_CT_list[i + 1][12],
-                                                       Energy_5A_333mV_CT_list[i + 1][13],
-                                                       Energy_5A_333mV_CT_list[i + 1][15])
+            time.sleep(1)
+            # Set_channle2_voltage_assignment(1)
+            # Set_channle3_voltage_assignment(2)
+            Set_Device_Reboot(1)
+            time.sleep(15)
+            set_ac(Energy_5A_333mV_CT_list[i + 1][9], Energy_5A_333mV_CT_list[i + 1][8],
+                   Energy_5A_333mV_CT_list[i + 1][7],
+                   Energy_5A_333mV_CT_list[i + 1][12], Energy_5A_333mV_CT_list[i + 1][11],
+                   Energy_5A_333mV_CT_list[i + 1][10], Energy_5A_333mV_CT_list[i + 1][3],
+                   Energy_5A_333mV_CT_list[i + 1][2], Energy_5A_333mV_CT_list[i + 1][1],
+                   Energy_5A_333mV_CT_list[i + 1][6],
+                   Energy_5A_333mV_CT_list[i + 1][5], Energy_5A_333mV_CT_list[i + 1][4], 50)
+            Set_Clear_energy(1)
+            thread_a = threading.Thread(target=wait_minutes, args=(Energy_5A_333mV_CT_list[i + 1][13],))
+            thread_b = threading.Thread(target=hold_rs485_connect, args=(Energy_5A_333mV_CT_list[i + 1][13],))
+            thread_a.start()
+            thread_b.start()
+            thread_a.join()
+            thread_b.join()
+            ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+            Read_Energy_scale_list = Read_Energy_scale_new(Energy_5A_333mV_CT_list[i + 1][1],
+                                                           Energy_5A_333mV_CT_list[i + 1][2],
+                                                           Energy_5A_333mV_CT_list[i + 1][3],
+                                                           Energy_5A_333mV_CT_list[i + 1][4],
+                                                           Energy_5A_333mV_CT_list[i + 1][5],
+                                                           Energy_5A_333mV_CT_list[i + 1][6],
+                                                           Energy_5A_333mV_CT_list[i + 1][7],
+                                                           Energy_5A_333mV_CT_list[i + 1][8],
+                                                           Energy_5A_333mV_CT_list[i + 1][9],
+                                                           Energy_5A_333mV_CT_list[i + 1][10],
+                                                           Energy_5A_333mV_CT_list[i + 1][11],
+                                                           Energy_5A_333mV_CT_list[i + 1][12],
+                                                           Energy_5A_333mV_CT_list[i + 1][13],
+                                                           Energy_5A_333mV_CT_list[i + 1][15])
             for j in range(len(Read_Energy_scale_list[0])):
                 if Read_Energy_scale_list[1][j] != 'null':
-                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.2%}')
+                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.3%}')
                 else:
                     sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},null')
             for k in range(len(Read_Energy_scale_list[1])):
@@ -1843,33 +2057,42 @@ def Energy_5A_333mV_CT_measure():
                     continue
                 else:
                     sheet.write(i + 1, 104, f'Failed')
-                    sheet.write(i + 1, 105, f'{k + 14}列精度不达标或null')
+                    sheet.write(i + 1, 105, f'{k + 15}列精度不达标或null')
                     break
         if Energy_5A_333mV_CT_list[i + 1][15] == '3E3p4w' and Energy_5A_333mV_CT_list[i + 1][14] == 'null':
             Set_Service_Configuration(4)
-            # set_ac(Energy_5A_333mV_CT_list[i + 1][9], Energy_5A_333mV_CT_list[i + 1][8],
-            #        Energy_5A_333mV_CT_list[i + 1][7],
-            #        Energy_5A_333mV_CT_list[i + 1][12], Energy_5A_333mV_CT_list[i + 1][11],
-            #        Energy_5A_333mV_CT_list[i + 1][10], Energy_5A_333mV_CT_list[i + 1][3],
-            #        Energy_5A_333mV_CT_list[i + 1][2], Energy_5A_333mV_CT_list[i + 1][1],
-            #        Energy_5A_333mV_CT_list[i + 1][6],
-            #        Energy_5A_333mV_CT_list[i + 1][5], Energy_5A_333mV_CT_list[i + 1][4], 50)
-            # Set_Clear_energy(1)
-            # time.sleep(60 * Energy_5A_333mV_CT_list[i + 1][13])
-            Read_Energy_scale_list = Read_Energy_scale(Energy_5A_333mV_CT_list[i + 1][1],
-                                                       Energy_5A_333mV_CT_list[i + 1][2],
-                                                       Energy_5A_333mV_CT_list[i + 1][3],
-                                                       Energy_5A_333mV_CT_list[i + 1][4],
-                                                       Energy_5A_333mV_CT_list[i + 1][5],
-                                                       Energy_5A_333mV_CT_list[i + 1][6],
-                                                       Energy_5A_333mV_CT_list[i + 1][7],
-                                                       Energy_5A_333mV_CT_list[i + 1][8],
-                                                       Energy_5A_333mV_CT_list[i + 1][9],
-                                                       Energy_5A_333mV_CT_list[i + 1][10],
-                                                       Energy_5A_333mV_CT_list[i + 1][11],
-                                                       Energy_5A_333mV_CT_list[i + 1][12],
-                                                       Energy_5A_333mV_CT_list[i + 1][13],
-                                                       Energy_5A_333mV_CT_list[i + 1][15])
+            time.sleep(1)
+            Set_Device_Reboot(1)
+            time.sleep(15)
+            set_ac(Energy_5A_333mV_CT_list[i + 1][9], Energy_5A_333mV_CT_list[i + 1][8],
+                   Energy_5A_333mV_CT_list[i + 1][7],
+                   Energy_5A_333mV_CT_list[i + 1][12], Energy_5A_333mV_CT_list[i + 1][11],
+                   Energy_5A_333mV_CT_list[i + 1][10], Energy_5A_333mV_CT_list[i + 1][3],
+                   Energy_5A_333mV_CT_list[i + 1][2], Energy_5A_333mV_CT_list[i + 1][1],
+                   Energy_5A_333mV_CT_list[i + 1][6],
+                   Energy_5A_333mV_CT_list[i + 1][5], Energy_5A_333mV_CT_list[i + 1][4], 50)
+            Set_Clear_energy(1)
+            thread_a = threading.Thread(target=wait_minutes, args=(Energy_5A_333mV_CT_list[i + 1][13],))
+            thread_b = threading.Thread(target=hold_rs485_connect, args=(Energy_5A_333mV_CT_list[i + 1][13],))
+            thread_a.start()
+            thread_b.start()
+            thread_a.join()
+            thread_b.join()
+            ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+            Read_Energy_scale_list = Read_Energy_scale_new(Energy_5A_333mV_CT_list[i + 1][1],
+                                                           Energy_5A_333mV_CT_list[i + 1][2],
+                                                           Energy_5A_333mV_CT_list[i + 1][3],
+                                                           Energy_5A_333mV_CT_list[i + 1][4],
+                                                           Energy_5A_333mV_CT_list[i + 1][5],
+                                                           Energy_5A_333mV_CT_list[i + 1][6],
+                                                           Energy_5A_333mV_CT_list[i + 1][7],
+                                                           Energy_5A_333mV_CT_list[i + 1][8],
+                                                           Energy_5A_333mV_CT_list[i + 1][9],
+                                                           Energy_5A_333mV_CT_list[i + 1][10],
+                                                           Energy_5A_333mV_CT_list[i + 1][11],
+                                                           Energy_5A_333mV_CT_list[i + 1][12],
+                                                           Energy_5A_333mV_CT_list[i + 1][13],
+                                                           Energy_5A_333mV_CT_list[i + 1][15])
             for j in range(len(Read_Energy_scale_list[0])):
                 sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]}')
             for j in range(len(Read_Energy_scale_list[0])):
@@ -1880,7 +2103,7 @@ def Energy_5A_333mV_CT_measure():
                         continue
                     else:
                         sheet.write(i + 1, 104, f'Failed')
-                        sheet.write(i + 1, 105, f'{j + 14}列能量数据预期为0')
+                        sheet.write(i + 1, 105, f'{j + 15}列能量数据预期为0')
                         break
                 else:
                     if Read_Energy_scale_list[0][j] != 0:
@@ -1889,12 +2112,13 @@ def Energy_5A_333mV_CT_measure():
                     else:
                         sheet.write(i + 1, 104, f'Failed')
                         continue
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Energy_20A_100mA_CT_measure():
     Energy_20A_100mA_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_20A_100mA_CT')
     print(Energy_20A_100mA_CT_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_20A_100mA_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'Va输入值')
@@ -2042,6 +2266,9 @@ def Energy_20A_100mA_CT_measure():
         sheet.write(i + 1, 13, Energy_20A_100mA_CT_list[i + 1][13])
         if Energy_20A_100mA_CT_list[i + 1][15] == '3E3p4w' and Energy_20A_100mA_CT_list[i + 1][14] != 'null':
             Set_Service_Configuration(4)
+            time.sleep(1)
+            Set_Device_Reboot(1)
+            time.sleep(15)
             set_ac(Energy_20A_100mA_CT_list[i + 1][9], Energy_20A_100mA_CT_list[i + 1][8],
                    Energy_20A_100mA_CT_list[i + 1][7],
                    Energy_20A_100mA_CT_list[i + 1][12], Energy_20A_100mA_CT_list[i + 1][11],
@@ -2050,24 +2277,30 @@ def Energy_20A_100mA_CT_measure():
                    Energy_20A_100mA_CT_list[i + 1][6],
                    Energy_20A_100mA_CT_list[i + 1][5], Energy_20A_100mA_CT_list[i + 1][4], 50)
             Set_Clear_energy(1)
-            time.sleep(60 * Energy_20A_100mA_CT_list[i + 1][13])
-            Read_Energy_scale_list = Read_Energy_scale(Energy_20A_100mA_CT_list[i + 1][1],
-                                                       Energy_20A_100mA_CT_list[i + 1][2],
-                                                       Energy_20A_100mA_CT_list[i + 1][3],
-                                                       Energy_20A_100mA_CT_list[i + 1][4],
-                                                       Energy_20A_100mA_CT_list[i + 1][5],
-                                                       Energy_20A_100mA_CT_list[i + 1][6],
-                                                       Energy_20A_100mA_CT_list[i + 1][7],
-                                                       Energy_20A_100mA_CT_list[i + 1][8],
-                                                       Energy_20A_100mA_CT_list[i + 1][9],
-                                                       Energy_20A_100mA_CT_list[i + 1][10],
-                                                       Energy_20A_100mA_CT_list[i + 1][11],
-                                                       Energy_20A_100mA_CT_list[i + 1][12],
-                                                       Energy_20A_100mA_CT_list[i + 1][13],
-                                                       Energy_20A_100mA_CT_list[i + 1][15])
+            thread_a = threading.Thread(target=wait_minutes, args=(Energy_20A_100mA_CT_list[i + 1][13],))
+            thread_b = threading.Thread(target=hold_rs485_connect, args=(Energy_20A_100mA_CT_list[i + 1][13],))
+            thread_a.start()
+            thread_b.start()
+            thread_a.join()
+            thread_b.join()
+            ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+            Read_Energy_scale_list = Read_Energy_scale_new(Energy_20A_100mA_CT_list[i + 1][1],
+                                                           Energy_20A_100mA_CT_list[i + 1][2],
+                                                           Energy_20A_100mA_CT_list[i + 1][3],
+                                                           Energy_20A_100mA_CT_list[i + 1][4],
+                                                           Energy_20A_100mA_CT_list[i + 1][5],
+                                                           Energy_20A_100mA_CT_list[i + 1][6],
+                                                           Energy_20A_100mA_CT_list[i + 1][7],
+                                                           Energy_20A_100mA_CT_list[i + 1][8],
+                                                           Energy_20A_100mA_CT_list[i + 1][9],
+                                                           Energy_20A_100mA_CT_list[i + 1][10],
+                                                           Energy_20A_100mA_CT_list[i + 1][11],
+                                                           Energy_20A_100mA_CT_list[i + 1][12],
+                                                           Energy_20A_100mA_CT_list[i + 1][13],
+                                                           Energy_20A_100mA_CT_list[i + 1][15])
             for j in range(len(Read_Energy_scale_list[0])):
                 if Read_Energy_scale_list[1][j] != 'null':
-                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.2%}')
+                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.3%}')
                 else:
                     sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},null')
             for k in range(len(Read_Energy_scale_list[1])):
@@ -2077,10 +2310,15 @@ def Energy_20A_100mA_CT_measure():
                     continue
                 else:
                     sheet.write(i + 1, 104, f'Failed')
-                    sheet.write(i + 1, 105, f'{k + 14}列精度不达标或null')
+                    sheet.write(i + 1, 105, f'{k + 15}列精度不达标或null')
                     break
         if Energy_20A_100mA_CT_list[i + 1][15] == '1E1p2w' and Energy_20A_100mA_CT_list[i + 1][14] != 'null':
             Set_Service_Configuration(0)
+            time.sleep(1)
+            # Set_channle2_voltage_assignment(1)
+            # Set_channle3_voltage_assignment(2)
+            Set_Device_Reboot(1)
+            time.sleep(15)
             set_ac(Energy_20A_100mA_CT_list[i + 1][9], Energy_20A_100mA_CT_list[i + 1][8],
                    Energy_20A_100mA_CT_list[i + 1][7],
                    Energy_20A_100mA_CT_list[i + 1][12], Energy_20A_100mA_CT_list[i + 1][11],
@@ -2089,24 +2327,30 @@ def Energy_20A_100mA_CT_measure():
                    Energy_20A_100mA_CT_list[i + 1][6],
                    Energy_20A_100mA_CT_list[i + 1][5], Energy_20A_100mA_CT_list[i + 1][4], 50)
             Set_Clear_energy(1)
-            time.sleep(60 * Energy_20A_100mA_CT_list[i + 1][13])
-            Read_Energy_scale_list = Read_Energy_scale(Energy_20A_100mA_CT_list[i + 1][1],
-                                                       Energy_20A_100mA_CT_list[i + 1][2],
-                                                       Energy_20A_100mA_CT_list[i + 1][3],
-                                                       Energy_20A_100mA_CT_list[i + 1][4],
-                                                       Energy_20A_100mA_CT_list[i + 1][5],
-                                                       Energy_20A_100mA_CT_list[i + 1][6],
-                                                       Energy_20A_100mA_CT_list[i + 1][7],
-                                                       Energy_20A_100mA_CT_list[i + 1][8],
-                                                       Energy_20A_100mA_CT_list[i + 1][9],
-                                                       Energy_20A_100mA_CT_list[i + 1][10],
-                                                       Energy_20A_100mA_CT_list[i + 1][11],
-                                                       Energy_20A_100mA_CT_list[i + 1][12],
-                                                       Energy_20A_100mA_CT_list[i + 1][13],
-                                                       Energy_20A_100mA_CT_list[i + 1][15])
+            thread_a = threading.Thread(target=wait_minutes, args=(Energy_20A_100mA_CT_list[i + 1][13],))
+            thread_b = threading.Thread(target=hold_rs485_connect, args=(Energy_20A_100mA_CT_list[i + 1][13],))
+            thread_a.start()
+            thread_b.start()
+            thread_a.join()
+            thread_b.join()
+            ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+            Read_Energy_scale_list = Read_Energy_scale_new(Energy_20A_100mA_CT_list[i + 1][1],
+                                                           Energy_20A_100mA_CT_list[i + 1][2],
+                                                           Energy_20A_100mA_CT_list[i + 1][3],
+                                                           Energy_20A_100mA_CT_list[i + 1][4],
+                                                           Energy_20A_100mA_CT_list[i + 1][5],
+                                                           Energy_20A_100mA_CT_list[i + 1][6],
+                                                           Energy_20A_100mA_CT_list[i + 1][7],
+                                                           Energy_20A_100mA_CT_list[i + 1][8],
+                                                           Energy_20A_100mA_CT_list[i + 1][9],
+                                                           Energy_20A_100mA_CT_list[i + 1][10],
+                                                           Energy_20A_100mA_CT_list[i + 1][11],
+                                                           Energy_20A_100mA_CT_list[i + 1][12],
+                                                           Energy_20A_100mA_CT_list[i + 1][13],
+                                                           Energy_20A_100mA_CT_list[i + 1][15])
             for j in range(len(Read_Energy_scale_list[0])):
                 if Read_Energy_scale_list[1][j] != 'null':
-                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.2%}')
+                    sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},{Read_Energy_scale_list[1][j]:.3%}')
                 else:
                     sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},null')
             for k in range(len(Read_Energy_scale_list[1])):
@@ -2116,10 +2360,13 @@ def Energy_20A_100mA_CT_measure():
                     continue
                 else:
                     sheet.write(i + 1, 104, f'Failed')
-                    sheet.write(i + 1, 105, f'{k + 14}列精度不达标或null')
+                    sheet.write(i + 1, 105, f'{k + 15}列精度不达标或null')
                     break
         if Energy_20A_100mA_CT_list[i + 1][15] == '3E3p4w' and Energy_20A_100mA_CT_list[i + 1][14] == 'null':
             Set_Service_Configuration(4)
+            time.sleep(1)
+            Set_Device_Reboot(1)
+            time.sleep(15)
             set_ac(Energy_20A_100mA_CT_list[i + 1][9], Energy_20A_100mA_CT_list[i + 1][8],
                    Energy_20A_100mA_CT_list[i + 1][7],
                    Energy_20A_100mA_CT_list[i + 1][12], Energy_20A_100mA_CT_list[i + 1][11],
@@ -2128,21 +2375,27 @@ def Energy_20A_100mA_CT_measure():
                    Energy_20A_100mA_CT_list[i + 1][6],
                    Energy_20A_100mA_CT_list[i + 1][5], Energy_20A_100mA_CT_list[i + 1][4], 50)
             Set_Clear_energy(1)
-            time.sleep(60 * Energy_20A_100mA_CT_list[i + 1][13])
-            Read_Energy_scale_list = Read_Energy_scale(Energy_20A_100mA_CT_list[i + 1][1],
-                                                       Energy_20A_100mA_CT_list[i + 1][2],
-                                                       Energy_20A_100mA_CT_list[i + 1][3],
-                                                       Energy_20A_100mA_CT_list[i + 1][4],
-                                                       Energy_20A_100mA_CT_list[i + 1][5],
-                                                       Energy_20A_100mA_CT_list[i + 1][6],
-                                                       Energy_20A_100mA_CT_list[i + 1][7],
-                                                       Energy_20A_100mA_CT_list[i + 1][8],
-                                                       Energy_20A_100mA_CT_list[i + 1][9],
-                                                       Energy_20A_100mA_CT_list[i + 1][10],
-                                                       Energy_20A_100mA_CT_list[i + 1][11],
-                                                       Energy_20A_100mA_CT_list[i + 1][12],
-                                                       Energy_20A_100mA_CT_list[i + 1][13],
-                                                       Energy_20A_100mA_CT_list[i + 1][15])
+            thread_a = threading.Thread(target=wait_minutes, args=(Energy_20A_100mA_CT_list[i + 1][13],))
+            thread_b = threading.Thread(target=hold_rs485_connect, args=(Energy_20A_100mA_CT_list[i + 1][13],))
+            thread_a.start()
+            thread_b.start()
+            thread_a.join()
+            thread_b.join()
+            ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+            Read_Energy_scale_list = Read_Energy_scale_new(Energy_20A_100mA_CT_list[i + 1][1],
+                                                           Energy_20A_100mA_CT_list[i + 1][2],
+                                                           Energy_20A_100mA_CT_list[i + 1][3],
+                                                           Energy_20A_100mA_CT_list[i + 1][4],
+                                                           Energy_20A_100mA_CT_list[i + 1][5],
+                                                           Energy_20A_100mA_CT_list[i + 1][6],
+                                                           Energy_20A_100mA_CT_list[i + 1][7],
+                                                           Energy_20A_100mA_CT_list[i + 1][8],
+                                                           Energy_20A_100mA_CT_list[i + 1][9],
+                                                           Energy_20A_100mA_CT_list[i + 1][10],
+                                                           Energy_20A_100mA_CT_list[i + 1][11],
+                                                           Energy_20A_100mA_CT_list[i + 1][12],
+                                                           Energy_20A_100mA_CT_list[i + 1][13],
+                                                           Energy_20A_100mA_CT_list[i + 1][15])
             for j in range(len(Read_Energy_scale_list[0])):
                 sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]}')
             for j in range(len(Read_Energy_scale_list[0])):
@@ -2153,7 +2406,7 @@ def Energy_20A_100mA_CT_measure():
                         continue
                     else:
                         sheet.write(i + 1, 104, f'Failed')
-                        sheet.write(i + 1, 105, f'{j + 14}列能量数据预期为0')
+                        sheet.write(i + 1, 105, f'{j + 15}列能量数据预期为0')
                         break
                 else:
                     if Read_Energy_scale_list[0][j] != 0:
@@ -2162,12 +2415,13 @@ def Energy_20A_100mA_CT_measure():
                     else:
                         sheet.write(i + 1, 104, f'Failed')
                         continue
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 def Sequence_Component_precision_measure():
     Sequence_Component_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Sequence_Component')
     print(Sequence_Component_list)
-    # my_workbook = xlwt.Workbook()
+    my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Sequence_Component', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
     sheet.write(0, 1, 'A_amplitude')
@@ -2205,68 +2459,96 @@ def Sequence_Component_precision_measure():
             set_ac(Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
                    Sequence_Component_list[i + 1][4], 120, 240, 0, Sequence_Component_list[i + 1][3],
                    Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 1, 1, 1, 50)
+            Set_Service_Configuration(4)
             sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
                                                                      Sequence_Component_list[i + 1][2],
                                                                      Sequence_Component_list[i + 1][3],
                                                                      Sequence_Component_list[i + 1][4],
                                                                      Sequence_Component_list[i + 1][5],
                                                                      Sequence_Component_list[i + 1][6])
-            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
-            sheet.write(i + 1, 13, f'VUF:{VUF:.2%}')
+            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], times=10)
+            sheet.write(i + 1, 13, f'VUF:{VUF}')
             if sequence_component_List[6] * 0.99 <= VUF <= sequence_component_List[6] * 1.01:
                 sheet.write(i + 1, 14, f'Passed')
             else:
                 sheet.write(i + 1, 14, f'Failed')
+                sheet.write(i + 1, 15, f'VUF标准值:{sequence_component_List[6]}')
         if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == 'CUF':
             set_ac(120, 240, 0, Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
                    Sequence_Component_list[i + 1][4], 50, 50, 50, Sequence_Component_list[i + 1][3],
                    Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 50)
+            Set_Service_Configuration(4)
             sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
                                                                      Sequence_Component_list[i + 1][2],
                                                                      Sequence_Component_list[i + 1][3],
                                                                      Sequence_Component_list[i + 1][4],
                                                                      Sequence_Component_list[i + 1][5],
                                                                      Sequence_Component_list[i + 1][6])
-            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
-            sheet.write(i + 1, 13, f'CUF:{CUF:.2%}')
+            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], times=10)
+            sheet.write(i + 1, 13, f'CUF:{CUF}')
             if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
                 sheet.write(i + 1, 14, f'Passed')
             else:
                 sheet.write(i + 1, 14, f'Failed')
+                sheet.write(i + 1, 15, f'CUF标准值:{sequence_component_List[6]}')
         if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == '相电压序分量':
             set_ac(Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
                    Sequence_Component_list[i + 1][4], 120, 240, 0, Sequence_Component_list[i + 1][3],
                    Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 1, 1, 1, 50)
+            Set_Service_Configuration(4)
             sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
                                                                      Sequence_Component_list[i + 1][2],
                                                                      Sequence_Component_list[i + 1][3],
                                                                      Sequence_Component_list[i + 1][4],
                                                                      Sequence_Component_list[i + 1][5],
                                                                      Sequence_Component_list[i + 1][6])
-            Acu4100_Voltage_Zero_Sequence = Read_Voltage_Zero_Sequence_Magnitude(sequence_component_List[0], times=20)
-            Acu4100_Voltage_Zero_Sequence_Angle = Read_Voltage_Zero_Sequence_Angle(sequence_component_List[1], times=20)
+            Acu4100_Voltage_Zero_Sequence = Read_Voltage_Zero_Sequence_Magnitude(sequence_component_List[0], times=40)
+            Acu4100_Voltage_Zero_Sequence_Angle = Read_Voltage_Zero_Sequence_Angle(sequence_component_List[1], times=40)
             Acu4100_Voltage_Positive_Sequence = Read_Voltage_Positive_Sequence_Magnitude(sequence_component_List[2],
-                                                                                         times=20)
-            Acu4100_Voltage_Positive_Angle = Read_Voltage_Positive_Sequence_Angle(sequence_component_List[3], times=20)
+                                                                                         times=40)
+            Acu4100_Voltage_Positive_Angle = Read_Voltage_Positive_Sequence_Angle(sequence_component_List[3], times=40)
             Acu4100_Voltage_Negative_Sequence = Read_Voltage_Negative_Sequence_Magnitude(sequence_component_List[4],
-                                                                                         times=20)
-            Acu4100_Voltage_Negative_Angle = Read_Voltage_Negative_Sequence_Angle(sequence_component_List[5], times=20)
-            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
+                                                                                         times=40)
+            Acu4100_Voltage_Negative_Angle = Read_Voltage_Negative_Sequence_Angle(sequence_component_List[5], times=40)
+            VUF = Read_Voltage_Unbalance_Factor_Magnitude(sequence_component_List[6], times=40)
+            Acu4100_Sequence_list = []
+            Acu4100_Sequence_list.extend(
+                [Acu4100_Voltage_Zero_Sequence, Acu4100_Voltage_Zero_Sequence_Angle, Acu4100_Voltage_Positive_Sequence,
+                 Acu4100_Voltage_Positive_Angle, Acu4100_Voltage_Negative_Sequence, Acu4100_Voltage_Negative_Angle])
             sheet.write(i + 1, 7, f'{Acu4100_Voltage_Zero_Sequence}')
             sheet.write(i + 1, 8, f'{Acu4100_Voltage_Zero_Sequence_Angle}')
             sheet.write(i + 1, 9, f'{Acu4100_Voltage_Positive_Sequence}')
             sheet.write(i + 1, 10, f'{Acu4100_Voltage_Positive_Angle}')
             sheet.write(i + 1, 11, f'{Acu4100_Voltage_Negative_Sequence}')
             sheet.write(i + 1, 12, f'{Acu4100_Voltage_Negative_Angle}')
-            sheet.write(i + 1, 13, f'{VUF:.2%}')
-            if sequence_component_List[6] * 0.99 <= VUF <= sequence_component_List[6] * 1.01:
-                sheet.write(i + 1, 14, f'Passed')
-            else:
-                sheet.write(i + 1, 14, f'Failed')
+            sheet.write(i + 1, 13, f'{VUF}')
+            for j in range(len(sequence_component_List)):
+                if j < 6:
+                    if sequence_component_List[j] == 0 and Acu4100_Sequence_list[j] <= 0.15:
+                        sheet.write(i + 1, 14, f'Passed')
+                        continue
+                    elif sequence_component_List[j] * 0.95 <= Acu4100_Sequence_list[j] <= sequence_component_List[
+                        j] * 1.05:
+                        sheet.write(i + 1, 14, f'Passed')
+                        continue
+                    else:
+                        sheet.write(i + 1, 14, f'Failed')
+                        sheet.write(i + 1, 15, f'标准值:{sequence_component_List}')
+                        sheet.write(i + 1, 16, f'请检查:{Acu4100_Sequence_list[j]}值')
+                        break
+                else:
+                    if sequence_component_List[6] * 0.99 <= VUF <= sequence_component_List[6] * 1.01:
+                        sheet.write(i + 1, 14, f'Passed')
+                        sheet.write(i + 1, 15, f'标准值:{sequence_component_List}')
+                    else:
+                        sheet.write(i + 1, 14, f'Failed')
+                        sheet.write(i + 1, 15, f'标准值:{sequence_component_List}')
+                        sheet.write(i + 1, 16, f'请检查VUF:{VUF}值')
         if Sequence_Component_list[i + 1][7] != 'null' and Sequence_Component_list[i + 1][8] == '用户序分量':
             set_ac(120, 240, 0, Sequence_Component_list[i + 1][6], Sequence_Component_list[i + 1][5],
                    Sequence_Component_list[i + 1][4], 50, 50, 50, Sequence_Component_list[i + 1][3],
                    Sequence_Component_list[i + 1][2], Sequence_Component_list[i + 1][1], 50)
+            Set_Service_Configuration(4)
             sequence_component_List = sequence_component_calculation(Sequence_Component_list[i + 1][1],
                                                                      Sequence_Component_list[i + 1][2],
                                                                      Sequence_Component_list[i + 1][3],
@@ -2274,36 +2556,63 @@ def Sequence_Component_precision_measure():
                                                                      Sequence_Component_list[i + 1][5],
                                                                      Sequence_Component_list[i + 1][6])
             Acu4100_Voltage_Zero_Sequence = Read_User_Channel_1_Current_Zero_Sequence_Magnitude(
-                sequence_component_List[0], times=20)
+                sequence_component_List[0], times=40)
             Acu4100_Voltage_Zero_Sequence_Angle = Read_User_Channel_1_Current_Zero_Sequence_Angle(
-                sequence_component_List[1], times=20)
+                sequence_component_List[1], times=40)
             Acu4100_Voltage_Positive_Sequence = Read_User_Channel_1_Current_Positive_Sequence_Magnitude(
-                sequence_component_List[2], times=20)
+                sequence_component_List[2], times=40)
             Acu4100_Voltage_Positive_Angle = Read_User_Channel_1_Current_Positive_Sequence_Angle(
-                sequence_component_List[3], times=20)
+                sequence_component_List[3], times=40)
             Acu4100_Voltage_Negative_Sequence = Read_User_Channel_1_Current_Negative_Sequence_Magnitude(
-                sequence_component_List[4], times=20)
+                sequence_component_List[4], times=40)
             Acu4100_Voltage_Negative_Angle = Read_User_Channel_1_Current_Negative_Sequence_Angle(
-                sequence_component_List[5], times=20)
-            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], times=20)
+                sequence_component_List[5], times=40)
+            CUF = Read_User_Channel_1_Current_Unbalance_Factor_Magnitude(sequence_component_List[6], times=40)
             sheet.write(i + 1, 7, f'{Acu4100_Voltage_Zero_Sequence}')
             sheet.write(i + 1, 8, f'{Acu4100_Voltage_Zero_Sequence_Angle}')
             sheet.write(i + 1, 9, f'{Acu4100_Voltage_Positive_Sequence}')
             sheet.write(i + 1, 10, f'{Acu4100_Voltage_Positive_Angle}')
             sheet.write(i + 1, 11, f'{Acu4100_Voltage_Negative_Sequence}')
             sheet.write(i + 1, 12, f'{Acu4100_Voltage_Negative_Angle}')
-            sheet.write(i + 1, 13, f'CUF:{CUF:.2%}')
-            if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
-                sheet.write(i + 1, 14, f'Passed')
-            else:
-                sheet.write(i + 1, 14, f'Failed')
+            sheet.write(i + 1, 13, f'CUF:{CUF}')
+            Acu4100_Sequence_list = []
+            Acu4100_Sequence_list.extend(
+                [Acu4100_Voltage_Zero_Sequence, Acu4100_Voltage_Zero_Sequence_Angle, Acu4100_Voltage_Positive_Sequence,
+                 Acu4100_Voltage_Positive_Angle, Acu4100_Voltage_Negative_Sequence, Acu4100_Voltage_Negative_Angle])
+            for j in range(len(sequence_component_List)):
+                if j < 6:
+                    if sequence_component_List[j] == 0 and Acu4100_Sequence_list[j] <= 0.15:
+                        sheet.write(i + 1, 14, f'Passed')
+                        continue
+                    elif sequence_component_List[j] * 0.95 <= Acu4100_Sequence_list[j] <= sequence_component_List[
+                        j] * 1.05:
+                        sheet.write(i + 1, 14, f'Passed')
+                        continue
+                    else:
+                        sheet.write(i + 1, 14, f'Failed')
+                        sheet.write(i + 1, 15, f'标准值:{sequence_component_List}')
+                        sheet.write(i + 1, 16, f'请检查:{Acu4100_Sequence_list[j]}值')
+                        break
+                else:
+                    if sequence_component_List[6] * 0.99 <= CUF <= sequence_component_List[6] * 1.01:
+                        sheet.write(i + 1, 14, f'Passed')
+                        sheet.write(i + 1, 15, f'标准值:{sequence_component_List}')
+                    else:
+                        sheet.write(i + 1, 14, f'Failed')
+                        sheet.write(i + 1, 15, f'标准值:{sequence_component_List}')
+                        sheet.write(i + 1, 16, f'请检查CUF:{CUF}值')
+    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 
 
 if __name__ == '__main__':
     print('====================Precision Measure Start====================')
     print('======================{}======================'.format(time.strftime('%Y_%m_%d %H:%M:%S')))
     start_time = time.time()
-    my_workbook = xlwt.Workbook()
+    # my_workbook = xlwt.Workbook()
+    switch_device_screen_interface(0x01)
+    time.sleep(5)
+    set_gear_switching_mode('00000000')
+    time.sleep(5)
     # frequency_precision_measure()
     # line_to_neutral_voltage_precision_measure()
     # line_to_line_voltage_precision_measure()
@@ -2316,8 +2625,12 @@ if __name__ == '__main__':
     # Load_Nature_measure()
     # Energy_5A_333mV_CT_measure()
     Energy_20A_100mA_CT_measure()
+    # Sequence_Component_precision_measure()
     ModbusClient.close()
-    my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
+    # my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
+    ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+    time.sleep(5)
+    switch_device_screen_interface(0x00)
     print('====================测试总耗时:{}===================='.format(time.time() - start_time))
     print('====================={}====================='.format(time.strftime('%Y_%m_%d %H:%M:%S')))
     print('====================Precision Measure End====================')
