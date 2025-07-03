@@ -203,8 +203,24 @@ def Read_Phase_A_Voltage_Angle(standard_value, times=1):
     # ModbusClient.close()
     val_list.sort()
     if abs(val_list[-1] - standard_value) > abs(val_list[0] - standard_value):
-        return val_list[-1]
-    return val_list[0]
+        # return val_list[-1]
+        if abs(val_list[-1]-360) >= 359.9 and standard_value == 360:
+            val_list[-1] = 360
+            return val_list[-1]
+        elif abs(val_list[-1]-360) >= 359.9 and standard_value == 0:
+            val_list[-1] = 0
+            return val_list[-1]
+        else:
+            return val_list[-1]
+
+    if abs(val_list[0]-360) >= 359.9 and standard_value == 360:
+        val_list[0] = 360
+        return val_list[0]
+    elif abs(val_list[0] - 360) >= 359.9 and standard_value == 0:
+        val_list[0] = 0
+        return val_list[0]
+    else:
+        return val_list[0]
 
 
 def Read_Phase_B_Voltage_Angle(standard_value, times=1):
@@ -222,8 +238,17 @@ def Read_Phase_B_Voltage_Angle(standard_value, times=1):
     # ModbusClient.close()
     val_list.sort()
     if abs(val_list[-1] - standard_value) > abs(val_list[0] - standard_value):
-        return val_list[-1]
-    return val_list[0]
+        if abs(val_list[-1] - 360) >= 359.9:
+            val_list[-1] = 360
+            return val_list[-1]
+        else:
+            return val_list[-1]
+
+    if abs(val_list[0] - 360) >= 359.9:
+        val_list[0] = 360
+        return val_list[0]
+    else:
+        return val_list[0]
 
 
 def Read_Phase_C_Voltage_Angle(standard_value, times=1):
@@ -241,8 +266,17 @@ def Read_Phase_C_Voltage_Angle(standard_value, times=1):
     # ModbusClient.close()
     val_list.sort()
     if abs(val_list[-1] - standard_value) > abs(val_list[0] - standard_value):
-        return val_list[-1]
-    return val_list[0]
+        if abs(val_list[-1] - 360) >= 359.9:
+            val_list[-1] = 360
+            return val_list[-1]
+        else:
+            return val_list[-1]
+
+    if abs(val_list[0] - 360) >= 359.9:
+        val_list[0] = 360
+        return val_list[0]
+    else:
+        return val_list[0]
 
 
 def Read_Phase_A_Current(standard_value, times=1):
@@ -838,8 +872,27 @@ def Read_Input_Channel_1_Current_Phase_Angle(standard_value, times=1):
     # ModbusClient.close()
     val_list.sort()
     if abs(val_list[-1] - standard_value) > abs(val_list[0] - standard_value):
-        return val_list[-1]
-    return val_list[0]
+        # return val_list[-1]
+        if standard_value == 0:
+            val_list[-1] = 0
+            return val_list[-1]
+        elif abs(val_list[-1] - 360) <=0.1 and standard_value ==360:
+            val_list[-1] = 360
+            return val_list[-1]
+        else:
+            return val_list[-1]
+    # return val_list[0]
+    if val_list[0] <= 0.1 and standard_value == 0:
+        val_list[0] = 0
+        return val_list[0]
+    elif val_list[0] <= 0.1 and standard_value == 360:
+        val_list[0] = 360
+        return val_list[0]
+    elif abs(val_list[0] - 360) <= 0.1 and standard_value ==360:
+        val_list[0] = 360
+        return val_list[0]
+    else:
+        return val_list[0]
 
 
 def Read_Input_Channel_2_Current(standard_value, times=1):
@@ -3755,6 +3808,7 @@ def Read_Phase_Sys_Power(standard_value, times=1):
         value = [value[i] for i in range(len(value)) if
                  i not in {0, 1, 8, 9, 12, 13, 20, 21, 24, 25, 32, 33, 36, 37, 44, 45}]
         read_list = []
+        # print(value)
         for i in range(16):
             i = i * 2
             reg = hex(value[i]).replace('0x', '').zfill(4) + hex(value[i + 1]).replace('0x', '').zfill(4)
@@ -3771,6 +3825,7 @@ def Read_Phase_Sys_Power(standard_value, times=1):
         else:
             ret_list.append(val_list[0][i])
     return ret_list
+    print(val_list)
 
 
 # print(Read_Phase_Sys_Power([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0,0,0,0], 2))
@@ -3973,7 +4028,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[0] == Phase_A_P == 0 or Phase_A_P < 0.001:
             scale_Phase_A_P = 0
         else:
-            scale_Phase_A_P = 'null'
+            scale_Phase_A_P = 0
 
     if Power[1] != 0:
         scale_Phase_A_Q = abs((Phase_A_Q - Power[1]) / Power[1])
@@ -3981,7 +4036,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[1] == Phase_A_Q == 0 or Phase_A_Q < 0.001:
             scale_Phase_A_Q = 0
         else:
-            scale_Phase_A_Q = 'null'
+            scale_Phase_A_Q = 0
 
     if Power[2] != 0:
         scale_Phase_A_S = abs((Phase_A_S - Power[2]) / Power[2])
@@ -3989,7 +4044,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[2] == Phase_A_S == 0 or Phase_A_S < 0.001:
             scale_Phase_A_S = 0
         else:
-            scale_Phase_A_S = 'null'
+            scale_Phase_A_S = 0
 
     if Power[3] != 0:
         scale_Phase_A_PF = abs((Phase_A_PF - Power[3]) / Power[3])
@@ -3997,7 +4052,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[3] == Phase_A_PF == 0 or Phase_A_PF < 0.001:
             scale_Phase_A_PF = 0
         else:
-            scale_Phase_A_PF = 'null'
+            scale_Phase_A_PF = 0
 
     Phase_B_P = round(Read_Phase_Power[4], 6)
     Phase_B_Q = round(Read_Phase_Power[5], 6)
@@ -4010,7 +4065,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[4] == Phase_B_P == 0 or Phase_B_P < 0.001:
             scale_Phase_B_P = 0
         else:
-            scale_Phase_B_P = 'null'
+            scale_Phase_B_P = 0
 
     if Power[5] != 0:
         scale_Phase_B_Q = abs((Phase_B_Q - Power[5]) / Power[5])
@@ -4018,7 +4073,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[5] == Phase_B_Q == 0 or Phase_B_Q < 0.001:
             scale_Phase_B_Q = 0
         else:
-            scale_Phase_B_Q = 'null'
+            scale_Phase_B_Q = 0
 
     if Power[6] != 0:
         scale_Phase_B_S = abs((Phase_B_S - Power[6]) / Power[6])
@@ -4026,7 +4081,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[6] == Phase_B_S == 0 or Phase_B_S < 0.001:
             scale_Phase_B_S = 0
         else:
-            scale_Phase_B_S = 'null'
+            scale_Phase_B_S = 0
 
     if Power[7] != 0:
         scale_Phase_B_PF = abs((Phase_B_PF - Power[7]) / Power[7])
@@ -4034,7 +4089,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[7] == Phase_B_PF == 0 or Phase_B_PF < 0.001:
             scale_Phase_B_PF = 0
         else:
-            scale_Phase_B_PF = 'null'
+            scale_Phase_B_PF = 0
 
     Phase_C_P = round(Read_Phase_Power[8], 6)
     Phase_C_Q = round(Read_Phase_Power[9], 6)
@@ -4047,7 +4102,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[8] == Phase_C_P == 0 or Phase_C_P < 0.001:
             scale_Phase_C_P = 0
         else:
-            scale_Phase_C_P = 'null'
+            scale_Phase_C_P = 0
 
     if Power[9] != 0:
         scale_Phase_C_Q = abs((Phase_C_Q - Power[9]) / Power[9])
@@ -4055,7 +4110,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[9] == Phase_C_Q == 0 or Phase_C_Q < 0.001:
             scale_Phase_C_Q = 0
         else:
-            scale_Phase_C_Q = 'null'
+            scale_Phase_C_Q = 0
 
     if Power[10] != 0:
         scale_Phase_C_S = abs((Phase_C_S - Power[10]) / Power[10])
@@ -4063,7 +4118,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[10] == Phase_C_S == 0 or Phase_C_S < 0.001:
             scale_Phase_C_S = 0
         else:
-            scale_Phase_C_S = 'null'
+            scale_Phase_C_S = 0
 
     if Power[11] != 0:
         scale_Phase_C_PF = abs((Phase_C_PF - Power[11]) / Power[11])
@@ -4071,7 +4126,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[11] == Phase_C_PF == 0 or Phase_C_PF < 0.001:
             scale_Phase_C_PF = 0
         else:
-            scale_Phase_C_PF = 'null'
+            scale_Phase_C_PF = 0
 
     Sys_P = round(Read_Phase_Power[12], 6)
     Sys_Q = round(Read_Phase_Power[13], 6)
@@ -4084,7 +4139,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[12] == Sys_P == 0 or Sys_P < 0.001:
             scale_Sys_P = 0
         else:
-            scale_Sys_P = 'null'
+            scale_Sys_P = 0
 
     if Power[13] != 0:
         scale_Sys_Q = abs((Sys_Q - Power[13]) / Power[13])
@@ -4092,7 +4147,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[13] == Sys_Q == 0 or Sys_Q < 0.001:
             scale_Sys_Q = 0
         else:
-            scale_Sys_Q = 'null'
+            scale_Sys_Q = 0
 
     if Power[14] != 0:
         scale_Sys_S = abs((Sys_S - Power[14]) / Power[14])
@@ -4100,7 +4155,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[14] == Sys_S == 0 or Sys_S < 0.001:
             scale_Sys_S = 0
         else:
-            scale_Sys_S = 'null'
+            scale_Sys_S = 0
 
     if Power[15] != 0:
         scale_Sys_PF = abs((Sys_PF - Power[15]) / Power[15])
@@ -4108,7 +4163,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
         if Power[15] == Sys_PF == 0 or Sys_PF < 0.001:
             scale_Sys_PF = 0
         else:
-            scale_Sys_PF = 'null'
+            scale_Sys_PF = 0
     if User_Channel == '3E3p4w':
         Input1_P = round(Read_Input_Power[0], 6)
         Input1_Q = round(Read_Input_Power[1], 6)
@@ -4121,7 +4176,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[0] == Input1_P == 0 or Input1_P < 0.001:
                 scale_Input1_P = 0
             else:
-                scale_Input1_P = 'null'
+                scale_Input1_P = 0
 
         if Power[1] != 0:
             scale_Input1_Q = abs((Input1_Q - Power[1]) / Power[1])
@@ -4129,7 +4184,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[1] == Input1_Q == 0 or Input1_Q < 0.001:
                 scale_Input1_Q = 0
             else:
-                scale_Input1_Q = 'null'
+                scale_Input1_Q = 0
 
         if Power[2] != 0:
             scale_Input1_S = abs((Input1_S - Power[2]) / Power[2])
@@ -4137,7 +4192,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[2] == Input1_S == 0 or Input1_S < 0.001:
                 scale_Input1_S = 0
             else:
-                scale_Input1_S = 'null'
+                scale_Input1_S = 0
 
         if Power[3] != 0:
             scale_Input1_PF = abs((Input1_PF - Power[3]) / Power[3])
@@ -4145,7 +4200,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[3] == Input1_PF == 0 or Input1_PF < 0.001:
                 scale_Input1_PF = 0
             else:
-                scale_Input1_PF = 'null'
+                scale_Input1_PF = 0
 
         Input2_P = round(Read_Input_Power[4], 6)
         Input2_Q = round(Read_Input_Power[5], 6)
@@ -4158,7 +4213,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[4] == Input2_P == 0 or Input2_P < 0.001:
                 scale_Input2_P = 0
             else:
-                scale_Input2_P = 'null'
+                scale_Input2_P = 0
 
         if Power[5] != 0:
             scale_Input2_Q = abs((Input2_Q - Power[5]) / Power[5])
@@ -4166,7 +4221,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[5] == Input2_Q == 0 or Input2_Q < 0.001:
                 scale_Input2_Q = 0
             else:
-                scale_Input2_Q = 'null'
+                scale_Input2_Q = 0
 
         if Power[6] != 0:
             scale_Input2_S = abs((Input2_S - Power[6]) / Power[6])
@@ -4174,7 +4229,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[6] == Input2_S == 0 or Input2_S < 0.001:
                 scale_Input2_S = 0
             else:
-                scale_Input2_S = 'null'
+                scale_Input2_S = 0
 
         if Power[7] != 0:
             scale_Input2_PF = abs((Input2_PF - Power[7]) / Power[7])
@@ -4182,7 +4237,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[7] == Input2_PF == 0 or Input2_PF < 0.001:
                 scale_Input2_PF = 0
             else:
-                scale_Input2_PF = 'null'
+                scale_Input2_PF = 0
 
         Input3_P = round(Read_Input_Power[8], 6)
         Input3_Q = round(Read_Input_Power[9], 6)
@@ -4195,7 +4250,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[8] == Input3_P == 0 or Input3_P < 0.001:
                 scale_Input3_P = 0
             else:
-                scale_Input3_P = 'null'
+                scale_Input3_P = 0
 
         if Power[9] != 0:
             scale_Input3_Q = abs((Input3_Q - Power[9]) / Power[9])
@@ -4203,7 +4258,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[9] == Input3_Q == 0 or Input3_Q < 0.001:
                 scale_Input3_Q = 0
             else:
-                scale_Input3_Q = 'null'
+                scale_Input3_Q = 0
 
         if Power[10] != 0:
             scale_Input3_S = abs((Input3_S - Power[10]) / Power[10])
@@ -4211,7 +4266,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[10] == Input3_S == 0 or Input3_S < 0.001:
                 scale_Input3_S = 0
             else:
-                scale_Input3_S = 'null'
+                scale_Input3_S = 0
 
         if Power[11] != 0:
             scale_Input3_PF = abs((Input3_PF - Power[11]) / Power[11])
@@ -4219,7 +4274,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[11] == Input3_PF == 0 or Input3_PF < 0.001:
                 scale_Input3_PF = 0
             else:
-                scale_Input3_PF = 'null'
+                scale_Input3_PF = 0
     if User_Channel == '1E1p2w':
         Input1_P = round(Read_Input_Power[0], 6)
         Input1_Q = round(Read_Input_Power[1], 6)
@@ -4232,7 +4287,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[16] == Input1_P == 0 or Input1_P < 0.001:
                 scale_Input1_P = 0
             else:
-                scale_Input1_P = 'null'
+                scale_Input1_P = 0
 
         if Power[17] != 0:
             scale_Input1_Q = abs((Input1_Q - Power[17]) / Power[17])
@@ -4240,7 +4295,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[17] == Input1_Q == 0 or Input1_Q < 0.001:
                 scale_Input1_Q = 0
             else:
-                scale_Input1_Q = 'null'
+                scale_Input1_Q = 0
 
         if Power[18] != 0:
             scale_Input1_S = abs((Input1_S - Power[18]) / Power[18])
@@ -4248,7 +4303,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[18] == Input1_S == 0 or Input1_S < 0.001:
                 scale_Input1_S = 0
             else:
-                scale_Input1_S = 'null'
+                scale_Input1_S = 0
 
         if Power[19] != 0:
             scale_Input1_PF = abs((Input1_PF - Power[19]) / Power[19])
@@ -4256,7 +4311,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[19] == Input1_PF == 0 or Input1_PF < 0.001:
                 scale_Input1_PF = 0
             else:
-                scale_Input1_PF = 'null'
+                scale_Input1_PF = 0
 
         Input2_P = round(Read_Input_Power[4], 6)
         Input2_Q = round(Read_Input_Power[5], 6)
@@ -4269,7 +4324,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[20] == Input2_P == 0 or Input2_P < 0.001:
                 scale_Input2_P = 0
             else:
-                scale_Input2_P = 'null'
+                scale_Input2_P = 0
 
         if Power[21] != 0:
             scale_Input2_Q = abs((Input2_Q - Power[21]) / Power[21])
@@ -4277,7 +4332,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[21] == Input2_Q == 0 or Input2_Q < 0.001:
                 scale_Input2_Q = 0
             else:
-                scale_Input2_Q = 'null'
+                scale_Input2_Q = 0
 
         if Power[22] != 0:
             scale_Input2_S = abs((Input2_S - Power[22]) / Power[22])
@@ -4285,7 +4340,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[22] == Input2_S == 0 or Input2_S < 0.001:
                 scale_Input2_S = 0
             else:
-                scale_Input2_S = 'null'
+                scale_Input2_S = 0
 
         if Power[23] != 0:
             scale_Input2_PF = abs((Input2_PF - Power[23]) / Power[23])
@@ -4293,7 +4348,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[23] == Input2_PF == 0 or Input2_PF < 0.001:
                 scale_Input2_PF = 0
             else:
-                scale_Input2_PF = 'null'
+                scale_Input2_PF = 0
 
         Input3_P = round(Read_Input_Power[8], 6)
         Input3_Q = round(Read_Input_Power[9], 6)
@@ -4306,7 +4361,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[24] == Input3_P == 0 or Input3_P < 0.001:
                 scale_Input3_P = 0
             else:
-                scale_Input3_P = 'null'
+                scale_Input3_P = 0
 
         if Power[25] != 0:
             scale_Input3_Q = abs((Input3_Q - Power[25]) / Power[25])
@@ -4314,7 +4369,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[25] == Input3_Q == 0 or Input3_Q < 0.001:
                 scale_Input3_Q = 0
             else:
-                scale_Input3_Q = 'null'
+                scale_Input3_Q = 0
 
         if Power[26] != 0:
             scale_Input3_S = abs((Input3_S - Power[26]) / Power[26])
@@ -4322,7 +4377,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[26] == Input3_S == 0 or Input3_S < 0.001:
                 scale_Input3_S = 0
             else:
-                scale_Input3_S = 'null'
+                scale_Input3_S = 0
 
         if Power[27] != 0:
             scale_Input3_PF = abs((Input3_PF - Power[27]) / Power[27])
@@ -4330,7 +4385,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[27] == Input3_PF == 0 or Input3_PF < 0.001:
                 scale_Input3_PF = 0
             else:
-                scale_Input3_PF = 'null'
+                scale_Input3_PF = 0
 
     power_list.extend(
         [[Phase_A_P, scale_Phase_A_P], [Phase_A_Q, scale_Phase_A_Q], [Phase_A_S, scale_Phase_A_S],
@@ -4356,7 +4411,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[12] == User1_P == 0 or User1_P < 0.001:
                 scale_User1_P = 0
             else:
-                scale_User1_P = 'null'
+                scale_User1_P = 0
 
         if Power[13] != 0:
             scale_User1_Q = abs((User1_Q - Power[13]) / Power[13])
@@ -4364,7 +4419,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[13] == User1_Q == 0 or User1_Q < 0.001:
                 scale_User1_Q = 0
             else:
-                scale_User1_Q = 'null'
+                scale_User1_Q = 0
 
         if Power[14] != 0:
             scale_User1_S = abs((User1_S - Power[14]) / Power[14])
@@ -4372,7 +4427,7 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[14] == User1_S == 0 or User1_S < 0.001:
                 scale_User1_S = 0
             else:
-                scale_User1_S = 'null'
+                scale_User1_S = 0
 
         if Power[15] != 0:
             scale_User1_PF = abs((User1_PF - Power[15]) / Power[15])
@@ -4380,123 +4435,123 @@ def Read_AcuRev4100_Power_new(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia
             if Power[15] == User1_PF == 0 or User1_PF < 0.001:
                 scale_User1_PF = 0
             else:
-                scale_User1_PF = 'null'
+                scale_User1_PF = 0
 
         power_list.extend(
             [[User1_P, scale_User1_P], [User1_Q, scale_User1_Q], [User1_S, scale_User1_S], [User1_PF, scale_User1_PF]])
-    if User_Channel == '1E1p2w':
-        Read_User_Power_list = Read_User_Power(Power[16:], times=40)
-        User1_P = round(Read_User_Power_list[0], 6)
-        User1_Q = Read_User_Power_list[1]
-        User1_S = Read_User_Power_list[2]
-        User1_PF = Read_User_Power_list[3]
-
-        if Power[16] != 0:
-            scale_User1_P = abs((User1_P - Power[16]) / Power[16])
-        else:
-            if Power[16] == User1_P == 0 or User1_P < 0.001:
-                scale_User1_P = 0
-            else:
-                scale_User1_P = 'null'
-
-        if Power[17] != 0:
-            scale_User1_Q = abs((User1_Q - Power[17]) / Power[17])
-        else:
-            if Power[17] == User1_Q == 0 or User1_Q < 0.001:
-                scale_User1_Q = 0
-            else:
-                scale_User1_Q = 'null'
-
-        if Power[18] != 0:
-            scale_User1_S = abs((User1_S - Power[18]) / Power[18])
-        else:
-            if Power[18] == User1_S == 0 or User1_S < 0.001:
-                scale_User1_S = 0
-            else:
-                scale_User1_S = 'null'
-
-        if Power[19] != 0:
-            scale_User1_PF = abs((User1_PF - Power[19]) / Power[19])
-        else:
-            if Power[19] == User1_PF == 0 or User1_PF < 0.001:
-                scale_User1_PF = 0
-            else:
-                scale_User1_PF = 'null'
-
-        User2_P = Read_User_Power_list[4]
-        User2_Q = Read_User_Power_list[5]
-        User2_S = Read_User_Power_list[6]
-        User2_PF = Read_User_Power_list[7]
-
-        if Power[20] != 0:
-            scale_User2_P = abs((User2_P - Power[20]) / Power[20])
-        else:
-            if Power[20] == User2_P == 0 or User2_P < 0.001:
-                scale_User2_P = 0
-            else:
-                scale_User2_P = 'null'
-
-        if Power[21] != 0:
-            scale_User2_Q = abs((User2_Q - Power[21]) / Power[21])
-        else:
-            if Power[21] == User2_Q == 0 or User2_Q < 0.001:
-                scale_User2_Q = 0
-            else:
-                scale_User2_Q = 'null'
-
-        if Power[22] != 0:
-            scale_User2_S = abs((User2_S - Power[22]) / Power[22])
-        else:
-            if Power[22] == User2_S == 0 or User2_S < 0.001:
-                scale_User2_S = 0
-            else:
-                scale_User2_S = 'null'
-
-        if Power[23] != 0:
-            scale_User2_PF = abs((User2_PF - Power[23]) / Power[23])
-        else:
-            if Power[23] == User2_PF == 0 or User2_PF < 0.001:
-                scale_User2_PF = 0
-            else:
-                scale_User2_PF = 'null'
-
-        User3_P = Read_User_Power_list[8]
-        User3_Q = Read_User_Power_list[9]
-        User3_S = Read_User_Power_list[10]
-        User3_PF = Read_User_Power_list[11]
-
-        if Power[24] != 0:
-            scale_User3_P = abs((User3_P - Power[24]) / Power[24])
-        else:
-            if Power[24] == User3_P == 0 or User3_P < 0.001:
-                scale_User3_P = 0
-            else:
-                scale_User3_P = 'null'
-        if Power[25] != 0:
-            scale_User3_Q = abs((User3_Q - Power[25]) / Power[25])
-        else:
-            if Power[25] == User3_Q == 0 or User3_Q < 0.001:
-                scale_User3_Q = 0
-            else:
-                scale_User3_Q = 'null'
-        if Power[26] != 0:
-            scale_User3_S = abs((User3_S - Power[26]) / Power[26])
-        else:
-            if Power[26] == User3_S == 0 or User3_S < 0.001:
-                scale_User3_S = 0
-            else:
-                scale_User3_S = 'null'
-        if Power[27] != 0:
-            scale_User3_PF = abs((User3_PF - Power[27]) / Power[27])
-        else:
-            if Power[27] == User3_PF == 0 or User3_PF < 0.001:
-                scale_User3_PF = 0
-            else:
-                scale_User3_PF = 'null'
-        power_list.extend(
-            [[User1_P, scale_User1_P], [User1_Q, scale_User1_Q], [User1_S, scale_User1_S], [User1_PF, scale_User1_PF],
-             [User2_P, scale_User2_P], [User2_Q, scale_User2_Q], [User2_S, scale_User2_S], [User2_PF, scale_User2_PF],
-             [User3_P, scale_User3_P], [User3_Q, scale_User3_Q], [User3_S, scale_User3_S], [User3_PF, scale_User3_PF]])
+    # if User_Channel == '1E1p2w':
+    #     Read_User_Power_list = Read_User_Power(Power[16:], times=40)
+    #     User1_P = round(Read_User_Power_list[0], 6)
+    #     User1_Q = Read_User_Power_list[1]
+    #     User1_S = Read_User_Power_list[2]
+    #     User1_PF = Read_User_Power_list[3]
+    #
+    #     if Power[16] != 0:
+    #         scale_User1_P = abs((User1_P - Power[16]) / Power[16])
+    #     else:
+    #         if Power[16] == User1_P == 0 or User1_P < 0.001:
+    #             scale_User1_P = 0
+    #         else:
+    #             scale_User1_P = 'null'
+    #
+    #     if Power[17] != 0:
+    #         scale_User1_Q = abs((User1_Q - Power[17]) / Power[17])
+    #     else:
+    #         if Power[17] == User1_Q == 0 or User1_Q < 0.001:
+    #             scale_User1_Q = 0
+    #         else:
+    #             scale_User1_Q = 'null'
+    #
+    #     if Power[18] != 0:
+    #         scale_User1_S = abs((User1_S - Power[18]) / Power[18])
+    #     else:
+    #         if Power[18] == User1_S == 0 or User1_S < 0.001:
+    #             scale_User1_S = 0
+    #         else:
+    #             scale_User1_S = 'null'
+    #
+    #     if Power[19] != 0:
+    #         scale_User1_PF = abs((User1_PF - Power[19]) / Power[19])
+    #     else:
+    #         if Power[19] == User1_PF == 0 or User1_PF < 0.001:
+    #             scale_User1_PF = 0
+    #         else:
+    #             scale_User1_PF = 'null'
+    #
+    #     User2_P = Read_User_Power_list[4]
+    #     User2_Q = Read_User_Power_list[5]
+    #     User2_S = Read_User_Power_list[6]
+    #     User2_PF = Read_User_Power_list[7]
+    #
+    #     if Power[20] != 0:
+    #         scale_User2_P = abs((User2_P - Power[20]) / Power[20])
+    #     else:
+    #         if Power[20] == User2_P == 0 or User2_P < 0.001:
+    #             scale_User2_P = 0
+    #         else:
+    #             scale_User2_P = 'null'
+    #
+    #     if Power[21] != 0:
+    #         scale_User2_Q = abs((User2_Q - Power[21]) / Power[21])
+    #     else:
+    #         if Power[21] == User2_Q == 0 or User2_Q < 0.001:
+    #             scale_User2_Q = 0
+    #         else:
+    #             scale_User2_Q = 'null'
+    #
+    #     if Power[22] != 0:
+    #         scale_User2_S = abs((User2_S - Power[22]) / Power[22])
+    #     else:
+    #         if Power[22] == User2_S == 0 or User2_S < 0.001:
+    #             scale_User2_S = 0
+    #         else:
+    #             scale_User2_S = 'null'
+    #
+    #     if Power[23] != 0:
+    #         scale_User2_PF = abs((User2_PF - Power[23]) / Power[23])
+    #     else:
+    #         if Power[23] == User2_PF == 0 or User2_PF < 0.001:
+    #             scale_User2_PF = 0
+    #         else:
+    #             scale_User2_PF = 'null'
+    #
+    #     User3_P = Read_User_Power_list[8]
+    #     User3_Q = Read_User_Power_list[9]
+    #     User3_S = Read_User_Power_list[10]
+    #     User3_PF = Read_User_Power_list[11]
+    #
+    #     if Power[24] != 0:
+    #         scale_User3_P = abs((User3_P - Power[24]) / Power[24])
+    #     else:
+    #         if Power[24] == User3_P == 0 or User3_P < 0.001:
+    #             scale_User3_P = 0
+    #         else:
+    #             scale_User3_P = 'null'
+    #     if Power[25] != 0:
+    #         scale_User3_Q = abs((User3_Q - Power[25]) / Power[25])
+    #     else:
+    #         if Power[25] == User3_Q == 0 or User3_Q < 0.001:
+    #             scale_User3_Q = 0
+    #         else:
+    #             scale_User3_Q = 'null'
+    #     if Power[26] != 0:
+    #         scale_User3_S = abs((User3_S - Power[26]) / Power[26])
+    #     else:
+    #         if Power[26] == User3_S == 0 or User3_S < 0.001:
+    #             scale_User3_S = 0
+    #         else:
+    #             scale_User3_S = 'null'
+    #     if Power[27] != 0:
+    #         scale_User3_PF = abs((User3_PF - Power[27]) / Power[27])
+    #     else:
+    #         if Power[27] == User3_PF == 0 or User3_PF < 0.001:
+    #             scale_User3_PF = 0
+    #         else:
+    #             scale_User3_PF = 'null'
+    #     power_list.extend(
+    #         [[User1_P, scale_User1_P], [User1_Q, scale_User1_Q], [User1_S, scale_User1_S], [User1_PF, scale_User1_PF],
+    #          [User2_P, scale_User2_P], [User2_Q, scale_User2_Q], [User2_S, scale_User2_S], [User2_PF, scale_User2_PF],
+    #          [User3_P, scale_User3_P], [User3_Q, scale_User3_Q], [User3_S, scale_User3_S], [User3_PF, scale_User3_PF]])
     return power_list
 # print(Read_AcuRev4100_Power_new(69,69,69,3,3,3,0,0,0,0,0,0,"1E1p2w"))
 
