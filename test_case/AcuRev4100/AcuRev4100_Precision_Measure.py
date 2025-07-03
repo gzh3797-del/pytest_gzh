@@ -529,9 +529,9 @@ def Current_5A_333mV_CT_precision_measure():
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                # User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                # User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                # User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
                 Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
                 Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
                 Phase_B_Current = Read_Phase_B_Current(0, times=40)
@@ -539,9 +539,9 @@ def Current_5A_333mV_CT_precision_measure():
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
-                sheet.write(i + 2, 7, User_Channel_1_Current)
-                sheet.write(i + 2, 8, User_Channel_2_Current)
-                sheet.write(i + 2, 9, User_Channel_3_Current)
+                # sheet.write(i + 2, 7, User_Channel_1_Current)
+                # sheet.write(i + 2, 8, User_Channel_2_Current)
+                # sheet.write(i + 2, 9, User_Channel_3_Current)
                 sheet.write(i + 2, 10, Phase_A_Current)
                 sheet.write(i + 2, 11, Phase_B_Current)
                 sheet.write(i + 2, 12, Phase_C_Current)
@@ -551,28 +551,25 @@ def Current_5A_333mV_CT_precision_measure():
                                                 Current_list[i + 1][2]
                 scale_Input_Channel_3_Current = abs(Input_Channel_3_Current - Current_list[i + 1][3]) / \
                                                 Current_list[i + 1][3]
-                scale_User_Channel_1_Current = abs(User_Channel_1_Current - Current_list[i + 1][1]) / \
-                                               Current_list[i + 1][1]
-                scale_User_Channel_2_Current = abs(User_Channel_2_Current - Current_list[i + 1][2]) / \
-                                               Current_list[i + 1][2]
-                scale_User_Channel_3_Current = abs(User_Channel_3_Current - Current_list[i + 1][3]) / \
-                                               Current_list[i + 1][3]
+                # scale_User_Channel_1_Current = abs(User_Channel_1_Current - Current_list[i + 1][1]) / \
+                #                                Current_list[i + 1][1]
+                # scale_User_Channel_2_Current = abs(User_Channel_2_Current - Current_list[i + 1][2]) / \
+                #                                Current_list[i + 1][2]
+                # scale_User_Channel_3_Current = abs(User_Channel_3_Current - Current_list[i + 1][3]) / \
+                #                                Current_list[i + 1][3]
                 scale_Phase_A_Current = abs(Phase_A_Current - Phase_A_Current_standard) / Phase_A_Current_standard
                 sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
                 sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
                 sheet.write(i + 2, 15, f'{scale_Input_Channel_3_Current:.2%}')
-                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 17, f'{scale_User_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 18, f'{scale_User_Channel_3_Current:.2%}')
+                # sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                # sheet.write(i + 2, 17, f'{scale_User_Channel_2_Current:.2%}')
+                # sheet.write(i + 2, 18, f'{scale_User_Channel_3_Current:.2%}')
                 sheet.write(i + 2, 19, f'{scale_Phase_A_Current:.2%}')
                 sheet.write(i + 2, 20, f'null')
                 sheet.write(i + 2, 21, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_2_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][
                     4] and scale_Phase_A_Current * 100 <= Current_list[i + 1][
                     4] and Phase_B_Current == Phase_C_Current == 0:
                     sheet.write(i + 2, 22, 'Passed')
@@ -664,9 +661,9 @@ def Current_5A_333mV_CT_precision_measure():
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                # User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                # User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                # User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
                 Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
                 Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
                 Phase_B_Current = Read_Phase_B_Current(0, times=40)
@@ -674,9 +671,9 @@ def Current_5A_333mV_CT_precision_measure():
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
-                sheet.write(i + 2, 7, User_Channel_1_Current)
-                sheet.write(i + 2, 8, User_Channel_2_Current)
-                sheet.write(i + 2, 9, User_Channel_3_Current)
+                # sheet.write(i + 2, 7, User_Channel_1_Current)
+                # sheet.write(i + 2, 8, User_Channel_2_Current)
+                # sheet.write(i + 2, 9, User_Channel_3_Current)
                 sheet.write(i + 2, 10, Phase_A_Current)
                 sheet.write(i + 2, 11, Phase_B_Current)
                 sheet.write(i + 2, 12, Phase_C_Current)
@@ -694,7 +691,7 @@ def Current_5A_333mV_CT_precision_measure():
                         sheet.write(i + 2, 22, 'Failed')
                 if Current_list[i + 1][1] == 0 and Current_list[i + 1][2] == 0 and Current_list[i + 1][
                     3] == 0:
-                    if Input_Channel_1_Current == Input_Channel_2_Current == Input_Channel_3_Current == User_Channel_1_Current == User_Channel_2_Current == User_Channel_3_Current == 0:
+                    if Input_Channel_1_Current == Input_Channel_2_Current == Input_Channel_3_Current == 0:
                         sheet.write(i + 2, 22, 'Passed')
                     else:
                         sheet.write(i + 2, 22, 'Failed')
@@ -878,9 +875,9 @@ def Current_20A_100mA_CT_precision_measure():
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                # User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                # User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                # User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
                 Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
                 Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
                 Phase_B_Current = Read_Phase_B_Current(0, times=40)
@@ -888,9 +885,9 @@ def Current_20A_100mA_CT_precision_measure():
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
-                sheet.write(i + 2, 7, User_Channel_1_Current)
-                sheet.write(i + 2, 8, User_Channel_2_Current)
-                sheet.write(i + 2, 9, User_Channel_3_Current)
+                # sheet.write(i + 2, 7, User_Channel_1_Current)
+                # sheet.write(i + 2, 8, User_Channel_2_Current)
+                # sheet.write(i + 2, 9, User_Channel_3_Current)
                 sheet.write(i + 2, 10, Phase_A_Current)
                 sheet.write(i + 2, 11, Phase_B_Current)
                 sheet.write(i + 2, 12, Phase_C_Current)
@@ -900,28 +897,25 @@ def Current_20A_100mA_CT_precision_measure():
                                                 Current_list[i + 1][2]
                 scale_Input_Channel_3_Current = abs(Input_Channel_3_Current - Current_list[i + 1][3]) / \
                                                 Current_list[i + 1][3]
-                scale_User_Channel_1_Current = abs(User_Channel_1_Current - Current_list[i + 1][1]) / \
-                                               Current_list[i + 1][1]
-                scale_User_Channel_2_Current = abs(User_Channel_2_Current - Current_list[i + 1][2]) / \
-                                               Current_list[i + 1][2]
-                scale_User_Channel_3_Current = abs(User_Channel_3_Current - Current_list[i + 1][3]) / \
-                                               Current_list[i + 1][3]
+                # scale_User_Channel_1_Current = abs(User_Channel_1_Current - Current_list[i + 1][1]) / \
+                #                                Current_list[i + 1][1]
+                # scale_User_Channel_2_Current = abs(User_Channel_2_Current - Current_list[i + 1][2]) / \
+                #                                Current_list[i + 1][2]
+                # scale_User_Channel_3_Current = abs(User_Channel_3_Current - Current_list[i + 1][3]) / \
+                #                                Current_list[i + 1][3]
                 scale_Phase_A_Current = abs(Phase_A_Current - Phase_A_Current_standard) / Phase_A_Current_standard
                 sheet.write(i + 2, 13, f'{scale_Input_Channel_1_Current:.2%}')
                 sheet.write(i + 2, 14, f'{scale_Input_Channel_2_Current:.2%}')
                 sheet.write(i + 2, 15, f'{scale_Input_Channel_3_Current:.2%}')
-                sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
-                sheet.write(i + 2, 17, f'{scale_User_Channel_2_Current:.2%}')
-                sheet.write(i + 2, 18, f'{scale_User_Channel_3_Current:.2%}')
+                # sheet.write(i + 2, 16, f'{scale_User_Channel_1_Current:.2%}')
+                # sheet.write(i + 2, 17, f'{scale_User_Channel_2_Current:.2%}')
+                # sheet.write(i + 2, 18, f'{scale_User_Channel_3_Current:.2%}')
                 sheet.write(i + 2, 19, f'{scale_Phase_A_Current:.2%}')
                 sheet.write(i + 2, 20, f'null')
                 sheet.write(i + 2, 21, f'null')
                 if scale_Input_Channel_1_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_2_Current * 100 <= Current_list[i + 1][
                     4] and scale_Input_Channel_3_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_1_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_2_Current * 100 <= Current_list[i + 1][
-                    4] and scale_User_Channel_3_Current * 100 <= Current_list[i + 1][
                     4] and scale_Phase_A_Current * 100 <= Current_list[i + 1][
                     4] and Phase_B_Current == Phase_C_Current == 0:
                     sheet.write(i + 2, 22, 'Passed')
@@ -1013,9 +1007,9 @@ def Current_20A_100mA_CT_precision_measure():
                 Input_Channel_1_Current = Read_Input_Channel_1_Current(Current_list[i + 1][1], times=40)
                 Input_Channel_2_Current = Read_Input_Channel_2_Current(Current_list[i + 1][2], times=40)
                 Input_Channel_3_Current = Read_Input_Channel_3_Current(Current_list[i + 1][3], times=40)
-                User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
-                User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
-                User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
+                # User_Channel_1_Current = Read_User_Channel_1_Current(Current_list[i + 1][1], times=40)
+                # User_Channel_2_Current = Read_User_Channel_2_Current(Current_list[i + 1][2], times=40)
+                # User_Channel_3_Current = Read_User_Channel_3_Current(Current_list[i + 1][3], times=40)
                 Phase_A_Current_standard = Current_list[i + 1][1] + Current_list[i + 1][2] + Current_list[i + 1][3]
                 Phase_A_Current = Read_Phase_A_Current(Phase_A_Current_standard, times=40)
                 Phase_B_Current = Read_Phase_B_Current(0, times=40)
@@ -1023,9 +1017,9 @@ def Current_20A_100mA_CT_precision_measure():
                 sheet.write(i + 2, 4, Input_Channel_1_Current)
                 sheet.write(i + 2, 5, Input_Channel_2_Current)
                 sheet.write(i + 2, 6, Input_Channel_3_Current)
-                sheet.write(i + 2, 7, User_Channel_1_Current)
-                sheet.write(i + 2, 8, User_Channel_2_Current)
-                sheet.write(i + 2, 9, User_Channel_3_Current)
+                # sheet.write(i + 2, 7, User_Channel_1_Current)
+                # sheet.write(i + 2, 8, User_Channel_2_Current)
+                # sheet.write(i + 2, 9, User_Channel_3_Current)
                 sheet.write(i + 2, 10, Phase_A_Current)
                 sheet.write(i + 2, 11, Phase_B_Current)
                 sheet.write(i + 2, 12, Phase_C_Current)
@@ -1037,13 +1031,13 @@ def Current_20A_100mA_CT_precision_measure():
                 sheet.write(i + 2, 18, f'null')
                 if Current_list[i + 1][1] >= 0.02 and Current_list[i + 1][2] >= 0.02 and Current_list[i + 1][
                     3] >= 0.02:
-                    if Phase_A_Current != 0 and Input_Channel_1_Current != 0 and Input_Channel_2_Current != 0 and Input_Channel_3_Current != 0 and User_Channel_1_Current != 0 and User_Channel_2_Current != 0 and User_Channel_3_Current != 0:
+                    if Phase_A_Current != 0 and Input_Channel_1_Current != 0 and Input_Channel_2_Current != 0 and Input_Channel_3_Current != 0:
                         sheet.write(i + 2, 22, 'Passed')
                     else:
                         sheet.write(i + 2, 22, 'Failed')
                 if Current_list[i + 1][1] == 0 and Current_list[i + 1][2] == 0 and Current_list[i + 1][
                     3] == 0:
-                    if Input_Channel_1_Current == Input_Channel_2_Current == Input_Channel_3_Current == User_Channel_1_Current == User_Channel_2_Current == User_Channel_3_Current == 0:
+                    if Input_Channel_1_Current == Input_Channel_2_Current == Input_Channel_3_Current == 0:
                         sheet.write(i + 2, 22, 'Passed')
                     else:
                         sheet.write(i + 2, 22, 'Failed')
@@ -1089,7 +1083,10 @@ def Phase_Voltage_Angle_precision_measure():
             sheet.write(i + 1, 4, Phase_A_Voltage_Angle)
             sheet.write(i + 1, 5, Phase_B_Voltage_Angle)
             sheet.write(i + 1, 6, Phase_C_Voltage_Angle)
+
+            scale_A_Voltage_Angle = Phase_A_Voltage_Angle - Voltage_Angle_list[i + 1][1]
             scale_B_Voltage_Angle = Phase_B_Voltage_Angle - Voltage_Angle_list[i + 1][2]
+
             scale_C_Voltage_Angle = Phase_C_Voltage_Angle - Voltage_Angle_list[i + 1][3]
             if Phase_A_Voltage_Angle == 0:
                 sheet.write(i + 1, 7, 0)
@@ -2616,15 +2613,15 @@ if __name__ == '__main__':
     # frequency_precision_measure()
     # line_to_neutral_voltage_precision_measure()
     # line_to_line_voltage_precision_measure()
-    # Current_5A_333mV_CT_precision_measure()
-    # Current_20A_100mA_CT_precision_measure()
-    # Power_5A_333mV_CT_precision_measure()
-    # Power_20A_100mA_CT_precision_measure()
+    Current_5A_333mV_CT_precision_measure()
+    Current_20A_100mA_CT_precision_measure()
+    Power_5A_333mV_CT_precision_measure()
+    Power_20A_100mA_CT_precision_measure()
     # Phase_Voltage_Angle_precision_measure()
     # Input1_Current_Angle_precision_measure()
     # Load_Nature_measure()
     # Energy_5A_333mV_CT_measure()
-    Energy_20A_100mA_CT_measure()
+    # Energy_20A_100mA_CT_measure()
     # Sequence_Component_precision_measure()
     ModbusClient.close()
     # my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
