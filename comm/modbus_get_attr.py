@@ -1,13 +1,13 @@
 import logging
 
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
-from tools.excel_operate import dcpara_4100addr_get
+from tools.excel_operate import dcpara_addr_get
 import struct
 
-dc_para_addr = dcpara_4100addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Readings')
-basic_configuration = dcpara_4100addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Basic Configuration')
-System_Infomation = dcpara_4100addr_get(r'/comm/test_data/AcuDC300.xlsx', 'System Infomation')
-Calibration = dcpara_4100addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Calibration')
+dc_para_addr = dcpara_addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Readings')
+basic_configuration = dcpara_addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Basic Configuration')
+System_Infomation = dcpara_addr_get(r'/comm/test_data/AcuDC300.xlsx', 'System Infomation')
+Calibration = dcpara_addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Calibration')
 
 
 def dec_to_signed_decimal(dec_str, bit_width):
