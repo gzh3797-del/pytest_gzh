@@ -392,14 +392,14 @@ def read_phase_a_load_nature():
     value = ModbusClient.read_measurement(address=real_time_addr['Phase A Load Nature']['Start(Dec)'],
                                           count=real_time_addr['Phase A Load Nature']['Reg'], slave=1)
     logging.info('Phase_A_Load_Nature ret is:{}'.format(value))
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_phase_a_power_factor(standard_value, times=1):
@@ -507,14 +507,14 @@ def read_phase_b_load_nature():
     value = ModbusClient.read_measurement(address=real_time_addr['Phase B Load Nature']['Start(Dec)'],
                                           count=real_time_addr['Phase B Load Nature']['Reg'], slave=1)
     logging.info('Phase_B_Load_Nature ret is:{}'.format(value))
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_phase_b_power_factor(standard_value, times=1):
@@ -622,14 +622,14 @@ def read_phase_c_load_nature():
     value = ModbusClient.read_measurement(address=real_time_addr['Phase C Load Nature']['Start(Dec)'],
                                           count=real_time_addr['Phase C Load Nature']['Reg'], slave=1)
     logging.info('Phase_C_Load_Nature ret is:{}'.format(value))
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_phase_c_power_factor(standard_value, times=1):
@@ -737,14 +737,14 @@ def read_system_load_nature():
     value = ModbusClient.read_measurement(address=real_time_addr['System Load Nature']['Start(Dec)'],
                                           count=real_time_addr['System Load Nature']['Reg'], slave=1)
     logging.info('System_Load_Nature ret is:{}'.format(value))
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_system_power_factor(standard_value, times=1):
@@ -853,14 +853,14 @@ def read_input_channel_1_load_nature():
                                           count=real_time_addr['Input Channel 1 Load Nature']['Reg'], slave=1)
     logging.info('Input_Channel_1_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_input_channel_1_power_factor(standard_value, times=1):
@@ -995,14 +995,14 @@ def read_input_channel_2_load_nature():
     value = ModbusClient.read_measurement(address=address, count=count, slave=1)
     logging.info('Input_Channel_2_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_input_channel_2_power_factor(standard_value, times=1):
@@ -1138,14 +1138,14 @@ def read_input_channel_3_load_nature():
     value = ModbusClient.read_measurement(address=address, count=count, slave=1)
     logging.info('Input_Channel_3_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_input_channel_3_power_factor(standard_value, times=1):
@@ -1281,14 +1281,14 @@ def read_user_channel_1_load_nature():
     value = ModbusClient.read_measurement(address=address, count=count, slave=1)
     logging.info('Input_Channel_3_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_user_channel_1_power_factor(standard_value, times=1):
@@ -1403,14 +1403,14 @@ def read_user_channel_2_load_nature():
     value = ModbusClient.read_measurement(address=address, count=count, slave=1)
     logging.info('User Channel 2 Load Nature ret is:{}'.format(value))
     # ModbusClient.close()
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_user_channel_2_power_factor(standard_value, times=1):
@@ -1525,14 +1525,14 @@ def read_user_channel_3_load_nature():
     value = ModbusClient.read_measurement(address=address, count=count, slave=1)
     logging.info('User Channel 3 Load Nature ret is:{}'.format(value))
     # ModbusClient.close()
-    Load_Nature = ''
+    load_nature = ''
     if value[1] == 0:
-        Load_Nature = 'R'
+        load_nature = 'R'
     if value[1] == 1:
-        Load_Nature = 'C'
+        load_nature = 'C'
     if value[1] == 2:
-        Load_Nature = 'L'
-    return Load_Nature
+        load_nature = 'L'
+    return load_nature
 
 
 def read_user_channel_3_power_factor(standard_value, times=1):
@@ -1558,6 +1558,7 @@ def read_user_channel_3_power_factor(standard_value, times=1):
 
 def line_to_line_voltage_calculate(ua: float, ub: float, uc: float, va_angle: float, vb_angle: float, vc_angle: float):
     """
+    输入相电压和相角，得到线电压
     :param ua:
     :param ub:
     :param uc:
@@ -1582,6 +1583,15 @@ def line_to_line_voltage_calculate(ua: float, ub: float, uc: float, va_angle: fl
 
 
 def active_power_calculate(voltage, current, voltage_angle, current_angle):
+    """
+    输入电压、电流、电压角度和电流角度，返回无功功率
+    Q=V*I*cos∅
+    :param voltage:
+    :param current:
+    :param voltage_angle:
+    :param current_angle:
+    :return: 有功功率P
+    """
     voltage_current_angle = voltage_angle - current_angle
     Active_Power = (voltage * current * math.cos(math.radians(voltage_current_angle))) / 1000
     Active_Power = Active_Power
@@ -1589,6 +1599,15 @@ def active_power_calculate(voltage, current, voltage_angle, current_angle):
 
 
 def reactive_power_calculate(voltage, current, voltage_angle, current_angle):
+    """
+    输入电压、电流、电压角度和电流角度，返回无功功率
+    Q=V*I*sin∅
+    :param voltage:
+    :param current:
+    :param voltage_angle:
+    :param current_angle:
+    :return:无功功率Q
+    """
     voltage_current_angle = voltage_angle - current_angle
     Reactive_Power = (voltage * current * math.sin(math.radians(voltage_current_angle))) / 1000
     Reactive_Power = Reactive_Power
@@ -1596,18 +1615,37 @@ def reactive_power_calculate(voltage, current, voltage_angle, current_angle):
 
 
 def apparent_power_calculate(voltage, current):
+    """
+    输入电压、电流，返回视在功率
+    Q=V*I*sin∅
+    :param voltage:
+    :param current:
+    :return: 视在功率S
+    """
     Apparent_Power = (voltage * current / 1000)
     Apparent_Power = Apparent_Power
     return Apparent_Power
 
 
 def power_factor_calculate(voltage_angle, current_angle):
+    """
+    输入电压角度、电流角度，返回功率因数PF
+    :param voltage_angle:
+    :param current_angle:
+    :return: 功率因数PF
+    """
     voltage_current_angle = voltage_angle - current_angle
     Power_Factor = math.cos(math.radians(voltage_current_angle))
     return Power_Factor
 
 
 def system_load_nature_calculate(P_Sum, Q_Sum):
+    """
+    输入系统总有功功率（P_Sum）、系统总无功功率Q_Sum，得到系统负载特性
+    :param P_Sum:
+    :param Q_Sum:
+    :return: 系统负载特性
+    """
     # 如果 P_Sum 和 Q_Sum 都是数字
     if isinstance(P_Sum, (int, float)) and isinstance(Q_Sum, (int, float)):
         if P_Sum > 0:
@@ -1639,6 +1677,12 @@ def system_load_nature_calculate(P_Sum, Q_Sum):
 
 
 def load_nature_calculate(Vol_Angle, Cur_Angle):
+    """
+    输入电压角度、电流角度，得到单通道负载特性
+    :param Vol_Angle:
+    :param Cur_Angle:
+    :return: 单通道负载特性
+    """
     Vol_Cur_Angle = Vol_Angle - Cur_Angle
     # 标准化角度到 0 到 360 度之间
     Vol_Cur_Angle = (Vol_Cur_Angle + 360) % 360
@@ -2158,7 +2202,12 @@ def read_acurev4100_power(Va, Vb, Vc, Ia, Ib, Ic, Va_ang, Vb_ang, Vc_ang, Ia_ang
     return power_list
 
 
-def set_reactive_power_calculation_methodme(value):
+def set_reactive_power_calculation_method(value):
+    """
+
+    :param value:0: Generic Reactive Power 1: True Reactive Power
+    :return:
+    """
     address = basic_setting['Reactive Power Calculation Method']['Start(Dec)']
     count = basic_setting['Reactive Power Calculation Method']['Reg']
     ret = ModbusClient.write_registers(address=address, values=value, slave=1)
@@ -2172,6 +2221,16 @@ def set_reactive_power_calculation_methodme(value):
 
 
 def set_service_configuration(value):
+    """
+
+    :param value:
+    0: ELEMENT_1_WIRE_2
+    1: ELEMENT_2_WIRE_3_PHASE_1
+    2: ELEMENT_2_WIRE_3_DELTA
+    3: ELEMENT_2_WIRE_3_NETWORK
+    4: ELEMENT_3_WIRE_4_Y
+    :return:
+    """
     address = basic_setting['Service Configuration']['Start(Dec)']
     count = basic_setting['Service Configuration']['Reg']
     ret = ModbusClient.write_registers(address=address, values=value, slave=1)

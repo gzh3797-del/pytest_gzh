@@ -1256,7 +1256,7 @@ def power_5a_333mv_ct_precision_measure():
         if Power_5A_333mV_CT_list[i + 1][14] == '3E3p4w' and Power_5A_333mV_CT_list[i + 1][13] != 'null' or \
                 Power_5A_333mV_CT_list[i + 1][15] == 'True Reactive Power':
             set_service_configuration(4)
-            set_reactive_power_calculation_methodme(0)
+            set_reactive_power_calculation_method(0)
             set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
                    Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
                    Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
@@ -1310,7 +1310,7 @@ def power_5a_333mv_ct_precision_measure():
 
         if Power_5A_333mV_CT_list[i + 1][14] == '3E3p4w' and Power_5A_333mV_CT_list[i + 1][13] == 'null':
             set_service_configuration(4)
-            set_reactive_power_calculation_methodme(0)
+            set_reactive_power_calculation_method(0)
             set_ac(Power_5A_333mV_CT_list[i + 1][9], Power_5A_333mV_CT_list[i + 1][8], Power_5A_333mV_CT_list[i + 1][7],
                    Power_5A_333mV_CT_list[i + 1][12], Power_5A_333mV_CT_list[i + 1][11],
                    Power_5A_333mV_CT_list[i + 1][10], Power_5A_333mV_CT_list[i + 1][3],
@@ -1493,7 +1493,7 @@ def power_20a_100ma_ct_precision_measure():
         if Power_20A_100mA_CT_list[i + 1][14] == '3E3p4w' and Power_20A_100mA_CT_list[i + 1][13] != 'null' or \
                 Power_20A_100mA_CT_list[i + 1][15] == 'True Reactive Power':
             set_service_configuration(4)
-            set_reactive_power_calculation_methodme(0)
+            set_reactive_power_calculation_method(0)
             set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
                    Power_20A_100mA_CT_list[i + 1][7],
                    Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
@@ -1559,7 +1559,7 @@ def power_20a_100ma_ct_precision_measure():
 
         if Power_20A_100mA_CT_list[i + 1][14] == '3E3p4w' and Power_20A_100mA_CT_list[i + 1][13] == 'null':
             set_service_configuration(4)
-            set_reactive_power_calculation_methodme(0)
+            set_reactive_power_calculation_method(0)
             set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
                    Power_20A_100mA_CT_list[i + 1][7],
                    Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
@@ -1614,7 +1614,7 @@ def power_20a_100ma_ct_precision_measure():
                         break
         if Power_20A_100mA_CT_list[i + 1][14] == '1E1p2w' and Power_20A_100mA_CT_list[i + 1][13] != 'null':
             set_service_configuration(0)
-            set_reactive_power_calculation_methodme(0)
+            set_reactive_power_calculation_method(0)
             set_ac(Power_20A_100mA_CT_list[i + 1][9], Power_20A_100mA_CT_list[i + 1][8],
                    Power_20A_100mA_CT_list[i + 1][7],
                    Power_20A_100mA_CT_list[i + 1][12], Power_20A_100mA_CT_list[i + 1][11],
