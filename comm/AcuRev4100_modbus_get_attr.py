@@ -1,7 +1,7 @@
 import logging
 from modbus_config import modbus_config
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
-from tools.excel_operate import dcpara_addr_get
+from tools.excel_operate import dcpara_4100addr_get
 import struct
 
 
