@@ -3,6 +3,11 @@ import time
 import logging
 from modbus_config import modbus_config
 
+import sys
+import os
+from time import sleep
+from tools.log import Log
+
 
 class SourceControlError(Exception):
     def __init__(self, msg):
@@ -61,7 +66,7 @@ def sour_para_conf(input_method='直接', pluse_cons=500):
         校验秒数:1;
         <End>'''
     else:
-        print('电流输入方式错误，请重新配置')
+        logging.info('电流输入方式错误，请重新配置')
     re = SourCon()
     re.send(data)
     re.close()
@@ -148,7 +153,7 @@ class Cl3021SourCon:
     def __init__(self):
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.udp_socket.settimeout(3)
-        print(modbus_config['local']['ip'], modbus_config['local']['port'])
+        logging.info(modbus_config['local']['ip'], modbus_config['local']['port'])
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
 
@@ -217,7 +222,7 @@ def set_wire(way: str):
     try:
         int(way, 2)  # 使用int()函数，第二个参数2表示二进制
     except ValueError:
-        print(f"{way}不是一个有效的二进制字符串")
+        logging.info(f"{way}不是一个有效的二进制字符串")
     set_cmd = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x00, 0x01, 0x20, int(bin_to_hex(way))]
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
@@ -397,7 +402,7 @@ def set_harmonic_phase(harmonic_phase: list):
         pdu = pdu.replace('0x', '').zfill(10)
         pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
         set_cmd += pdu
-        print(set_cmd)
+        logging.info(set_cmd)
 
     xor = xor_sum(set_cmd[1:-1])
     set_cmd.append(int(xor))
@@ -585,25 +590,137 @@ def read_ac():
     pdu = bytearray(set_cmd)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
-    print(ret)
-    print(ret[1][0].hex())
+    logging.info(ret)
+    logging.info(ret[1][0].hex())
     source_control.close()
 
 
 def voltage_gear_update(gear):
     """
-
+    科陆源电压档位切换
     :param gear: 值 0：600V 档位，值 1：480V 档位，值 2：240V 档位，值 3：120V 档位，值 4：60V 档位，值 5：30V 档位，
     :return:
     """
     # gear=hex(gear)
-    # print(gear)
-    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x07, 0x02, 0x02, 0x02, gear]
+    # logging.info(gear)
+    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x07, gear, gear, gear]
     xor = xor_sum(set_cmd[1:])
-    print(set_cmd)
     set_cmd.append(int(xor))
     pdu = bytearray(set_cmd)
-    # source_control = Cl3021SourCon()
-    # ret = source_control.send(pdu)
-    # print(ret)
-    # source_control.close()
+    source_control = Cl3021SourCon()
+    ret = source_control.send(pdu)
+    source_control.close()
+
+
+def current_gear_update(gear):
+    """
+    科陆源电流档位切换
+    :param gear:
+    0：100A 档位，
+    1：50A 档位，
+    2：20A 档位，
+    3：10A 档位，
+    4：5A 档位，
+    5：2A 档位，
+    6：1A 档位，
+    7：0.5A 档位，
+    8：0.2A 档位，
+    9：0.1A 档位，
+    10：0.05A 档位，
+    11：0.02A 档位，
+    12：0.01A 档位，
+    :return:
+    """
+    # gear=hex(gear)
+    # logging.info(gear)
+    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x38, gear, gear, gear]
+    xor = xor_sum(set_cmd[1:])
+    set_cmd.append(int(xor))
+    pdu = bytearray(set_cmd)
+    source_control = Cl3021SourCon()
+    ret = source_control.send(pdu)
+    source_control.close()
+
+
+def set_current_gear(current):
+    """
+    根据不同的电流值，设置科陆源的电流档位
+    :param current: 需要设置的电流值
+    :return:
+    """
+    if current <= 0.01:
+        current_gear_update(12)
+    elif 0.01 < current <= 0.02:
+        current_gear_update(11)
+    elif 0.02 < current <= 0.05:
+        current_gear_update(10)
+    elif 0.05 < current <= 0.1:
+        current_gear_update(9)
+    elif 0.1 < current <= 0.2:
+        current_gear_update(8)
+    elif 0.2 < current <= 0.5:
+        current_gear_update(7)
+    elif 0.5 < current <= 1:
+        current_gear_update(6)
+    elif 1 < current <= 2:
+        current_gear_update(5)
+    elif 2 < current <= 5:
+        current_gear_update(4)
+    elif 5 < current <= 10:
+        current_gear_update(3)
+    elif 10 < current <= 20:
+        current_gear_update(2)
+    elif 20 < current <= 50:
+        current_gear_update(1)
+    else:
+        current_gear_update(0)
+
+
+def set_voltage_gear(voltage):
+    """
+    根据不同的电压值，设置科陆源的电压档位
+    :param voltage:需要设置的电压值
+    :return:
+    """
+    if voltage <= 30:
+        voltage_gear_update(5)
+    elif 30 < voltage <= 60:
+        voltage_gear_update(4)
+    elif 60 < voltage <= 120:
+        voltage_gear_update(3)
+    elif 120 < voltage <= 240:
+        voltage_gear_update(2)
+    elif 240 < voltage <= 480:
+        voltage_gear_update(1)
+    else:
+        voltage_gear_update(0)
+
+
+
+
+Log(str(__file__).split("\\")[-1])
+
+
+def global_exception_handler(exc_type, exc_value, exc_traceback):
+    """
+    全局异常处理函数。适用于科陆源，当出现异常时关源
+
+    全局异常钩子接收三个参数：
+    :exc_type: 异常类 (如 ValueError, TypeError)
+    :exc_value: 异常实例 (包含错误消息等)
+    :exc_traceback: 跟踪对象 (包含调用栈信息)
+
+    """
+    # 记录错误信息
+    logging.error("未捕获的异常:", exc_info=(exc_type, exc_value, exc_traceback))
+
+    logging.info("系统将在5秒后关源...")
+    sleep(5)
+
+    # 执行关源命令
+    ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+    time.sleep(5)
+    switch_device_screen_interface(0x00)
+
+    # 调用原始异常处理器
+    sys.__excepthook__(exc_type, exc_value, exc_traceback)

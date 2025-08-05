@@ -1,5 +1,5 @@
 from comm.source_control import *
-from tools.excel_operate import dcpara_addr_get
+from tools.excel_operate import dcpara_4100addr_get
 import numpy as np
 from tools.log import Log
 import xlwt
@@ -7,7 +7,7 @@ from comm.modbus_rtu_tcp import ModbusRtuOrTcp
 import logging
 import struct
 
-dc_para_addr = dcpara_addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Readings')
+dc_para_addr = dcpara_4100addr_get(r'/comm/test_data/AcuDC300.xlsx', 'Readings')
 Log(str(__file__).split("\\")[-1])
 my_workbook = xlwt.Workbook()
 sheet = my_workbook.add_sheet('precision para')

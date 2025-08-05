@@ -52,4 +52,26 @@ def data_read(file_path, sheet_name):
         i += 1
     return data
 
-# excel_write()
+def dcpara_4100addr_get(file_path, sheet_name):
+    """
+    AcuRev4100读取地址表中的地址
+
+    """
+    workbook = openpyxl.load_workbook(root_path + file_path, data_only=True)
+    sheet = workbook[sheet_name]
+    data = []
+    data_dict = {}
+    i = 0
+    for row in sheet.rows:
+        data.append([])
+        for cell in row:
+            data[i].append(cell.value)
+        i += 1
+    for i in range(1, len(data)):
+        if data[i][data[0].index('Description')] is None or data[i][data[0].index('Data type')] is None:
+            continue
+        else:
+            data_dict[data[i][data[0].index('Description')]] = {}
+            data_dict[data[i][data[0].index('Description')]]['Start(Dec)'] = data[i][data[0].index('Start(Dec)')]
+            data_dict[data[i][data[0].index('Description')]]['Reg'] = data[i][data[0].index('Reg')]
+    return data_dict
