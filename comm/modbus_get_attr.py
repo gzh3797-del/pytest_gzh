@@ -915,3 +915,279 @@ def get_usedrecords_datalog4(conn_mode):
     ret = client.read_measurement(address=25858, count=2, slave=1)
     client.close()
     return ret
+
+
+def read_transactionlog_ocmf_size():
+    """
+    read transactionlog ocmf size
+    :return: transactionlog ocmf size
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5219, count=1, slave=1)
+    client.close()
+    return ret[0]
+
+
+def read_ocmf_transactionlog():
+    """
+    read ocmf transactionlog
+    :return: ocmf transactionlog
+    """
+    data_size = read_transactionlog_ocmf_size()
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x521A, count=120, slave=1)
+    client.close()
+    ret_str = ''
+    for value in ret:
+        hex_value = hex(value).replace('0x', '').zfill(4)
+        ret_str = ret_str + chr(int(hex_value[0:2], 16)) + chr(int(hex_value[2:4], 16))
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5292, count=120, slave=1)
+    client.close()
+    for value in ret:
+        hex_value = hex(value).replace('0x', '').zfill(4)
+        ret_str = ret_str + chr(int(hex_value[0:2], 16)) + chr(int(hex_value[2:4], 16))
+    ret = client.read_measurement(address=0x530A, count=120, slave=1)
+    client.close()
+    for value in ret:
+        hex_value = hex(value).replace('0x', '').zfill(4)
+        ret_str = ret_str + chr(int(hex_value[0:2], 16)) + chr(int(hex_value[2:4], 16))
+    count_size = int(data_size) / 2 - 360
+    ret = client.read_measurement(address=0x5382, count=int(count_size), slave=1)
+    client.close()
+    for value in ret:
+        hex_value = hex(value).replace('0x', '').zfill(4)
+        ret_str = ret_str + chr(int(hex_value[0:2], 16)) + chr(int(hex_value[2:4], 16))
+    return ret_str
+
+
+def read_factory_test_private_key():
+    """
+    read factory test private key
+    :return: factory test private key
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x507C, count=36, slave=1)
+    client.close()
+    ret_str = ''
+    for value in ret:
+        hex_value = hex(value).replace('0x', '').zfill(4)
+        ret_str = ret_str + chr(int(hex_value[0:2], 16)) + chr(int(hex_value[2:4], 16))
+    return ret_str
+
+
+def read_first_current_sector():
+    """
+    read first current sector
+    :return: first current sector
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5100, count=1, slave=1)
+    client.close()
+    return ret
+
+
+def read_current_address():
+    """
+    read current address
+    :return: current address
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5101, count=1, slave=1)
+    client.close()
+    return ret
+
+
+def read_full():
+    """
+    read full
+    :return: full
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5102, count=1, slave=1)
+    client.close()
+    return ret
+
+
+def read_ocmf_generate_state():
+    """
+    read ocmf generate state
+    :return: ocmf generate state
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5201, count=1, slave=1)
+    client.close()
+    return ret
+
+
+def read_transaction_time():
+    """
+    read transaction time
+    :return: transaction time
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5202, count=4, slave=1)
+    client.close()
+    transaction_time_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                            hex(ret[1]).replace('0x', '').zfill(4) +
+                            hex(ret[2]).replace('0x', '').zfill(4) +
+                            hex(ret[3]).replace('0x', '').zfill(4))
+    transaction_time_dec = int(transaction_time_hex, 16)
+    return transaction_time_dec
+
+
+def read_timesync_status():
+    """
+    read timesync status
+    :return: timesync status
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5206, count=1, slave=1)
+    client.close()
+    return ret[0]
+
+
+def read_duration():
+    """
+    read duration
+    :return: duration
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x520F, count=1, slave=1)
+    client.close()
+    return ret[0]
+
+
+def read_ocmf_last_transaction_id():
+    """
+    read ocmf last transaction id
+    :return: ocmf last transaction id
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5213, count=2, slave=1)
+    client.close()
+    last_transaction_id_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                               hex(ret[1]).replace('0x', '').zfill(4))
+    last_transaction_id_dec = int(last_transaction_id_hex, 16)
+    return last_transaction_id_dec
+
+
+def read_ocmf_first_transaction_id():
+    """
+    read ocmf first transaction id
+    :return: ocmf first transaction id
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5215, count=2, slave=1)
+    client.close()
+    first_transaction_id_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                                hex(ret[1]).replace('0x', '').zfill(4))
+    first_transaction_id_dec = int(first_transaction_id_hex, 16)
+    return first_transaction_id_dec
+
+
+def read_max_records():
+    """
+    read max records
+    :return: max records
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5500, count=2, slave=1)
+    client.close()
+    max_records_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                       hex(ret[1]).replace('0x', '').zfill(4))
+    max_records_dec = int(max_records_hex, 16)
+    return max_records_dec
+
+
+def read_used_records():
+    """
+    read used records
+    :return: used records
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5502, count=2, slave=1)
+    client.close()
+    used_records_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                        hex(ret[1]).replace('0x', '').zfill(4))
+    used_records_dec = int(used_records_hex, 16)
+    return used_records_dec
+
+
+def read_recordsize():
+    """
+    read recordsize
+    :return: recordsize
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5504, count=2, slave=1)
+    client.close()
+    recordsize_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                      hex(ret[1]).replace('0x', '').zfill(4))
+    recordsize_dec = int(recordsize_hex, 16)
+    return recordsize_dec
+
+
+def read_log_availability():
+    """
+    read log availability
+    :return: log availability
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5506, count=1, slave=1)
+    client.close()
+    return ret[0]
+
+
+def read_first_record_time_stamp():
+    """
+    read first record time stamp
+    :return: first record time stamp
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5507, count=3, slave=1)
+    client.close()
+    return ret[0] + ret[1] + ret[2]
+
+
+def read_last_record_time_stamp():
+    """
+    read last record time stamp
+    :return: last record time stamp
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x5508, count=3, slave=1)
+    client.close()
+    return ret[0] + ret[1] + ret[2]
+
+
+def read_record_index():
+    """
+    read record index
+    :return: record index
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x550B, count=2, slave=1)
+    client.close()
+    record_index_hex = (hex(ret[0]).replace('0x', '').zfill(4) +
+                        hex(ret[1]).replace('0x', '').zfill(4))
+    record_index_dec = int(record_index_hex, 16)
+    return record_index_dec
+
+
+def read_public_key():
+    """
+    read public key
+    :return: public key
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.read_measurement(address=0x504A, count=33, slave=1)
+    client.close()
+    ret1 = []
+    for i in ret:
+        y = hex(i).replace('0x', '').zfill(4)
+        ret1.append(y)
+    ret2 = ''
+    for i in ret1:
+        ret2 += i
+    return ret2[0:-2]
