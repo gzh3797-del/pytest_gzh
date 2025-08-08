@@ -1087,3 +1087,278 @@ def clear_data_log4(conn_mode):
                                  values=1, slave=1)
     client.close()
     return ret
+
+
+
+def set_identification_status(value):
+    """
+    set identification status
+    :param value: identification status
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5000, values=[value], slave=1)
+    ret1 = client.read_measurement(address=0x5000, count=1, slave=1)
+    client.close()
+    if '(20480,1)' not in str(ret):
+        logging.error('identification status set fail, ret is:{}'.format(ret))
+        return False
+    if ret1[0] != value:
+        logging.error('identification status set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_identification_level(value):
+    """
+    set identification level
+    :param value: identification level
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5001, values=[value], slave=1)
+    ret1 = client.read_measurement(address=0x5001, count=1, slave=1)
+    client.close()
+    if '(20481,1)' not in str(ret):
+        logging.error('identification level set fail, ret is:{}'.format(ret))
+        return False
+    if ret1[0] != value:
+        logging.error('identification level set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_identification_flag(value: list):
+    """
+    set identification flag
+    :param value: 列表长度为4，每一个元素为十六进制数，占一个字节
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5002, values=value, slave=1)
+    ret1 = client.read_measurement(address=0x5002, count=4, slave=1)
+    client.close()
+    if '(20482,4)' not in str(ret):
+        logging.error('identification flag set fail, ret is:{}'.format(ret))
+        return False
+    if list(ret1) != value:
+        logging.error('identification flag set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_identification_type(value):
+    """
+    set identification type
+    :param value: identification type
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5006, values=[value], slave=1)
+    ret1 = client.read_measurement(address=0x5006, count=1, slave=1)
+    client.close()
+    if '(20486,1)' not in str(ret):
+        logging.error('identification type set fail, ret is:{}'.format(ret))
+        return False
+    if ret1[0] != value:
+        logging.error('identification type set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_identification_data(value: list):
+    """
+    set identification data
+    :param value: 列表长度最大为20，每一个元素为十六进制数，占一个字节
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5007, values=value, slave=1)
+    ret1 = client.read_measurement(address=0x5007, count=len(value), slave=1)
+    client.close()
+    if '(20487,{})'.format(len(value)) not in str(ret):
+        logging.error('identification type set fail, ret is:{}'.format(ret))
+        return False
+    if list(ret1) != value:
+        logging.error('identification type set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_tariff_text(value: list):
+    """
+    set tariff text
+    :param value: 列表长度最大为20，每一个元素为十六进制数，占一个字节
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x501B, values=value, slave=1)
+    ret1 = client.read_measurement(address=0x501B, count=len(value), slave=1)
+    client.close()
+    if '(20507,{})'.format(len(value)) not in str(ret):
+        logging.error('identification type set fail, ret is:{}'.format(ret))
+        return False
+    if list(ret1) != value:
+        logging.error('identification type set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_transaction_overtime(value):
+    """
+    set transaction overtime
+    :param value: transaction overtime
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x502F, values=[value], slave=1)
+    ret1 = client.read_measurement(address=0x502F, count=1, slave=1)
+    client.close()
+    if '(20527,1)' not in str(ret):
+        logging.error('transaction overtime set fail, ret is:{}'.format(ret))
+        return False
+    if ret1 != value:
+        logging.error('transaction overtime set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_ct(value):
+    """
+    set ct
+    :param value: ct
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5030, values=[value], slave=1)
+    ret1 = client.read_measurement(address=0x5030, count=1, slave=1)
+    client.close()
+    if '(20528,1)' not in str(ret):
+        logging.error('ct set fail, ret is:{}'.format(ret))
+        return False
+    if ret1[0] != value:
+        logging.error('ct set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_ci(value: list):
+    """
+    set tariff text
+    :param value: 列表长度最大为20，每一个元素为十六进制数，占一个字节
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5031, values=value, slave=1)
+    ret1 = client.read_measurement(address=0x5031, count=len(value), slave=1)
+    client.close()
+    if '(20529,{})'.format(len(value)) not in str(ret):
+        logging.error('ci set fail, ret is:{}'.format(ret))
+        return False
+    if list(ret1) != value:
+        logging.error('ci set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_timezone_shift(value):
+    """
+    set timezone shift
+    :param value: timezone shift
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5045, values=[value], slave=1)
+    ret1 = client.read_measurement(address=0x5045, count=1, slave=1)
+    client.close()
+    if '(20549,1)' not in str(ret):
+        logging.error('timezone shift set fail, ret is:{}'.format(ret))
+        return False
+    if ret1[0] != value:
+        logging.error('timezone shift set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_utc_timestamp(value):
+    """
+    set utc timestamp
+    :param value: utc timestamp
+    :return: True--Set Success, False--Set Fail
+    """
+    hex_value = hex(value).replace('0x', '').zfill(8)
+    client = ModbusRtuOrTcp()
+    print([int('0x' + hex_value[0:2], 16), int('0x' + hex_value[2:4], 16),
+           int('0x' + hex_value[4:6], 16), int('0x' + hex_value[6:8], 16)])
+    ret = client.write_registers(address=0x5046,
+                                 values=[int('0x' + hex_value[0:2], 16), int('0x' + hex_value[2:4], 16),
+                                         int('0x' + hex_value[4:6], 16), int('0x' + hex_value[6:8], 16)],
+                                 slave=1)
+    ret1 = client.read_measurement(address=0x5046, count=4, slave=1)
+    client.close()
+    ret2 = int(hex(ret1[0]).replace('0x', '') + hex(ret1[1]).replace('0x', '') + hex(ret1[2]).replace('0x', '') + hex(
+        ret1[3]).replace('0x', ''), 16)
+    if '(20550,4)' not in str(ret):
+        logging.error('utc timestamp set fail, ret is:{}'.format(ret))
+        return False
+    if ret2 != value:
+        logging.error('utc timestamp shift set fail, ret is:{}'.format(ret2))
+        return False
+    return True
+
+
+def clear_transaction_log():
+    """
+    clear transaction log
+    :param value:
+    :return: True-- Success, False-- Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x50A1, values=[1], slave=1)
+    client.close()
+    if '(20641,1)' not in str(ret):
+        logging.error('clear transaction log set fail, ret is:{}'.format(ret))
+        return False
+    return True
+
+
+def ocmf_command(value: str):
+    """
+    ocmf command
+    :param value: ocmf command
+    :return: True--Set Success, False--Set Fail
+    """
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5200, values=[ord(value)], slave=1)
+    ret1 = client.read_measurement(address=0x5200, count=1, slave=1)
+    client.close()
+    if '(20992,1)' not in str(ret):
+        logging.error('ocmf command set fail, ret is:{}'.format(ret))
+        return False
+    if ret1[0] != ord(value):
+        logging.error('ocmf command set fail, ret is:{}'.format(ret1))
+        return False
+    return True
+
+
+def set_transactionlog_id(value):
+    """
+    set transactionlog id
+    :param value: transactionlog id
+    :return: True--Set Success, False--Set Fail
+    """
+    hex_value = hex(value).replace('0x', '').zfill(4)
+    client = ModbusRtuOrTcp()
+    ret = client.write_registers(address=0x5217,
+                                 values=[int('0x' + hex_value[0:2], 16), int('0x' + hex_value[2:4], 16)],
+                                 slave=1)
+    ret1 = client.read_measurement(address=0x5217, count=4, slave=1)
+    client.close()
+    ret2 = int(hex(ret1[0]).replace('0x', '') + hex(ret1[1]).replace('0x', ''), 16)
+    if '(21015,2)' not in str(ret):
+        logging.error('transactionlog id set fail, ret is:{}'.format(ret))
+        return False
+    if ret2 != value:
+        logging.error('transactionlog id set fail, ret is:{}'.format(ret2))
+        return False
+    return True
