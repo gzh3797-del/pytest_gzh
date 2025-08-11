@@ -94,7 +94,7 @@ sheet.write(0, 14, 'power variance')
 
 test_num = len(volt_cur_list)
 for i in range(test_num):
-    mv_sour_output(voltage=volt_cur_list[i][0], current=0)
+    sour_output(voltage=volt_cur_list[i][0], current=0)
     ret = read_vol(volt_cur_list[i][0])
 
     sheet.write(i + 1, 0, volt_cur_list[i][0])

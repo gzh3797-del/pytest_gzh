@@ -12,8 +12,8 @@ def get_pulse_accuracy(vol, cur, times=0.2, pluse_mode=0):
     sour_para_conf(input_method='直接', pluse_cons=pluse_cons)
     time.sleep(10)
     sour_output(voltage=vol, current=cur)
-    set_energy_pulse_parameter(conn_mode='tcp', value=pluse_mode)
-    set_energy_pulse_constant(conn_mode='tcp', value=pluse_cons)
+    assert set_energy_pulse_parameter(conn_mode='tcp', value=pluse_mode) is True
+    assert set_energy_pulse_constant(conn_mode='tcp', value=pluse_cons) is True
     timeout = 2 / times
     timeout *= 60
     ret = get_verification_error(timeout=timeout)
@@ -21,7 +21,7 @@ def get_pulse_accuracy(vol, cur, times=0.2, pluse_mode=0):
 
 
 def run():
-    volt_cur_list = data_read(r'../../../comm/test_data/dc_data.xlsx', 'Sheet1')
+    volt_cur_list = data_read(r'/comm/test_data/dc_data.xlsx', 'Sheet1')
     Log(str(__file__).split("\\")[-1])
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('energy pluse test', cell_overwrite_ok=True)
