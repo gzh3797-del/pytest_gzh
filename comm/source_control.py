@@ -595,15 +595,24 @@ def read_ac():
     source_control.close()
 
 
-def voltage_gear_update(gear):
+def up_source_ac():
     """
-    科陆源电压档位切换
-    :param gear: 值 0：600V 档位，值 1：480V 档位，值 2：240V 档位，值 3：120V 档位，值 4：60V 档位，值 5：30V 档位，
+    关源
+    :return: 返回发送字节数
+    """
+    ret = set_ac(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    return ret
+
+
+def update_voltage_gear(uc_gear, ub_gear, ua_gear):
+    """
+    下发电压档位
+    :param uc_gear:uc电压档位
+    :param ub_gear:ub电压档位
+    :param ua_gear:ua电压档位
     :return:
     """
-    # gear=hex(gear)
-    # logging.info(gear)
-    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x07, gear, gear, gear]
+    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x07, uc_gear, ub_gear, ua_gear]
     xor = xor_sum(set_cmd[1:])
     set_cmd.append(int(xor))
     pdu = bytearray(set_cmd)
@@ -612,28 +621,51 @@ def voltage_gear_update(gear):
     source_control.close()
 
 
-def current_gear_update(gear):
+def get_voltage_gear(voltage_value):
     """
-    科陆源电流档位切换
-    :param gear:
-    0：100A 档位，
-    1：50A 档位，
-    2：20A 档位，
-    3：10A 档位，
-    4：5A 档位，
-    5：2A 档位，
-    6：1A 档位，
-    7：0.5A 档位，
-    8：0.2A 档位，
-    9：0.1A 档位，
-    10：0.05A 档位，
-    11：0.02A 档位，
-    12：0.01A 档位，
+    通过电压值，获取电压档位
+    :param voltage_value: 电压值
+    :return: 电压档位
+    """
+    voltage_gear = 0
+    if voltage_value <= 30:
+        voltage_gear = 5
+    elif voltage_value <= 60:
+        voltage_gear = 4
+    elif voltage_value <= 120:
+        voltage_gear = 3
+    elif voltage_value <= 240:
+        voltage_gear = 2
+    elif voltage_value <= 480:
+        voltage_gear = 1
+    else:
+        voltage_gear = 0
+    return voltage_gear
+
+
+def set_voltage_gear(uc_value, ub_value, ua_value):
+    """
+    设置电压档位
+    :param uc_value:uc电压值
+    :param ub_value:ub电压值
+    :param ua_value:ua电压值
     :return:
     """
-    # gear=hex(gear)
-    # logging.info(gear)
-    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x38, gear, gear, gear]
+    uc_gear = get_voltage_gear(uc_value)
+    ub_gear = get_voltage_gear(ub_value)
+    ua_gear = get_voltage_gear(ua_value)
+    update_voltage_gear(uc_gear, ub_gear, ua_gear)
+
+
+def update_current_gear(ic_gear, ib_gear, ia_gear):
+    """
+    下发电流档位
+    :param ic_gear:uc电流档位
+    :param ib_gear:ub电流档位
+    :param ia_gear:ua电流档位
+    :return:
+    """
+    set_cmd = [0x81, 0x01, 0x25, 0x0c, 0xa3, 0x02, 0x02, 0x38, ic_gear, ib_gear, ia_gear]
     xor = xor_sum(set_cmd[1:])
     set_cmd.append(int(xor))
     pdu = bytearray(set_cmd)
@@ -642,85 +674,51 @@ def current_gear_update(gear):
     source_control.close()
 
 
-def set_current_gear(current):
+def get_current_gear(current_value):
     """
-    根据不同的电流值，设置科陆源的电流档位
-    :param current: 需要设置的电流值
+    通过电流值，获取电流档位
+    :param current_value: 电流值
+    :return: 电流档位
+    """
+    current_gear = 0
+    if current_value <= 0.01:
+        current_gear = 12
+    elif current_value <= 0.02:
+        current_gear = 11
+    elif current_value <= 0.05:
+        current_gear = 10
+    elif current_value <= 0.1:
+        current_gear = 9
+    elif current_value <= 0.2:
+        current_gear = 8
+    elif current_value <= 0.5:
+        current_gear = 7
+    elif current_value <= 1:
+        current_gear = 6
+    elif current_value <= 2:
+        current_gear = 5
+    elif current_value <= 5:
+        current_gear = 4
+    elif current_value <= 10:
+        current_gear = 3
+    elif current_value <= 20:
+        current_gear = 2
+    elif current_value <= 50:
+        current_gear = 1
+    else:
+        current_gear = 0
+    return current_gear
+
+
+def set_current_gear(ic_value, ib_value, ia_value):
+    """
+    设置电流档位
+    :param ic_value: ic电流值
+    :param ib_value: ib电流值
+    :param ia_value: ia电流值
     :return:
     """
-    if current <= 0.01:
-        current_gear_update(12)
-    elif 0.01 < current <= 0.02:
-        current_gear_update(11)
-    elif 0.02 < current <= 0.05:
-        current_gear_update(10)
-    elif 0.05 < current <= 0.1:
-        current_gear_update(9)
-    elif 0.1 < current <= 0.2:
-        current_gear_update(8)
-    elif 0.2 < current <= 0.5:
-        current_gear_update(7)
-    elif 0.5 < current <= 1:
-        current_gear_update(6)
-    elif 1 < current <= 2:
-        current_gear_update(5)
-    elif 2 < current <= 5:
-        current_gear_update(4)
-    elif 5 < current <= 10:
-        current_gear_update(3)
-    elif 10 < current <= 20:
-        current_gear_update(2)
-    elif 20 < current <= 50:
-        current_gear_update(1)
-    else:
-        current_gear_update(0)
-
-
-def set_voltage_gear(voltage):
-    """
-    根据不同的电压值，设置科陆源的电压档位
-    :param voltage:需要设置的电压值
-    :return:
-    """
-    if voltage <= 30:
-        voltage_gear_update(5)
-    elif 30 < voltage <= 60:
-        voltage_gear_update(4)
-    elif 60 < voltage <= 120:
-        voltage_gear_update(3)
-    elif 120 < voltage <= 240:
-        voltage_gear_update(2)
-    elif 240 < voltage <= 480:
-        voltage_gear_update(1)
-    else:
-        voltage_gear_update(0)
-
-
-
-
-Log(str(__file__).split("\\")[-1])
-
-
-def global_exception_handler(exc_type, exc_value, exc_traceback):
-    """
-    全局异常处理函数。适用于科陆源，当出现异常时关源
-
-    全局异常钩子接收三个参数：
-    :exc_type: 异常类 (如 ValueError, TypeError)
-    :exc_value: 异常实例 (包含错误消息等)
-    :exc_traceback: 跟踪对象 (包含调用栈信息)
-
-    """
-    # 记录错误信息
-    logging.error("未捕获的异常:", exc_info=(exc_type, exc_value, exc_traceback))
-
-    logging.info("系统将在5秒后关源...")
-    sleep(5)
-
-    # 执行关源命令
-    ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
-    time.sleep(5)
-    switch_device_screen_interface(0x00)
-
-    # 调用原始异常处理器
-    sys.__excepthook__(exc_type, exc_value, exc_traceback)
+    ic_gear = get_current_gear(ic_value)
+    ib_gear = get_current_gear(ib_value)
+    ia_gear = get_current_gear(ia_value)
+    update_current_gear(ic_gear, ib_gear, ia_gear)
