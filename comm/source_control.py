@@ -722,3 +722,31 @@ def set_current_gear(ic_value, ib_value, ia_value):
     ib_gear = get_current_gear(ib_value)
     ia_gear = get_current_gear(ia_value)
     update_current_gear(ic_gear, ib_gear, ia_gear)
+
+
+Log(str(__file__).split("\\")[-1])
+
+
+def global_exception_handler(exc_type, exc_value, exc_traceback):
+    """
+    全局异常处理函数。适用于科陆源，当出现异常时关源
+
+    全局异常钩子接收三个参数：
+    :exc_type: 异常类 (如 ValueError, TypeError)
+    :exc_value: 异常实例 (包含错误消息等)
+    :exc_traceback: 跟踪对象 (包含调用栈信息)
+
+    """
+    # 记录错误信息
+    logging.error("未捕获的异常:", exc_info=(exc_type, exc_value, exc_traceback))
+
+    logging.info("系统将在5秒后关源...")
+    sleep(5)
+
+    # 执行关源命令
+    ret = set_ac(120, 240, 0, 120, 240, 0, 0, 0, 0, 0, 0, 0, 50)
+    time.sleep(5)
+    switch_device_screen_interface(0x00)
+
+    # 调用原始异常处理器
+    sys.__excepthook__(exc_type, exc_value, exc_traceback)
