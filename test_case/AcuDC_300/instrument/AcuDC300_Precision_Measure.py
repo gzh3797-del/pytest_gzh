@@ -254,7 +254,7 @@ def run():
                 sheet.write(i + 1, 22, 'passed' if cur_meas == 0 else 'failed')
                 continue
             cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_meas)) / abs(volt_cur_list[i + 1][2]) * 100
-            if abs(volt_cur_list[i + 1][2]) <= 3.9 or abs(volt_cur_list[i + 1][2]) > 650:
+            if abs(volt_cur_list[i + 1][2]) <= 0.1:
                 sheet.write(i + 1, 9, cur_meas)
                 sheet.write(i + 1, 16, cur_precision)
                 sheet.write(i + 1, 22, 'passed')
@@ -280,8 +280,7 @@ def run():
             sheet.write(i + 1, 21, 'null')
             pow_standard = volt_cur_list[i + 1][1] * volt_cur_list[i + 1][2] / 1000
             if volt_cur_list[i + 1][2] < 0:
-                sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2],
-                            current_direction='反向')
+                sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2])
             else:
                 sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2])
             vol_meas = read_vol(volt_cur_list[i + 1][1], times=20)
@@ -290,7 +289,7 @@ def run():
             sheet.write(i + 1, 15, vol_precision)
             cur_meas = read_cur(volt_cur_list[i + 1][2], times=20)
             cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_meas)) / abs(volt_cur_list[i + 1][2]) * 100
-            if abs(volt_cur_list[i + 1][2]) <= 3.9:
+            if abs(volt_cur_list[i + 1][2]) <= 0.1 or abs(volt_cur_list[i + 1][2]) > 650:
                 sheet.write(i + 1, 9, cur_meas)
                 sheet.write(i + 1, 16, cur_precision)
                 pow_meas = read_pow(pow_standard, times=20)
@@ -329,8 +328,7 @@ def run():
                 clear_energy()
                 clear_charge()
                 cur_time = time.time()
-                sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2],
-                            current_direction='反向')
+                sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2])
                 while time.time() <= cur_time + volt_cur_list[i + 1][3] * 3600:
                     vol_meas.append(read_vol(volt_cur_list[i + 1][1]))
                     cur_meas.append(read_cur(volt_cur_list[i + 1][2]))
@@ -346,7 +344,7 @@ def run():
                     abs(min(cur_meas)) - abs(volt_cur_list[i + 1][2])) else min(cur_meas)
                 cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_preci_max)) / abs(
                     volt_cur_list[i + 1][2]) * 100
-                if abs(volt_cur_list[i + 1][2]) <= 3.9:
+                if abs(volt_cur_list[i + 1][2]) <= 0.1:
                     sheet.write(i + 1, 9, cur_preci_max)
                     sheet.write(i + 1, 16, cur_precision)
                     pow_preci_max = max(pow_meas) if abs(abs(max(pow_meas)) - abs(pow_standard)) > abs(
@@ -404,7 +402,7 @@ def run():
                     abs(min(cur_meas)) - abs(volt_cur_list[i + 1][2])) else min(cur_meas)
                 cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_preci_max)) / abs(
                     volt_cur_list[i + 1][2]) * 100
-                if abs(volt_cur_list[i + 1][2]) <= 3.9:
+                if abs(volt_cur_list[i + 1][2]) <= 0.1:
                     sheet.write(i + 1, 9, cur_preci_max)
                     sheet.write(i + 1, 16, cur_precision)
                     pow_preci_max = max(pow_meas) if abs(abs(max(pow_meas)) - abs(pow_standard)) > abs(
@@ -448,8 +446,7 @@ def run():
             j = 0
             set_cable_loss_compensation_enable(1)
             set_cable_resistance(volt_cur_list[i + 1][5])
-            print(volt_cur_list[i + 1][5])
-            cable_vol = volt_cur_list[i + 1][1] - abs(volt_cur_list[i + 1][2]) * volt_cur_list[i + 1][5]
+            cable_vol = volt_cur_list[i + 1][1] - volt_cur_list[i + 1][2] * volt_cur_list[i + 1][5][i + 1][5]
             pow_standard = cable_vol * volt_cur_list[i + 1][2] / 1000
             vol_meas = []
             cur_meas = []
@@ -461,13 +458,11 @@ def run():
                 clear_energy()
                 clear_charge()
                 cur_time = time.time()
-                sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2],
-                            current_direction='反向')
+                sour_output(voltage=volt_cur_list[i + 1][1], current=volt_cur_list[i + 1][2])
                 while time.time() <= cur_time + volt_cur_list[i + 1][3] * 3600:
                     vol_meas.append(read_vol(cable_vol))
                     cur_meas.append(read_cur(volt_cur_list[i + 1][2]))
                     pow_meas.append(read_pow(pow_standard))
-                    # print(vol_meas[j], cur_meas[j], pow_meas[j])
                     j += 1
                 sour_stop()
                 vol_preci_max = max(vol_meas) if abs(max(vol_meas) - cable_vol) > abs(
@@ -479,7 +474,7 @@ def run():
                     abs(min(cur_meas)) - abs(volt_cur_list[i + 1][2])) else min(cur_meas)
                 cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_preci_max)) / abs(
                     volt_cur_list[i + 1][2]) * 100
-                if abs(volt_cur_list[i + 1][2]) <= 3.9:
+                if abs(volt_cur_list[i + 1][2]) <= 0.1:
                     sheet.write(i + 1, 9, cur_preci_max)
                     sheet.write(i + 1, 16, cur_precision)
                     pow_preci_max = max(pow_meas) if abs(abs(max(pow_meas)) - abs(pow_standard)) > abs(
@@ -526,7 +521,6 @@ def run():
                     vol_meas.append(read_vol(cable_vol))
                     cur_meas.append(read_cur(volt_cur_list[i + 1][2]))
                     pow_meas.append(read_pow(pow_standard))
-                    # print(vol_meas[j], cur_meas[j], pow_meas[j])
                     j += 1
                 sour_stop()
                 vol_preci_max = max(vol_meas) if abs(max(vol_meas) - cable_vol) > abs(
@@ -538,7 +532,7 @@ def run():
                     abs(min(cur_meas)) - abs(volt_cur_list[i + 1][2])) else min(cur_meas)
                 cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_preci_max)) / abs(
                     volt_cur_list[i + 1][2]) * 100
-                if abs(volt_cur_list[i + 1][2]) <= 3.9:
+                if abs(volt_cur_list[i + 1][2]) <= 0.1:
                     sheet.write(i + 1, 9, cur_preci_max)
                     sheet.write(i + 1, 16, cur_precision)
                     pow_preci_max = max(pow_meas) if abs(abs(max(pow_meas)) - abs(pow_standard)) > abs(

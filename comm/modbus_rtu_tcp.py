@@ -63,7 +63,7 @@ class ModbusTcp6A:
             self.isSucess = False
             raise Exception("modbus tcp connect fail")
         else:
-            print("modbus tcp connect success")
+            logging.info("modbus tcp connect success")
             self.isSucess = True
 
     def read_funcode_03(self, addr: int, count: int = 1, slaveid: int = 1):
@@ -79,7 +79,6 @@ class ModbusTcp6A:
             count >> 8 & 0xff,
             count & 0xff
         ])
-        print(_read_byarry)
         if self.isSucess:
             try:
                 self.socket.send(_read_byarry)

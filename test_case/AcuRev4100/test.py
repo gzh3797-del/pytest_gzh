@@ -7,7 +7,6 @@ import threading
 Log(str(__file__).split("\\")[-1])
 def Energy_5A_333mV_CT_measure():
     Energy_5A_333mV_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_5A_333mV_CT')
-    print(Energy_5A_333mV_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_5A_333mV_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -309,7 +308,6 @@ def Energy_5A_333mV_CT_measure():
 
 def Energy_5A_333mV_CT_measure1():
     Energy_5A_333mV_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_5A_333mV_CT1')
-    print(Energy_5A_333mV_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_5A_333mV_CT1', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -610,7 +608,6 @@ def Energy_5A_333mV_CT_measure1():
     my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 def Energy_20A_100mA_CT_measure():
     Energy_20A_100mA_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_20A_100mA_CT')
-    print(Energy_20A_100mA_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_20A_100mA_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -913,7 +910,6 @@ def Energy_20A_100mA_CT_measure():
 
 def Sequence_Component_precision_measure():
     Sequence_Component_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Sequence_Component')
-    print(Sequence_Component_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Sequence_Component', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1097,7 +1093,6 @@ def Sequence_Component_precision_measure():
     my_workbook.save('Precision_Measure_{}.xls'.format(time.strftime('%Y%m%d%H%M%S')))
 def line_to_neutral_voltage_precision_measure():
     voltage_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Line_to_Neutral_Voltage')
-    print(voltage_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('line_to_neutral_voltage', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1156,7 +1151,6 @@ def line_to_neutral_voltage_precision_measure():
             if scale_A * 100 <= voltage_list[i + 1][7] and scale_B * 100 <= voltage_list[i + 1][7] and scale_C * 100 <= \
                     voltage_list[i + 1][7]:
                 sheet.write(i + 1, 15, 'Passed')
-                print("Passed")
             else:
                 sheet.write(i + 1, 15, 'Failed')
         if voltage_list[i + 1][7] == 'null' and voltage_list[i + 1][1] != 'null' and voltage_list[i + 1][
@@ -1179,13 +1173,11 @@ def line_to_neutral_voltage_precision_measure():
             if voltage_list[i + 1][1] < 10 and voltage_list[i + 1][2] < 10 and voltage_list[i + 1][3] < 10:
                 if Phase_A == Phase_B == Phase_C == Read_Average_Vol == 0:
                     sheet.write(i + 1, 15, 'Passed')
-                    print("Passed")
                 else:
                     sheet.write(i + 1, 15, 'Failed')
             else:
                 if Phase_A != 0 and Phase_B != 0 and Phase_C != 0 and Read_Average_Vol != 0:
                     sheet.write(i + 1, 15, 'Passed')
-                    print("Passed")
                 else:
                     sheet.write(i + 1, 15, 'Failed')
 

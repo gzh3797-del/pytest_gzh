@@ -26,7 +26,6 @@ def read_vol(standard_value):
         voltage_measu = struct.unpack('!f', struct.pack('!I', integer_num))[0]
         vol_list.append(voltage_measu)
     vol_list.sort()
-    # print('vol:{}'.format(vol_list))
     mean = np.mean(vol_list)
     var = np.var(vol_list)
     if abs(vol_list[-1] - standard_value) > abs(vol_list[0] - standard_value):
@@ -47,7 +46,6 @@ def read_cur(standard_value):
         voltage_measu = struct.unpack('!f', struct.pack('!I', integer_num))[0]
         vol_list.append(voltage_measu)
     vol_list.sort()
-    # print('cur:{}'.format(vol_list))
     mean = np.mean(vol_list)
     var = np.var(vol_list)
     if abs(vol_list[-1] - standard_value) > abs(vol_list[0] - standard_value):
@@ -68,7 +66,6 @@ def read_pow(standard_value):
         voltage_measu = struct.unpack('!f', struct.pack('!I', integer_num))[0]
         vol_list.append(voltage_measu)
     vol_list.sort()
-    # print('pow:{}'.format(vol_list))
     mean = np.mean(vol_list)
     var = np.var(vol_list)
     if abs(vol_list[-1] - standard_value) > abs(vol_list[0] - standard_value):

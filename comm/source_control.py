@@ -25,6 +25,12 @@ class SourCon:
         send_data = hex_data.encode('gbk')
         logging.info(send_data.decode('gbk'))
         ret = self.udp_socket.sendto(send_data, self.dest_addr)
+        try:
+            recv_data = self.udp_socket.recvfrom(1024)[0].decode('gbk')
+            logging.info('recv_data ret is:{}'.format(recv_data))
+        except TimeoutError:
+            raise SourceControlError(
+                'Source control timeout. Check whether the software of the control source is turned on or check config')
         return ret
 
     def recv(self):

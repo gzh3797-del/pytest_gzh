@@ -20,7 +20,6 @@ Log(str(__file__).split("\\")[-1])
 
 def frequency_precision_measure():
     frequency_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'frequency')
-    print(frequency_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('frequency_precision_measure', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -63,7 +62,6 @@ def frequency_precision_measure():
 
 def line_to_neutral_voltage_precision_measure():
     voltage_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Line_to_Neutral_Voltage')
-    print(voltage_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('line_to_neutral_voltage', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -144,13 +142,11 @@ def line_to_neutral_voltage_precision_measure():
             if voltage_list[i + 1][1] < 10 and voltage_list[i + 1][2] < 10 and voltage_list[i + 1][3] < 10:
                 if Phase_A == Phase_B == Phase_C == Read_Average_Vol == 0:
                     sheet.write(i + 1, 15, 'Passed')
-                    print('Passed')
                 else:
                     sheet.write(i + 1, 15, 'Failed')
             else:
                 if Phase_A != 0 and Phase_B != 0 and Phase_C != 0 and Read_Average_Vol != 0:
                     sheet.write(i + 1, 15, 'Passed')
-                    print('Passed')
                 else:
                     sheet.write(i + 1, 15, 'Failed')
 
@@ -193,7 +189,6 @@ def line_to_neutral_voltage_precision_measure():
 
 def line_to_line_voltage_precision_measure():
     voltage_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Line_to_Line_Voltage')
-    print(voltage_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('line_to_line_voltage', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -330,7 +325,6 @@ def line_to_line_voltage_precision_measure():
 
 def current_5a_333mv_ct_precision_measure():
     Current_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Current_5A_333mV_CT')
-    print(Current_list)
     j = 30
     for i, Current in enumerate(Current_list):
         if 'Input and user' in Current:
@@ -711,7 +705,6 @@ def current_5a_333mv_ct_precision_measure():
 
 def current_20a_100ma_ct_precision_measure():
     Current_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Current_20A_100mA_CT')
-    print(Current_list)
     j = 30
     for i, Current in enumerate(Current_list):
         if 'Input and user' in Current:
@@ -1060,7 +1053,6 @@ def current_20a_100ma_ct_precision_measure():
 
 def phase_voltage_angle_precision_measure():
     Voltage_Angle_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Phase_Voltage_Angle')
-    print(Voltage_Angle_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Phase_Voltage_Angle', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1115,7 +1107,6 @@ def phase_voltage_angle_precision_measure():
 
 def input1_current_angle_precision_measure():
     Input_Current_Angle = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Input_Current_Angle')
-    print(Input_Current_Angle)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Input_Current_Angle', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1158,7 +1149,6 @@ def input1_current_angle_precision_measure():
 
 def power_5a_333mv_ct_precision_measure():
     Power_5A_333mV_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Power_5A_333mV_CT')
-    print(Power_5A_333mV_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Power_5A_333mV_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1395,7 +1385,6 @@ def power_5a_333mv_ct_precision_measure():
 
 def power_20a_100ma_ct_precision_measure():
     Power_20A_100mA_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Power_20A_100mA_CT1')
-    print(Power_20A_100mA_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Power_20A_100mA_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1531,7 +1520,7 @@ def power_20a_100ma_ct_precision_measure():
                     else:
                         sheet.write(i + 1, 53, 'Failed')
                         sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
-                        print(f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
+                        logging.info(f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                         messagebox.showerror("错误",
                                              f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                         time.sleep(100000)
@@ -1551,7 +1540,7 @@ def power_20a_100ma_ct_precision_measure():
                         else:
                             sheet.write(i + 1, 53, 'Failed')
                             sheet.write(i + 1, 54, f'请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
-                            print(f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
+                            logging.info(f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                             messagebox.showerror("错误",
                                                  f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                             time.sleep(100000)
@@ -1594,7 +1583,7 @@ def power_20a_100ma_ct_precision_measure():
                     else:
                         sheet.write(i + 1, 53, 'Failed')
                         sheet.write(i + 1, 54, f'请检查{k + 14}列数据')
-                        print(f'{AcuRev4100_Power}请检查{k + 14}列数据')
+                        logging.info(f'{AcuRev4100_Power}请检查{k + 14}列数据')
                         messagebox.showerror("错误",
                                              f'{AcuRev4100_Power}请检查{k + 14}列数据')
                         time.sleep(100000)
@@ -1607,7 +1596,7 @@ def power_20a_100ma_ct_precision_measure():
                     else:
                         sheet.write(i + 1, 53, 'Failed')
                         sheet.write(i + 1, 54, f'请检查{k + 14}列数据')
-                        print(f'{AcuRev4100_Power}请检查{k + 14}列数据')
+                        logging.info(f'{AcuRev4100_Power}请检查{k + 14}列数据')
                         messagebox.showerror("错误",
                                              f'{AcuRev4100_Power}请检查{k + 14}列数据')
                         time.sleep(100000)
@@ -1651,7 +1640,7 @@ def power_20a_100ma_ct_precision_measure():
                 else:
                     sheet.write(i + 1, 53, 'Failed')
                     sheet.write(i + 1, 54, f'请检查{k + 14}列数据,精度{scale_list[k] * 100}%')
-                    print(f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
+                    logging.info(f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                     messagebox.showerror("错误",
                                          f'{AcuRev4100_Power}请检查{k + 14}列数据，精度{scale_list[k] * 100}%')
                     time.sleep(100000)
@@ -1661,7 +1650,6 @@ def power_20a_100ma_ct_precision_measure():
 
 def load_nature_measure():
     Load_Nature_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Load_Nature')
-    print(Load_Nature_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Load_Nature', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -1741,7 +1729,6 @@ def load_nature_measure():
                  Input1_standard_Load_Nature, Input2_standard_Load_Nature, Input3_standard_Load_Nature,
                  PhaseA_standard_Load_Nature, PhaseB_standard_Load_Nature, PhaseC_standard_Load_Nature,
                  System_standard_Load_Nature])
-            print(standard_Load_Nature)
             Acu4100_Load_Nature = []
             user1_Load_Nature = read_user_channel_1_load_nature()
             Input1_Load_Nature = read_input_channel_1_load_nature()
@@ -1762,7 +1749,6 @@ def load_nature_measure():
             Acu4100_Load_Nature.extend(
                 [user1_Load_Nature, Input1_Load_Nature, Input2_Load_Nature, Input3_Load_Nature, Phase_A_Load_Nature,
                  Phase_B_Load_Nature, Phase_C_Load_Nature, System_Load_Nature])
-            print(Acu4100_Load_Nature)
             if standard_Load_Nature == Acu4100_Load_Nature:
                 sheet.write(i + 1, 21, 'Passed')
             else:
@@ -1805,7 +1791,6 @@ def load_nature_measure():
                                                         Load_Nature_list[i + 1][12])
             Q_Sum = A_Reactive_Power + B_Reactive_Power + C_Reactive_Power
 
-            print(P_Sum, Q_Sum)
             System_standard_Load_Nature = system_load_nature_calculate(P_Sum, Q_Sum)
             user1_standard_Load_Nature = System_standard_Load_Nature
             standard_Load_Nature.extend(
@@ -1813,7 +1798,6 @@ def load_nature_measure():
                  Input1_standard_Load_Nature, Input2_standard_Load_Nature, Input3_standard_Load_Nature,
                  PhaseA_standard_Load_Nature, PhaseB_standard_Load_Nature, PhaseC_standard_Load_Nature,
                  System_standard_Load_Nature])
-            print(standard_Load_Nature)
             Acu4100_Load_Nature = []
             user1_Load_Nature = read_user_channel_1_load_nature()
             Input1_Load_Nature = read_input_channel_1_load_nature()
@@ -1834,7 +1818,6 @@ def load_nature_measure():
             Acu4100_Load_Nature.extend(
                 [user1_Load_Nature, Input1_Load_Nature, Input2_Load_Nature, Input3_Load_Nature, Phase_A_Load_Nature,
                  Phase_B_Load_Nature, Phase_C_Load_Nature, System_Load_Nature])
-            print(Acu4100_Load_Nature)
             if standard_Load_Nature == Acu4100_Load_Nature:
                 sheet.write(i + 1, 21, 'Passed')
             else:
@@ -1845,7 +1828,6 @@ def load_nature_measure():
 
 def energy_5a_333mv_ct_measure():
     Energy_5A_333mV_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_5A_333mV_CT')
-    print(Energy_5A_333mV_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_5A_333mV_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -2148,7 +2130,6 @@ def energy_5a_333mv_ct_measure():
 
 def energy_20a_100ma_ct_measure():
     Energy_20A_100mA_CT_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_20A_100mA_CT')
-    print(Energy_20A_100mA_CT_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_20A_100mA_CT', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -2451,7 +2432,6 @@ def energy_20a_100ma_ct_measure():
 
 def sequence_component_precision_measure():
     Sequence_Component_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Sequence_Component')
-    print(Sequence_Component_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Sequence_Component', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -2637,7 +2617,6 @@ def sequence_component_precision_measure():
 
 def energy_2e_3w_delta_measure():
     Energy_E2_3W_Delta_list = data_read(r'./test_case/AcuRev4100/4100_test_case.xlsx', 'Energy_5A_333mV_CT1')
-    print(Energy_E2_3W_Delta_list)
     my_workbook = xlwt.Workbook()
     sheet = my_workbook.add_sheet('Energy_E2_3W_Delta_measure', cell_overwrite_ok=True)
     sheet.write(0, 0, '测试用例')
@@ -2690,8 +2669,6 @@ def energy_2e_3w_delta_measure():
             print('测试进度:{},执行时间:{}'.format(Energy_E2_3W_Delta_list[i], time.strftime('%Y_%m_%d %H:%M:%S')))
         if i == len(Energy_E2_3W_Delta_list) - 1:
             break
-        print(Energy_E2_3W_Delta_list[i + 1])
-        print(Energy_E2_3W_Delta_list[i + 1][14])
         sheet.write(i + 1, 0, Energy_E2_3W_Delta_list[i + 1][0])
         sheet.write(i + 1, 1, Energy_E2_3W_Delta_list[i + 1][1])
         sheet.write(i + 1, 2, Energy_E2_3W_Delta_list[i + 1][2])
@@ -2800,9 +2777,6 @@ def energy_2e_3w_delta_measure():
                 else:
                     sheet.write(i + 1, j + 14, f'{Read_Energy_scale_list[0][j]},null')
             for k in range(len(Read_Energy_scale_list[1])):
-                print(Read_Energy_scale_list[1])
-                print(i)
-                print(Energy_E2_3W_Delta_list[i + 1][14])
                 if Read_Energy_scale_list[1][k] != 'null' and Read_Energy_scale_list[1][k] * 100 <= \
                         Energy_E2_3W_Delta_list[i + 1][14]:
                     sheet.write(i + 1, 32, f'Passed')
