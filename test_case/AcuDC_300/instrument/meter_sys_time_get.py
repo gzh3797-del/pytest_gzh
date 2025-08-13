@@ -48,7 +48,6 @@ def test_meter_sys_time_get():
     sheet.write(0, 1, 'local time')
     sheet.write(0, 2, 'compare')
     cur_time = time.time()
-    print(cur_time)
     while time.time() <= cur_time + stime * 3600:
         multi_threads_request(threads_dict)
         acudc300 = test_data['acudc300_time'].split(':')[-1]

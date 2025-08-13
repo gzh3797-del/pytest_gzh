@@ -29,7 +29,6 @@ def dcpara_addr_get(file_path, sheet_name):
             data[i][data[0].index('Start(Dec)')]
             data_dict[data[i][data[0].index('Descrption')] + ' ' + data[i][data[0].index('Data type')]]['Reg'] = \
                 data[i][data[0].index('Reg')]
-    # print(data_dict)
     return data_dict
 
 

@@ -86,5 +86,3 @@ def Read_Phase_C_Voltage(standard_value, times=1):
         return val_list[-1]
     return val_list[0]
 
-
-print(Read_Phase_A_Voltage(60, 5))

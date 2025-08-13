@@ -1288,8 +1288,6 @@ def set_utc_timestamp(value):
     """
     hex_value = hex(value).replace('0x', '').zfill(8)
     client = ModbusRtuOrTcp()
-    print([int('0x' + hex_value[0:2], 16), int('0x' + hex_value[2:4], 16),
-           int('0x' + hex_value[4:6], 16), int('0x' + hex_value[6:8], 16)])
     ret = client.write_registers(address=0x5046,
                                  values=[int('0x' + hex_value[0:2], 16), int('0x' + hex_value[2:4], 16),
                                          int('0x' + hex_value[4:6], 16), int('0x' + hex_value[6:8], 16)],
