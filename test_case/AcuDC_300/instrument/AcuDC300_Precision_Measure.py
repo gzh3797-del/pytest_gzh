@@ -289,7 +289,7 @@ def run():
             sheet.write(i + 1, 15, vol_precision)
             cur_meas = read_cur(volt_cur_list[i + 1][2], times=20)
             cur_precision = abs(abs(volt_cur_list[i + 1][2]) - abs(cur_meas)) / abs(volt_cur_list[i + 1][2]) * 100
-            if abs(volt_cur_list[i + 1][2]) <= 0.1 or abs(volt_cur_list[i + 1][2]) > 650:
+            if abs(volt_cur_list[i + 1][2]) <= 0.1:
                 sheet.write(i + 1, 9, cur_meas)
                 sheet.write(i + 1, 16, cur_precision)
                 pow_meas = read_pow(pow_standard, times=20)
