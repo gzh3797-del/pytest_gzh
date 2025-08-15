@@ -18,7 +18,7 @@ import xlwt
 from Acuvim2v3_modbus_get import *
 from openpyxl import Workbook
 from test_case.Acuvim2v3.memory_addrs import MemoryAddr
-from test_case.Acuvim2v3.testcase_names import REAL_TIME_MEASURE_COLUMNS
+from test_case.Acuvim2v3.test_report_table_heading import REAL_TIME_MEASURE_COLUMNS
 from tools.excel_operate import data_read
 from tools.log import Log
 

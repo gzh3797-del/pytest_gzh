@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # _*_ coding: utf-8 _*_
 """
-文件名称:testcase_names.py
+文件名称:test_report_table_heading.py
 功能描述:设置测试结果列名
 创建日期:2025-08-05
 作者:王洋
@@ -358,6 +358,3 @@ ENERGY_MEASURE_COLUMNS = [
     'User_3_S_E',
 ]
 
-if __name__ == '__main__':
-    out_name = [i for i in REAL_TIME_MEASURE_COLUMNS]
-    print(out_name)
