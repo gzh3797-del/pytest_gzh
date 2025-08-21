@@ -1,0 +1,4 @@
+2025-08-20 17:04:07,047 [ERROR] could not open port 'COM11': PermissionError(13, '¾Ü¾ø·ÃÎÊ¡£', None, 5)
+2025-08-20 17:04:07,047 [INFO] modbus rtu connect no error
+2025-08-20 17:04:07,047 [INFO] modbus rtu connect execute completed
+2025-08-20 17:04:07,064 [ERROR] Repeating....

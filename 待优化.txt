@@ -1,0 +1,4 @@
+logging模块
+fixture前置后置操作
+allure报告
+修改ai参数结束时读取一下保证修改成功
