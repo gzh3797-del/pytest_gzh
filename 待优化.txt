@@ -1,0 +1,8 @@
+set_all_ai_type写不进去
+写unit16寄存器方法（line num）
+修改ai参数结束时读取一下保证修改成功
+笔记本安装git上传代码
+
+logging模块
+fixture前置后置操作
+allure报告
