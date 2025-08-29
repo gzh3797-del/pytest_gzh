@@ -10,6 +10,9 @@ iom_project_configfile_path = '/test_case/IOM/test_data/'
 iom_project_outputfile_path = '/test_case/IOM/output_data/'
 iom_project_configfile = 'IOM_input_parameters.xlsx'
 
+if not os.path.exists(base_dir + '/output_data/'):
+    os.makedirs(base_dir + '/output_data/')
+
 modbus_address_setting = dcpara_addr_get(iom_project_configfile_path + iom_project_configfile, 'modbus_address_aiao_setting')
 modbus_address_reading = dcpara_addr_get(iom_project_configfile_path + iom_project_configfile, 'modbus_address_aiao_reading')
 
