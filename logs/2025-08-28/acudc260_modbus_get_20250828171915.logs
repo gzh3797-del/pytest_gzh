@@ -1,0 +1,11 @@
+INFO    2025-08-28 17:19:15,579  root:acudc260_fast_test.py:359 测试进度:['test_case', 'Voltage', 'Current_1', 'Current_2', '等待时间(h)', 'voltage_accuracy', 'current_accuracy', 'power_accuracy', '采样次数', '采样间隔'],执行时间:2025_08_28 17:19:15
+INFO    2025-08-28 17:19:15,724  root:source_control.py:26 <源输出>
+    电压检定点:0.0%;
+    电流检定点:0.0%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>

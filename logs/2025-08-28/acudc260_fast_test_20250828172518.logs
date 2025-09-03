@@ -1,0 +1,2 @@
+INFO    2025-08-28 17:25:18,377  root:modbus_rtu_tcp.py:27 modbus rtu connect no error
+INFO    2025-08-28 17:25:18,377  root:modbus_rtu_tcp.py:29 modbus rtu connect execute completed

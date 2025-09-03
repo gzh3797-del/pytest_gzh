@@ -1,0 +1,865 @@
+INFO    2025-08-28 19:24:02,660  root:acudc260_fast_test.py:363 测试进度:['test_case', 'Voltage', 'Current_1', 'Current_2', '等待时间(h)', 'voltage_accuracy', 'current_accuracy', 'power_accuracy', '采样次数', '采样间隔'],执行时间:2025_08_28 19:24:02
+INFO    2025-08-28 19:24:02,662  root:source_control.py:26 <源输出>
+    电压检定点:6.0%;
+    电流检定点:0.10400000000000001%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:24:04,276  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:60.000000V;
+电流总值:0.520000A;
+功率总值:31.199999W;
+电压直流:60.000000V;
+电流直流:0.520000A;
+功率直流:31.199999W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+DEBUG   2025-08-28 19:24:14,378  pymodbus.logging:transaction.py:184 Current transaction state - IDLE
+DEBUG   2025-08-28 19:24:14,378  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,378  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x0 0x0 0x2 0xcb 0xb
+DEBUG   2025-08-28 19:24:14,378  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,379  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,408  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,409  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,409  root:acudc260_modbus_get.py:131 read u_voltage ret is:[0, 0]
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:14,409  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,410  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x2 0x0 0x2 0x6a 0xcb
+DEBUG   2025-08-28 19:24:14,410  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.408562 Current Time stamp - 1756380254.410084
+DEBUG   2025-08-28 19:24:14,410  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:14,412  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,412  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x3f 0x4 0x93 0xe 0x5a 0xd2
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x3f 0x4 0x93 0xe 0x5a 0xd2
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,439  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,439  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,439  root:acudc260_modbus_get.py:145 read i1_current ret is:[16132, 37646]
+DEBUG   2025-08-28 19:24:14,440  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:14,440  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,440  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x4 0x0 0x2 0x8a 0xca
+DEBUG   2025-08-28 19:24:14,440  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.439178 Current Time stamp - 1756380254.44029
+DEBUG   2025-08-28 19:24:14,440  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:14,442  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,442  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,471  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x3f 0x3 0x88 0x82 0xe0 0x46
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x3f 0x3 0x88 0x82 0xe0 0x46
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,472  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,472  root:acudc260_modbus_get.py:159 read i2_current ret is:[16131, 34946]
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x6 0x0 0x2 0x2b 0xa
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.471522 Current Time stamp - 1756380254.472191
+DEBUG   2025-08-28 19:24:14,472  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:14,475  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,475  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x3f 0x84 0xd 0xc8 0xb3 0x8
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x3f 0x84 0xd 0xc8 0xb3 0x8
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,504  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,505  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,505  root:acudc260_modbus_get.py:173 read i_sum_current ret is:[16260, 3528]
+DEBUG   2025-08-28 19:24:14,505  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:14,505  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,505  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x8 0x0 0x2 0x4a 0xc9
+DEBUG   2025-08-28 19:24:14,505  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.504475 Current Time stamp - 1756380254.505527
+DEBUG   2025-08-28 19:24:14,505  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:14,508  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,508  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,534  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,534  root:acudc260_modbus_get.py:187 read p1_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xa 0x0 0x2 0xeb 0x9
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.534288 Current Time stamp - 1756380254.534288
+DEBUG   2025-08-28 19:24:14,534  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:14,537  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,537  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,563  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,563  root:acudc260_modbus_get.py:201 read p2_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xc 0x0 0x2 0xb 0x8
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.563229 Current Time stamp - 1756380254.563229
+DEBUG   2025-08-28 19:24:14,563  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:14,566  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:14,566  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:14,595  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:14,595  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:14,595  root:acudc260_modbus_get.py:215 read p_sum_power ret is:[0, 0]
+INFO    2025-08-28 19:24:14,791  root:acudc260_fast_test.py:363 测试进度:['acudc260_case1', 60, 0.52, 0.52, 0, 0.001, 0.002, 0.005, 1, 0.1],执行时间:2025_08_28 19:24:14
+INFO    2025-08-28 19:24:14,791  root:source_control.py:26 <源输出>
+    电压检定点:10.0%;
+    电流检定点:0.7799999999999999%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:24:16,395  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:100.000000V;
+电流总值:3.900000A;
+功率总值:389.999986W;
+电压直流:100.000000V;
+电流直流:3.900000A;
+功率直流:389.999986W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+DEBUG   2025-08-28 19:24:26,497  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,497  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,497  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x0 0x0 0x2 0xcb 0xb
+DEBUG   2025-08-28 19:24:26,497  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380254.595506 Current Time stamp - 1756380266.497532
+DEBUG   2025-08-28 19:24:26,497  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,498  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,530  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,530  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,531  root:acudc260_modbus_get.py:131 read u_voltage ret is:[0, 0]
+DEBUG   2025-08-28 19:24:26,531  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,531  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,531  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x2 0x0 0x2 0x6a 0xcb
+DEBUG   2025-08-28 19:24:26,531  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.530764 Current Time stamp - 1756380266.53188
+DEBUG   2025-08-28 19:24:26,531  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:26,534  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,534  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0x7a 0x3e 0x17 0x9e 0x44
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0x7a 0x3e 0x17 0x9e 0x44
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,562  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,562  root:acudc260_modbus_get.py:145 read i1_current ret is:[16506, 15895]
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x4 0x0 0x2 0x8a 0xca
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.562052 Current Time stamp - 1756380266.562052
+DEBUG   2025-08-28 19:24:26,562  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:26,565  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,565  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0x79 0xd2 0x6 0xe2 0x88
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0x79 0xd2 0x6 0xe2 0x88
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,594  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,594  root:acudc260_modbus_get.py:159 read i2_current ret is:[16505, 53766]
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x6 0x0 0x2 0x2b 0xa
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.594504 Current Time stamp - 1756380266.594504
+DEBUG   2025-08-28 19:24:26,594  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:26,596  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,596  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0xf9 0xd1 0x4 0x62 0x51
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0xf9 0xd1 0x4 0x62 0x51
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,626  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,626  root:acudc260_modbus_get.py:173 read i_sum_current ret is:[16633, 53508]
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x8 0x0 0x2 0x4a 0xc9
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.626278 Current Time stamp - 1756380266.626278
+DEBUG   2025-08-28 19:24:26,626  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:26,629  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,629  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,658  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,658  root:acudc260_modbus_get.py:187 read p1_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xa 0x0 0x2 0xeb 0x9
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.658997 Current Time stamp - 1756380266.658997
+DEBUG   2025-08-28 19:24:26,658  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:26,662  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,662  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,688  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,688  root:acudc260_modbus_get.py:201 read p2_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xc 0x0 0x2 0xb 0x8
+DEBUG   2025-08-28 19:24:26,688  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.688706 Current Time stamp - 1756380266.688706
+DEBUG   2025-08-28 19:24:26,689  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:26,692  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:26,692  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:26,721  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:26,721  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:26,721  root:acudc260_modbus_get.py:215 read p_sum_power ret is:[0, 0]
+INFO    2025-08-28 19:24:26,958  root:acudc260_fast_test.py:363 测试进度:['acudc260_case2', 100, 3.9, 3.9, 0, 0.001, 0.002, 0.005, 1, 0.1],执行时间:2025_08_28 19:24:26
+INFO    2025-08-28 19:24:26,958  root:source_control.py:26 <源输出>
+    电压检定点:10.0%;
+    电流检定点:1.0%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:24:28,567  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:100.000000V;
+电流总值:5.000000A;
+功率总值:500.000000W;
+电压直流:100.000000V;
+电流直流:5.000000A;
+功率直流:500.000000W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+DEBUG   2025-08-28 19:24:38,668  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,668  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,668  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x0 0x0 0x2 0xcb 0xb
+DEBUG   2025-08-28 19:24:38,668  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380266.721711 Current Time stamp - 1756380278.668317
+DEBUG   2025-08-28 19:24:38,668  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,668  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,698  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,698  root:acudc260_modbus_get.py:131 read u_voltage ret is:[0, 0]
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,698  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x2 0x0 0x2 0x6a 0xcb
+DEBUG   2025-08-28 19:24:38,700  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.69889 Current Time stamp - 1756380278.69889
+DEBUG   2025-08-28 19:24:38,700  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:38,702  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,702  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0xa0 0x2c 0x6c 0xf3 0x3c
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0xa0 0x2c 0x6c 0xf3 0x3c
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,732  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,732  root:acudc260_modbus_get.py:145 read i1_current ret is:[16544, 11372]
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,732  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x4 0x0 0x2 0x8a 0xca
+DEBUG   2025-08-28 19:24:38,733  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.732976 Current Time stamp - 1756380278.733989
+DEBUG   2025-08-28 19:24:38,733  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:38,736  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,736  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0xa0 0x20 0x8e 0x76 0x75
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0xa0 0x20 0x8e 0x76 0x75
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,762  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,762  root:acudc260_modbus_get.py:159 read i2_current ret is:[16544, 8334]
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x6 0x0 0x2 0x2b 0xa
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.762578 Current Time stamp - 1756380278.762578
+DEBUG   2025-08-28 19:24:38,762  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:38,765  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,765  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0x20 0x26 0x7d 0x35 0x84
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0x20 0x26 0x7d 0x35 0x84
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,791  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,791  root:acudc260_modbus_get.py:173 read i_sum_current ret is:[16672, 9853]
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,791  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,792  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x8 0x0 0x2 0x4a 0xc9
+DEBUG   2025-08-28 19:24:38,792  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.791653 Current Time stamp - 1756380278.792761
+DEBUG   2025-08-28 19:24:38,792  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:38,795  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,795  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,826  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,826  root:acudc260_modbus_get.py:187 read p1_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:38,826  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,827  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,827  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xa 0x0 0x2 0xeb 0x9
+DEBUG   2025-08-28 19:24:38,827  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.826504 Current Time stamp - 1756380278.827554
+DEBUG   2025-08-28 19:24:38,827  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:38,829  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,829  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,855  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,855  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,856  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,856  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,856  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,856  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,856  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,856  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,856  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,856  root:acudc260_modbus_get.py:201 read p2_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:38,857  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:38,857  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:38,857  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xc 0x0 0x2 0xb 0x8
+DEBUG   2025-08-28 19:24:38,857  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.855472 Current Time stamp - 1756380278.857182
+DEBUG   2025-08-28 19:24:38,857  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:38,859  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:38,859  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:38,887  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:38,888  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:38,888  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:38,888  root:acudc260_modbus_get.py:215 read p_sum_power ret is:[0, 0]
+INFO    2025-08-28 19:24:39,154  root:acudc260_fast_test.py:363 测试进度:['acudc260_case3', 100, 5, 5, 0, 0.001, 0.002, 0.005, 1, 0.1],执行时间:2025_08_28 19:24:39
+INFO    2025-08-28 19:24:39,154  root:source_control.py:26 <源输出>
+    电压检定点:15.0%;
+    电流检定点:1.3%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:24:40,775  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:150.000000V;
+电流总值:6.500000A;
+功率总值:975.000000W;
+电压直流:150.000000V;
+电流直流:6.500000A;
+功率直流:975.000000W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+DEBUG   2025-08-28 19:24:50,877  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:50,877  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:50,877  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x0 0x0 0x2 0xcb 0xb
+DEBUG   2025-08-28 19:24:50,877  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380278.887878 Current Time stamp - 1756380290.877804
+DEBUG   2025-08-28 19:24:50,877  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:50,878  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:50,901  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:50,901  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:50,901  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:50,902  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:50,902  root:acudc260_modbus_get.py:131 read u_voltage ret is:[0, 0]
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x2 0x0 0x2 0x6a 0xcb
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380290.901908 Current Time stamp - 1756380290.902417
+DEBUG   2025-08-28 19:24:50,902  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:50,905  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:50,905  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:50,929  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:50,929  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0xd0 0x4e 0x22 0x5b 0xb3
+DEBUG   2025-08-28 19:24:50,929  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0xd0 0x4e 0x22 0x5b 0xb3
+DEBUG   2025-08-28 19:24:50,929  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:50,930  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:50,930  root:acudc260_modbus_get.py:145 read i1_current ret is:[16592, 20002]
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x4 0x0 0x2 0x8a 0xca
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380290.929581 Current Time stamp - 1756380290.930578
+DEBUG   2025-08-28 19:24:50,930  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:50,933  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:50,933  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x40 0xd0 0x2c 0xf7 0xb3 0x4c
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x40 0xd0 0x2c 0xf7 0xb3 0x4c
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:50,966  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:50,966  root:acudc260_modbus_get.py:159 read i2_current ret is:[16592, 11511]
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:50,966  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x6 0x0 0x2 0x2b 0xa
+DEBUG   2025-08-28 19:24:50,967  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380290.966443 Current Time stamp - 1756380290.96741
+DEBUG   2025-08-28 19:24:50,967  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:50,969  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:50,969  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0x50 0x3d 0x8c 0xff 0x2b
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0x50 0x3d 0x8c 0xff 0x2b
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:50,996  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:50,996  root:acudc260_modbus_get.py:173 read i_sum_current ret is:[16720, 15756]
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x8 0x0 0x2 0x4a 0xc9
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380290.99684 Current Time stamp - 1756380290.99684
+DEBUG   2025-08-28 19:24:50,996  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:50,999  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:50,999  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:51,029  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:51,029  root:acudc260_modbus_get.py:187 read p1_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xa 0x0 0x2 0xeb 0x9
+DEBUG   2025-08-28 19:24:51,029  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380291.029542 Current Time stamp - 1756380291.029542
+DEBUG   2025-08-28 19:24:51,030  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:51,032  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:51,032  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:51,062  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:51,062  root:acudc260_modbus_get.py:201 read p2_power ret is:[0, 0]
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xc 0x0 0x2 0xb 0x8
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380291.062068 Current Time stamp - 1756380291.062068
+DEBUG   2025-08-28 19:24:51,062  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:24:51,065  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:24:51,065  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:24:51,094  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:24:51,094  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:24:51,094  root:acudc260_modbus_get.py:215 read p_sum_power ret is:[0, 0]
+INFO    2025-08-28 19:24:51,331  root:acudc260_fast_test.py:363 测试进度:['acudc260_case4', 150, 6.5, 6.5, 0, 0.001, 0.002, 0.005, 1, 0.1],执行时间:2025_08_28 19:24:51
+INFO    2025-08-28 19:24:51,331  root:source_control.py:26 <源输出>
+    电压检定点:20.0%;
+    电流检定点:2.0%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:24:52,944  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:200.000000V;
+电流总值:10.000000A;
+功率总值:2000.000000W;
+电压直流:200.000000V;
+电流直流:10.000000A;
+功率直流:2000.000000W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+DEBUG   2025-08-28 19:25:03,046  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,046  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,046  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x0 0x0 0x2 0xcb 0xb
+DEBUG   2025-08-28 19:25:03,047  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380291.094692 Current Time stamp - 1756380303.047188
+DEBUG   2025-08-28 19:25:03,047  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,047  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,072  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,072  root:acudc260_modbus_get.py:131 read u_voltage ret is:[0, 0]
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x2 0x0 0x2 0x6a 0xcb
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.072265 Current Time stamp - 1756380303.072265
+DEBUG   2025-08-28 19:25:03,072  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:03,075  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,075  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0x20 0x54 0x34 0xd0 0xd2
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0x20 0x54 0x34 0xd0 0xd2
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,102  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,102  root:acudc260_modbus_get.py:145 read i1_current ret is:[16672, 21556]
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,102  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x4 0x0 0x2 0x8a 0xca
+DEBUG   2025-08-28 19:25:03,103  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.102806 Current Time stamp - 1756380303.103914
+DEBUG   2025-08-28 19:25:03,103  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:03,105  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,105  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0x20 0x33 0x56 0x7b 0xb
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0x20 0x33 0x56 0x7b 0xb
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,132  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,132  root:acudc260_modbus_get.py:159 read i2_current ret is:[16672, 13142]
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x6 0x0 0x2 0x2b 0xa
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.132058 Current Time stamp - 1756380303.132934
+DEBUG   2025-08-28 19:25:03,132  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:03,135  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,135  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0xa0 0x37 0xfc 0xf8 0x5c
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0xa0 0x37 0xfc 0xf8 0x5c
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,168  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,168  root:acudc260_modbus_get.py:173 read i_sum_current ret is:[16800, 14332]
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x8 0x0 0x2 0x4a 0xc9
+DEBUG   2025-08-28 19:25:03,168  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.16876 Current Time stamp - 1756380303.16876
+DEBUG   2025-08-28 19:25:03,169  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:03,171  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,171  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,196  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,196  root:acudc260_modbus_get.py:187 read p1_power ret is:[0, 0]
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xa 0x0 0x2 0xeb 0x9
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.196252 Current Time stamp - 1756380303.196252
+DEBUG   2025-08-28 19:25:03,196  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:03,199  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,199  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,227  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,227  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,228  root:acudc260_modbus_get.py:201 read p2_power ret is:[0, 0]
+DEBUG   2025-08-28 19:25:03,228  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:03,228  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:03,228  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xc 0x0 0x2 0xb 0x8
+DEBUG   2025-08-28 19:25:03,228  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.227951 Current Time stamp - 1756380303.228929
+DEBUG   2025-08-28 19:25:03,228  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:03,231  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:03,231  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:03,263  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:03,263  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:03,263  root:acudc260_modbus_get.py:215 read p_sum_power ret is:[0, 0]
+INFO    2025-08-28 19:25:03,489  root:acudc260_fast_test.py:363 测试进度:['acudc260_case5', 200, 10, 10, 0, 0.001, 0.002, 0.005, 1, 0.1],执行时间:2025_08_28 19:25:03
+INFO    2025-08-28 19:25:03,490  root:source_control.py:26 <源输出>
+    电压检定点:50.0%;
+    电流检定点:2.6%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:25:05,094  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:500.000000V;
+电流总值:13.000000A;
+功率总值:6500.000000W;
+电压直流:500.000000V;
+电流直流:13.000000A;
+功率直流:6500.000000W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+DEBUG   2025-08-28 19:25:15,195  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,195  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,195  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x0 0x0 0x2 0xcb 0xb
+DEBUG   2025-08-28 19:25:15,196  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380303.263571 Current Time stamp - 1756380315.195662
+DEBUG   2025-08-28 19:25:15,196  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,196  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,225  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,225  root:acudc260_modbus_get.py:131 read u_voltage ret is:[0, 0]
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x2 0x0 0x2 0x6a 0xcb
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380315.225334 Current Time stamp - 1756380315.225334
+DEBUG   2025-08-28 19:25:15,225  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:15,228  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,228  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0x50 0x4f 0x79 0x1b 0xcc
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0x50 0x4f 0x79 0x1b 0xcc
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,258  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,258  root:acudc260_modbus_get.py:145 read i1_current ret is:[16720, 20345]
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,258  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,259  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x4 0x0 0x2 0x8a 0xca
+DEBUG   2025-08-28 19:25:15,259  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380315.258574 Current Time stamp - 1756380315.259689
+DEBUG   2025-08-28 19:25:15,259  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:15,262  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,262  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0x50 0x30 0xf5 0x3a 0x59
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0x50 0x30 0xf5 0x3a 0x59
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,289  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,289  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,290  root:acudc260_modbus_get.py:159 read i2_current ret is:[16720, 12533]
+DEBUG   2025-08-28 19:25:15,290  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,290  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,290  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x6 0x0 0x2 0x2b 0xa
+DEBUG   2025-08-28 19:25:15,290  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380315.289776 Current Time stamp - 1756380315.290907
+DEBUG   2025-08-28 19:25:15,290  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:15,293  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,293  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x41 0xd0 0x3f 0xe8 0xfe 0x48
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x41 0xd0 0x3f 0xe8 0xfe 0x48
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,321  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,321  root:acudc260_modbus_get.py:173 read i_sum_current ret is:[16848, 16360]
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0x8 0x0 0x2 0x4a 0xc9
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380315.321887 Current Time stamp - 1756380315.321887
+DEBUG   2025-08-28 19:25:15,321  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:15,325  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,325  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,354  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,354  root:acudc260_modbus_get.py:187 read p1_power ret is:[0, 0]
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xa 0x0 0x2 0xeb 0x9
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380315.354855 Current Time stamp - 1756380315.354855
+DEBUG   2025-08-28 19:25:15,354  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:15,357  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,357  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,387  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,387  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,387  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,388  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,388  root:acudc260_modbus_get.py:201 read p2_power ret is:[0, 0]
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:transaction.py:193 Running transaction 0
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:transaction.py:293 SEND: 0x1 0x3 0x30 0xc 0x0 0x2 0xb 0x8
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:serial.py:271 Changing state to IDLE - Last Frame End - 1756380315.387428 Current Time stamp - 1756380315.388042
+DEBUG   2025-08-28 19:25:15,388  pymodbus.logging:serial.py:279 Waiting for 3.5 char before next send - 1.823 ms
+DEBUG   2025-08-28 19:25:15,390  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2025-08-28 19:25:15,390  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:transaction.py:324 RECV: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:base.py:92 Processing: 0x1 0x3 0x4 0x0 0x0 0x0 0x0 0xfa 0x33
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:transaction.py:67 Adding transaction 0
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:transaction.py:78 Getting transaction 0
+DEBUG   2025-08-28 19:25:15,417  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2025-08-28 19:25:15,418  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (2)
+INFO    2025-08-28 19:25:15,418  root:acudc260_modbus_get.py:215 read p_sum_power ret is:[0, 0]
+INFO    2025-08-28 19:25:15,695  root:acudc260_fast_test.py:359 测试进度:['acudc260_case6', 500, 13, 13, 0, 0.001, 0.002, 0.005, 1, 0.1],执行时间:2025_08_28 19:25:15
+INFO    2025-08-28 19:25:15,817  root:source_control.py:26 <源输出>
+    电压检定点:0.0%;
+    电流检定点:0.0%;
+    电压纹波比例:0%;
+    电流纹波比例:0%;
+    电压纹波相位:0度;
+    电流纹波相位:0度;
+    纹波频率:300Hz;
+    电能方向:正向;
+    <End>
+INFO    2025-08-28 19:25:18,243  root:source_control.py:30 recv_data ret is:<源输出应答>
+电压总值:0.000000V;
+电流总值:0.000000A;
+功率总值:0.000000W;
+电压直流:0.000000V;
+电流直流:0.000000A;
+功率直流:0.000000W;
+电压纹波:0.000000V;
+电流纹波:0.000000A;
+功率纹波:0.000000W;
+<End>
+INFO    2025-08-28 19:25:28,244  root:source_control.py:26 <源停止>
+    <End>
+INFO    2025-08-28 19:25:30,063  root:source_control.py:30 recv_data ret is:<源停止应答>
+<End>
