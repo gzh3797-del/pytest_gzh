@@ -1,11 +1,11 @@
 import os
+import math
 import pandas as pd
 from typing import Any
 from Config.IOM.modbus_connet import ModbusRtuOrTcp
 import struct
 from datetime import datetime
-import time
-
+from Config.IOM.modbus_connet import ModbusRtuOrTcp
 
 
 def convert_energy_registers(registers_data):
@@ -36,20 +36,26 @@ def convert_energy_registers(registers_data):
     return results
 
 
-def excel_append_ai_measurement(ai_number, ai_type, input_data, measurement, range_str):
+def excel_append_ai_measurement(ai_number, input_data, measurement, range_str, write_to_file=False):
     """
     将AI测量数据追加到Excel文件中
     ai_number -- AI口编号 (1-16的整数)
     input_data -- 输入值 (浮点数)
     measurement -- 实测值 (浮点数)
     range_str -- 范围字符串 (如 "-35.4000~-34.600")
+    write_to_file -- 是否写入Excel文件 (布尔值，默认为True)
     """
     # 检查AI口编号范围
     if not 1 <= ai_number <= 16:
         raise ValueError("AI口编号必须为1-16的整数")
     # 解析范围字符串
     try:
-        range_min, range_max = map(float, range_str.strip().split('~'))
+        if '~' not in range_str:
+            # 如果没有'~'符号，尝试将其解析为单个数字
+            single_value = float(range_str.strip())
+            range_min = range_max = single_value
+        else:
+            range_min, range_max = map(float, range_str.strip().split('~'))
     except ValueError:
         raise ValueError("范围格式错误，应类似'-35.4000~-34.600'")
     # 生成当前时间戳
@@ -58,7 +64,6 @@ def excel_append_ai_measurement(ai_number, ai_type, input_data, measurement, ran
     new_row = {
         "时间": timestamp,
         "AI口": f"AI{ai_number:02d}",
-        "AI_TYPE": ai_type,
         "输入值": input_data,
         "实测值": measurement,
         "范围": range_str
@@ -69,25 +74,31 @@ def excel_append_ai_measurement(ai_number, ai_type, input_data, measurement, ran
     else:
         new_row["判定结果"] = "不合格"
     # 文件路径
-    file_path = "ai_i_measurements.xlsx"
-    # 创建分割行（全空值行）
-    separator_row = {col: "" for col in new_row.keys()}  # 所有列值为空字符串[7](@ref)
-    # 处理文件存在与否的逻辑
-    if os.path.exists(file_path):
-        df_existing = pd.read_excel(file_path)
-        # 合并新数据与分割行
-        df_combined = pd.concat([df_existing, pd.DataFrame([new_row]), pd.DataFrame([separator_row])],
-                                ignore_index=True)
-    else:
-        # 首次创建文件时，先添加数据行再添加分割行
-        df_combined = pd.concat([pd.DataFrame([new_row]), pd.DataFrame([separator_row])], ignore_index=True)
-    df_combined.to_excel(file_path, index=False)
-    return new_row["判定结果"]
+    # 生成判定结果
+    result = new_row["判定结果"]
+    
+    # 仅当write_to_file为True时执行文件写入操作
+    if write_to_file:
+        file_path = "ai_i_measurements.xlsx"
+        # 创建分割行（全空值行）
+        separator_row = {col: "" for col in new_row.keys()}  # 所有列值为空字符串
+        # 处理文件存在与否的逻辑
+        if os.path.exists(file_path):
+            df_existing = pd.read_excel(file_path)
+            # 合并新数据与分割行
+            df_combined = pd.concat([df_existing, pd.DataFrame([new_row]), pd.DataFrame([separator_row])],
+                                    ignore_index=True)
+        else:
+            # 首次创建文件时，先添加数据行再添加分割行
+            df_combined = pd.concat([pd.DataFrame([new_row]), pd.DataFrame([separator_row])], ignore_index=True)
+        df_combined.to_excel(file_path, index=False)
+    
+    return result
 
 
 def get_all_ai_y_measurements(modbus_client: ModbusRtuOrTcp):
     """
-    读取所有AI输入
+    读取所有AI测量值
     :return:
     """
     # 列表推导式生成 ['AI1','AI2','AI3',,,,]
@@ -123,5 +134,6 @@ def get_single_ai_y_measurement(ai_number, modbus_client) -> float | None:
 
 
 if __name__ == "__main__":
-
-    get_single_ai_y_measurement(1)
+    modbus_client = ModbusRtuOrTcp()
+    register = modbus_client.read_measurement(address=0x3000, count=1, slave=1)
+    print(register)

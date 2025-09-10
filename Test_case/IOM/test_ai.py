@@ -4,7 +4,7 @@ import logging
 import pytest
 from Config.IOM.modbus_get_attr import excel_append_ai_measurement, \
     get_all_ai_y_measurements, get_single_ai_y_measurement
-from Config.IOM.modbus_set_attr import set_all_ai_param, set_all_ai_top_bot
+from Config.IOM.modbus_set_attr import set_all_ai_param, set_all_ai_top_bot, set_ai_param, iom_test
 from Source.CL3021.source_control import set_dc, close_dc, close_dc_all
 from Config.IOM.modbus_connet import ModbusRtuOrTcp
 
@@ -42,11 +42,11 @@ class TestAi:
     #         logging.info(f"{voltage[t]}V测试结束=====================================================================")
     #     close_dc_all()
 
-    def test_single_ai_current(self, modbus_client):
-        try:
-            get_all_ai_y_measurements(modbus_client=modbus_client)
-        finally:
-            pass  # 由fixture统一管理连接生命周期
+    def test_single_ai_current(self):
+        modbus_client = ModbusRtuOrTcp()
+        register = modbus_client.read_measurement(address=0x3000, count=1, slave=1)
+        print(register)
+
     # @pytest.mark.critical
     # @pytest.mark.parametrize("ai_number", [x for x in range(2, 8)])
     # def test_single_ai_current(self, test_data, ai_number):

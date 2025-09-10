@@ -7,7 +7,6 @@ root_path = r"C:\Users\ZihanGao\PycharmProjects\pythonProject\Datas"
 def read_json():
     with open(root_path + '/config.json', "r", encoding="utf-8") as f:
         ret = json.load(f)
-        print("读取json", ret)
     return ret
 
 

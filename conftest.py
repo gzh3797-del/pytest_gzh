@@ -29,18 +29,35 @@ def modbus_client():
     import time
     client = None
     try:
-        client = ModbusRtuOrTcp(conn_mode="rtu")  # 也可以 "tcp"，根据你的配置文件
-        logging.info("Modbus 客户端初始化完成")
-        
+        config_path = os.path.join(os.path.dirname(__file__), 'Test_case', 'IOM', 'config.json')
+        try:
+            with open(config_path, 'r') as f:
+                config_data = json.load(f)
+        except FileNotFoundError:
+            # 使用默认配置
+            config_data = {'conn_mode': 'rtu', 'port': 'COM1', 'baudrate': 9600}
+            logging.warning(f'未找到配置文件 {config_path}，使用默认配置')
+        except json.JSONDecodeError:
+            logging.error(f'配置文件 {config_path} 格式错误')
+            raise
+        client = ModbusRtuOrTcp(conn_mode=config_data.get("conn_mode", "rtu"))
+        logging.info(f"Modbus 客户端初始化完成 - 配置: {config_data}")
+
         if not client.client.is_connected():
             raise ConnectionError("Modbus 客户端连接失败")
-        
+
         yield client
+    except Exception as e:
+        logging.error(f"Modbus 客户端初始化失败: {str(e)}")
+        raise
     finally:
         if client:
-            client.close()
-            time.sleep(0.5)  # 延长等待时间确保Windows释放串口资源
-            logging.info("Modbus 客户端已关闭")
+            try:
+                client.close()
+                time.sleep(0.5)  # 延长等待时间确保Windows释放串口资源
+                logging.info("Modbus 客户端已关闭")
+            except Exception as e:
+                logging.error(f"关闭 Modbus 客户端时出错: {str(e)}")
 
 
 # ================= 数据驱动 Fixture ================= #

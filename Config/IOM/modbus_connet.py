@@ -17,8 +17,8 @@ class ModbusRtuOrTcp:
             self.client = ModbusSerialClient(port=modbus_config['rtu']['port'],
                                              baudrate=modbus_config['rtu']['baudrate'],
                                              parity=modbus_config['rtu']['parity'])
-            self.client.inter_byte_timeout = 0.1
-            self.client.timeout = 1
+            self.client.inter_byte_timeout = 0.02
+            self.client.timeout = 0.5
         elif modbus_config['conn_mode'] == 'tcp':
             self.client = ModbusTcpClient(host=modbus_config['tcp']['ip'], port=modbus_config['tcp']['port'])
         else:
@@ -37,9 +37,9 @@ class ModbusRtuOrTcp:
     def close(self):
         self.client.close()
 
-    def write_registers(self, address, values, slave=0):
+    def write_registers(self, address, values, slave):
         """
-        写入寄存器
+        写入多个寄存器
         :param address:
         :param values:
         :param slave:
@@ -47,6 +47,20 @@ class ModbusRtuOrTcp:
         """
         try:
             resp = self.client.write_registers(address=address, values=values, device_id=slave)
+            return resp
+        except Exception as e:
+            return e
+
+    def write_register(self, address, value, slave):
+        """
+        写入单个寄存器
+        :param address:
+        :param value:
+        :param slave:
+        :return:
+        """
+        try:
+            resp = self.client.write_register(address=address, value=value, device_id=slave)
             return resp
         except Exception as e:
             return e
