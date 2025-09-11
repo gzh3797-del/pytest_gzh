@@ -725,30 +725,11 @@ def set_voltage_gear(gear):
         voltage_gear_update(0)
 
 
-def set_dc_output_gear(u_gear, i_gear):
-    """
-    配置直流源输出档位
-    :param u_gear:
-    :param i_gear:
-    :return:
-    """
-    # gear=hex(gear)
-    # print(gear)
-    set_cmd = [0x81, 0x01, 0x26, 0x09, 0x32, 0x03, u_gear, i_gear]
-    xor = xor_sum(set_cmd[1:])
-    set_cmd.append(int(xor))
-    print(set_cmd)
-    pdu = bytearray(set_cmd)
-    source_control = Cl3021SourCon()
-    ret = source_control.send(pdu, wait_response=False)
-    source_control.close()
-
-
 def set_dc(u: float, i: float):
     """
     设置直流源输出
     :param u: 单位V
-    :param i: 单位A，注意如果ma要/1000
+    :param i: 单位mA
     :return:
     """
     set_cmd = [0x81, 0x01, 0x26, 0x11, 0x31, 0x03]
@@ -771,11 +752,12 @@ def set_dc(u: float, i: float):
     source_control.close()
 
 
-def hex_to_float(hex_list):
-    return struct.unpack('<f', bytes(hex_list))[0]
+def bytes_to_float(hex_list, scale=1e6):
+    integer_value = int.from_bytes(hex_list, byteorder='little', signed=False)
+    return integer_value/scale
 
 
-def read_dc():
+def read_dc(u_or_ma=3):
     """
     读取直流测量值
     :return:
@@ -784,7 +766,6 @@ def read_dc():
     xor = xor_sum(set_cmd[1:])
     set_cmd.append(int(xor))
     pdu = bytearray(set_cmd)
-    print(set_cmd)
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu, wait_response=True)
     source_control.close()
@@ -792,14 +773,15 @@ def read_dc():
     byte_data = ret[1][0]
     # 字节转16进制整数列表
     measurement_data = list(byte_data)
-    # [129, 38, 1, 32, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 0, 0, 0, 250, 143, 0, 0, 0, 250, 0, 0, 0, 0, 0, 234]
-    print(measurement_data)
-    u_data = hex_to_float(measurement_data[16:20])
-    i_data = hex_to_float(measurement_data[21:25])
-    # 将浮点数转换为精确的6位小数Decimal
-    u_data = Decimal(str(u_data)).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
-    i_data = Decimal(str(i_data)).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
-    return u_data, i_data  # (6.866362475191604e-44, 2.0038568039844884e-43)
+    # [129, 38, 1, 32, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 255, 250, 191, 255, 255, 255, 250, 0, 0, 0, 0, 0, 21]
+    u_data = bytes_to_float(measurement_data[16:20])
+    i_data = bytes_to_float(measurement_data[21:25])
+    if u_or_ma == 0:
+        return u_data
+    elif u_or_ma == 1:
+        return i_data
+    else:
+        return u_data, i_data
 
 
 def set_dc_read_mode():
@@ -863,19 +845,10 @@ def close_dc_all():
 
 
 if __name__ == "__main__":
-    # start_time = time.time()
-    # current = [0.0002, 0.002, 0.005, 0.01, 0.015, 0.02]
-    # for x in current:
-    #     print(f"{x}A")
-    #     set_dc(0, x)
-    #     time.sleep(20)
-    #     close_dc(2)
-    # end_time = time.time()
-    # print(f"set_dc time: {end_time - start_time}")
-    # close_dc(1)
-    # # close_dc_all()
+
     close_dc_all()
-    # set_dc(0, 0.001)
-    # time.sleep(5)
-    # close_dc(2)
+    # set_dc(0, 12)
+
+    # set_dc(0, 12)
+
 
