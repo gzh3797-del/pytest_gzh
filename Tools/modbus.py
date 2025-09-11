@@ -1,8 +1,10 @@
 import pandas as pd
-import re
 import os
 import glob
 import sys
+
+# 打包命令：pyinstaller --onefile --console --icon=icon.ico  modbus.py
+
 
 # ===== 路径处理：保证打包后也能找到同目录的文件 =====
 if getattr(sys, 'frozen', False):
@@ -175,9 +177,14 @@ class ModbusCommandGenerator:
             "hardware patch number",
             "Serial Number"
         }
-        
         # 根据参数名称选择功能码
         function_code = 0x6A if param_match.lower() in special_params else 0x10
+        # ✅ 针对 mac / serial number 强制规则
+        if param_match.lower() in ["serial number", "mac address"]:
+            reg_count = 6
+            required_bytes = 12
+        else:
+            required_bytes = reg_count * 2
 
         # 处理参数值（自动识别数据类型）
         data_bytes = self._process_parameter(param_value)
@@ -200,18 +207,27 @@ class ModbusCommandGenerator:
         # 数据字节数 = 寄存器数量 × 2
         data_length = reg_count * 2
 
-        # 构造指令帧
+        # 构造写入命令帧
         command_frame = [
-            self.slave_addr,  # 从站地址 (0x01)
-            function_code,  # 动态功能码 (0x10 写多个寄存器或0x6A特殊功能码)
-            *self._split_16bit(address),  # 寄存器地址（16位）
-            *self._split_16bit(reg_count),  # 寄存器数量（16位）
-            data_length,  # 数据字节数
-            *data_bytes  # 参数值数据
+            self.slave_addr,
+            function_code,
+            *self._split_16bit(address),
+            *self._split_16bit(reg_count),
+            required_bytes,
+            *data_bytes
         ]
+        write_cmd = ' '.join(f"{byte:02X}" for byte in command_frame)
 
-        # 转换为十六进制字符串
-        return ' '.join(f"{byte:02X}" for byte in command_frame)
+        # === 构造读取命令帧 ===
+        read_frame = [
+            self.slave_addr,
+            0x03,  # 功能码固定读取保持寄存器
+            *self._split_16bit(address),
+            *self._split_16bit(reg_count)
+        ]
+        read_cmd = ' '.join(f"{byte:02X}" for byte in read_frame)
+
+        return write_cmd, read_cmd
 
     def _split_16bit(self, value):
         """将16位值拆分为高低字节"""
@@ -306,7 +322,8 @@ if __name__ == "__main__":
                 continue
             # 生成指令（自动识别数据类型）
             cmd = generator.generate_command(param_name, param_value)
-            print(f"生成指令: {cmd}")
+            print(f"生成写入指令: {cmd[0]}")
+            print(f"对应读取指令: {cmd[1]}")
 
         except ValueError as e:
             print(f"错误: {str(e)}")
