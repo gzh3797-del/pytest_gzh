@@ -1,0 +1,3 @@
+ERROR   2025-08-29 11:16:42,452  pymodbus.logging:serial.py:228 could not open port 'COM8': FileNotFoundError(2, '系统找不到指定的文件。', None, 2)
+INFO    2025-08-29 11:16:42,452  root:modbus_rtu_tcp.py:27 modbus rtu connect no error
+INFO    2025-08-29 11:16:42,452  root:modbus_rtu_tcp.py:29 modbus rtu connect execute completed
