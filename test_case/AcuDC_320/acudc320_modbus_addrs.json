@@ -1,0 +1,26 @@
+{
+    "readings": {
+        "0": 0,
+        "V(Measured or Compensated)": 12288,
+        "Current 1": 12290,
+        "Power 1": 12292,
+        "Voltage Ripple Factor": 12294,
+        "Current Ripple Factor 1": 12296,
+        "Demand Current 1": 12308,
+        "Demand Current 2": 12310,
+        "Demand Current Sum": 12312,
+        "Demand Power 1": 12314,
+        "Demand Power 2": 12316,
+        "Demand Power Sum": 12318,
+        "V(Measured)": 12306,
+        "V(Compensated)": 12308,
+        "Import Energy 1": 16384,
+        "Export Energy 1": 16388,
+        "Net Energy 1": 16392,
+        "Total Energy 1": 16396,
+        "Import Charge 1": 16400,
+        "Export Charge 1": 16404,
+        "Net Charge 1": 16408,
+        "Total Charge 1": 16412
+    }
+}
