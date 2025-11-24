@@ -4,8 +4,8 @@ import pyperclip
 import pytest
 from datetime import datetime
 from comm.source_control import *
-from test_case.Acuview_QT_Auto.utils.QT_auto_utils import AutoHelper
-from test_case.Acuview_QT_Auto.utils.common_utils import CommonUtils
+from comm.QT_comm.QT_utils.QT_auto_utils import AutoHelper
+from comm.QT_comm.QT_utils.common_utils import CommonUtils
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
 import struct
 import modbus_config
@@ -20,25 +20,15 @@ class TestTransaction:
     @pytest.fixture(autouse=True)
     def setup(self, request):
         """每个测试用例前的准备工作"""
-        logging.basicConfig(
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S',
-            level=logging.INFO,
-            force=True  # 强制重新配置，覆盖pytest的设置
-        )
-        self.app_path = r'C:\JrJ\acuview\Acuview 2.exe'
-        self.device_type = 'AucDC_320'
-        self.device_image_path = rf'page_elements\{self.device_type}\device.png'
+        self.app_path = modbus_config["QT_path"]
+        self.device_image_path = modbus_config["device_image_path"]
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
         self.modbus_client = ModbusRtuOrTcp()
         # 初始化工具类
         self.utils = CommonUtils(self.helper, self.app_path, self.device_image_path)
-
         self.helper.kill_acuview_apps()
-        self.helper.wait(2)
         self.helper.hotkey('win', 'd')
-        self.helper.wait(1)
         self.helper.launch_app(self.app_path)
         yield
         self.helper.kill_acuview_apps()
@@ -550,7 +540,7 @@ class TestTransaction:
         # 结束充电
         self.utils.end_charging()
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading', 0)
-        #开始充电后，已经点击过一次Transaction_In_Progress，标图为选中状态，充电结束后，需要点击其他按钮重置
+        # 开始充电后，已经点击过一次Transaction_In_Progress，标图为选中状态，充电结束后，需要点击其他按钮重置
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log', 0)
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status')
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_In_Progress')
@@ -898,7 +888,7 @@ class TestTransaction:
         assert duration_diff <= time_tolerance, f"充电时长差异过大: {duration_diff}秒"
 
         # 计算理论能量（根据你的输入电压电流）
-        power = (voltage + (current * config_cable)) * current * 0.001   # 功率 (W)
+        power = (voltage + (current * config_cable)) * current * 0.001  # 功率 (W)
         theory_energy = power * (log_duration / 3600)  # 能量 (Wh)，使用实际时长
 
         print(f"输入功率: {power}kW")
@@ -1016,8 +1006,8 @@ class TestTransaction:
         assert duration_diff <= time_tolerance, f"充电时长差异过大: {duration_diff}秒"
 
         actual_duration = actual_end_time - actual_start_time
-        #存在误差时间，开始输出时间必定大于实际充电时间
-        real_time= actual_duration - log_duration
+        # 存在误差时间，开始输出时间必定大于实际充电时间
+        real_time = actual_duration - log_duration
         # 计算理论能量（根据你的输入电压电流）
         power = (voltage + (current * config_cable)) * current * 0.001  # 功率 (W)
         theory_energy = power * (log_duration / 3600)  # 能量 (Wh)，使用实际时长
@@ -1238,7 +1228,7 @@ class TestTransaction:
         # 结束充电
         self.utils.end_charging()
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading', 0)
-        #开始充电后，已经点击过一次Transaction_In_Progress，标图为选中状态，充电结束后，需要点击其他按钮重置
+        # 开始充电后，已经点击过一次Transaction_In_Progress，标图为选中状态，充电结束后，需要点击其他按钮重置
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status')
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_In_Progress')
         transaction_end_time = self.helper.check_image_exists(
@@ -1266,7 +1256,7 @@ class TestTransaction:
         # 结束充电
         self.utils.end_charging()
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading', 0)
-        #开始充电后，已经点击过一次Transaction_In_Progress，标图为选中状态，充电结束后，需要点击其他按钮重置
+        # 开始充电后，已经点击过一次Transaction_In_Progress，标图为选中状态，充电结束后，需要点击其他按钮重置
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status')
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_In_Progress')
         transaction_end_time = self.helper.check_image_exists(

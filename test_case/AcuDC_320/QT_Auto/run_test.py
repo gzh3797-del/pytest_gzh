@@ -16,7 +16,7 @@ def run_tests():
     """运行测试并生成报告"""
 
     # 创建报告目录
-    report_dir = "test_reports"
+    report_dir = "reports"
     if not os.path.exists(report_dir):
         os.makedirs(report_dir)
 
@@ -26,7 +26,7 @@ def run_tests():
 
     # 简化的pytest参数 - 移除有问题的依赖参数
     pytest_args = [
-        "test_case/320/test_transaction",
+        "test_transaction/test_transaction.py",
         "-v",
         f"--html={html_report}",
         "--self-contained-html",

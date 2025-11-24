@@ -3,7 +3,8 @@ import pytest
 import time
 import sys
 import os
-from test_case.Acuview_QT_Auto.utils.QT_auto_utils import AutoHelper
+from comm.QT_comm.QT_utils.QT_auto_utils import AutoHelper
+from modbus_config import modbus_config
 
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -15,13 +16,14 @@ class TestAcuviewAutomation:
     @pytest.fixture(autouse=True)
     def setup(self, request):
         """每个测试用例前的准备工作"""
-        self.app_path = r'C:\Users\YiSong\Acuview2\Acuview 2.exe'
-        self.package_path = r'test_case\test_firmware\Application_verison\AcuDC-301_Application_v1.04p08-20251107.MFEA'
-        self.device_image_path = r'page_elements\AucDC_262\device_262_TCP.png'
+        self.app_path = modbus_config["QT_path"]
+        self.device_image_path = modbus_config["device_image_path"]
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
+        # 初始化工具类
         self.helper.kill_acuview_apps()
-        self.helper.wait(2)
+        self.helper.hotkey('win', 'd')
+        self.helper.launch_app(self.app_path)
         yield
         self.helper.kill_acuview_apps()
 

@@ -1,13 +1,12 @@
-import logging
 import time
 import pyperclip
 import pytest
 import sys
 import os
-from test_case.Acuview_QT_Auto.utils.ModbusClient import ModbusClient, ModbusProtocol
-from test_case.Acuview_QT_Auto.utils.QT_auto_utils import AutoHelper
-from test_case.Acuview_QT_Auto.utils.common_utils import CommonUtils
-
+from comm.QT_comm.QT_utils.ModbusClient import ModbusProtocol,ModbusClient
+from comm.QT_comm.QT_utils.QT_auto_utils import AutoHelper
+from comm.QT_comm.QT_utils.common_utils import CommonUtils
+from modbus_config import modbus_config
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -18,20 +17,14 @@ class TestTransaction:
     @pytest.fixture(autouse=True)
     def setup(self, request):
         """每个测试用例前的准备工作"""
-        self.app_root_path = r'C:\Users\YiSong\Acuview2'
-        self.app_path = rf'{self.app_root_path}\Acuview 2.exe'
-        self.device_type = 'AucDC_320'
-        self.device_image_path = rf'page_elements\{self.device_type}\320_TCP'
+        self.app_path = modbus_config["QT_path"]
+        self.device_image_path = modbus_config["device_image_path"]
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
-
         # 初始化工具类
         self.utils = CommonUtils(self.helper, self.app_path, self.device_image_path)
-
         self.helper.kill_acuview_apps()
-        self.helper.wait(2)
         self.helper.hotkey('win', 'd')
-        self.helper.wait(1)
         self.helper.launch_app(self.app_path)
         yield
         self.helper.kill_acuview_apps()
@@ -58,7 +51,7 @@ class TestTransaction:
     ])
     def test_Function_AcuDC320_Sprint2_003_01_case3(self, config_value, expected_value):
         """上位机可配置identification_status信息 - 参数化版本"""
-        self.utils.construct_transaction_logs(20, clear=False, connect=False)
+        self.utils.construct_transaction_logs(30, clear=False, connect=False)
         self.utils.connect_device()
         self.utils.configure_identification_status(value=config_value)
         self.utils.perform_charging_cycle()
@@ -595,8 +588,6 @@ class TestTransaction:
             pytest.fail('交易日志清理失败')
         current_log_num = int(self.helper.quick_ocr_by_config('Used Records'))
         assert current_log_num == 0, '交易日志提示清理失败，Used Records值不为0'
-
-
 
 
 if __name__ == "__main__":

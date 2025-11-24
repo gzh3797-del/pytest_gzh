@@ -3,8 +3,7 @@ import pyperclip
 import time
 import logging
 import pytest
-
-from test_case.Acuview_QT_Auto.utils.ModbusClient import ModbusClient, ModbusProtocol
+from comm.QT_comm.QT_utils.ModbusClient import ModbusProtocol, ModbusClient
 
 
 class CommonUtils:
@@ -639,18 +638,13 @@ class CommonUtils:
         """
         # 点击Reading
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading')
-
         # 点击Echi_Log
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Echilog')
-
         # 点击Read_Log
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\Read_Log')
-        time.sleep(2)
         # 点击Stop
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\Stop')
-        time.sleep(2)
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-        time.sleep(2)
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
 
         # 点击第一行日志
@@ -712,7 +706,7 @@ class CommonUtils:
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         return popup_exists
 
-    def long_time_charging(self,charging_time):
+    def long_time_charging(self, charging_time):
         if not self.helper.check_image_exists(
                 r'page_elements\Acuview_public\Setting_page\Test_Charging\Start_Charging'):
             # 点击Setting
@@ -724,7 +718,7 @@ class CommonUtils:
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         self.restart_application()
-        time.sleep(charging_time-13)
+        time.sleep(charging_time - 13)
         # 点击End_Charging
         self.connect_device()
         if not self.helper.check_image_exists(

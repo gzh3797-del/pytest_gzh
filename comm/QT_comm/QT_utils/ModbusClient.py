@@ -3,10 +3,10 @@ import serial
 import time
 import logging
 import pandas as pd
-import json
 from pathlib import Path
 from enum import Enum
 from typing import Union, List, Dict
+from modbus_config import modbus_config
 
 
 class ModbusProtocol(Enum):
@@ -41,7 +41,7 @@ class ModbusClient:
         # 加载配置文件
         self._load_config()
         self.last_request_time = 0  # 记录上次请求时间
-        self.min_interval = 0.2     # 最小间隔200ms
+        self.min_interval = 0.2  # 最小间隔200ms
         if protocol == ModbusProtocol.TCP:
             self._init_tcp()
         elif protocol == ModbusProtocol.RTU:
@@ -53,23 +53,12 @@ class ModbusClient:
 
     def _load_config(self):
         """加载设备配置文件"""
-        try:
-            config_path = Path(__file__).parent.parent / "config" / "devices_config.json"
-            if not config_path.exists():
-                raise FileNotFoundError(f"配置文件不存在: {config_path}")
 
-            with open(config_path, 'r', encoding='utf-8') as f:
-                self.config = json.load(f)
-
-            self.logger.info(f"成功加载配置文件: {config_path}")
-
-        except Exception as e:
-            self.logger.error(f"加载配置文件失败: {e}")
-            raise
+        self.config = modbus_config
 
     def _init_tcp(self):
         """初始化TCP连接参数"""
-        tcp_config = self.config["tcp"]
+        tcp_config = self.config["QT_tcp"]
         self.host = tcp_config["host"]
         self.port = tcp_config["port"]
         self.timeout = tcp_config["timeout"]
@@ -81,7 +70,7 @@ class ModbusClient:
 
     def _init_rtu(self):
         """初始化RTU串口参数"""
-        rtu_config = self.config["rtu"]
+        rtu_config = self.config["QT_rtu"]
         self.port = rtu_config["port"]
         self.baudrate = rtu_config["baudrate"]
         self.bytesize = rtu_config["bytesize"]
@@ -687,7 +676,7 @@ class ModbusClient:
         if not self._is_connected:
             self.connect()
 
-    def parse_data(self,hex_string: str) -> int:
+    def parse_data(self, hex_string: str) -> int:
         """
         解析协议数据，返回数值结果
 
@@ -723,4 +712,4 @@ class ModbusClient:
 # 使用示例
 if __name__ == "__main__":
     with ModbusClient(ModbusProtocol.TCP) as rtu_client:
-        r=rtu_client.validate_register_value('Serial Number','DE55061235',True)
+        r = rtu_client.validate_register_value('Serial Number', 'DE55061235', True)

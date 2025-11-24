@@ -1,18 +1,20 @@
 import json
 from pathlib import Path
-from typing import List,Dict, Any
+from typing import List, Dict, Any
 import pyautogui
 import time
 import os
 import subprocess
 import logging
 import psutil
-from typing import Optional, Tuple
+from typing import Tuple
 import pytest
 import cv2
 import pyperclip
 import pytesseract
 import numpy as np
+import io
+import base64
 
 
 class AutoHelper:
@@ -28,13 +30,33 @@ class AutoHelper:
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
         self.confidence = confidence
         self.logger = logging.getLogger('AutoHelper')
-        # 获取当前文件的绝对路径
-        current_file = os.path.abspath(__file__)
-        # 获取当前文件所在目录
-        current_dir = os.path.dirname(current_file)
         # 获取上一级目录（去掉最后一级）
-        self.project_root = os.path.dirname(current_dir)
+        current_file = Path(__file__)
+        self.project_root = current_file.parents[1]
         self.logger.info("🚀 自动化助手初始化完成")
+
+    def take_screenshot_base64(self, description: str = "") -> str:
+        """
+        截取屏幕并返回base64编码（用于HTML报告）
+
+        Args:
+            description: 截图描述
+
+        Returns:
+            str: base64编码的图片
+        """
+        try:
+            # 截取屏幕
+            screenshot = pyautogui.screenshot()
+            buffer = io.BytesIO()
+            screenshot.save(buffer, format='PNG')
+            img_str = base64.b64encode(buffer.getvalue()).decode()
+            self.logger.info(f"📸 生成base64截图 - {description}")
+            return f"data:image/png;base64,{img_str}"
+
+        except Exception as e:
+            self.logger.error(f"❌ 生成base64截图失败: {e}")
+            return ""
 
     def launch_app(self, app_path: str, timeout: int = 30) -> bool:
         """
@@ -146,6 +168,7 @@ class AutoHelper:
         key_str = '+'.join(keys)
         self.logger.info(f"🔧 执行快捷键: {key_str}")
         pyautogui.hotkey(*keys)
+        self.wait(1)
 
     def click_image(self, image_path: str, index: int = 0, offset_x: int = 0,
                     offset_y: int = 0, timeout: int = 3, confidence: float = 0.95) -> bool:

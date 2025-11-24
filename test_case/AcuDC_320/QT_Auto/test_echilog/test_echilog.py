@@ -1,8 +1,10 @@
 import pytest
-from test_case.Acuview_QT_Auto.utils.QT_auto_utils import AutoHelper
-from comm.source_control import *
-from test_case.Acuview_QT_Auto.utils.common_utils import CommonUtils
+import sys
+import os
+from comm.QT_comm.QT_utils.QT_auto_utils import AutoHelper
+from comm.QT_comm.QT_utils.common_utils import CommonUtils
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
+from modbus_config import modbus_config
 
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -13,21 +15,13 @@ class TestEchilog:
     @pytest.fixture(autouse=True)
     def setup(self, request):
         """每个测试用例前的准备工作"""
-        logging.basicConfig(
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S',
-            level=logging.INFO,
-            force=True  # 强制重新配置，覆盖pytest的设置
-        )
-        self.app_path = r'C:\JrJ\acuview\Acuview 2.exe'
-        self.device_type = 'AucDC_320'
-        self.device_image_path = rf'page_elements\{self.device_type}\device.png'
+        self.app_path = modbus_config["QT_path"]
+        self.device_image_path = modbus_config["device_image_path"]
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
         self.modbus_client = ModbusRtuOrTcp()
         # 初始化工具类
         self.utils = CommonUtils(self.helper, self.app_path, self.device_image_path)
-
         self.helper.kill_acuview_apps()
         self.helper.wait(2)
         self.helper.hotkey('win', 'd')
