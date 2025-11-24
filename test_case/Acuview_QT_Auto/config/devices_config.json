@@ -1,0 +1,17 @@
+{
+  "tcp": {
+    "host": "192.168.1.254",
+    "port": 502,
+    "timeout": 10,
+    "slave_id": 1
+  },
+  "rtu": {
+    "port": "COM10",
+    "baudrate": 19200,
+    "bytesize": 8,
+    "parity": "N",
+    "stopbits": 1,
+    "timeout": 1,
+    "slave_id": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "Max Records": {
+    "top_left": [655, 248],
+    "bottom_right": [712, 271]
+  },
+  "Used Records": {
+    "top_left": [976, 243],
+    "bottom_right": [1134, 271]
+  },
+  "Max Transaction Id": {
+    "top_left": [1288, 244],
+    "bottom_right": [1422, 275]
+  },
+  "Start Id": {
+    "top_left": [1159, 191],
+    "bottom_right": [1217, 217]
+  }
+}
