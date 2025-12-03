@@ -3,10 +3,11 @@ import pyperclip
 import pytest
 import sys
 import os
-from comm.QT_comm.QT_utils.ModbusClient import ModbusProtocol,ModbusClient
+from comm.QT_comm.QT_utils.ModbusClient import ModbusProtocol, ModbusClient
 from comm.QT_comm.QT_utils.QT_auto_utils import AutoHelper
 from comm.QT_comm.QT_utils.common_utils import CommonUtils
 from modbus_config import modbus_config
+
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -18,6 +19,7 @@ class TestTransaction:
     def setup(self, request):
         """每个测试用例前的准备工作"""
         self.app_path = modbus_config["QT_path"]
+        self.app_root_path = os.path.dirname(self.app_path)
         self.device_image_path = modbus_config["device_image_path"]
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
@@ -40,10 +42,10 @@ class TestTransaction:
                 '00 01 00 00 00 09 01 03 F0 6E 00 21')
             res4 = client.send_custom_message(
                 '00 01 00 00 00 09 01 03 F0 8F 00 10')
-        pytest.assume(res1[21:23] == '6A', "公钥写入失败")
-        pytest.assume(res2[21:23] == '6A', "私钥写入失败")
-        pytest.assume(res3[21:23] == '03', "公钥读取失败")
-        pytest.assume(res4[21:23] != '03', "私钥读取成功")
+        pytest.assume(res1[21:23] == '6A', f"公钥写入失败，预期6A，实际{res1[21:23]}")
+        pytest.assume(res2[21:23] == '6A', f"私钥写入失败，预期6A，实际{res2[21:23]}")
+        pytest.assume(res3[21:23] == '03', f"公钥读取失败，预期03，实际{res3[21:23]}")
+        pytest.assume(res4[21:23] != '03', f"私钥读取成功检查失败，预期不是03，实际{res4[21:23]}")
 
     @pytest.mark.parametrize("config_value,expected_value", [
         (True, True),
@@ -339,6 +341,21 @@ class TestTransaction:
         actual_result = self.helper.parse_ocmf(log_data)
         self.helper.validate_json(actual_result)
 
+    def test_Function_AcuDC320_Sprint2_003_03_case11(self):
+        """铅封打开，清除交易日志成功"""
+        self.utils.construct_transaction_logs(40, clear=False)
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\clear_log')
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Confirm')
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+        time.sleep(1)
+        if self.helper.check_image_exists(
+                r'page_elements\Acuview_public\Reading_page\Transaction_Log\clear_successful'):
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+        else:
+            pytest.fail('交易日志清理失败')
+        current_log_num = int(self.helper.quick_ocr_by_config('T Used Records'))
+        assert current_log_num == 0, '交易日志提示清理失败，Used Records值不为0'
+
     @pytest.mark.parametrize("config_value,expected_value", [
         (49, 49),
         (50, 50),
@@ -348,7 +365,7 @@ class TestTransaction:
         """读取交易日志，上位机选择 Read latest 50 Records 读取正常 """
         # 写入并读取日志
         self.utils.construct_transaction_logs(config_value)
-        self.utils.read_transaction_logs()
+        self.utils.read_logs()
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         self.helper.hotkey('ctrl', 'c')
@@ -365,7 +382,7 @@ class TestTransaction:
         self.helper.hotkey('ctrl', 'c')
         result = pyperclip.paste()
         file_path = rf'{self.app_root_path}\Export\{file_name}'
-        self.helper.check_csv_file(file_path, result, expected_value)
+        self.helper.check_csv_file(file_path, expected_value, result, 'T')
 
     @pytest.mark.parametrize("config_value,expected_value", [
         (999, 999),
@@ -377,7 +394,7 @@ class TestTransaction:
         self.utils.construct_transaction_logs(config_value)
         self.helper.click_pos((1005, 208))
         self.helper.click_pos((928, 245))
-        self.utils.read_transaction_logs()
+        self.utils.read_logs()
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         self.helper.hotkey('ctrl', 'c')
@@ -394,7 +411,7 @@ class TestTransaction:
         self.helper.hotkey('ctrl', 'c')
         result = pyperclip.paste()
         file_path = rf'{self.app_root_path}\Export\{file_name}'
-        self.helper.check_csv_file(file_path, result, expected_value)
+        self.helper.check_csv_file(file_path, expected_value, result, 'T')
 
     @pytest.mark.parametrize("config_value,expected_value", [
         (50, 50),
@@ -405,11 +422,11 @@ class TestTransaction:
         self.utils.construct_transaction_logs(config_value, clear=False)
         for i in range(20):
             if config_value == 50:
-                self.utils.read_transaction_logs()
+                self.utils.read_logs()
             else:
                 self.helper.click_pos((1005, 208))
                 self.helper.click_pos((928, 245))
-                self.utils.read_transaction_logs()
+                self.utils.read_logs()
 
     def test_Function_AcuDC320_Sprint2_003_03_case7(self):
         """上位机读取日志时，点击停止按钮，可停止日志读取"""
@@ -435,8 +452,8 @@ class TestTransaction:
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading')
         # 点击Transaction_Log
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log')
-        self.utils.read_transaction_logs()
-        used = int(self.helper.quick_ocr_by_config('Used Records'))
+        self.utils.read_logs()
+        used = int(self.helper.quick_ocr_by_config('T Used Records'))
         assert current_log_num == used, f'重启前数量{current_log_num}，重启后数量{used}'
 
     def test_Function_AcuDC320_Sprint2_003_03_case12_1(self):
@@ -455,7 +472,7 @@ class TestTransaction:
         """频繁触发交易和结束交易，used Records小于等于Max Transactio"""
         self.utils.construct_transaction_logs(5000, clear=False)
         max = int(self.helper.quick_ocr_by_config('Max Transaction Id'))
-        used = int(self.helper.quick_ocr_by_config('Used Records'))
+        used = int(self.helper.quick_ocr_by_config('T Used Records'))
         assert used <= max, 'Used Records大于Max Transaction'
 
     @pytest.mark.parametrize("config_value", [
@@ -478,7 +495,7 @@ class TestTransaction:
             if Start_Id == int(config_value):
                 pytest.fail('Start_Id配置61441成功')
         else:
-            self.utils.read_transaction_logs()
+            self.utils.read_logs()
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
             self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
             self.helper.hotkey('ctrl', 'c')
@@ -495,14 +512,14 @@ class TestTransaction:
             self.helper.hotkey('ctrl', 'c')
             result = pyperclip.paste()
             file_path = rf'{self.app_root_path}\Export\{file_name}'
-            used = int(self.helper.quick_ocr_by_config('Used Records'))
+            used = int(self.helper.quick_ocr_by_config('T Used Records'))
             read_num = used - int(config_value) + 1
             if read_num > 1000:
                 expected_data_len = 1000
             else:
                 expected_data_len = read_num
 
-            self.helper.check_csv_file(file_path, result, expected_data_len)
+            self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
 
     @pytest.mark.parametrize("config_value", [
         '1',
@@ -524,7 +541,7 @@ class TestTransaction:
             if Start_Id == int(config_value):
                 pytest.fail('Start_Id配置61441成功')
         else:
-            self.utils.read_transaction_logs()
+            self.utils.read_logs()
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
             self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
             self.helper.hotkey('ctrl', 'c')
@@ -541,14 +558,13 @@ class TestTransaction:
             self.helper.hotkey('ctrl', 'c')
             result = pyperclip.paste()
             file_path = rf'{self.app_root_path}\Export\{file_name}'
-            used = int(self.helper.quick_ocr_by_config('Used Records'))
+            used = int(self.helper.quick_ocr_by_config('T Used Records'))
             read_num = used - int(config_value) + 1
             if read_num > 6400:
                 expected_data_len = 6400
             else:
                 expected_data_len = read_num
-
-            self.helper.check_csv_file(file_path, result, expected_data_len)
+            self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
 
     def test_Function_AcuDC320_Sprint2_003_03_case10(self, ):
         self.utils.construct_transaction_logs(61400, clear=False, connect=False)
@@ -556,11 +572,18 @@ class TestTransaction:
             res2 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
         assert res2[21:23] != '10', "可以写入第61401条交易日志"
 
+    def test_Function_AcuDC320_Sprint2_002_01_case9(self):
+        """构建Transaction log满，系统状态：Fatal Error，生成一条Echilog，记录旧新值、时间戳、ID"""
+        self.utils.construct_transaction_logs(61400, clear=False, connect=False)
+        self.utils.connect_device()
+        result = self.utils.read_echilog_multi_line(1)
+        time_value, type_value, old_value, new_value = result[0]
+
     def test_Function_AcuDC320_Sprint2_003_01_case12(self):
         self.utils.connect_device()
         self.utils.configure_Transaction_Timeout(value=3600)
         self.utils._update_configuration()
-        self.utils.long_time_charging(1800)
+        self.utils.long_time_charging(3600)
         if not self.helper.check_image_exists(
                 r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
             pytest.fail('充电时间超过3600秒仍未结束充电')
@@ -573,21 +596,6 @@ class TestTransaction:
         if self.helper.check_image_exists(
                 r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
             pytest.fail('充电时间超过1800秒已经结束充电，设置0不生效')
-
-    def test_Function_AcuDC320_Sprint2_003_03_case11(self):
-        """铅封打开，清除交易日志成功"""
-        self.utils.construct_transaction_logs(40, clear=False)
-        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\clear_log')
-        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Confirm')
-        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-        time.sleep(1)
-        if self.helper.check_image_exists(
-                r'page_elements\Acuview_public\Reading_page\Transaction_Log\clear_successful'):
-            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-        else:
-            pytest.fail('交易日志清理失败')
-        current_log_num = int(self.helper.quick_ocr_by_config('Used Records'))
-        assert current_log_num == 0, '交易日志提示清理失败，Used Records值不为0'
 
 
 if __name__ == "__main__":

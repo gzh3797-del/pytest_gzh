@@ -1,5 +1,4 @@
 import time
-
 import pyperclip
 import pytest
 from datetime import datetime

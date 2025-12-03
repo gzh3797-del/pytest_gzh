@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pyautogui
 import pyperclip
 import time
@@ -352,6 +354,9 @@ class CommonUtils:
         # 点击Start_Charging
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Test_Charging\Start_Charging')
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+        if self.helper.check_image_exists(
+                r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
+            pytest.fail('充电操作执行失败')
         # 记录开始充电时间
         actual_start_time = time.time()
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
@@ -359,6 +364,7 @@ class CommonUtils:
         # 点击End_Charging
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Test_Charging\End_Charging')
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+
         # 记录结束充电时间
         actual_end_time = time.time()
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
@@ -508,8 +514,8 @@ class CommonUtils:
     def reboot_device(self):
         """重启电表"""
         self.restart_application()
-        with ModbusClient(ModbusProtocol.RTU) as rtu_client:
-            rtu_client.validate_register_value('Reset for update', value='¡XX¡', use_6a=True)
+        with ModbusClient(ModbusProtocol.TCP) as client:
+            client.validate_register_value('Reset for update', '¡XX¡', True)
         time.sleep(15)
         # 重新连接设备
         self.helper.connect_device(self.device_image_path)
@@ -519,46 +525,130 @@ class CommonUtils:
         """
         构造交易日志
 
-         Args:
-                value (int): 表示构造的数量
-         """
+        Args:
+            value (int): 表示构造的数量
+        """
         with ModbusClient(ModbusProtocol.TCP) as client:
             current_log_num = client.parse_data(client.validate_register_value('max Transaction Id'))
             logging.info(f'目前交易日志数量{current_log_num}')
+
+            def send_with_retry(message, max_retries=10):
+                """发送消息并重试，最多重试max_retries次"""
+                for attempt in range(max_retries):
+                    res = client.send_custom_message(message)
+                    time.sleep(0.03)
+                    if res and res[21:23] == '10':
+                        return res, True
+                    logging.warning(f'第{attempt + 1}次发送失败，响应: {res}')
+                return None, False
+
+            def reset_device_and_retry(max_reset_retries=3):
+                """重置设备并重试发送消息"""
+                for reset_attempt in range(max_reset_retries):
+                    try:
+                        logging.info(f'第{reset_attempt + 1}次尝试重置设备...')
+
+                        # 重置设备
+                        client.validate_register_value('Serial Number', 'DE55061235', True)
+                        client.validate_register_value('Reset for update', '¡XX¡', True)
+
+                        # 等待设备重启
+                        logging.info('等待设备重启...')
+                        time.sleep(20)
+
+                        # 重新连接设备
+                        with ModbusClient(ModbusProtocol.TCP) as new_client:
+                            # 重新获取当前日志数量
+                            new_current_log_num = new_client.parse_data(
+                                new_client.validate_register_value('max Transaction Id')
+                            )
+                            logging.info(f'设备重启后交易日志数量: {new_current_log_num}')
+
+                            # 尝试再次发送消息
+                            def retry_after_reset(message):
+                                for attempt in range(5):  # 重置后减少重试次数
+                                    res = new_client.send_custom_message(message)
+                                    time.sleep(0.05)
+                                    if res and res[21:23] == '10':
+                                        return res, True
+                                    logging.warning(f'重置后第{attempt + 1}次发送失败')
+                                return None, False
+
+                            return new_client, retry_after_reset
+
+                    except Exception as e:
+                        logging.error(f'设备重置第{reset_attempt + 1}次失败: {str(e)}')
+                        if reset_attempt < max_reset_retries - 1:
+                            time.sleep(5)  # 等待5秒后重试
+                        continue
+
+                return None, None
+
             if current_log_num < value:
                 construct_num = value - current_log_num
                 logging.info(f'需要写入的交易日志数量{construct_num}')
+
                 for i in range(construct_num):
-                    res1 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-                    time.sleep(0.02)
-                    while res1[21:23] != '10':
-                        res1 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-                        time.sleep(0.02)
-                    res2 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
-                    time.sleep(0.02)
-                    while res2[21:23] != '10':
-                        res2 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-                        time.sleep(0.02)
-                    if i % 50 == 0:
-                        self.helper.click_pos((1269, 500))
+                    logging.info(f'正在写入第{i + 1}/{construct_num}条交易日志')
+
+                    # 发送第一条消息
+                    res1, success1 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+                    if not success1:
+                        logging.error('第一条消息发送失败，尝试重置设备...')
+                        new_client, retry_func = reset_device_and_retry()
+                        if new_client and retry_func:
+                            client = new_client  # 更新客户端
+                            res1, success1 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+
+                        if not success1:
+                            pytest.fail('写入交易日志失败，请检查电表状态')
+
+                    # 发送第二条消息
+                    res2, success2 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+                    if not success2:
+                        logging.error('第二条消息发送失败，尝试重置设备...')
+                        new_client, retry_func = reset_device_and_retry()
+                        if new_client and retry_func:
+                            client = new_client  # 更新客户端
+                            res2, success2 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+
+                        if not success2:
+                            pytest.fail('写入交易日志失败，请检查电表状态')
+
             elif current_log_num > value:
                 if clear:
                     self.clear_transaction_logs()
                     logging.info(f'目前交易数量大于测试数量，需要清空交易数量，重新写入')
+
                     for i in range(value):
-                        res1 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-                        time.sleep(0.02)
-                        while res1[21:23] != '10':
-                            res1 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-                            time.sleep(0.02)
-                        res2 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
-                        time.sleep(0.02)
-                        while res2[21:23] != '10':
-                            res2 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-                            time.sleep(0.02)
-                        if i % 50 == 0:
-                            self.helper.click_pos((1269, 500))
+                        logging.info(f'正在写入第{i + 1}/{value}条交易日志')
+
+                        # 发送第一条消息
+                        res1, success1 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+                        if not success1:
+                            logging.error('第一条消息发送失败，尝试重置设备...')
+                            new_client, retry_func = reset_device_and_retry()
+                            if new_client and retry_func:
+                                client = new_client  # 更新客户端
+                                res1, success1 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+
+                            if not success1:
+                                pytest.fail('写入交易日志失败，请检查电表状态')
+
+                        # 发送第二条消息
+                        res2, success2 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+                        if not success2:
+                            logging.error('第二条消息发送失败，尝试重置设备...')
+                            new_client, retry_func = reset_device_and_retry()
+                            if new_client and retry_func:
+                                client = new_client  # 更新客户端
+                                res2, success2 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+
+                            if not success2:
+                                pytest.fail('写入交易日志失败，请检查电表状态')
+
             current_log_num2 = client.parse_data(client.validate_register_value('max Transaction Id'))
+
         if connect:
             self.connect_device()
             time.sleep(2)
@@ -566,13 +656,17 @@ class CommonUtils:
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading')
             # 点击Transaction_Log
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log')
+
         return current_log_num2
 
     def clear_transaction_logs(self):
         with ModbusClient(ModbusProtocol.TCP) as rtu_client:
             rtu_client.validate_register_value('Clear Transaction Log', value=1)
 
-    def read_transaction_logs(self):
+    def read_logs(self):
+        """
+        读取交易日志和ec日志通用步骤
+        """
         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\Read_Log')
         while True:
             time.sleep(20)
@@ -648,8 +742,8 @@ class CommonUtils:
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
 
         # 点击第一行日志
-        time_value, type_value, old_value, new_value = self.helper.copy_echilog_info((660, 367), (889, 368),
-                                                                                     (1184, 369), (1586, 367))
+        time_value, type_value, old_value, new_value = self.helper.copy_echilog_info((660, 367), (889, 367),
+                                                                                     (1184, 367), (1586, 367))
         return time_value, type_value, old_value, new_value
 
     def start_charging(self):
@@ -731,3 +825,360 @@ class CommonUtils:
         # 点击End_Charging
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Test_Charging\End_Charging')
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+
+    def construct_EClig_logs(self, value, clear=True, connect=True):
+        """
+        构造交易日志
+
+        Args:
+            value (int): 表示构造的数量
+        """
+        with ModbusClient(ModbusProtocol.TCP) as client:
+            current_log_num = client.parse_data(client.validate_register_value('Record Number'))
+            logging.info(f'目前EClig_logs数量{current_log_num}')
+
+            def send_with_retry(message, max_retries=10):
+                """发送消息并重试，最多重试max_retries次"""
+                for attempt in range(max_retries):
+                    res = client.send_custom_message(message)
+                    time.sleep(0.1)
+                    if res and res[21:23] == '10':
+                        return res, True
+                    logging.warning(f'第{attempt + 1}次发送失败，响应: {res}')
+                return None, False
+
+            def reset_device_and_retry(max_reset_retries=3):
+                """重置设备并重试发送消息"""
+                for reset_attempt in range(max_reset_retries):
+                    try:
+                        logging.info(f'第{reset_attempt + 1}次尝试重置设备...')
+
+                        # 重置设备
+                        client.validate_register_value('Serial Number', 'DE55061235', True)
+                        client.validate_register_value('Reset for update', '¡XX¡', True)
+
+                        # 等待设备重启
+                        logging.info('等待设备重启...')
+                        time.sleep(20)
+
+                        # 重新连接设备
+                        with ModbusClient(ModbusProtocol.TCP) as new_client:
+                            # 重新获取当前日志数量
+                            new_current_log_num = new_client.parse_data(
+                                new_client.validate_register_value('Record Number')
+                            )
+                            logging.info(f'设备重启后EClig_logs数量: {new_current_log_num}')
+
+                            # 获取重启后的状态
+                            new_get_loss_status = new_client.parse_data(
+                                new_client.send_custom_message('00 01 00 00 00 09 01 03 10 22 00 01')
+                            )
+
+                            if new_get_loss_status == 1:
+                                new_status_code = '00'
+                                new_next_status_code = '01'
+                            else:
+                                new_status_code = '01'
+                                new_next_status_code = '00'
+
+                            logging.info(f'设备重启后状态码: status={new_status_code}, next={new_next_status_code}')
+
+                            # 尝试再次发送消息
+                            def retry_after_reset(message):
+                                for attempt in range(5):  # 重置后减少重试次数
+                                    res = new_client.send_custom_message(message)
+                                    time.sleep(0.05)
+                                    if res and res[21:23] == '10':
+                                        return res, True
+                                    logging.warning(f'重置后第{attempt + 1}次发送失败')
+                                return None, False
+
+                            return new_client, retry_after_reset, new_status_code, new_next_status_code
+
+                    except Exception as e:
+                        logging.error(f'设备重置第{reset_attempt + 1}次失败: {str(e)}')
+                        if reset_attempt < max_reset_retries - 1:
+                            time.sleep(5)  # 等待5秒后重试
+                        continue
+
+                return None, None, None, None
+
+            get_loss_status = client.parse_data(client.send_custom_message('00 01 00 00 00 09 01 03 10 22 00 01'))
+            if get_loss_status == 1:
+                status_code = '00'
+                next_status_code = '01'
+            else:
+                status_code = '01'
+                next_status_code = '00'
+
+            logging.info(f'初始状态码: status={status_code}, next={next_status_code}')
+
+            if current_log_num < value:
+                construct_num = value - current_log_num
+                logging.info(f'需要写入的Record Number数量{construct_num}')
+
+                for i in range(construct_num):
+                    logging.info(f'正在写入第{i + 1}/{construct_num}条EClig日志')
+
+                    if i % 2 == 0:
+                        res1, success1 = send_with_retry(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+                        if not success1:
+                            logging.error('第一条消息发送失败，尝试重置设备...')
+                            new_client, retry_func, new_status, new_next = reset_device_and_retry()
+                            if new_client and retry_func:
+                                client = new_client  # 更新客户端
+                                status_code = new_status  # 更新状态码
+                                next_status_code = new_next
+                                res1, success1 = retry_func(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+
+                            if not success1:
+                                pytest.fail('写入EClig_logs失败，请检查电表状态')
+                    else:
+                        res2, success2 = send_with_retry(
+                            f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+                        if not success2:
+                            logging.error('第二条消息发送失败，尝试重置设备...')
+                            new_client, retry_func, new_status, new_next = reset_device_and_retry()
+                            if new_client and retry_func:
+                                client = new_client  # 更新客户端
+                                status_code = new_status  # 更新状态码
+                                next_status_code = new_next
+                                res2, success2 = retry_func(
+                                    f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+
+                            if not success2:
+                                pytest.fail('写入EClig_logs失败，请检查电表状态')
+
+            elif current_log_num > value:
+                if clear:
+                    self.clear_transaction_logs()
+                    logging.info(f'目前EClig_logs数量大于测试数量，需要清空交易数量，重新写入')
+
+                    # 清空操作
+                    clear_res, clear_success = send_with_retry('00 01 00 00 00 09 01 10 20 09 00 01 02 00 01')
+                    if not clear_success:
+                        logging.error('清空操作失败，尝试重置设备...')
+                        new_client, retry_func, new_status, new_next = reset_device_and_retry()
+                        if new_client and retry_func:
+                            client = new_client
+                            status_code = new_status
+                            next_status_code = new_next
+                            clear_res, clear_success = retry_func('00 01 00 00 00 09 01 10 20 09 00 01 02 00 01')
+
+                        if not clear_success:
+                            pytest.fail('清空EClig_logs失败，请检查电表状态')
+
+                    for i in range(value):
+                        logging.info(f'正在写入第{i + 1}/{value}条EClig日志')
+
+                        if i % 2 == 0:
+                            res1, success1 = send_with_retry(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+                            if not success1:
+                                logging.error('第一条消息发送失败，尝试重置设备...')
+                                new_client, retry_func, new_status, new_next = reset_device_and_retry()
+                                if new_client and retry_func:
+                                    client = new_client
+                                    status_code = new_status
+                                    next_status_code = new_next
+                                    res1, success1 = retry_func(
+                                        f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+
+                                if not success1:
+                                    pytest.fail('写入EClig_logs失败，请检查电表状态')
+                        else:
+                            res2, success2 = send_with_retry(
+                                f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+                            if not success2:
+                                logging.error('第二条消息发送失败，尝试重置设备...')
+                                new_client, retry_func, new_status, new_next = reset_device_and_retry()
+                                if new_client and retry_func:
+                                    client = new_client
+                                    status_code = new_status
+                                    next_status_code = new_next
+                                    res2, success2 = retry_func(
+                                        f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+
+                                if not success2:
+                                    pytest.fail('写入EClig_logs失败，请检查电表状态')
+
+            current_log_num2 = client.parse_data(client.validate_register_value('Record Number'))
+            logging.info(f'最终EClig_logs数量: {current_log_num2}')
+
+        if connect:
+            self.connect_device()
+            time.sleep(2)
+            # 点击Reading
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading')
+            # 点击Transaction_Log
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Echilog')
+
+        return current_log_num2
+
+    def configure_Pulse_LED_Energy(self, parameter=None, constant=None):
+        """配置LED能量脉冲"""
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Setting', 1)
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General')
+        # parameter(1303, 689)
+        parameter_dict = {'None': 20,
+                          'Import_Energy': 39,
+                          'Export_Energy': 52,
+                          'NET_Energy': 72,
+                          'TOTAL_Energy': 89, }
+        if parameter:
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\parameter', offset_x=211)
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\parameter', offset_x=127,
+                                    offset_y=parameter_dict[parameter])
+        if constant:
+            # constant(1301, 731)
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\constant', offset_x=169)
+            self.helper.hotkey('ctrl', 'a')
+            self.helper.paste_text(constant)
+
+        # 更新配置
+        self._update_configuration()
+
+    def read_echilog_multi_line(self, line_num):
+        """
+        读取echilog最新日志内容
+
+        Args:
+            数量 (str): 表示要第几条的日志
+        """
+        # 点击Reading
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading')
+        # 点击Echi_Log
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Echilog')
+        # 点击Read_Log
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\Read_Log')
+        # 点击Stop
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\Stop')
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+        result = []
+        y = 367
+        # 点击第一行日志
+        for i in range(line_num):
+            result.append(self.helper.copy_echilog_info((660, y), (889, y), (1184, y), (1586, y)))
+            y += 30
+        return result
+
+    def configure_cable_loss(self, status=None, resistance=None):
+        """
+        配置电缆损失补偿配置
+
+        Args:
+            status(str):'off' or 'on'
+            resistance:具体补偿的值
+        """
+        # 点击Setting
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Setting', 1)
+        # 点击General
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General')
+        if status == 'off':
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\General\cable'):
+                self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\cable', offset_x=-66)
+        if status == 'on':
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\General\cable_disable'):
+                self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\cable_disable',
+                                        offset_x=-66)
+        if resistance:
+            # 配置电缆损失补偿信息
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\cable', offset_x=180)
+            self.helper.hotkey('ctrl', 'a')
+            self.helper.paste_text(resistance)
+
+        # 更新配置
+        self._update_configuration()
+
+    def set_time(self, offset_second, way):
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status')
+        if way == 'Reading':
+            # Set_Time(1065, 299)
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time')
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Confirm'):
+                self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Confirm')
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\update_failed'):
+                pytest.fail('更新操作失败')
+            else:
+                if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Yes'):
+                    self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time', offset_y=45)
+            self.helper.double_click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time',
+                                         offset_x=-148, offset_y=235)
+            new_time = self.helper.get_future_time_str(offset_second)
+            self.helper.enter_text(new_time)
+            old_time = self.helper.get_future_time_str(1)
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time')
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\update_failed'):
+                pytest.fail('更新操作失败')
+            else:
+                if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Yes'):
+                    self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+            return self.time_format(old_time), self.time_format(new_time)
+        if way == 'Setting':
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time', offset_y=45)
+            self.helper.double_click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time',
+                                         offset_x=-148, offset_y=235)
+            set_time = self.helper.get_future_time_str(offset_second)
+            old_time = self.helper.get_future_time_str(offset_second+8)
+            self.helper.enter_text(set_time)
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time')
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Confirm'):
+                self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Confirm')
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\update_failed'):
+                pytest.fail('更新操作失败')
+            else:
+                if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Yes'):
+                    self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Setting', 1)
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Test_Charging')
+            new_time = self.helper.get_future_time_str(1)
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Test_Charging\Set_Time')
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\update_failed'):
+                pytest.fail('更新操作失败')
+            else:
+                if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Yes'):
+                    self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+            return self.time_format(old_time), self.time_format(new_time)
+
+
+
+    def time_format(self, time_str: str) -> str:
+        """
+        将 "YYYYMMDDHHMMSS" 格式转换为 "YYYY-MM-DD HH:MM:SS" 格式
+
+        Args:
+            time_str: 格式为 "20251203152809" 的时间字符串
+
+        Returns:
+            str: 格式为 "2025-12-03 15:28:09" 的时间字符串
+        """
+        # 解析紧凑格式的时间字符串
+        dt = datetime.strptime(time_str, "%Y%m%d%H%M%S")
+
+        # 格式化为易读格式
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    def is_time_within_2_seconds(self,expected_str: str, actual_str: str,
+                                 format_str: str = "%Y-%m-%d %H:%M:%S") -> bool:
+        """
+        判断两个时间字符串相差是否不超过2秒
+
+        Args:
+            expected_str: 期望时间字符串
+            actual_str: 实际时间字符串
+            format_str: 时间格式
+
+        Returns:
+            bool: 如果相差不超过2秒返回True，否则返回False
+        """
+        # 解析时间字符串为datetime对象
+        expected_time = datetime.strptime(expected_str, format_str)
+        actual_time = datetime.strptime(actual_str, format_str)
+
+        # 计算时间差的绝对值（秒数）
+        time_difference = abs((actual_time - expected_time).total_seconds())
+
+        # 判断是否不超过2秒
+        return time_difference <= 2
+
