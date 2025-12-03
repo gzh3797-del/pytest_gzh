@@ -3,7 +3,7 @@
     "top_left": [655, 248],
     "bottom_right": [712, 271]
   },
-  "Used Records": {
+  "T Used Records": {
     "top_left": [976, 243],
     "bottom_right": [1134, 271]
   },
@@ -14,5 +14,13 @@
   "Start Id": {
     "top_left": [1159, 191],
     "bottom_right": [1217, 217]
+  },
+  "EC Used Records": {
+    "top_left": [883, 239],
+    "bottom_right": [1013, 279]
+  },
+  "EC Start Id": {
+    "top_left": [1109, 190],
+    "bottom_right": [1248, 219]
   }
 }

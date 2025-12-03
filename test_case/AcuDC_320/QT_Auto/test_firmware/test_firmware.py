@@ -18,6 +18,7 @@ class TestAcuviewAutomation:
         """每个测试用例前的准备工作"""
         self.app_path = modbus_config["QT_path"]
         self.device_image_path = modbus_config["device_image_path"]
+        self.package_path = r'C:\Users\YiSong\Downloads\AcuDC-262_Application_v1.02p02_20251124.MFEA'
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
         # 初始化工具类
@@ -117,10 +118,9 @@ class TestAcuviewAutomation:
         pos_dic = {'115200': (1077, 410), '57600': (1077, 399), '38400': (1077, 382), '19200': (1077, 360),
                    '9600': (1077, 348)}
         rates = ['115200', '57600', '38400', '19200', '9600']
-        for case_id in case_ids:
-            for rate in rates:
-                test_method = instance.generate_test_method_RTU_update(pos_dic[rate])
-                test_method.__name__ = f"test_{case_id}_{rate}"
+        for case_id in range(5):
+                test_method = instance.generate_test_method_RTU_update(pos_dic[rates[case_id]])
+                test_method.__name__ = f"test_{case_ids[case_id]}_{rates[case_id]}"
                 setattr(cls, test_method.__name__, test_method)
         for j in range(4):
             for rate in rates:

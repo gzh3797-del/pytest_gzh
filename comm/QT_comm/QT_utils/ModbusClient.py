@@ -83,12 +83,32 @@ class ModbusClient:
         self.logger.info(f"RTU配置 - 串口: {self.port}, 波特率: {self.baudrate}, 从站ID: {self.slave_id}")
 
     def _ensure_connected(self):
-        """
-        确保连接已建立
-        内部方法，在每次通信前自动调用
-        """
-        if not self._is_connected:
+        """确保连接已建立"""
+        if self.socket is not None:
+            # 检查socket是否真的有效
+            try:
+                # 简单测试socket是否可用
+                self.socket.settimeout(0.1)  # 设置短暂超时
+                self.socket.getpeername()  # 检查对端地址
+                self.socket.settimeout(self.timeout)  # 恢复超时设置
+                return  # 连接有效，直接返回
+            except (OSError, socket.error, AttributeError):
+                # 连接无效，关闭并重新连接
+                self.logger.debug("现有连接无效，关闭并重新连接")
+                try:
+                    self.socket.close()
+                except:
+                    pass
+                self.socket = None
+
+        # 重新建立连接
+        if self.socket is None:
+            self.logger.info("正在建立新连接...")
             self.connect()
+
+            # 验证新连接
+            if self.socket is None:
+                raise ConnectionError("无法建立连接: socket为None")
 
     def connect(self):
         """
@@ -382,49 +402,60 @@ class ModbusClient:
 
         return request_data
 
-    def _send_and_receive(self, request_data: bytes) -> str:
+    def _send_and_receive(self, request_data: bytes, max_retries: int = 10) -> str:
         """
-        发送请求并接收响应
+        发送请求并接收响应，支持自动重连重试
+
+        Args:
+            request_data: 请求数据
+            max_retries: 最大重试次数
+
+        Returns:
+            str: 格式化的16进制字符串，如 "00 01 00 00 00 07 01 03 04 00 00 00 3A"
         """
-        self._ensure_connected()  # 确保连接已建立
+        last_exception = None
 
-        try:
-            formatted_send = self._format_hex_string(request_data)
-            self.logger.info(f"发送报文: {formatted_send}")
+        for attempt in range(max_retries):
+            try:
+                self._ensure_connected()  # 确保连接已建立
 
-            # 发送和接收
-            if self.protocol == ModbusProtocol.TCP:
-                self.socket.send(request_data)
-                response_data = self.socket.recv(1024)
-            else:
-                self.serial_conn.reset_input_buffer()
-                self.serial_conn.reset_output_buffer()
-                self.serial_conn.write(request_data)
-                response_data = self.serial_conn.read(256)
+                formatted_send = self._format_hex_string(request_data)
+                self.logger.info(f"发送报文(尝试 {attempt + 1}/{max_retries}): {formatted_send}")
 
-            if not response_data:
-                self.logger.warning("响应超时，未收到数据")
-                return None
+                # 发送和接收
+                if self.protocol == ModbusProtocol.TCP:
+                    self.socket.send(request_data)
+                    response_bytes = self.socket.recv(1024)  # 接收的是字节
 
-            formatted_receive = self._format_hex_string(response_data)
-            self.logger.info(f"接收报文: {formatted_receive}")
+                    # ✅ 关键修改：返回格式化的16进制字符串，而不是解码的字符串
+                    formatted_response = self._format_hex_string(response_bytes)
+                    self.logger.info(f"接收报文: {formatted_response}")
 
-            # RTU CRC校验
-            if self.protocol == ModbusProtocol.RTU and len(response_data) >= 2:
-                received_crc = response_data[-2:]
-                calculated_crc = self._calculate_crc16(response_data[:-2])
-                if received_crc == calculated_crc:
-                    self.logger.debug("CRC校验成功")
-                else:
-                    self.logger.warning("CRC校验失败")
+                    # ✅ 返回格式化的16进制字符串
+                    return formatted_response
 
-            return formatted_receive
+            except (ConnectionResetError, ConnectionAbortedError,
+                    socket.timeout, OSError) as e:
+                last_exception = e
+                self.logger.warning(f"连接异常，尝试重新连接 ({attempt + 1}/{max_retries}): {str(e)}")
 
-        except Exception as e:
-            self.logger.error(f"通信失败: {e}")
-            # 发生异常时断开连接，下次自动重连
-            self.disconnect()
-            raise
+                # 关闭现有连接
+                if self.socket:
+                    try:
+                        self.socket.close()
+                    except:
+                        pass
+                    self.socket = None
+
+                # 等待后重试
+                if attempt < max_retries:
+                    time.sleep(1)  # 等待1秒后重试
+                    continue
+
+        # 所有重试都失败
+        error_msg = f"发送请求失败，重试{max_retries}次后仍无法连接"
+        self.logger.error(error_msg)
+        raise ConnectionError(f"{error_msg}: {last_exception}")
 
     def _ensure_interval(self):
         """确保请求间隔不大于200ms（限制最大间隔）"""
@@ -680,8 +711,11 @@ class ModbusClient:
         """
         解析协议数据，返回数值结果
 
+        协议格式说明（Modbus TCP）：
+        事务标识（2字节）+ 协议标识（2字节）+ 长度（2字节）+ 设备地址（1字节）+ 功能码（1字节）+ 数据字节数（1字节）+ 数据（N字节）
+
         Args:
-            hex_string: 十六进制字符串，如 "00 01 00 00 00 07 01 03 04 00 00 00 09"
+            hex_string: 十六进制字符串
 
         Returns:
             int: 解析出的数值
@@ -691,25 +725,81 @@ class ModbusClient:
             hex_clean = hex_string.replace(" ", "")
             data_bytes = bytes.fromhex(hex_clean)
 
-            # 取最后4个字节（32位数据）
-            if len(data_bytes) >= 4:
-                last_four_bytes = data_bytes[-4:]
+            # 最小长度检查：事务标识2 + 协议标识2 + 长度2 + 设备地址1 + 功能码1 + 数据字节数1 = 9字节
+            if len(data_bytes) < 9:
+                return 0
 
-                # 解析为2个16位寄存器（大端序）
-                reg_high = int.from_bytes(last_four_bytes[0:2], byteorder='big')
-                reg_low = int.from_bytes(last_four_bytes[2:4], byteorder='big')
+            # 验证功能码是03（读取保持寄存器）
+            if data_bytes[7] != 0x03:  # 第8个字节是功能码
+                return 0
 
-                # 组合成32位数
+            # 获取数据字节数（第9个字节）
+            data_length = data_bytes[8]
+
+            # 检查是否有足够的数据
+            if len(data_bytes) < 9 + data_length:
+                return 0
+
+            # 提取数据部分（从第10个字节开始）
+            data_start_index = 9
+            data_section = data_bytes[data_start_index:data_start_index + data_length]
+
+            # 根据数据长度决定如何解析
+            if data_length == 2:
+                # 16位数据（2个字节）
+                result = int.from_bytes(data_section, byteorder='big')
+                return result
+            elif data_length == 4:
+                # 32位数据（4个字节）
+                reg_high = int.from_bytes(data_section[0:2], byteorder='big')
+                reg_low = int.from_bytes(data_section[2:4], byteorder='big')
                 result = (reg_high << 16) | reg_low
                 return result
+            else:
+                # 其他长度的数据，返回0
+                return 0
 
-            return 0
-
-        except Exception:
+        except Exception as e:
+            print(f"解析错误: {e}")
             return 0
 
 
 # 使用示例
 if __name__ == "__main__":
-    with ModbusClient(ModbusProtocol.TCP) as rtu_client:
-        r = rtu_client.validate_register_value('Serial Number', 'DE55061235', True)
+    logging.basicConfig(
+        level=logging.DEBUG,  # 设置日志级别为DEBUG，可以看到所有日志
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.StreamHandler(),  # 输出到控制台
+        ]
+    )
+    # with ModbusClient(ModbusProtocol.TCP) as rtu_client:
+    #     r = rtu_client.validate_register_value('Serial Number', 'DE55061235', True)
+    with ModbusClient(ModbusProtocol.TCP) as client:
+        client.validate_register_value('Cable  resistance', 0)
+    #     coms = ['01 10 40 00 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 04 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 08 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 0C 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 10 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 14 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 18 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 1C 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 20 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 24 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 28 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 2C 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 30 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 34 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 38 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 3C 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 40 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 44 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 48 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 4C 00 04 08 40 00 00 00 00 00 00 00',
+    #             '01 10 40 50 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 54 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 58 00 04 08 40 10 00 00 00 00 00 00',
+    #             '01 10 40 5C 00 04 08 40 10 00 00 00 00 00 00',
+    #             ]
+    #     rtu_client.send_custom_message(coms)

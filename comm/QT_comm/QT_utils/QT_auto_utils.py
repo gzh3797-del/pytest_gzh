@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Dict, Any
 import pyautogui
@@ -187,13 +188,12 @@ class AutoHelper:
             confidence = self.confidence
 
         full_image_path = self._get_full_image_path(image_path)
-
         self.logger.info(f"🔍 查找第 {index + 1} 个图片元素: {os.path.basename(full_image_path)}")
 
         start_time = time.time()
+
         while time.time() - start_time < timeout:
             try:
-                # 获取所有匹配的元素
                 all_locations = list(pyautogui.locateAllOnScreen(full_image_path, confidence=confidence))
 
                 if all_locations:
@@ -211,8 +211,65 @@ class AutoHelper:
                     else:
                         pytest.fail(f"⚠️ 序号 {index} 超出范围，共找到 {len(all_locations)} 个元素")
 
-            except:
-                pytest.fail(f"❌ 未找到指定元素{image_path}（超时 {timeout} 秒)")
+                time.sleep(0.5)
+
+            except Exception:
+                # 捕获所有异常，继续等待（依赖防睡眠机制）
+                time.sleep(0.5)
+                continue
+
+        pytest.fail(f"❌ 未找到指定元素 {image_path}（超时 {timeout} 秒）")
+
+    def double_click_image(self, image_path: str, index: int = 0, offset_x: int = 0,
+                    offset_y: int = 0, timeout: int = 3, confidence: float = 0.95) -> bool:
+        """
+        双击击指定序号的相同图片元素
+
+        Args:
+            image_path: 图片路径
+            index: 元素序号（0表示第一个，1表示第二个，以此类推）
+            offset_x: X轴偏移
+            offset_y: Y轴偏移
+            timeout: 超时时间
+            confidence: 置信度
+        """
+        if confidence is None:
+            confidence = self.confidence
+
+        full_image_path = self._get_full_image_path(image_path)
+        self.logger.info(f"🔍 查找第 {index + 1} 个图片元素: {os.path.basename(full_image_path)}")
+
+        start_time = time.time()
+
+        while time.time() - start_time < timeout:
+            try:
+                all_locations = list(pyautogui.locateAllOnScreen(full_image_path, confidence=confidence))
+
+                if all_locations:
+                    self.logger.info(f"📊 找到 {len(all_locations)} 个匹配元素")
+
+                    if index < len(all_locations):
+                        location = all_locations[index]
+                        x, y = pyautogui.center(location)
+                        center = (x + offset_x, y + offset_y)
+
+                        self.logger.info(f"✅ 点击第 {index + 1} 个元素，位置: {center}")
+                        pyautogui.click(center)
+                        time.sleep(0.05)
+                        pyautogui.click(center)
+                        time.sleep(1)
+                        return True
+                    else:
+                        pytest.fail(f"⚠️ 序号 {index} 超出范围，共找到 {len(all_locations)} 个元素")
+
+                time.sleep(0.5)
+
+            except Exception:
+                # 捕获所有异常，继续等待（依赖防睡眠机制）
+                time.sleep(0.5)
+                continue
+
+        pytest.fail(f"❌ 未找到指定元素 {image_path}（超时 {timeout} 秒）")
 
     def _get_full_image_path(self, image_path: str) -> str:
         """
@@ -698,21 +755,69 @@ class AutoHelper:
             self.logger.error(f"❌ 图像提取失败: {e}")
             return None
 
-    def check_csv_file(self, file_path, expected_data, expected_data_len):
+    def check_csv_file(self, file_path, expected_data_len, expected_data, mode):
         # 读取CSV文件
         with open(file_path, 'r', encoding='utf-8') as file:
             lines = file.readlines()
         with open(file_path, 'r', encoding='utf-8') as file:
             line_count = sum(1 for line in file) - 3
-        third_line = lines[2].strip()
-        if ',' in third_line:
-            actual_ocmf_part = third_line.split(',', 1)[1][:-1]
-        # 方法2：使用制表符分隔
-        elif '\t' in third_line:
-            actual_ocmf_part = third_line.split('\t', 1)[1][:-1]
-        pytest.assume(actual_ocmf_part == expected_data, "上位机读取的第一条数据和csv文件第一条数据不匹配")
         pytest.assume(line_count == expected_data_len,
                       f"上位机读取的数据总数{expected_data_len}，csv文件数据总数{line_count}")
+        if mode == 'T':
+            third_line = lines[2].strip()
+            if ',' in third_line:
+                actual_ocmf_part = third_line.split(',', 1)[1][:-1]
+            # 方法2：使用制表符分隔
+            elif '\t' in third_line:
+                actual_ocmf_part = third_line.split('\t', 1)[1][:-1]
+
+            # 关键修改：清理开头和结尾的所有空白字符
+            actual_ocmf_part = actual_ocmf_part.strip()
+
+            pytest.assume(actual_ocmf_part == expected_data,
+                          f"上位机读取的第一条数据{actual_ocmf_part}和csv文件第一条数据不匹配{expected_data}")
+        elif mode == 'EC':
+            third_line = lines[2].strip()
+            result = self.process_echilog_string(third_line)
+            pytest.assume(result == expected_data,
+                          f"上位机读取的第一条数据{result}和csv文件第一条数据不匹配{expected_data}")
+
+    def process_echilog_string(slef, log_str):
+        """
+        处理echilog日志字符串，去掉开头的序号，将其余部分转换为元组
+
+        Args:
+            log_str: 日志字符串，如 "47, 2025-12-03 00:39:54.133,Cable Loss Enable Status Change,Disable,Enable"
+
+        Returns:
+            tuple: 包含时间、类型、旧值、新值的元组
+        """
+        # 分割字符串
+        parts = log_str.split(',')
+
+        # 去掉第一个元素（序号）
+        parts = parts[1:]
+
+        # 去掉每个元素的前后空格
+        parts = [part.strip() for part in parts]
+
+        # 如果第一个时间元素后面有空格分割，需要进一步处理
+        # 确保我们有4个元素：时间、类型、旧值、新值
+        if len(parts) > 4:
+            # 如果时间被空格分割开了，重新组合
+            time_parts = []
+            i = 0
+            while i < len(parts) and len(time_parts) < 2 and (':' in parts[i] or '.' in parts[i]):
+                time_parts.append(parts[i])
+                i += 1
+
+            time_value = ' '.join(time_parts)
+            result_tuple = (time_value, parts[i], parts[i + 1], parts[i + 2])
+            return tuple(result_tuple)
+        elif len(parts) == 4:
+            return tuple(parts)
+        else:
+            raise ValueError(f"字符串格式不正确，分割后得到{len(parts)}个元素: {parts}")
 
     def load_pos_config(self) -> Dict[str, Any]:
         """
@@ -776,6 +881,7 @@ class AutoHelper:
                 bottom_right=bottom_right,
                 lang=lang
             )
+            logging.info(f'识别结果{result}')
 
             return result
 
@@ -1065,14 +1171,33 @@ class AutoHelper:
                 }
             }
 
+    def enter_text(self,text: str, delay: float = 0.1):
+        """
+        使用pyautogui逐个字符输入字符串
 
-if __name__ == "__main__":
-    # 初始化助手
-    # 初始化助手
-    helper = AutoHelper()
-    # time.sleep(3)
-    # # 快速OCR识别
-    # r = helper.quick_ocr_by_config('Max Transaction Id')
-    # print(r)
-    helper.check_csv_file(r'C:\Users\YiSong\Acuview2\Export\DE55061235_Transaction Log_2025_11_24_10_10_36.csv', 111,
-                          326)
+        Args:
+            text: 要输入的字符串
+            delay: 每个字符之间的延迟（秒）
+        """
+        for char in text:
+            pyautogui.typewrite(char)
+            time.sleep(delay)
+        logging.info(f"已输入: {text}")
+
+    def get_future_time_str(self,n: int=0) -> str:
+        """
+        获取当前时间加n秒后的时间字符串
+
+        Args:
+            n: 要增加的秒数
+
+        Returns:
+            str: 格式为 YYYYMMDDHHMMSS 的时间字符串
+        """
+        # 获取当前时间
+        current_time = datetime.now()
+        # 加上n秒
+        future_time = current_time + timedelta(seconds=n)
+        # 格式化为字符串
+        time_str = future_time.strftime("%Y%m%d%H%M%S")
+        return time_str
