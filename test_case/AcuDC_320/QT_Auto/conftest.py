@@ -56,7 +56,7 @@ class TestResultCollector:
             "duration": 0.0
         }
 
-    def add_result(self, report, screenshot_path=None, report_dir=None):
+    def add_result(self, report, screenshot_path=None):
         """添加测试结果"""
         if report.when == "call":
             test_full_name = report.nodeid
@@ -96,21 +96,15 @@ class TestResultCollector:
             result_dict = {
                 "测试文件": test_file_name,
                 "用例名称": display_name,
-                "完整名称": test_name,
                 "是否通过": status,
                 "执行时间(秒)": round(report.duration, 3),
                 "错误信息": str(report.longrepr) if report.failed else ""
             }
 
             # 如果有截图路径，添加到结果中
-            if screenshot_path and report_dir:
-                try:
-                    # 使用相对于报告目录的路径
-                    relative_path = screenshot_path.relative_to(report_dir)
-                    result_dict["截图路径"] = str(relative_path)
-                except ValueError:
-                    # 如果无法计算相对路径，使用绝对路径
-                    result_dict["截图路径"] = str(screenshot_path)
+            if screenshot_path:
+                # 使用绝对路径
+                result_dict["截图路径"] = str(screenshot_path.resolve())
 
             self.test_results.append(result_dict)
             self.test_stats["total"] += 1
@@ -188,12 +182,11 @@ class TestResultCollector:
                 if sheet_name == '测试详情':
                     worksheet.column_dimensions['A'].width = 25
                     worksheet.column_dimensions['B'].width = 30
-                    worksheet.column_dimensions['C'].width = 40
+                    worksheet.column_dimensions['C'].width = 15
                     worksheet.column_dimensions['D'].width = 15
-                    worksheet.column_dimensions['E'].width = 15
-                    worksheet.column_dimensions['F'].width = 50
+                    worksheet.column_dimensions['E'].width = 50
                     if "截图路径" in df.columns:
-                        worksheet.column_dimensions['G'].width = 80
+                        worksheet.column_dimensions['F'].width = 100  # 增加宽度以显示完整路径
                 elif sheet_name == '测试统计':
                     worksheet.column_dimensions['A'].width = 20
                     worksheet.column_dimensions['B'].width = 20
@@ -340,7 +333,7 @@ class ScreenshotManager:
             screenshot_path = self.get_screenshot_path(test_full_name, is_failed)
 
             print(f"📸 准备截图: {description}")
-            print(f"📸 截图路径: {screenshot_path.relative_to(self.base_report_dir)}")
+            print(f"📸 截图路径: {screenshot_path}")
 
             # 使用pyautogui截图
             screenshot = pyautogui.screenshot()
@@ -472,11 +465,7 @@ def pytest_runtest_makereport(item, call):
             traceback.print_exc()
 
         # 添加测试结果（包含截图路径）
-        # 需要传递report_dir参数
-        if hasattr(item.config, 'report_dir'):
-            test_collector.add_result(report, screenshot_path, item.config.report_dir)
-        else:
-            test_collector.add_result(report, screenshot_path, Path.cwd())
+        test_collector.add_result(report, screenshot_path)
 
         print(f"{'='*60}\n")
 
@@ -584,10 +573,3 @@ def pytest_sessionfinish(session, exitstatus):
     except Exception as e:
         print(f"❌ 生成报告时发生错误: {e}")
         traceback.print_exc()
-
-# 测试固件：Windows防睡眠
-@pytest.fixture(scope="session", autouse=True)
-def keep_awake():
-    """会话级别的防睡眠固件"""
-    with WindowsKeepAwake():
-        yield

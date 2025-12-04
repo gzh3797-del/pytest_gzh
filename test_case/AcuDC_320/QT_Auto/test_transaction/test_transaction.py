@@ -428,6 +428,24 @@ class TestTransaction:
                 self.helper.click_pos((928, 245))
                 self.utils.read_logs()
 
+    def test_Function_AcuDC320_Sprint2_003_01_case12(self):
+        self.utils.connect_device()
+        self.utils.configure_Transaction_Timeout(value=3600)
+        self.utils._update_configuration()
+        self.utils.long_time_charging(3600)
+        if not self.helper.check_image_exists(
+                r'page_elements\Acuview_public\Setting_page\Test_Charging\no_charging'):
+            pytest.fail('充电时间超过3600秒仍未结束充电')
+
+    def test_Function_AcuDC320_Sprint2_003_01_case14(self):
+        self.utils.connect_device()
+        self.utils.configure_Transaction_Timeout(value=0)
+        self.utils._update_configuration()
+        self.utils.long_time_charging(1800)
+        if self.helper.check_image_exists(
+                r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
+            pytest.fail('充电时间超过1800秒已经结束充电，设置0不生效')
+
     def test_Function_AcuDC320_Sprint2_003_03_case7(self):
         """上位机读取日志时，点击停止按钮，可停止日志读取"""
         self.utils.construct_transaction_logs(50, clear=False)
@@ -567,10 +585,12 @@ class TestTransaction:
             self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
 
     def test_Function_AcuDC320_Sprint2_003_03_case10(self, ):
-        self.utils.construct_transaction_logs(61400, clear=False, connect=False)
+        self.utils.construct_transaction_logs(61400, clear=False)
         with ModbusClient(ModbusProtocol.TCP) as client:
-            res2 = client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-        assert res2[21:23] != '10', "可以写入第61401条交易日志"
+            client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+            client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+            current_log_num = client.parse_data(client.validate_register_value('max Transaction Id'))
+        assert current_log_num== '61400', "可以写入第61401条交易日志"
 
     def test_Function_AcuDC320_Sprint2_002_01_case9(self):
         """构建Transaction log满，系统状态：Fatal Error，生成一条Echilog，记录旧新值、时间戳、ID"""
@@ -578,24 +598,8 @@ class TestTransaction:
         self.utils.connect_device()
         result = self.utils.read_echilog_multi_line(1)
         time_value, type_value, old_value, new_value = result[0]
-
-    def test_Function_AcuDC320_Sprint2_003_01_case12(self):
-        self.utils.connect_device()
-        self.utils.configure_Transaction_Timeout(value=3600)
-        self.utils._update_configuration()
-        self.utils.long_time_charging(3600)
-        if not self.helper.check_image_exists(
-                r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
-            pytest.fail('充电时间超过3600秒仍未结束充电')
-
-    def test_Function_AcuDC320_Sprint2_003_01_case14(self):
-        self.utils.connect_device()
-        self.utils.configure_Transaction_Timeout(value=0)
-        self.utils._update_configuration()
-        self.utils.long_time_charging(1800)
-        if self.helper.check_image_exists(
-                r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
-            pytest.fail('充电时间超过1800秒已经结束充电，设置0不生效')
+        pytest.assume(type_value == "Echilog Full",
+                      f"类型不正确，期望: Echilog Full, 实际: {type_value}")
 
 
 if __name__ == "__main__":

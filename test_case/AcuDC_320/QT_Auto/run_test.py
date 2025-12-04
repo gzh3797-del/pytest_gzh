@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试运行脚本 - 最简单版本（完全依赖conftest.py配置）
+测试运行脚本（完全依赖conftest.py配置）
 """
 
 import pytest
