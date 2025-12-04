@@ -443,7 +443,7 @@ class TestEchilog:
     ])
     def test_Function_AcuDC320_Sprint2_002_08_case4(self, config_value):
         """读取Echilog，上位机选择Read latest 500 Records(from selected Record)读取正常"""
-        self.utils.construct_transaction_logs(61440, clear=False)
+        self.utils.construct_EClig_logs(6000, clear=False)
         self.helper.click_pos((937, 208))
         self.helper.click_pos((893, 263))
         self.helper.click_pos((1183, 211))
@@ -480,11 +480,11 @@ class TestEchilog:
         '5999',
         '6001'
     ])
-    def test_Function_AcuDC320_Sprint2_002_08_case4(self, config_value):
-        """读取Echilog，上位机选择Read latest 500 Records(from selected Record)读取正常"""
-        self.utils.construct_transaction_logs(61440, clear=False)
+    def test_Function_AcuDC320_Sprint2_002_08_case5(self, config_value):
+        """读取Echilog，上位机选择Read latest 1000 Records(from selected Record)读取正常"""
+        self.utils.construct_EClig_logs(6000, clear=False)
         self.helper.click_pos((937, 208))
-        self.helper.click_pos((878, 263))
+        self.helper.click_pos((878, 278))
         self.helper.click_pos((1183, 211))
         self.helper.hotkey('ctrl', 'a')
         self.helper.paste_text(config_value)
@@ -506,8 +506,8 @@ class TestEchilog:
             file_path = rf'{self.app_root_path}\Export\{file_name}'
             used = int(self.helper.quick_ocr_by_config('EC Used Records'))
             read_num = used - int(config_value) + 1
-            if read_num > 500:
-                expected_data_len = 500
+            if read_num > 1000:
+                expected_data_len = 1000
             else:
                 expected_data_len = read_num
             expected_data = self.utils.read_echilog_info()
@@ -569,7 +569,7 @@ class TestEchilog:
             new_client.send_custom_message(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {new_status_code}')
             new_client.send_custom_message(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {new_next_status_code}')
             current_log_num = new_client.parse_data(new_client.validate_register_value('Record Number'))
-        assert current_log_num == 6400, "可以写入第6001条交易日志"
+        assert current_log_num == 6000, "可以写入第6001条交易日志"
 
     def test_Function_AcuDC320_Sprint2_002_01_case8(self):
         """构建Event Log满，系统状态：Fatal Error，生成一条Echilog，记录旧新值、时间戳、ID"""
@@ -577,6 +577,8 @@ class TestEchilog:
         self.utils.connect_device()
         result = self.utils.read_echilog_multi_line(1)
         time_value, type_value, old_value, new_value = result[0]
+        pytest.assume(type_value == "Echilog Full",
+                      f"类型不正确，期望: Echilog Full, 实际: {type_value}")
 
     def test_Function_AcuDC320_Sprint2_002_01_case11(self):
         """系统状态：致命错误Fatal error ，提示用户，禁止启动充电交易"""

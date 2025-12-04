@@ -356,7 +356,7 @@ class CommonUtils:
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         if self.helper.check_image_exists(
                 r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
-            pytest.fail('充电操作执行失败')
+            pytest.fail('开始充电操作执行失败')
         # 记录开始充电时间
         actual_start_time = time.time()
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
