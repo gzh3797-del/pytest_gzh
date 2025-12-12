@@ -25,12 +25,6 @@ class SourCon:
         send_data = hex_data.encode('gbk')
         logging.info(send_data.decode('gbk'))
         ret = self.udp_socket.sendto(send_data, self.dest_addr)
-        try:
-            recv_data = self.udp_socket.recvfrom(1024)[0].decode('gbk')
-            logging.info('recv_data ret is:{}'.format(recv_data))
-        except TimeoutError:
-            raise SourceControlError(
-                'Source control timeout. Check whether the software of the control source is turned on or check config')
         return ret
 
     def recv(self):
@@ -144,8 +138,8 @@ def sour_stop():
     re.close()
 
 
-def get_verification_error(times=5, timeout=10):
-    data = '''<误差读取>
+def get_verification_error(times=5, timeout=15):
+    data = '''<误差读取>    
         统计次数:{};
         <End>'''.format(times)
     re = SourCon(timeout=timeout)
@@ -153,6 +147,9 @@ def get_verification_error(times=5, timeout=10):
     recive_ret = re.recv()
     re.close()
     return float(recive_ret.split(':')[1].split(';')[0])
+
+
+print(get_verification_error())
 
 
 class Cl3021SourCon:
