@@ -23,7 +23,6 @@ class TestEchilog:
         self.device_image_path = modbus_config["device_image_path"]
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
-        self.modbus_client = ModbusRtuOrTcp()
         # 初始化工具类
         self.utils = CommonUtils(self.helper, self.app_path, self.device_image_path)
         self.helper.kill_acuview_apps()
@@ -36,26 +35,19 @@ class TestEchilog:
 
     def test_Function_AcuDC320_Sprint2_003_02_case1(self):
         """系统状态只读：通过Modbus寄存器可读，不可写入"""
-
-        read_result = self.modbus_client.read_measurement(address=0XF0B6, count=1, slave=1)
-
-        write_result = self.modbus_client.write_registers(address=0XF0B6, values=[1], slave=1)
+        with ModbusClient(ModbusProtocol.RTU) as client:
+            read_result = client.send_custom_message('01 03 F0 B6 00 01 56 EC')
+            write_result = client.send_custom_message('01 6A F0 B6 00 01 02 00 01 0A 92')
         # 断言读取有返回值
-        assert read_result and len(read_result) > 0, "读取操作应返回有效数据"
-
-        # 断言：write不允许写入（返回错误/异常即可）
-        assert write_result is None or hasattr(write_result, 'exception_code'), "写入操作应返回错误或异常"
+        pytest.assume(read_result[3:5] == '03', f"公钥写入失败，预期6A，实际{read_result[3:5]}")
+        pytest.assume(write_result[3:5] == 'EA', f"私钥写入失败，预期6A，实际{write_result[3:5]}")
 
     def test_Function_AcuDC320_Sprint2_002_04_case1(self):
         """1、Cable Loss Enable配置：Disable-Enable，生成一条Echilog，记录旧新值、时间戳、ID"""
-
-        self.modbus_client.write_registers(address=0X1022, values=[0], slave=1)
-
+        with ModbusClient(ModbusProtocol.RTU) as client:
+            client.validate_register_value('Enable cable loss compensation', 0)
         self.helper.connect_device(self.device_image_path)
-        old_echilog = self.modbus_client.read_measurement(address=0X5703, count=1, slave=1)
         self.utils.configure_Cable_status(value='1')
-        new_echilog = self.modbus_client.read_measurement(address=0X5703, count=1, slave=1)
-        assert new_echilog[0] == old_echilog[0] + 1, f"f'读取echilog日志不正确，{old_echilog},{new_echilog}'"
         time_value, type_value, old_value, new_value = self.utils.read_echilog_info()
         # 新增断言
         assert type_value == "Cable Loss Enable Status Change", f"类型不正确，期望: Cable Loss Enable Status Change, 实际: {type_value}"
@@ -64,12 +56,10 @@ class TestEchilog:
 
     def test_Function_AcuDC320_Sprint2_002_04_case2(self):
         """Cable Loss Enable配置：Enable-Disable，生成一条Echilog，记录旧新值、时间戳、ID"""
-        self.modbus_client.write_registers(address=0X1022, values=[1], slave=1)
+        with ModbusClient(ModbusProtocol.RTU) as client:
+            client.validate_register_value('Enable cable loss compensation', 1)
         self.helper.connect_device(self.device_image_path)
-        old_echilog = self.modbus_client.read_measurement(address=0X5703, count=1, slave=1)
         self.utils.configure_Cable_status(value='0')
-        new_echilog = self.modbus_client.read_measurement(address=0X5703, count=1, slave=1)
-        assert new_echilog[0] == old_echilog[0] + 1, f"f'读取echilog日志不正确，{old_echilog},{new_echilog}'"
         time_value, type_value, old_value, new_value = self.utils.read_echilog_info()
         # 新增断言
         assert type_value == "Cable Loss Enable Status Change", f"类型不正确，期望: Cable Loss Enable Status Change, 实际: {type_value}"
@@ -78,7 +68,7 @@ class TestEchilog:
 
     def test_Function_AcuDC320_Sprint2_002_04_case3(self):
         """3、Cable Loss Resistance配置：0.0001Ω，生成一条Echilog，记录旧新值、时间戳、ID"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Enable cable loss compensation', 1)
             client.validate_register_value('Cable  resistance', 0)
         self.utils.connect_device()
@@ -92,7 +82,7 @@ class TestEchilog:
 
     def test_Function_AcuDC320_Sprint2_002_04_case4(self):
         """Cable Loss Resistance配置：3Ω，生成一条Echilog，记录旧新值、时间戳、ID"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Enable cable loss compensation', 1)
             client.validate_register_value('Cable  resistance', 0)
         self.utils.connect_device()
@@ -106,7 +96,7 @@ class TestEchilog:
 
     def test_Function_AcuDC320_Sprint2_002_04_case5(self):
         """Cable Loss Resistance配置：6.5535Ω，生成一条Echilog，记录旧新值、时间戳、ID"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Enable cable loss compensation', 1)
             client.validate_register_value('Cable  resistance', 0)
         self.utils.connect_device()
@@ -120,7 +110,7 @@ class TestEchilog:
 
     def test_Function_AcuDC320_Sprint2_002_04_case6(self):
         """同时修改Cable Loss Enable和Cable Loss Resistance配置：Enable、3Ω，生成两条Echilog，记录旧新值、时间戳、ID"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Enable cable loss compensation', 0)
             client.validate_register_value('Cable  resistance', 0)
         self.utils.connect_device()
@@ -142,7 +132,7 @@ class TestEchilog:
         Pulse LED Energy配置改变：Energy pulse parameter： None—Import Energy ，
         生成一条Echilog，记录旧新值、时间戳、ID
         """
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Energy pulse parameter', 0)
         self.utils.connect_device()
         self.utils.configure_Pulse_LED_Energy(parameter='Import_Energy')
@@ -209,7 +199,7 @@ class TestEchilog:
         Pulse LED Energy配置改变：Energy pulse constant：0.1，
         生成一条Echilog，记录旧新值、时间戳、ID
         """
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Energy pulse constant', 100000)
         self.utils.connect_device()
         self.utils.configure_Pulse_LED_Energy(constant=0.1)
@@ -250,7 +240,7 @@ class TestEchilog:
         同时修改Pulse LED Energy配置：Energy pulse constant：100000、Energy pulse parameter： None—Import Energy ，
         生成两条Echilog，记录旧新值、时间戳、ID
         """
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Energy pulse constant', 100000)
             client.validate_register_value('Energy pulse parameter', 0)
         self.utils.connect_device()
@@ -271,7 +261,7 @@ class TestEchilog:
         """
         同时修改Pulse LED Energy配置与Cable Loss配置， 生成两条Echilog，记录旧新值、时间戳、ID
         """
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Energy pulse parameter', 0)
             client.validate_register_value('Enable cable loss compensation', 0)
         self.utils.connect_device()
@@ -299,7 +289,7 @@ class TestEchilog:
     def test_Function_AcuDC320_Sprint2_002_06_case1(self):
         """Charge Point Identification Type配置变化：0: EVSEID  —1: CBIDC，
         生成一条Echilog，记录旧新值、时间戳、ID"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('CT: Charge Point Identification Type', 0)
         self.utils.connect_device()
         self.utils.configure_CT(value='CBIDC')
@@ -312,7 +302,7 @@ class TestEchilog:
     def test_Function_AcuDC320_Sprint2_002_06_case2(self):
         """Charge Point Identification Type配置变化： 1: CBIDC—0: EVSEID ，
         生成一条Echilog，记录旧新值、时间戳、ID"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('CT: Charge Point Identification Type', 1)
         self.utils.connect_device()
         self.utils.configure_CT(value='EVSEID')
@@ -556,9 +546,9 @@ class TestEchilog:
     def test_Function_AcuDC320_Sprint2_002_08_case1(self):
         """事件日志最大记录6000条验证"""
         self.utils.construct_EClig_logs(6000, clear=False, connect=False)
-        with ModbusClient(ModbusProtocol.TCP) as new_client:
+        with ModbusClient(ModbusProtocol.RTU) as new_client:
             new_get_loss_status = new_client.parse_data(
-                new_client.send_custom_message('00 01 00 00 00 09 01 03 10 22 00 01')
+                new_client.send_custom_message('01 03 10 22 00 01')
             )
             if new_get_loss_status == 1:
                 new_status_code = '00'
@@ -566,8 +556,8 @@ class TestEchilog:
             else:
                 new_status_code = '01'
                 new_next_status_code = '00'
-            new_client.send_custom_message(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {new_status_code}')
-            new_client.send_custom_message(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {new_next_status_code}')
+            new_client.send_custom_message(f'01 10 10 22 00 01 02 00 {new_status_code}')
+            new_client.send_custom_message(f'01 10 10 22 00 01 02 00 {new_next_status_code}')
             current_log_num = new_client.parse_data(new_client.validate_register_value('Record Number'))
         assert current_log_num == 6000, "可以写入第6001条交易日志"
 

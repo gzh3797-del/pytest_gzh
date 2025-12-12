@@ -18,13 +18,11 @@ class TestAcuviewAutomation:
         """每个测试用例前的准备工作"""
         self.app_path = modbus_config["QT_path"]
         self.device_image_path = modbus_config["device_image_path"]
-        self.package_path = r'C:\Users\YiSong\Downloads\AcuDC-262_Application_v1.02p02_20251124.MFEA'
+        self.package_path = r'C:\Users\YiSong\Downloads\AcuDC-262_Application_v1.02p04_20251204.MFEA'
         self.helper = AutoHelper(confidence=0.8)
         self.test_name = request.node.name
         # 初始化工具类
         self.helper.kill_acuview_apps()
-        self.helper.hotkey('win', 'd')
-        self.helper.launch_app(self.app_path)
         yield
         self.helper.kill_acuview_apps()
 
@@ -40,7 +38,9 @@ class TestAcuviewAutomation:
             self.helper.click_image(r'page_elements\Acuview_public\main_page\Operation')
             self.helper.click_image(r'page_elements\Acuview_public\main_page\firmware')
             self.helper.click_image(r'page_elements\Acuview_public\main_page\Yes')
-            self.helper.click_image(r'page_elements\Acuview_public\main_page\Yes')
+            if not  self.helper.check_image_exists(r'page_elements\Acuview_public\main_page\Yes'):
+                self.helper.click_pos((609,282))
+                self.helper.click_image(r'page_elements\Acuview_public\main_page\Yes')
             self.helper.click_pos((1123, 320))
             self.helper.click_pos(pos)
             self.helper.click_image(r'page_elements\Acuview_public\main_page\Select_Firmware_File')
@@ -119,9 +119,9 @@ class TestAcuviewAutomation:
                    '9600': (1077, 348)}
         rates = ['115200', '57600', '38400', '19200', '9600']
         for case_id in range(5):
-                test_method = instance.generate_test_method_RTU_update(pos_dic[rates[case_id]])
-                test_method.__name__ = f"test_{case_ids[case_id]}_{rates[case_id]}"
-                setattr(cls, test_method.__name__, test_method)
+            test_method = instance.generate_test_method_RTU_update(pos_dic[rates[case_id]])
+            test_method.__name__ = f"test_{case_ids[case_id]}_{rates[case_id]}"
+            setattr(cls, test_method.__name__, test_method)
         for j in range(4):
             for rate in rates:
                 test_method = instance.generate_test_method_RTU_update(pos_dic[rate])
@@ -132,4 +132,4 @@ class TestAcuviewAutomation:
 TestAcuviewAutomation.generate_tests()
 if __name__ == "__main__":
     # 直接运行测试
-    pytest.main([__file__, "-v", "--html=report.html", "--self-contained-html"])
+    pytest.main([__file__, "-v", "--html=report.html", "--self-contained-html",'-x'])
