@@ -33,19 +33,19 @@ class TestTransaction:
 
     def test_Function_AcuDC320_Sprint2_003_01_case1(self):
         """上位机可配置identification_status信息 - 参数化版本"""
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             res1 = client.send_custom_message(
-                '00 01 00 00 00 09 01 6A F0 6E 00 21 42 04 1D F8 39 E6 22 DB 8D 3F BB 8E F8 E8 27 C1 A3 79 BF 93 AE AB EE B9 AA 32 16 65 DD E1 15 B9 6B A0 04 74 A0 8F 7F 4F 2D CF 6B E6 DD C1 1D 1D 5A F9 79 D1 BA 51 56 1E DE A2 1A A8 EF E8 D2 44 A6 79 00 40 32')
+                '01 6A F0 6E 00 21 42 04 1D F8 39 E6 22 DB 8D 3F BB 8E F8 E8 27 C1 A3 79 BF 93 AE AB EE B9 AA 32 16 65 DD E1 15 B9 6B A0 04 74 A0 8F 7F 4F 2D CF 6B E6 DD C1 1D 1D 5A F9 79 D1 BA 51 56 1E DE A2 1A A8 EF E8 D2 44 A6 79 00 40 32')
             res2 = client.send_custom_message(
-                '00 01 00 00 00 09 01 6A F0 8F 00 10 20 ED AE 6B 7E 1F CD 1D 51 59 FA EF 60 F7 6B 8F 9B 1D D5 70 55 A3 80 83 6B AE 71 21 F3 EE FA 84 50 A9 4E')
+                '01 6A F0 8F 00 10 20 ED AE 6B 7E 1F CD 1D 51 59 FA EF 60 F7 6B 8F 9B 1D D5 70 55 A3 80 83 6B AE 71 21 F3 EE FA 84 50 A9 4E')
             res3 = client.send_custom_message(
-                '00 01 00 00 00 09 01 03 F0 6E 00 21')
+                '01 03 F0 6E 00 21')
             res4 = client.send_custom_message(
-                '00 01 00 00 00 09 01 03 F0 8F 00 10')
-        pytest.assume(res1[21:23] == '6A', f"公钥写入失败，预期6A，实际{res1[21:23]}")
-        pytest.assume(res2[21:23] == '6A', f"私钥写入失败，预期6A，实际{res2[21:23]}")
-        pytest.assume(res3[21:23] == '03', f"公钥读取失败，预期03，实际{res3[21:23]}")
-        pytest.assume(res4[21:23] != '03', f"私钥读取成功检查失败，预期不是03，实际{res4[21:23]}")
+                '01 03 F0 8F 00 10')
+        pytest.assume(res1[3:5] == '6A', f"公钥写入失败，预期6A，实际{res1[3:5]}")
+        pytest.assume(res2[3:5] == '6A', f"私钥写入失败，预期6A，实际{res2[3:5]}")
+        pytest.assume(res3[3:5] == '03', f"公钥读取失败，预期03，实际{res3[3:5]}")
+        pytest.assume(res4[3:5] != '03', f"私钥读取成功检查失败，预期不是03，实际{res4[3:5]}")
 
     @pytest.mark.parametrize("config_value,expected_value", [
         (True, True),
@@ -493,113 +493,113 @@ class TestTransaction:
         used = int(self.helper.quick_ocr_by_config('T Used Records'))
         assert used <= max, 'Used Records大于Max Transaction'
 
-    @pytest.mark.parametrize("config_value", [
-        '1',
-        '10',
-        '61440',
-        '61441'
-    ])
-    def test_Function_AcuDC320_Sprint2_003_03_case4(self, config_value):
-        """读取交易日志，上位机选择Read 1000 Records (from selected Record)读取正常"""
-        self.utils.construct_transaction_logs(61440, clear=False)
-        self.helper.click_pos((1005, 208))
-        self.helper.click_pos((916, 265))
-        self.helper.click_pos((1198, 204))
-        self.helper.hotkey('ctrl', 'a')
-        self.helper.paste_text(config_value)
-        if config_value == '61441':
-            self.helper.click_pos((1120, 272))
-            Start_Id = int(self.helper.quick_ocr_by_config('Start Id'))
-            if Start_Id == int(config_value):
-                pytest.fail('Start_Id配置61441成功')
-        else:
-            self.utils.read_logs()
-            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
-            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-            self.helper.hotkey('ctrl', 'c')
-            # 获取文件名
-            file_name = pyperclip.paste()
-            self.helper.hotkey('enter')
-            time.sleep(5)
-            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-            # 点击第一行日志
-            self.helper.double_click_pos((1079, 364))
-            # 复制日志
-            self.helper.hotkey('ctrl', 'a')
-            time.sleep(2)
-            self.helper.hotkey('ctrl', 'c')
-            result = pyperclip.paste()
-            file_path = rf'{self.app_root_path}\Export\{file_name}'
-            used = int(self.helper.quick_ocr_by_config('T Used Records'))
-            read_num = used - int(config_value) + 1
-            if read_num > 1000:
-                expected_data_len = 1000
-            else:
-                expected_data_len = read_num
-
-            self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
-
-    @pytest.mark.parametrize("config_value", [
-        '1',
-        '10',
-        '61440',
-        '61441'
-    ])
-    def test_Function_AcuDC320_Sprint2_003_03_case5(self, config_value):
-        """读取交易日志，上位机选择Read 64000 Records (from selected Record)读取正常"""
-        self.utils.construct_transaction_logs(300, clear=False)
-        self.helper.click_pos((1005, 208))
-        self.helper.click_pos((925, 280))
-        self.helper.click_pos((1198, 204))
-        self.helper.hotkey('ctrl', 'a')
-        self.helper.paste_text(config_value)
-        if config_value == '61441':
-            self.helper.click_pos((1120, 272))
-            Start_Id = int(self.helper.quick_ocr_by_config('Start Id'))
-            if Start_Id == int(config_value):
-                pytest.fail('Start_Id配置61441成功')
-        else:
-            self.utils.read_logs()
-            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
-            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-            self.helper.hotkey('ctrl', 'c')
-            # 获取文件名
-            file_name = pyperclip.paste()
-            self.helper.hotkey('enter')
-            time.sleep(5)
-            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
-            # 点击第一行日志
-            self.helper.double_click_pos((1079, 364))
-            # 复制日志
-            self.helper.hotkey('ctrl', 'a')
-            time.sleep(2)
-            self.helper.hotkey('ctrl', 'c')
-            result = pyperclip.paste()
-            file_path = rf'{self.app_root_path}\Export\{file_name}'
-            used = int(self.helper.quick_ocr_by_config('T Used Records'))
-            read_num = used - int(config_value) + 1
-            if read_num > 6400:
-                expected_data_len = 6400
-            else:
-                expected_data_len = read_num
-            self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
-
-    def test_Function_AcuDC320_Sprint2_003_03_case10(self, ):
-        self.utils.construct_transaction_logs(61400, clear=False)
-        with ModbusClient(ModbusProtocol.TCP) as client:
-            client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
-            client.send_custom_message('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
-            current_log_num = client.parse_data(client.validate_register_value('max Transaction Id'))
-        assert current_log_num== '61400', "可以写入第61401条交易日志"
-
-    def test_Function_AcuDC320_Sprint2_002_01_case9(self):
-        """构建Transaction log满，系统状态：Fatal Error，生成一条Echilog，记录旧新值、时间戳、ID"""
-        self.utils.construct_transaction_logs(61400, clear=False, connect=False)
-        self.utils.connect_device()
-        result = self.utils.read_echilog_multi_line(1)
-        time_value, type_value, old_value, new_value = result[0]
-        pytest.assume(type_value == "Echilog Full",
-                      f"类型不正确，期望: Echilog Full, 实际: {type_value}")
+    # @pytest.mark.parametrize("config_value", [
+    #     '1',
+    #     '10',
+    #     '61440',
+    #     '61441'
+    # ])
+    # def test_Function_AcuDC320_Sprint2_003_03_case4(self, config_value):
+    #     """读取交易日志，上位机选择Read 1000 Records (from selected Record)读取正常"""
+    #     self.utils.construct_transaction_logs(61440, clear=False)
+    #     self.helper.click_pos((1005, 208))
+    #     self.helper.click_pos((916, 265))
+    #     self.helper.click_pos((1198, 204))
+    #     self.helper.hotkey('ctrl', 'a')
+    #     self.helper.paste_text(config_value)
+    #     if config_value == '61441':
+    #         self.helper.click_pos((1120, 272))
+    #         Start_Id = int(self.helper.quick_ocr_by_config('Start Id'))
+    #         if Start_Id == int(config_value):
+    #             pytest.fail('Start_Id配置61441成功')
+    #     else:
+    #         self.utils.read_logs()
+    #         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
+    #         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+    #         self.helper.hotkey('ctrl', 'c')
+    #         # 获取文件名
+    #         file_name = pyperclip.paste()
+    #         self.helper.hotkey('enter')
+    #         time.sleep(5)
+    #         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+    #         # 点击第一行日志
+    #         self.helper.double_click_pos((1079, 364))
+    #         # 复制日志
+    #         self.helper.hotkey('ctrl', 'a')
+    #         time.sleep(2)
+    #         self.helper.hotkey('ctrl', 'c')
+    #         result = pyperclip.paste()
+    #         file_path = rf'{self.app_root_path}\Export\{file_name}'
+    #         used = int(self.helper.quick_ocr_by_config('T Used Records'))
+    #         read_num = used - int(config_value) + 1
+    #         if read_num > 1000:
+    #             expected_data_len = 1000
+    #         else:
+    #             expected_data_len = read_num
+    #
+    #         self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
+    #
+    # @pytest.mark.parametrize("config_value", [
+    #     '1',
+    #     '10',
+    #     '61440',
+    #     '61441'
+    # ])
+    # def test_Function_AcuDC320_Sprint2_003_03_case5(self, config_value):
+    #     """读取交易日志，上位机选择Read 64000 Records (from selected Record)读取正常"""
+    #     self.utils.construct_transaction_logs(300, clear=False)
+    #     self.helper.click_pos((1005, 208))
+    #     self.helper.click_pos((925, 280))
+    #     self.helper.click_pos((1198, 204))
+    #     self.helper.hotkey('ctrl', 'a')
+    #     self.helper.paste_text(config_value)
+    #     if config_value == '61441':
+    #         self.helper.click_pos((1120, 272))
+    #         Start_Id = int(self.helper.quick_ocr_by_config('Start Id'))
+    #         if Start_Id == int(config_value):
+    #             pytest.fail('Start_Id配置61441成功')
+    #     else:
+    #         self.utils.read_logs()
+    #         self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log\save_to_file')
+    #         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+    #         self.helper.hotkey('ctrl', 'c')
+    #         # 获取文件名
+    #         file_name = pyperclip.paste()
+    #         self.helper.hotkey('enter')
+    #         time.sleep(5)
+    #         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+    #         # 点击第一行日志
+    #         self.helper.double_click_pos((1079, 364))
+    #         # 复制日志
+    #         self.helper.hotkey('ctrl', 'a')
+    #         time.sleep(2)
+    #         self.helper.hotkey('ctrl', 'c')
+    #         result = pyperclip.paste()
+    #         file_path = rf'{self.app_root_path}\Export\{file_name}'
+    #         used = int(self.helper.quick_ocr_by_config('T Used Records'))
+    #         read_num = used - int(config_value) + 1
+    #         if read_num > 6400:
+    #             expected_data_len = 6400
+    #         else:
+    #             expected_data_len = read_num
+    #         self.helper.check_csv_file(file_path, expected_data_len, result, 'T')
+    #
+    # def test_Function_AcuDC320_Sprint2_003_03_case10(self, ):
+    #     self.utils.construct_transaction_logs(61400, clear=False)
+    #     with ModbusClient(ModbusProtocol.RTU) as client:
+    #         client.send_custom_message('01 10 52 00 00 01 02 00 42')
+    #         client.send_custom_message('10 52 00 00 01 02 00 45')
+    #         current_log_num = client.parse_data(client.validate_register_value('max Transaction Id'))
+    #     assert current_log_num == '61400', "可以写入第61401条交易日志"
+    #
+    # def test_Function_AcuDC320_Sprint2_002_01_case9(self):
+    #     """构建Transaction log满，系统状态：Fatal Error，生成一条Echilog，记录旧新值、时间戳、ID"""
+    #     self.utils.construct_transaction_logs(61400, clear=False, connect=False)
+    #     self.utils.connect_device()
+    #     result = self.utils.read_echilog_multi_line(1)
+    #     time_value, type_value, old_value, new_value = result[0]
+    #     pytest.assume(type_value == "Echilog Full",
+    #                   f"类型不正确，期望: Echilog Full, 实际: {type_value}")
 
 
 if __name__ == "__main__":

@@ -2,12 +2,13 @@ import time
 import pyperclip
 import pytest
 from datetime import datetime
+from comm.QT_comm.QT_utils.ModbusClient import ModbusProtocol, ModbusClient
 from comm.source_control import *
 from comm.QT_comm.QT_utils.QT_auto_utils import AutoHelper
 from comm.QT_comm.QT_utils.common_utils import CommonUtils
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
 import struct
-import modbus_config
+from modbus_config import modbus_config
 import serial
 
 # 添加项目根目录到Python路径
@@ -37,6 +38,10 @@ class TestTransaction:
     ])
     def test_Function_AcuDC320_Sprint2_003_02_case1(self, config_value, expected_value, voltage, current):
         """配置交易timezone 为480,加直流源（100V，500A）,上位机下发”交易开始“命令"""
+        with ModbusClient(ModbusProtocol.TCP) as client:
+            client.validate_register_value('Enable cable loss compensation', 0)
+            client.validate_register_value('Cable  resistance', 0)
+        self.utils.construct_transaction_logs(20, clear=False, connect=False)
         # 连接设备
         self.helper.connect_device(self.device_image_path)
 
@@ -387,7 +392,7 @@ class TestTransaction:
     @pytest.mark.parametrize("config_cable, config_time,voltage,current", [
         (3, 60, 200, -10),
     ])
-    def test_Function_AcuDC320_Sprint2_003_02_case5(self, config_cable, config_time, voltage, current):
+    def test1_Function_AcuDC320_Sprint2_003_02_case5(self, config_cable, config_time, voltage, current):
         """交易执行中，加直流源（200V，-10A），开启电缆损失补偿：3Ω，本交易中的进线、出线电能精度满足0.5"""
 
         current = abs(current)  # 如果 current 已经是负数
@@ -557,7 +562,7 @@ class TestTransaction:
     @pytest.mark.parametrize("config_time,voltage,current", [
         (60, 100, -500),
     ])
-    def test_Function_AcuDC320_Sprint2_003_02_case8(self, config_time, voltage, current):
+    def test1_Function_AcuDC320_Sprint2_003_02_case8(self, config_time, voltage, current):
         """交易日志精度验证，加直流源（100V，-500A），交易日志能量精度满足能量精度满足0.5"""
         # 连接设备
         current = abs(current)  # 如果 current 已经是负数
@@ -650,7 +655,7 @@ class TestTransaction:
     @pytest.mark.parametrize("config_time,voltage,current", [
         (60, 100, -500),
     ])
-    def test_Function_AcuDC320_Sprint2_003_02_case9(self, config_time, voltage, current):
+    def test1_Function_AcuDC320_Sprint2_003_02_case9(self, config_time, voltage, current):
         """交易日志精度验证，加直流源（100V，-500A），交易日志能量精度满足能量精度满足0.5"""
         self.modbus_client.write_registers(address=0X1022, values=[0], slave=1)
         current = abs(current)  # 如果 current 已经是负数
@@ -830,7 +835,7 @@ class TestTransaction:
     @pytest.mark.parametrize("config_cable, config_time,voltage,current", [
         (3, 60, 200, -100),
     ])
-    def test_Function_AcuDC320_Sprint2_003_02_case11(self, config_cable, config_time, voltage, current):
+    def test1_Function_AcuDC320_Sprint2_003_02_case11(self, config_cable, config_time, voltage, current):
         """交易日志精度验证，加直流源（100V，-500A），开启电缆损失补偿：3Ω，交易日志能量精度满足能量精度满足0.5"""
 
         current = abs(current)  # 如果 current 已经是负数
@@ -917,7 +922,7 @@ class TestTransaction:
     @pytest.mark.parametrize("config_cable, config_time,voltage,current", [
         (3, 60, 200, -100),
     ])
-    def test_Function_AcuDC320_Sprint2_003_02_case11_1(self, config_cable, config_time, voltage, current):
+    def test1_Function_AcuDC320_Sprint2_003_02_case11_1(self, config_cable, config_time, voltage, current):
         """交易记录数据准确性验证。交易开始和结束点的能量寄存器与交易日志中记录是否一致"""
 
         current = abs(current)  # 如果 current 已经是负数

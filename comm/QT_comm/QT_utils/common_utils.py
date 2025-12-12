@@ -19,6 +19,7 @@ class CommonUtils:
     def connect_device(self):
         """连接设备"""
         self.helper.connect_device(self.device_image_path)
+        time.sleep(4)
 
     def configure_identification_status(self, value):
         """
@@ -356,6 +357,10 @@ class CommonUtils:
         self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
         if self.helper.check_image_exists(
                 r'page_elements\Acuview_public\Setting_page\Test_Charging\operate_failed'):
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Reading')
+            # 点击Transaction_Log
+            self.helper.click_image(r'page_elements\Acuview_public\Reading_page\Transaction_Log')
             pytest.fail('开始充电操作执行失败')
         # 记录开始充电时间
         actual_start_time = time.time()
@@ -514,7 +519,7 @@ class CommonUtils:
     def reboot_device(self):
         """重启电表"""
         self.restart_application()
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             client.validate_register_value('Reset for update', '¡XX¡', True)
         time.sleep(15)
         # 重新连接设备
@@ -528,7 +533,7 @@ class CommonUtils:
         Args:
             value (int): 表示构造的数量
         """
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             current_log_num = client.parse_data(client.validate_register_value('max Transaction Id'))
             logging.info(f'目前交易日志数量{current_log_num}')
 
@@ -537,7 +542,7 @@ class CommonUtils:
                 for attempt in range(max_retries):
                     res = client.send_custom_message(message)
                     time.sleep(0.03)
-                    if res and res[21:23] == '10':
+                    if res and res[3:5] == '10':
                         return res, True
                     logging.warning(f'第{attempt + 1}次发送失败，响应: {res}')
                 return None, False
@@ -549,7 +554,7 @@ class CommonUtils:
                         logging.info(f'第{reset_attempt + 1}次尝试重置设备...')
 
                         # 重置设备
-                        client.validate_register_value('Serial Number', 'DE55061235', True)
+                        client.validate_register_value('Serial Number', 'DE55051235', True)
                         client.validate_register_value('Reset for update', '¡XX¡', True)
 
                         # 等待设备重启
@@ -557,7 +562,7 @@ class CommonUtils:
                         time.sleep(20)
 
                         # 重新连接设备
-                        with ModbusClient(ModbusProtocol.TCP) as new_client:
+                        with ModbusClient(ModbusProtocol.RTU) as new_client:
                             # 重新获取当前日志数量
                             new_current_log_num = new_client.parse_data(
                                 new_client.validate_register_value('max Transaction Id')
@@ -569,7 +574,7 @@ class CommonUtils:
                                 for attempt in range(5):  # 重置后减少重试次数
                                     res = new_client.send_custom_message(message)
                                     time.sleep(0.05)
-                                    if res and res[21:23] == '10':
+                                    if res and res[3:5] == '10':
                                         return res, True
                                     logging.warning(f'重置后第{attempt + 1}次发送失败')
                                 return None, False
@@ -592,25 +597,25 @@ class CommonUtils:
                     logging.info(f'正在写入第{i + 1}/{construct_num}条交易日志')
 
                     # 发送第一条消息
-                    res1, success1 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+                    res1, success1 = send_with_retry('01 10 52 00 00 01 02 00 42')
                     if not success1:
                         logging.error('第一条消息发送失败，尝试重置设备...')
                         new_client, retry_func = reset_device_and_retry()
                         if new_client and retry_func:
                             client = new_client  # 更新客户端
-                            res1, success1 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+                            res1, success1 = retry_func('01 10 52 00 00 01 02 00 42')
 
                         if not success1:
                             pytest.fail('写入交易日志失败，请检查电表状态')
 
                     # 发送第二条消息
-                    res2, success2 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+                    res2, success2 = send_with_retry('01 10 52 00 00 01 02 00 45')
                     if not success2:
                         logging.error('第二条消息发送失败，尝试重置设备...')
                         new_client, retry_func = reset_device_and_retry()
                         if new_client and retry_func:
                             client = new_client  # 更新客户端
-                            res2, success2 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+                            res2, success2 = retry_func('01 10 52 00 00 01 02 00 45')
 
                         if not success2:
                             pytest.fail('写入交易日志失败，请检查电表状态')
@@ -624,25 +629,25 @@ class CommonUtils:
                         logging.info(f'正在写入第{i + 1}/{value}条交易日志')
 
                         # 发送第一条消息
-                        res1, success1 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+                        res1, success1 = send_with_retry('01 10 52 00 00 01 02 00 42')
                         if not success1:
                             logging.error('第一条消息发送失败，尝试重置设备...')
                             new_client, retry_func = reset_device_and_retry()
                             if new_client and retry_func:
                                 client = new_client  # 更新客户端
-                                res1, success1 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 42')
+                                res1, success1 = retry_func('01 10 52 00 00 01 02 00 42')
 
                             if not success1:
                                 pytest.fail('写入交易日志失败，请检查电表状态')
 
                         # 发送第二条消息
-                        res2, success2 = send_with_retry('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+                        res2, success2 = send_with_retry('01 10 52 00 00 01 02 00 45')
                         if not success2:
                             logging.error('第二条消息发送失败，尝试重置设备...')
                             new_client, retry_func = reset_device_and_retry()
                             if new_client and retry_func:
                                 client = new_client  # 更新客户端
-                                res2, success2 = retry_func('00 01 00 00 00 09 01 10 52 00 00 01 02 00 45')
+                                res2, success2 = retry_func('01 10 52 00 00 01 02 00 45')
 
                             if not success2:
                                 pytest.fail('写入交易日志失败，请检查电表状态')
@@ -660,7 +665,7 @@ class CommonUtils:
         return current_log_num2
 
     def clear_transaction_logs(self):
-        with ModbusClient(ModbusProtocol.TCP) as rtu_client:
+        with ModbusClient(ModbusProtocol.RTU) as rtu_client:
             rtu_client.validate_register_value('Clear Transaction Log', value=1)
 
     def read_logs(self):
@@ -833,7 +838,7 @@ class CommonUtils:
         Args:
             value (int): 表示构造的数量
         """
-        with ModbusClient(ModbusProtocol.TCP) as client:
+        with ModbusClient(ModbusProtocol.RTU) as client:
             current_log_num = client.parse_data(client.validate_register_value('Record Number'))
             logging.info(f'目前EClig_logs数量{current_log_num}')
 
@@ -842,7 +847,7 @@ class CommonUtils:
                 for attempt in range(max_retries):
                     res = client.send_custom_message(message)
                     time.sleep(0.1)
-                    if res and res[21:23] == '10':
+                    if res and res[3:5] == '10':
                         return res, True
                     logging.warning(f'第{attempt + 1}次发送失败，响应: {res}')
                 return None, False
@@ -854,7 +859,7 @@ class CommonUtils:
                         logging.info(f'第{reset_attempt + 1}次尝试重置设备...')
 
                         # 重置设备
-                        client.validate_register_value('Serial Number', 'DE55061235', True)
+                        client.validate_register_value('Serial Number', 'DE55051235', True)
                         client.validate_register_value('Reset for update', '¡XX¡', True)
 
                         # 等待设备重启
@@ -862,7 +867,7 @@ class CommonUtils:
                         time.sleep(20)
 
                         # 重新连接设备
-                        with ModbusClient(ModbusProtocol.TCP) as new_client:
+                        with ModbusClient(ModbusProtocol.RTU) as new_client:
                             # 重新获取当前日志数量
                             new_current_log_num = new_client.parse_data(
                                 new_client.validate_register_value('Record Number')
@@ -871,7 +876,7 @@ class CommonUtils:
 
                             # 获取重启后的状态
                             new_get_loss_status = new_client.parse_data(
-                                new_client.send_custom_message('00 01 00 00 00 09 01 03 10 22 00 01')
+                                new_client.send_custom_message('01 03 10 22 00 01')
                             )
 
                             if new_get_loss_status == 1:
@@ -888,7 +893,7 @@ class CommonUtils:
                                 for attempt in range(5):  # 重置后减少重试次数
                                     res = new_client.send_custom_message(message)
                                     time.sleep(0.05)
-                                    if res and res[21:23] == '10':
+                                    if res and res[3:5] == '10':
                                         return res, True
                                     logging.warning(f'重置后第{attempt + 1}次发送失败')
                                 return None, False
@@ -903,7 +908,7 @@ class CommonUtils:
 
                 return None, None, None, None
 
-            get_loss_status = client.parse_data(client.send_custom_message('00 01 00 00 00 09 01 03 10 22 00 01'))
+            get_loss_status = client.parse_data(client.send_custom_message('01 03 10 22 00 01'))
             if get_loss_status == 1:
                 status_code = '00'
                 next_status_code = '01'
@@ -921,7 +926,7 @@ class CommonUtils:
                     logging.info(f'正在写入第{i + 1}/{construct_num}条EClig日志')
 
                     if i % 2 == 0:
-                        res1, success1 = send_with_retry(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+                        res1, success1 = send_with_retry(f'01 10 10 22 00 01 02 00 {status_code}')
                         if not success1:
                             logging.error('第一条消息发送失败，尝试重置设备...')
                             new_client, retry_func, new_status, new_next = reset_device_and_retry()
@@ -929,13 +934,13 @@ class CommonUtils:
                                 client = new_client  # 更新客户端
                                 status_code = new_status  # 更新状态码
                                 next_status_code = new_next
-                                res1, success1 = retry_func(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+                                res1, success1 = retry_func(f'01 10 10 22 00 01 02 00 {status_code}')
 
                             if not success1:
                                 pytest.fail('写入EClig_logs失败，请检查电表状态')
                     else:
                         res2, success2 = send_with_retry(
-                            f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+                            f'01 10 10 22 00 01 02 00 {next_status_code}')
                         if not success2:
                             logging.error('第二条消息发送失败，尝试重置设备...')
                             new_client, retry_func, new_status, new_next = reset_device_and_retry()
@@ -944,7 +949,7 @@ class CommonUtils:
                                 status_code = new_status  # 更新状态码
                                 next_status_code = new_next
                                 res2, success2 = retry_func(
-                                    f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+                                    f'01 10 10 22 00 01 02 00 {next_status_code}')
 
                             if not success2:
                                 pytest.fail('写入EClig_logs失败，请检查电表状态')
@@ -955,7 +960,7 @@ class CommonUtils:
                     logging.info(f'目前EClig_logs数量大于测试数量，需要清空交易数量，重新写入')
 
                     # 清空操作
-                    clear_res, clear_success = send_with_retry('00 01 00 00 00 09 01 10 20 09 00 01 02 00 01')
+                    clear_res, clear_success = send_with_retry('01 10 20 09 00 01 02 00 01')
                     if not clear_success:
                         logging.error('清空操作失败，尝试重置设备...')
                         new_client, retry_func, new_status, new_next = reset_device_and_retry()
@@ -963,7 +968,7 @@ class CommonUtils:
                             client = new_client
                             status_code = new_status
                             next_status_code = new_next
-                            clear_res, clear_success = retry_func('00 01 00 00 00 09 01 10 20 09 00 01 02 00 01')
+                            clear_res, clear_success = retry_func('01 10 20 09 00 01 02 00 01')
 
                         if not clear_success:
                             pytest.fail('清空EClig_logs失败，请检查电表状态')
@@ -972,7 +977,7 @@ class CommonUtils:
                         logging.info(f'正在写入第{i + 1}/{value}条EClig日志')
 
                         if i % 2 == 0:
-                            res1, success1 = send_with_retry(f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+                            res1, success1 = send_with_retry(f'01 10 10 22 00 01 02 00 {status_code}')
                             if not success1:
                                 logging.error('第一条消息发送失败，尝试重置设备...')
                                 new_client, retry_func, new_status, new_next = reset_device_and_retry()
@@ -981,13 +986,13 @@ class CommonUtils:
                                     status_code = new_status
                                     next_status_code = new_next
                                     res1, success1 = retry_func(
-                                        f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {status_code}')
+                                        f'01 10 10 22 00 01 02 00 {status_code}')
 
                                 if not success1:
                                     pytest.fail('写入EClig_logs失败，请检查电表状态')
                         else:
                             res2, success2 = send_with_retry(
-                                f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+                                f'01 10 10 22 00 01 02 00 {next_status_code}')
                             if not success2:
                                 logging.error('第二条消息发送失败，尝试重置设备...')
                                 new_client, retry_func, new_status, new_next = reset_device_and_retry()
@@ -996,7 +1001,7 @@ class CommonUtils:
                                     status_code = new_status
                                     next_status_code = new_next
                                     res2, success2 = retry_func(
-                                        f'00 01 00 00 00 09 01 10 10 22 00 01 02 00 {next_status_code}')
+                                        f'01 10 10 22 00 01 02 00 {next_status_code}')
 
                                 if not success2:
                                     pytest.fail('写入EClig_logs失败，请检查电表状态')
@@ -1104,7 +1109,7 @@ class CommonUtils:
                     self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time', offset_y=45)
             self.helper.double_click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time',
-                                         offset_x=-148, offset_y=235)
+                                           offset_x=-148, offset_y=235)
             new_time = self.helper.get_future_time_str(offset_second)
             self.helper.enter_text(new_time)
             old_time = self.helper.get_future_time_str(1)
@@ -1118,9 +1123,9 @@ class CommonUtils:
         if way == 'Setting':
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time', offset_y=45)
             self.helper.double_click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time',
-                                         offset_x=-148, offset_y=235)
+                                           offset_x=-148, offset_y=235)
             set_time = self.helper.get_future_time_str(offset_second)
-            old_time = self.helper.get_future_time_str(offset_second+8)
+            old_time = self.helper.get_future_time_str(offset_second + 8)
             self.helper.enter_text(set_time)
             self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time')
             if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Confirm'):
@@ -1141,8 +1146,6 @@ class CommonUtils:
                     self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
             return self.time_format(old_time), self.time_format(new_time)
 
-
-
     def time_format(self, time_str: str) -> str:
         """
         将 "YYYYMMDDHHMMSS" 格式转换为 "YYYY-MM-DD HH:MM:SS" 格式
@@ -1159,7 +1162,7 @@ class CommonUtils:
         # 格式化为易读格式
         return dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    def is_time_within_2_seconds(self,expected_str: str, actual_str: str,
+    def is_time_within_2_seconds(self, expected_str: str, actual_str: str,
                                  format_str: str = "%Y-%m-%d %H:%M:%S") -> bool:
         """
         判断两个时间字符串相差是否不超过2秒
@@ -1182,3 +1185,83 @@ class CommonUtils:
         # 判断是否不超过2秒
         return time_difference <= 2
 
+    def set_custom_time(self, time):
+        """配置自定义时间"""
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status')
+        # Set_Time(1065, 299)
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time', offset_y=45)
+        self.helper.double_click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time',
+                                       offset_x=-148, offset_y=235)
+        self.helper.enter_text(time)
+        self.helper.click_image(r'page_elements\Acuview_public\Reading_page\System_Status\Set_Time')
+        if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Confirm'):
+            self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Confirm')
+        if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\update_failed'):
+            pytest.fail('更新操作失败')
+        else:
+            if self.helper.check_image_exists(r'page_elements\Acuview_public\Setting_page\Yes'):
+                self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Yes')
+
+    def configure_Baud_Rate(self, value):
+        """
+        配置Identification flag2信息
+
+        Args:
+            value (int): 表示要配置的值
+        """
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Setting', 1)
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General')
+        # Baud_Rate(564, 552)
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\Baud_Rate', offset_x=178)
+
+        # 根据传入的值选择不同的坐标
+        dic = {
+            2400: 20,
+            4800: 35,
+            9600: 50,
+            19200: 67,
+            38400: 97,
+            57600: 112,
+            78600: 127,
+            152000: 142,
+        }
+
+        # 选择值的坐标
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\Baud_Rate',
+                                offset_x=136, offset_y=dic[value])
+
+        # 更新配置
+        self._update_configuration()
+
+    def configure_Parity(self, value):
+        """
+        配置Identification flag2信息
+
+        Args:
+            value (str): 表示要配置的值
+        """
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\Setting', 1)
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General')
+        # Parity(551, 593)
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\Parity', offset_x=191)
+
+        # 根据传入的值选择不同的坐标
+        dic = {
+            'E': 20,
+            'O': 35,
+            'N': 67
+        }
+
+        # 选择值的坐标
+        self.helper.click_image(r'page_elements\Acuview_public\Setting_page\General\Parity',
+                                offset_x=136, offset_y=dic[value])
+
+        # 更新配置
+        self._update_configuration()
+
+        def keep_awake(self):
+            """定期移动鼠标防止锁屏"""
+            while keep_awake.running:
+                pyautogui.moveRel(1, 0, duration=0.1)
+                pyautogui.moveRel(-1, 0, duration=0.1)
+                time.sleep(60)  # 每分钟活动一次
