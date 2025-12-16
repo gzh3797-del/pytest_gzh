@@ -23,6 +23,7 @@ dist/
 target/
 dist/
 output_data/
+reports/
 
 # JetBrains IDE
 .idea/

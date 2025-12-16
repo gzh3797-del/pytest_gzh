@@ -10,7 +10,7 @@ import logging
 import psutil
 from typing import Tuple
 import pytest
-import cv2
+# import cv2
 import pyperclip
 import pytesseract
 import numpy as np
@@ -520,13 +520,13 @@ class AutoHelper:
 
     def click_pos(self, pos):
         pyautogui.click(pos)
-        self.wait(1)
+        self.wait(2)
         self.logger.info(f'点击坐标{pos}')
 
     def double_click_pos(self, pos):
         pyautogui.click(pos)
         pyautogui.click(pos)
-        self.wait(1)
+        self.wait(2)
         self.logger.info(f'双击坐标{pos}')
 
     def copy_echilog_info(self, time, type, old_value, new_value):

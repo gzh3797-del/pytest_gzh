@@ -20,10 +20,10 @@
   "conn_mode": "rtu",
 
 
-  "QT_path": "C:\\Users\\YiSong\\Acuview2\\Acuview 2.exe",
-  "device_image_path": "page_elements\\AucDC_320\\320_TCP",
+  "QT_path": "C:\\Users\\ZanHu\\Acuview2\\Acuview 2.exe",
+  "device_image_path": "page_elements\\AucRev1320\\1320 TCP",
   "QT_tcp": {
-    "host": "192.168.1.254",
+    "host": "192.168.2.204",
     "port": 502,
     "timeout": 10,
     "slave_id": 1
