@@ -18,7 +18,7 @@ current_file_path = os.path.abspath(__file__)
 project_root = os.path.dirname(current_file_path)
 sys.path.append(project_root)
 # 使用相对路径构建数据文件路径
-data_file_path = os.path.join(project_root, 'data', 'IOM')
+data_file_path = os.path.join(project_root, 'datas', 'IOM')
 
 
 # ================= 计时功能 Fixture ================= #

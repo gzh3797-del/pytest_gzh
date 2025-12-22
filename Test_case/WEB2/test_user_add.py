@@ -1,6 +1,5 @@
 import logging
 import time
-import logger
 import pytest
 from selenium.webdriver.common.by import By
 from operation.WEB2.login import LoginPage
