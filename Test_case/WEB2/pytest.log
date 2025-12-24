@@ -1,0 +1,4 @@
+2025-12-23 14:49:48 [INFO] logger.py:11 - ====== WebDriver manager ======
+2025-12-23 14:49:49 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
+2025-12-23 14:49:50 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
+2025-12-23 14:49:51 [INFO] logger.py:11 - Driver [C:\Users\ZihanGao\.wdm\drivers\chromedriver\win64\143.0.7499.169\chromedriver-win32/chromedriver.exe] found in cache

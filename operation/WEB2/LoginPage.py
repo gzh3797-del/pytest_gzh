@@ -51,8 +51,6 @@ class LoginPage(BasePage):
         self.click(self.SAVE_BTN)
         print(f"添加用户 {username} 成功")
 
-
-
     def delete_all_users(self):
         """删除所有用户"""
         self.click(self.SETTINGS_BTN)

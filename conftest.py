@@ -1,5 +1,4 @@
 import sys
-
 import webdriver_manager.chrome
 import yaml
 import pytest
@@ -12,7 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from api.modbus_connet import ModbusRtuOrTcp
 from common.Source.CL3021.source_control import close_dc_all
-from operation.WEB2.login import LoginPage
+from operation.WEB2.LoginPage import LoginPage
 
 current_file_path = os.path.abspath(__file__)
 project_root = os.path.dirname(current_file_path)
@@ -86,28 +85,29 @@ def modbus_client():
 
 # ================= 自动打开浏览器 Fixture ================= #
 @pytest.fixture(scope="function")
-def web2_driver():
+def driver():
     configured_options = Options()
     # 🚨 关键一步：忽略证书错误（成功配置）
     configured_options.add_argument('--ignore-certificate-errors')
     print("\n启动 Chrome 浏览器...")
     # 使用 webdriver-manager 自动获取驱动
     service = Service(webdriver_manager.chrome.ChromeDriverManager().install())
+
     # 2. 启动驱动，并传入 配置好的 configured_options
     driver = webdriver.Chrome(service=service, options=configured_options)
-
     web2_driver = LoginPage(driver)
     web2_driver.driver.maximize_window()
+
     # 3. 统一登录，确保每个测试用例都从登录状态开始
-    web2_driver.driver.get("https://192.168.2.176/#/login")
+    web2_driver.driver.get("https://192.168.2.88/#/login")
     web2_driver.login("admin", "admin")
 
-    yield web2_driver  # 测试用例执行期间，driver 对象保持存活
+    yield driver  # 测试用例执行期间，driver 对象保持存活
 
     # Teardown: 关闭浏览器
     time.sleep(1)
     print("\n关闭浏览器...")
-    web2_driver.driver.quit()
+    driver.quit()
 
 
 # ================= 数据驱动 Fixture ================= #

@@ -2,13 +2,18 @@ import logging
 import time
 import pytest
 from selenium.webdriver.common.by import By
-from operation.WEB2.login import LoginPage
+from operation.WEB2.LoginPage import LoginPage
 
 
 class TestUserOperations:
-    @pytest.mark.web2_add
-    def test_add_user_flow(self, web2_driver):
-        login_page = web2_driver
+    @pytest.mark.w_add
+    def test_add_user_flow(self, driver):
+        """
+        批量添加用户
+        :param driver:
+        :return:
+        """
+        login_page = LoginPage(driver)
         user_numbers = 5
         data_sequence = [[f'user{i}', i] for i in range(1, user_numbers + 1)]
         for username, password in data_sequence:
@@ -21,7 +26,15 @@ class TestUserOperations:
         assert span_max_user
         logging.info(f"✅ 成功添加{user_numbers}个用户")
 
-    @pytest.mark.web2_delete
-    def test_delete_all_users(self, web2_driver):
-        login_page = web2_driver
+    @pytest.mark.w_delete
+    def test_delete_all_users(self, driver):
+        """
+        删除所有用户
+        :param driver:
+        :return:
+        """
+        login_page = LoginPage(driver)
         login_page.delete_all_users()
+
+
+
