@@ -14,7 +14,7 @@ class TestUserOperations:
         :return:
         """
         login_page = LoginPage(driver)
-        user_numbers = 5
+        user_numbers = 20
         data_sequence = [[f'user{i}', i] for i in range(1, user_numbers + 1)]
         for username, password in data_sequence:
             login_page.add_user(username, password)

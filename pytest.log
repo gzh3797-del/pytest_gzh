@@ -1,104 +1,15 @@
-2025-12-23 17:25:07 [INFO] logger.py:11 - ====== WebDriver manager ======
-2025-12-23 17:25:08 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
-2025-12-23 17:25:09 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
-2025-12-23 17:25:10 [INFO] logger.py:11 - Driver [C:\Users\ZihanGao\.wdm\drivers\chromedriver\win64\143.0.7499.169\chromedriver-win32/chromedriver.exe] found in cache
-2025-12-23 17:27:31 [INFO] test_update.py:21 - 第1次升级完成
-2025-12-23 17:30:32 [INFO] test_update.py:21 - 第2次升级完成
-2025-12-23 17:33:31 [INFO] test_update.py:21 - 第3次升级完成
-2025-12-23 17:36:38 [INFO] test_update.py:21 - 第4次升级完成
-2025-12-23 17:39:51 [INFO] test_update.py:21 - 第5次升级完成
-2025-12-23 17:42:56 [INFO] test_update.py:21 - 第6次升级完成
-2025-12-23 17:45:54 [INFO] test_update.py:21 - 第7次升级完成
-2025-12-23 17:49:06 [INFO] test_update.py:21 - 第8次升级完成
-2025-12-23 17:52:09 [INFO] test_update.py:21 - 第9次升级完成
-2025-12-23 17:55:13 [INFO] test_update.py:21 - 第10次升级完成
-2025-12-23 17:58:09 [INFO] test_update.py:21 - 第11次升级完成
-2025-12-23 18:01:16 [INFO] test_update.py:21 - 第12次升级完成
-2025-12-23 18:04:10 [INFO] test_update.py:21 - 第13次升级完成
-2025-12-23 18:07:15 [INFO] test_update.py:21 - 第14次升级完成
-2025-12-23 18:10:14 [INFO] test_update.py:21 - 第15次升级完成
-2025-12-23 18:13:16 [INFO] test_update.py:21 - 第16次升级完成
-2025-12-23 18:16:18 [INFO] test_update.py:21 - 第17次升级完成
-2025-12-23 18:19:18 [INFO] test_update.py:21 - 第18次升级完成
-2025-12-23 18:22:26 [INFO] test_update.py:21 - 第19次升级完成
-2025-12-23 18:25:30 [INFO] test_update.py:21 - 第20次升级完成
-2025-12-23 18:28:37 [INFO] test_update.py:21 - 第21次升级完成
-2025-12-23 18:31:47 [INFO] test_update.py:21 - 第22次升级完成
-2025-12-23 18:34:50 [INFO] test_update.py:21 - 第23次升级完成
-2025-12-23 18:37:55 [INFO] test_update.py:21 - 第24次升级完成
-2025-12-23 18:40:54 [INFO] test_update.py:21 - 第25次升级完成
-2025-12-23 18:44:00 [INFO] test_update.py:21 - 第26次升级完成
-2025-12-23 18:47:00 [INFO] test_update.py:21 - 第27次升级完成
-2025-12-23 18:50:03 [INFO] test_update.py:21 - 第28次升级完成
-2025-12-23 18:52:56 [INFO] test_update.py:21 - 第29次升级完成
-2025-12-23 18:56:08 [INFO] test_update.py:21 - 第30次升级完成
-2025-12-23 18:59:11 [INFO] test_update.py:21 - 第31次升级完成
-2025-12-23 19:02:28 [INFO] test_update.py:21 - 第32次升级完成
-2025-12-23 19:05:41 [INFO] test_update.py:21 - 第33次升级完成
-2025-12-23 19:08:39 [INFO] test_update.py:21 - 第34次升级完成
-2025-12-23 19:11:45 [INFO] test_update.py:21 - 第35次升级完成
-2025-12-23 19:14:51 [INFO] test_update.py:21 - 第36次升级完成
-2025-12-23 19:17:52 [INFO] test_update.py:21 - 第37次升级完成
-2025-12-23 19:21:03 [INFO] test_update.py:21 - 第38次升级完成
-2025-12-23 19:23:56 [INFO] test_update.py:21 - 第39次升级完成
-2025-12-23 19:26:54 [INFO] test_update.py:21 - 第40次升级完成
-2025-12-23 19:29:59 [INFO] test_update.py:21 - 第41次升级完成
-2025-12-23 19:33:02 [INFO] test_update.py:21 - 第42次升级完成
-2025-12-23 19:36:08 [INFO] test_update.py:21 - 第43次升级完成
-2025-12-23 19:39:32 [INFO] test_update.py:21 - 第44次升级完成
-2025-12-23 19:42:42 [INFO] test_update.py:21 - 第45次升级完成
-2025-12-23 19:45:38 [INFO] test_update.py:21 - 第46次升级完成
-2025-12-23 19:48:49 [INFO] test_update.py:21 - 第47次升级完成
-2025-12-23 19:51:56 [INFO] test_update.py:21 - 第48次升级完成
-2025-12-23 19:55:02 [INFO] test_update.py:21 - 第49次升级完成
-2025-12-23 19:58:06 [INFO] test_update.py:21 - 第50次升级完成
-2025-12-23 20:01:19 [INFO] test_update.py:21 - 第51次升级完成
-2025-12-23 20:04:31 [INFO] test_update.py:21 - 第52次升级完成
-2025-12-23 20:07:36 [INFO] test_update.py:21 - 第53次升级完成
-2025-12-23 20:10:40 [INFO] test_update.py:21 - 第54次升级完成
-2025-12-23 20:13:53 [INFO] test_update.py:21 - 第55次升级完成
-2025-12-23 20:16:53 [INFO] test_update.py:21 - 第56次升级完成
-2025-12-23 20:20:15 [INFO] test_update.py:21 - 第57次升级完成
-2025-12-23 20:23:26 [INFO] test_update.py:21 - 第58次升级完成
-2025-12-23 20:26:52 [INFO] test_update.py:21 - 第59次升级完成
-2025-12-23 20:30:00 [INFO] test_update.py:21 - 第60次升级完成
-2025-12-23 20:33:11 [INFO] test_update.py:21 - 第61次升级完成
-2025-12-23 20:36:11 [INFO] test_update.py:21 - 第62次升级完成
-2025-12-23 20:39:06 [INFO] test_update.py:21 - 第63次升级完成
-2025-12-23 20:42:14 [INFO] test_update.py:21 - 第64次升级完成
-2025-12-23 20:45:16 [INFO] test_update.py:21 - 第65次升级完成
-2025-12-23 20:48:22 [INFO] test_update.py:21 - 第66次升级完成
-2025-12-23 20:51:27 [INFO] test_update.py:21 - 第67次升级完成
-2025-12-23 20:54:39 [INFO] test_update.py:21 - 第68次升级完成
-2025-12-23 20:57:44 [INFO] test_update.py:21 - 第69次升级完成
-2025-12-23 21:00:54 [INFO] test_update.py:21 - 第70次升级完成
-2025-12-23 21:03:58 [INFO] test_update.py:21 - 第71次升级完成
-2025-12-23 21:07:10 [INFO] test_update.py:21 - 第72次升级完成
-2025-12-23 21:10:15 [INFO] test_update.py:21 - 第73次升级完成
-2025-12-23 21:13:14 [INFO] test_update.py:21 - 第74次升级完成
-2025-12-23 21:16:23 [INFO] test_update.py:21 - 第75次升级完成
-2025-12-23 21:19:33 [INFO] test_update.py:21 - 第76次升级完成
-2025-12-23 21:22:40 [INFO] test_update.py:21 - 第77次升级完成
-2025-12-23 21:25:47 [INFO] test_update.py:21 - 第78次升级完成
-2025-12-23 21:28:56 [INFO] test_update.py:21 - 第79次升级完成
-2025-12-23 21:32:07 [INFO] test_update.py:21 - 第80次升级完成
-2025-12-23 21:35:13 [INFO] test_update.py:21 - 第81次升级完成
-2025-12-23 21:38:25 [INFO] test_update.py:21 - 第82次升级完成
-2025-12-23 21:41:30 [INFO] test_update.py:21 - 第83次升级完成
-2025-12-23 21:44:39 [INFO] test_update.py:21 - 第84次升级完成
-2025-12-23 21:47:46 [INFO] test_update.py:21 - 第85次升级完成
-2025-12-23 21:50:53 [INFO] test_update.py:21 - 第86次升级完成
-2025-12-23 21:54:18 [INFO] test_update.py:21 - 第87次升级完成
-2025-12-23 21:57:26 [INFO] test_update.py:21 - 第88次升级完成
-2025-12-23 22:00:30 [INFO] test_update.py:21 - 第89次升级完成
-2025-12-23 22:03:38 [INFO] test_update.py:21 - 第90次升级完成
-2025-12-23 22:06:48 [INFO] test_update.py:21 - 第91次升级完成
-2025-12-23 22:10:01 [INFO] test_update.py:21 - 第92次升级完成
-2025-12-23 22:12:56 [INFO] test_update.py:21 - 第93次升级完成
-2025-12-23 22:15:51 [INFO] test_update.py:21 - 第94次升级完成
-2025-12-23 22:19:00 [INFO] test_update.py:21 - 第95次升级完成
-2025-12-23 22:22:10 [INFO] test_update.py:21 - 第96次升级完成
-2025-12-23 22:25:05 [INFO] test_update.py:21 - 第97次升级完成
-2025-12-23 22:28:15 [INFO] test_update.py:21 - 第98次升级完成
-2025-12-23 22:31:22 [INFO] test_update.py:21 - 第99次升级完成
-2025-12-23 22:34:21 [INFO] test_update.py:21 - 第100次升级完成
+2025-12-24 10:36:12 [INFO] logger.py:11 - ====== WebDriver manager ======
+2025-12-24 10:36:13 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
+2025-12-24 10:36:14 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
+2025-12-24 10:36:14 [INFO] logger.py:11 - Driver [C:\Users\ZihanGao\.wdm\drivers\chromedriver\win64\143.0.7499.169\chromedriver-win32/chromedriver.exe] found in cache
+2025-12-24 10:38:46 [INFO] test_update.py:26 - 第1次升级完成
+2025-12-24 10:42:18 [INFO] test_update.py:26 - 第2次升级完成
+2025-12-24 10:45:25 [INFO] test_update.py:26 - 第3次升级完成
+2025-12-24 10:48:26 [INFO] test_update.py:26 - 第4次升级完成
+2025-12-24 10:51:35 [INFO] test_update.py:26 - 第5次升级完成
+2025-12-24 10:54:34 [INFO] test_update.py:26 - 第6次升级完成
+2025-12-24 10:57:53 [INFO] test_update.py:26 - 第7次升级完成
+2025-12-24 11:02:34 [INFO] test_update.py:26 - 第8次升级完成
+2025-12-24 11:02:50 [WARNING] connectionpool.py:868 - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=50826): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。")': /session/cd1e508a31145bcbc19269f36f72c0e4
+2025-12-24 11:02:54 [WARNING] connectionpool.py:868 - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=50826): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。")': /session/cd1e508a31145bcbc19269f36f72c0e4
+2025-12-24 11:02:58 [WARNING] connectionpool.py:868 - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=50826): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。")': /session/cd1e508a31145bcbc19269f36f72c0e4
