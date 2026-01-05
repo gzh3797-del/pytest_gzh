@@ -93,32 +93,39 @@ class EnergyMeasure:
         :param source_input_list: 测试用例数据
         :param wire_type: 接线类型
         :return: 接线方式的数据
+        “”“ 函数基于IIV3代码， 修改了接线方式对应关系”“”
         """
         input_list = [source_input_list[0]]
-        if wire_type == 6:
+        # AcuRev1320中 接线方式3E4wY对应值是4
+        if wire_type == 4:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "3E4wY":
                     input_list.append(source_input_list[i])
+        # elif wire_type == 5:
+        #     for i in range(1, len(source_input_list)):
+        #         if source_input_list[i][15] == "2.5E4wY":
+        #             input_list.append(source_input_list[i])
+        # AcuRev1320中 接线方式 3E3wD 对应值是5
         elif wire_type == 5:
-            for i in range(1, len(source_input_list)):
-                if source_input_list[i][15] == "2.5E4wY":
-                    input_list.append(source_input_list[i])
-        elif wire_type == 4:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "3E3wD":
                     input_list.append(source_input_list[i])
-        elif wire_type == 3:
+        # AcuRev1320中 接线方式 2E3wD 对应值是2
+        elif wire_type == 2:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "2E3wD":
                     input_list.append(source_input_list[i])
-        elif wire_type == 2:
+        # AcuRev1320中 接线方式 2E3wN 对应值是3
+        elif wire_type == 3:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "2E3wN":
                     input_list.append(source_input_list[i])
+        # AcuRev1320中 接线方式 2E3w1p 对应值是1
         elif wire_type == 1:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "2E3w1p":
                     input_list.append(source_input_list[i])
+        # AcuRev1320中 接线方式 1E2w1p 对应值是0
         elif wire_type == 0:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "1E2w1p":
