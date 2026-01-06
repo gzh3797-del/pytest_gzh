@@ -2,6 +2,8 @@ import socket
 import time
 import logging
 from modbus_config import modbus_config
+import struct
+from typing import List
 
 import sys
 import os
@@ -149,9 +151,6 @@ def get_verification_error(times=5, timeout=15):
     return float(recive_ret.split(':')[1].split(';')[0])
 
 
-print(get_verification_error())
-
-
 class Cl3021SourCon:
     def __init__(self):
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -160,10 +159,12 @@ class Cl3021SourCon:
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
 
-    def send(self, hex_data):
-        ret = self.udp_socket.sendto(hex_data, self.dest_addr)
-        recv_data = self.udp_socket.recvfrom(1024)
-        return ret, recv_data
+    def send(self, hex_data, wait_response=False):
+        ret = self.udp_socket.sendto(hex_data, self.dest_addr)  # 返回发送的字节数
+        if wait_response:
+            recv_data = self.udp_socket.recvfrom(1024)
+            return ret, recv_data
+        return ret, None
 
     def recv(self):
         try:
@@ -753,3 +754,178 @@ def global_exception_handler(exc_type, exc_value, exc_traceback):
 
     # 调用原始异常处理器
     sys.__excepthook__(exc_type, exc_value, exc_traceback)
+
+
+def set_dc(u: float, i: float):
+    """
+    设置直流源输出
+    :param u: 单位V
+    :param i: 单位mA
+    :return:
+    """
+    set_cmd = [0x81, 0x01, 0x26, 0x11, 0x31, 0x03]
+    pdu = str(hex(int(u * 10000))).replace('0x', '').zfill(8)  # 电压幅值转化为16进制
+    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'  # 转为小端序
+    pdu = pdu.replace('0x', '').zfill(10)  # 去掉0x，补足10位
+    pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]  # 转化为5个数的列表
+    set_cmd += pdu
+    i = i/1000
+    pdu = str(hex(int(i * 10000))).replace('0x', '').zfill(8)
+    pdu = hex(int(pdu[6:8] + pdu[4:6] + pdu[2:4] + pdu[0:2], 16)) + 'fc'
+    pdu = pdu.replace('0x', '').zfill(10)
+    pdu = [int(pdu[0:2], 16), int(pdu[2:4], 16), int(pdu[4:6], 16), int(pdu[6:8], 16), int(pdu[8:10], 16)]
+    set_cmd += pdu
+    xor = xor_sum(set_cmd[1:])
+    set_cmd.append(int(hex(xor).replace('0x', ''), 16))  # 添加校验码
+    pdu = bytearray(set_cmd)
+    source_control = Cl3021SourCon()
+    ret = source_control.send(pdu)
+    source_control.close()
+
+
+def convert_cl3021_int4e15(data_bytes: List[int]) -> float:
+    """
+    解析 CL3021 交直流源通信协议中的 Int4E1/5 数据类型。
+
+    该协议采用 Little-Endian 32位带符号整数 (Int4)，
+    比例因子 (Scale Factor) 取决于第 5 个字节 (E1)。
+
+    参数:
+        data_bytes (List[int]): 包含 5 个字节（十进制整数）的列表。
+                                例如: [107, 47, 106, 0, 250]
+
+    返回:
+        float: 解析后的浮点数值（例如电压值）。
+
+    异常:
+        ValueError: 如果输入字节数不等于 5。
+    """
+    if len(data_bytes) != 5:
+        raise ValueError("输入数据必须包含 5 个字节 (Int4 + E1)。")
+
+    # 1. 提取 Int4 Value (前 4 字节) 和 Exponent (第 5 字节)
+    value_bytes = data_bytes[:4]
+    exponent_byte = data_bytes[4]
+
+    # 2. 转换 Int4 Value (Little-Endian)
+    # struct.unpack '<i' :
+    #   '<' 表示 Little-Endian
+    #   'i' 表示 4 字节带符号整数 (Int32)
+
+    # 将 4 个十进制字节打包成一个字节串 (byte string)
+    value_byte_string = bytes(value_bytes)
+
+    # 解包 Int32 Value
+    int32_value = struct.unpack('<i', value_byte_string)[0]
+
+    # 3. 确定条件比例因子 (Scale Factor)
+    if exponent_byte == 0xFB:  # 251
+        # 对应比例因子 10^-5
+        scale_factor = 100000.0
+    elif exponent_byte == 0xFA:  # 250
+        # 对应比例因子 10^-6
+        scale_factor = 1000000.0
+    else:
+        # 如果遇到其他 Exponent 字节，可以抛出异常或使用默认值
+        print(f"警告: 遇到未知的 Exponent 字节: {exponent_byte}。使用默认比例因子 10^-5。")
+        scale_factor = 100000.0
+
+        # 4. 计算最终数值
+    final_value = int32_value / scale_factor
+
+    return final_value
+
+
+def read_dc(u_or_ma):
+    """
+    读取直流测量值
+    :return:
+    """
+    set_cmd = [0x81, 0x01, 0x26, 0x06, 0xA3]
+    xor = xor_sum(set_cmd[1:])
+    set_cmd.append(int(xor))
+    pdu = bytearray(set_cmd)
+    source_control = Cl3021SourCon()
+    ret = source_control.send(pdu, wait_response=True)
+    source_control.close()
+    # 分析返回值
+    byte_data = ret[1][0]
+    # 字节转16进制整数列表
+    measurement_data = list(byte_data)
+    # [129, 38, 1, 32, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 255, 250, 191, 255, 255, 255, 250, 0, 0, 0, 0, 0, 21]
+    # u_data = bytes_to_float(measurement_data[16:20])
+    # i_data = bytes_to_float(measurement_data[21:25])
+    u_data = convert_cl3021_int4e15(measurement_data[16:21])
+    i_data = convert_cl3021_int4e15(measurement_data[21:26])
+    if u_or_ma == 0:
+        return u_data
+    elif u_or_ma == 1:
+        return i_data
+    else:
+        return u_data, i_data
+
+
+def set_dc_read_mode():
+    """
+    配置直流表测量模式
+        0x00,同时测量电压和电流
+        0x01,测量直流电压
+        0x02,测量直流电流`
+    :return:
+    """
+    set_cmd = [0x81, 0x01, 0x26, 0x07, 0x3C, 0x00]
+    xor = xor_sum(set_cmd[1:])
+    set_cmd.append(int(xor))
+    print(set_cmd)
+    pdu = bytearray(set_cmd)
+    source_control = Cl3021SourCon()
+    ret = source_control.send(pdu)
+    source_control.close()
+
+
+def close_dc(gear):
+    """
+    关闭输出，电流或电压
+    :param gear: 1：电压，2：电流
+    :return:
+    """
+    source_control = Cl3021SourCon()
+    set_cmd = [0x81, 0x01, 0x26, 0x07, 0x38, gear]
+    xor = xor_sum(set_cmd[1:])
+    set_cmd.append(int(xor))
+    pdu = bytearray(set_cmd)
+    source_control.send(pdu)
+    source_control.close()
+
+
+def close_dc_all():
+    """
+    关闭直流源输出
+    """
+    source_control = Cl3021SourCon()
+    set_cmd_clear_overload = [0x81, 0x01, 0x26, 0x07, 0x39, 0x00, 0x19]
+    set_cmd_u_close = [0x81, 0x01, 0x26, 0x07, 0x38, 0x01, 0x19]
+    set_cmd_i_close = [0x81, 0x01, 0x26, 0x07, 0x38, 0x02, 0x19]
+    set_cmd_1 = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x05, 0x01, 0x40, 0x00, 0xc9]
+    set_cmd_2 = [0x81, 0x01, 0x25, 0x0a, 0xa3, 0x00, 0x10, 0x80, 0x00, 0x1d]
+    pdu = bytearray(set_cmd_clear_overload)
+    source_control.send(pdu)
+    time.sleep(0.5)
+    pdu = bytearray(set_cmd_u_close)
+    source_control.send(pdu)
+    time.sleep(0.5)
+    pdu = bytearray(set_cmd_i_close)
+    source_control.send(pdu)
+    time.sleep(0.5)
+    pdu = bytearray(set_cmd_1)
+    source_control.send(pdu)
+    time.sleep(0.5)
+    pdu = bytearray(set_cmd_2)
+    source_control.send(pdu)
+    source_control.close()
+
+
+if __name__ == "__main__":
+    # print(read_dc(1))
+    # print(read_dc(0))
+    close_dc_all()
