@@ -97,32 +97,39 @@ class PrecisionMeasure:
         :param source_input_list: 测试用例数据
         :param wire_type: 接线类型
         :return: 接线方式的数据
+        “”“ 函数基于IIV3代码， 修改了接线方式对应关系”“”
         """
         input_list = [source_input_list[0]]
-        if wire_type == 6:
+        # AcuRev1320中 接线方式3E4wY对应值是4
+        if wire_type == 4:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "3E4wY":
                     input_list.append(source_input_list[i])
+        # elif wire_type == 5:
+        #     for i in range(1, len(source_input_list)):
+        #         if source_input_list[i][15] == "2.5E4wY":
+        #             input_list.append(source_input_list[i])
+        # AcuRev1320中 接线方式 3E3wD 对应值是5
         elif wire_type == 5:
-            for i in range(1, len(source_input_list)):
-                if source_input_list[i][15] == "2.5E4wY":
-                    input_list.append(source_input_list[i])
-        elif wire_type == 4:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "3E3wD":
                     input_list.append(source_input_list[i])
-        elif wire_type == 3:
+        # AcuRev1320中 接线方式 2E3wD 对应值是2
+        elif wire_type == 2:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "2E3wD":
                     input_list.append(source_input_list[i])
-        elif wire_type == 2:
+        # AcuRev1320中 接线方式 2E3wN 对应值是3
+        elif wire_type == 3:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "2E3wN":
                     input_list.append(source_input_list[i])
+        # AcuRev1320中 接线方式 2E3w1p 对应值是1
         elif wire_type == 1:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "2E3w1p":
                     input_list.append(source_input_list[i])
+        # AcuRev1320中 接线方式 1E2w1p 对应值是0
         elif wire_type == 0:
             for i in range(1, len(source_input_list)):
                 if source_input_list[i][15] == "1E2w1p":
@@ -1330,6 +1337,7 @@ class PrecisionMeasure:
         """
         wb = openpyxl.load_workbook(file_path)
         ws = wb.active
+        # 写结果excel的第一行(Title),title内容在report_table_heading文件中定义
         self.write_table_title_of_3e4wy_to_excel(file_path, wb, ws)
         for i in range(len(input_list)):
             if i == len(input_list) - 1:
@@ -1339,9 +1347,10 @@ class PrecisionMeasure:
             else:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
                 print(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
-            #  从测试配置参数列表中中获取第i行预期值列表
+            # 从输入excel表格中获取电压、电流、角度、有功要求的精度, 例如0.001
             (voltage_accuracy, current_accuracy, phase_angle_accuracy,
              active_power_accuracy, _, _) = self.get_test_case_info_of_accuracy(input_list, i)
+            # 从输入excel表格中获取电压、电流、角度， 抽样次数、抽样间隔
             (case_id, ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p,
              freq, sample_cnt, sample_interval) = self.get_test_case_info_of_input_value(input_list, i)
 
@@ -1363,6 +1372,7 @@ class PrecisionMeasure:
                 case_id, voltage_accuracy, current_accuracy, phase_angle_accuracy, active_power_accuracy,
                 ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p
             )
+            # 从第二行开始，逐行抄写输入的测试数据到结果excel的前半列，后半列用于存储测试到的数据，返回下次写的列标
             start_num = self.write_common_values_to_excel(ws, i, common_values_of_3e4wy, start_num)
 
             # 升源+设置电压/电流档位
@@ -1442,6 +1452,7 @@ class PrecisionMeasure:
             accuracy_of_in = self.get_accuracy_res_by_exp_accuracy(value_of_in, measure_values_of_in, current_accuracy)
 
             # 第i个case，继续在每一列中写值，write_accuracy_res_to_excel中返回列数自加后的值start_numm供下一个数据写入使用。
+            # ua_accuracy、ia_accuracy均为写入元组数据， 包含max、min、avg，compare
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ua_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ub_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, uc_accuracy, start_num)
@@ -1504,6 +1515,7 @@ class PrecisionMeasure:
         """
         wb = openpyxl.load_workbook(file_path)
         ws = wb.active
+        # 写结果excel的第一行(Title),title内容在report_table_heading文件中定义
         self.write_table_title_of_2e3w1p_to_excel(file_path, wb, ws)
         for i in range(len(input_list)):
             if i == len(input_list) - 1:
@@ -1513,9 +1525,10 @@ class PrecisionMeasure:
             else:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
                 print(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
-            #  从测试配置参数列表中中获取第i行预期值列表
+            # 从输入excel表格中获取电压、电流、角度、有功要求的精度, 例如0.001
             (voltage_accuracy, current_accuracy, phase_angle_accuracy,
              active_power_accuracy, _, _) = self.get_test_case_info_of_accuracy(input_list, i)
+            # 从输入excel表格中获取电压、电流、角度， 抽样次数、抽样间隔
             (case_id, ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p,
              freq, sample_cnt, sample_interval) = self.get_test_case_info_of_input_value(input_list, i)
             # 处理uc_p/ic_p
@@ -1533,12 +1546,14 @@ class PrecisionMeasure:
                 case_id, voltage_accuracy, current_accuracy, phase_angle_accuracy, active_power_accuracy,
                 ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p
             )
+            # 从第二行开始，逐行抄写输入的测试数据到结果excel的前半列，后半列用于存储测试到的数据，返回下次写的列标
             start_num = self.write_common_values_to_excel(ws, i, common_values_of_2e3w1p, start_num)
             # 升源+设置电压/电流档位
             set_ac(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             set_voltage_gear(uc, ub, ua)
             set_current_gear(ic, ib, ia)
             set_ac(uc_p, ub_p, ua_p, ic_p, ib_p, ia_p, uc, ub, ua, ic, ib, ia, freq)
+            # 获取寄存器测量到的Ua电压、电流、角度、功率等值
             (
                 measure_values_of_ua,
                 measure_values_of_ub,
@@ -1585,6 +1600,7 @@ class PrecisionMeasure:
             uab_accuracy = self.get_accuracy_res_by_exp_accuracy(uab, measure_values_of_uab, voltage_accuracy)
 
             # 第i个case，继续在每一列中写值，write_accuracy_res_to_excel中返回列数自加后的值start_numm供下一个数据写入使用。
+            # ua_accuracy、ia_accuracy均为写入元组数据， 包含max、min、avg，compare
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ua_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ub_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ia_accuracy, start_num)
@@ -1630,7 +1646,9 @@ class PrecisionMeasure:
         """
         wb = openpyxl.load_workbook(file_path)
         ws = wb.active
+        # 写结果excel的第一行(Title),title内容在report_table_heading文件中定义
         self.write_table_title_of_1e2w1p_to_excel(file_path, wb, ws)
+        # 判断是否跑完所有case
         for i in range(len(input_list)):
             if i == len(input_list) - 1:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
@@ -1639,8 +1657,10 @@ class PrecisionMeasure:
             else:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
                 print(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
+            # 从输入excel表格中获取电压、电流、角度、有功要求的精度, 例如0.001
             (voltage_accuracy, current_accuracy, phase_angle_accuracy,
              active_power_accuracy, _, _) = self.get_test_case_info_of_accuracy(input_list, i)
+            # 从输入excel表格中获取电压、电流、角度， 抽样次数、抽样间隔
             (case_id, ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p,
              freq, sample_cnt, sample_interval) = self.get_test_case_info_of_input_value(input_list, i)
             # 处理ub_p/ib_p/uc_p/ic_p
@@ -1648,6 +1668,7 @@ class PrecisionMeasure:
             uc_p = 0
             ib_p = 0
             ic_p = 0
+            # 通过excel提供的电压、电流计算对应的功率
             (pa, qa, sa) = self.get_power_cal_res_of_phase(ua, ia, ua_p, ia_p)
             p_sys = self.get_sys_power(pa)
             q_sys = self.get_sys_power(qa)
@@ -1657,6 +1678,7 @@ class PrecisionMeasure:
                 case_id, voltage_accuracy, current_accuracy, phase_angle_accuracy, active_power_accuracy,
                 ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p
             )
+            # 从第二行开始，逐行抄写输入的测试数据到结果excel的前半列，后半列用于存储测试到的数据，返回下次写的列标
             start_num = self.write_common_values_to_excel(ws, i, common_values_of_1e2w1p, start_num)
             # 升源+设置电压/电流档位
             set_ac(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -1693,6 +1715,7 @@ class PrecisionMeasure:
             s_sys_accuracy = self.get_accuracy_res_by_not_exp_accuracy(s_sys, measure_values_of_s_sys)
 
             # 第i个case，继续在每一列中写值，write_accuracy_res_to_excel中返回列数自加后的值start_numm供下一个数据写入使用。
+            # ua_accuracy、ia_accuracy均为写入元组数据， 包含max、min、avg，compare
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ua_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ia_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ua_angle_accuracy, start_num)
@@ -1726,6 +1749,7 @@ class PrecisionMeasure:
         """
         wb = openpyxl.load_workbook(file_path)
         ws = wb.active
+        # 写结果excel的第一行(Title),title内容在report_table_heading文件中定义
         self.write_table_title_of_3e3wd_to_excel(file_path, wb, ws)
         for i in range(len(input_list)):
             if i == len(input_list) - 1:
@@ -1736,9 +1760,10 @@ class PrecisionMeasure:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
                 print(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
 
-            #  从测试配置参数列表中中获取第i行预期值列表
+            # 从输入excel表格中获取电压、电流、角度、有功要求的精度, 例如0.001
             (voltage_accuracy, current_accuracy, phase_angle_accuracy,
              active_power_accuracy, _, _) = self.get_test_case_info_of_accuracy(input_list, i)
+            # 从输入excel表格中获取电压、电流、角度， 抽样次数、抽样间隔
             (case_id, ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p,
              freq, sample_cnt, sample_interval) = self.get_test_case_info_of_input_value(input_list, i)
 
@@ -1757,12 +1782,14 @@ class PrecisionMeasure:
                 case_id, voltage_accuracy, current_accuracy, phase_angle_accuracy, active_power_accuracy,
                 ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p
             )
+            # 从第二行开始，逐行抄写输入的测试数据到结果excel的前半列，后半列用于存储测试到的数据，返回下次写的列标
             start_num = self.write_common_values_to_excel(ws, i, common_values_of_3e3wd, start_num)
             # 升源+设置电压/电流档位
             set_ac(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
             set_voltage_gear(uc, ub, ua)
             set_current_gear(ic, ib, ia)
             set_ac(uc_p, ub_p, ua_p, ic_p, ib_p, ia_p, uc, ub, ua, ic, ib, ia, freq)
+            # 获取寄存器测量到的Ua电压、电流、角度、功率等值
             (
                 measure_values_of_ia,
                 measure_values_of_ib,
@@ -1781,6 +1808,7 @@ class PrecisionMeasure:
                 measure_values_of_uca
             ) = self.get_measure_values_by_sample_cnt_of_3e3wd(sample_cnt, sample_interval)
             # 关注点2，线电流角度
+            #  基于测量值，计算出结果(min_value,min_accuracy,max_value,max_accuracy,avg_value,avg_accuracy,cmp_accuracy_res)
             ia_p, ib_p, ic_p = self.get_phase_angle_of_line_current(ia_p, ib_p, ic_p)
             ia_accuracy = self.get_accuracy_res_by_exp_accuracy(ia, measure_values_of_ia, current_accuracy)
             ib_accuracy = self.get_accuracy_res_by_exp_accuracy(ib, measure_values_of_ib, current_accuracy)
@@ -1805,6 +1833,8 @@ class PrecisionMeasure:
             ubc_accuracy = self.get_accuracy_res_by_exp_accuracy(ubc, measure_values_of_ubc, voltage_accuracy)
             uca_accuracy = self.get_accuracy_res_by_exp_accuracy(uca, measure_values_of_uca, voltage_accuracy)
 
+            # 第i个case，继续在每一列中写值，write_accuracy_res_to_excel中返回列数自加后的值start_numm供下一个数据写入使用。
+            # ua_accuracy、ia_accuracy均为写入元组数据， 包含max、min、avg，compare
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ia_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ib_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ic_accuracy, start_num)
@@ -1845,7 +1875,9 @@ class PrecisionMeasure:
         """
         wb = openpyxl.load_workbook(file_path)
         ws = wb.active
+        # 写结果excel的第一行(Title),title内容在report_table_heading文件中定义
         self.write_table_title_of_2e3wd_to_excel(file_path, wb, ws)
+        # 判断是否跑完所有case
         for i in range(len(input_list)):
             if i == len(input_list) - 1:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
@@ -1854,9 +1886,10 @@ class PrecisionMeasure:
             else:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
                 print(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
-            #  从测试配置参数列表中中获取第i行预期值列表
+            # 从输入excel表格中获取电压、电流、角度、有功要求的精度, 例如0.001
             (voltage_accuracy, current_accuracy, phase_angle_accuracy,
              active_power_accuracy, _, _) = self.get_test_case_info_of_accuracy(input_list, i)
+            # 从输入excel表格中获取电压、电流、角度， 抽样次数、抽样间隔
             (case_id, ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p,
              freq, sample_cnt, sample_interval) = self.get_test_case_info_of_input_value(input_list, i)
 
@@ -1876,6 +1909,7 @@ class PrecisionMeasure:
                 case_id, voltage_accuracy, current_accuracy, phase_angle_accuracy, active_power_accuracy,
                 ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p
             )
+            # 从第二行开始，逐行抄写输入的测试数据到结果excel的前半列，后半列用于存储测试到的数据，返回下次写的列标
             start_num = self.write_common_values_to_excel(ws, i, common_values_of_2e3wd, start_num)
             # 升源+设置电压/电流档位
             set_ac(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -1930,6 +1964,7 @@ class PrecisionMeasure:
             uca_accuracy = self.get_accuracy_res_by_exp_accuracy(uca, measure_values_of_uca, voltage_accuracy)
 
             # 第i个case，继续在每一列中写值，write_accuracy_res_to_excel中返回列数自加后的值start_numm供下一个数据写入使用。
+            # ua_accuracy、ia_accuracy均为写入元组数据， 包含max、min、avg，compare
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ia_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ib_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ic_accuracy, start_num)
@@ -1967,7 +2002,9 @@ class PrecisionMeasure:
         """
         wb = openpyxl.load_workbook(file_path)
         ws = wb.active
+        # 写结果excel的第一行(Title),title内容在report_table_heading文件中定义
         self.write_table_title_of_2e3wn_to_excel(file_path, wb, ws)
+        # 判断是否跑完所有case
         for i in range(len(input_list)):
             if i == len(input_list) - 1:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
@@ -1976,9 +2013,10 @@ class PrecisionMeasure:
             else:
                 logging.info(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
                 print(f"测试进度:{input_list[i]},执行时间:{time.strftime('%Y_%m_%d %H:%M:%S')}")
-            #  从测试配置参数列表中中获取第i行预期值列表
+            # 从输入excel表格中获取电压、电流、角度、有功要求的精度, 例如0.001
             (voltage_accuracy, current_accuracy, phase_angle_accuracy,
              active_power_accuracy, _, _) = self.get_test_case_info_of_accuracy(input_list, i)
+            # 从输入excel表格中获取电压、电流、角度， 抽样次数、抽样间隔
             (case_id, ua, ub, uc, ia, ib, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p,
              freq, sample_cnt, sample_interval) = self.get_test_case_info_of_input_value(input_list, i)
 
@@ -1997,6 +2035,7 @@ class PrecisionMeasure:
                 case_id, voltage_accuracy, current_accuracy, phase_angle_accuracy, active_power_accuracy,
                 ua, ub, uc, ia, ib_src, ic, ua_p, ub_p, uc_p, ia_p, ib_p, ic_p
             )
+            # 从第二行开始，逐行抄写输入的测试数据到结果excel的前半列，后半列用于存储测试到的数据，返回下次写的列标
             start_num = self.write_common_values_to_excel(ws, i, common_values_of_2e3wn, start_num)
             # 升源+设置电压/电流档位
             set_ac(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -2005,7 +2044,6 @@ class PrecisionMeasure:
             set_ac(uc_p, ub_p, ua_p, ic_p, ib_p, ia_p, uc, ub, ua, ic, ib_src, ia, freq)
 
             # 获取寄存器测量到的电压、电流、角度、功率等值， 实际设计是记录UA Ub Uc 三个中的两相，与Ia Ib Ic，应该要测量 PhaseA PhaseB PhaseC的功率
-            # 代码实现需要确认 ？？？？？？？？
             (
                 measure_values_of_ia,
                 measure_values_of_ib,
@@ -2024,6 +2062,7 @@ class PrecisionMeasure:
                 measure_values_of_uca
             ) = self.get_measure_values_by_sample_cnt_of_2e3wn(sample_cnt, sample_interval)
             # 关注点2, 线电流角度
+            #  基于测量值，计算出结果(min_value,min_accuracy,max_value,max_accuracy,avg_value,avg_accuracy,cmp_accuracy_res)
             ia_p, ib_p, ic_p = self.get_phase_angle_of_line_current(ia_p, ib_p, ic_p)
             ia_accuracy = self.get_accuracy_res_by_exp_accuracy(ia, measure_values_of_ia, current_accuracy)
             ib_accuracy = self.get_accuracy_res_by_exp_accuracy(ib, measure_values_of_ib, current_accuracy)
@@ -2048,6 +2087,8 @@ class PrecisionMeasure:
             ubc_accuracy = self.get_accuracy_res_by_exp_accuracy(ubc, measure_values_of_ubc, voltage_accuracy)
             uca_accuracy = self.get_accuracy_res_by_exp_accuracy(uca, measure_values_of_uca, voltage_accuracy)
 
+            # 第i个case，继续在每一列中写值，write_accuracy_res_to_excel中返回列数自加后的值start_numm供下一个数据写入使用。
+            # ua_accuracy、ia_accuracy均为写入元组数据， 包含max、min、avg，compare
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ia_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ib_accuracy, start_num)
             start_num = self.write_accuracy_res_to_excel(file_path, wb, ws, i, ic_accuracy, start_num)
