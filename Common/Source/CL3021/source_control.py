@@ -2,7 +2,8 @@ import socket
 import time
 import logging
 from config.modbus_config import modbus_config
-
+import struct
+from typing import List
 
 class SourceControlError(Exception):
     def __init__(self, msg):
@@ -157,7 +158,7 @@ class Cl3021SourCon:
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
 
-    def send(self, hex_data, wait_response=True):
+    def send(self, hex_data, wait_response=False):
         ret = self.udp_socket.sendto(hex_data, self.dest_addr)  # 返回发送的字节数
         if wait_response:
             recv_data = self.udp_socket.recvfrom(1024)
@@ -748,10 +749,6 @@ def set_dc(u: float, i: float):
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu, wait_response=False)
     source_control.close()
-
-
-import struct
-from typing import List
 
 
 def convert_cl3021_int4e15(data_bytes: List[int]) -> float:

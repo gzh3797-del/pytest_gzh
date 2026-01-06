@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from api.modbus_connet import ModbusRtuOrTcp
 from common.Source.CL3021.source_control import close_dc_all
-from operation.WEB2.LoginPage import LoginPage
+from operation.WEB2_4100.LoginPage import LoginPage
 
 current_file_path = os.path.abspath(__file__)
 project_root = os.path.dirname(current_file_path)
@@ -58,6 +58,7 @@ def test_error_handler(request):
     finally:
         # 无论测试成功或失败，都执行清理工作
         logging.info("程序执行完毕，关闭电源输出")
+        close_dc_all()
 
 
 # ================= 统一连接对象 Fixture ================= #
@@ -99,7 +100,7 @@ def driver():
     web2_driver.driver.maximize_window()
 
     # 3. 统一登录，确保每个测试用例都从登录状态开始
-    web2_driver.driver.get("https://192.168.2.88/#/login")
+    web2_driver.driver.get("https://192.168.2.209/#/login")
     web2_driver.login("admin", "admin")
 
     yield driver  # 测试用例执行期间，driver 对象保持存活

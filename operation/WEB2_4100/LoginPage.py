@@ -36,20 +36,21 @@ class LoginPage(BasePage):
         self.input_text(self.PASSWORD_INPUT, password)
         self.click(self.LOGIN_BTN)
 
-    def add_user(self, username, password):
+    def add_user(self, usernames_passwords):
         """点击添加用户按钮"""
         self.click(self.SETTINGS_BTN)
         self.click(self.USER_MANAGEMENT_BTN)
         self.click(self.USER_CONFIGURATION_BTN)
-        self.click(self.ADD_USER_BTN)
-        self.input_text(self.NEW_USERNAME_INPUT, username)
-        self.input_text(self.NEW_PASSWORD_INPUT, password)
-        self.input_text(self.CONFIRM_PASSWORD_INPUT, password)
-        self.click(self.SELECT_ROLE_DROPDOWN)
-        self.click(self.SELECT_ADMIN_ROLE)
-        self.click(self.Override_Password_Policy)
-        self.click(self.SAVE_BTN)
-        print(f"添加用户 {username} 成功")
+        for username, password in usernames_passwords:
+            self.click(self.ADD_USER_BTN)
+            self.input_text(self.NEW_USERNAME_INPUT, username)
+            self.input_text(self.NEW_PASSWORD_INPUT, password)
+            self.input_text(self.CONFIRM_PASSWORD_INPUT, password)
+            self.click(self.SELECT_ROLE_DROPDOWN)
+            self.click(self.SELECT_ADMIN_ROLE)
+            self.click(self.Override_Password_Policy)
+            self.click(self.SAVE_BTN)
+            print(f"添加用户 {username} 成功")
 
     def delete_all_users(self):
         """删除所有用户"""
@@ -58,7 +59,7 @@ class LoginPage(BasePage):
         self.click(self.USER_CONFIGURATION_BTN)
         # 确认删除所有用户
         click_count = 0
-        sleep_time = 0.4  # 每次点击后等待1秒，确保DOM更新
+        sleep_time = 0.2  # 每次点击后等待1秒，确保DOM更新
 
         while True:
             delete_btn = self.find_elements(self.DELETE_USERS_BTN)
@@ -72,7 +73,6 @@ class LoginPage(BasePage):
                 element_to_click.click()
                 self.click(self.YES_DELETE_BTN)
                 click_count += 1
-
                 logging.info(f"删除成功{click_count}个用户。")
 
                 # 强制等待，等待DOM更新和删除操作完成
@@ -80,7 +80,7 @@ class LoginPage(BasePage):
 
             except StaleElementReferenceException:
                 # 元素在点击前消失（DOM更新太快），我们忽略并进行下一次循环查找
-                logging.info(f"⚠️ 元素 {delete_btn[1]} 引用过期，进行下一次查找。")
+                logging.info(f"⚠️ 元素引用过期，进行下一次查找。")
             except ElementClickInterceptedException:
                 # 点击被遮罩或其他元素拦截，等待并重试
                 logging.info(f"❌ 警告：点击被拦截，等待并重试...")

@@ -11,7 +11,7 @@ class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.timeout = 100  # 默认等待10秒
+        self.timeout = 10  # 默认等待10秒
 
     def find_element(self, locator):
         """

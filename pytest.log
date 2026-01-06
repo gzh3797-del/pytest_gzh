@@ -1,15 +1,4 @@
-2025-12-24 10:36:12 [INFO] logger.py:11 - ====== WebDriver manager ======
-2025-12-24 10:36:13 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
-2025-12-24 10:36:14 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
-2025-12-24 10:36:14 [INFO] logger.py:11 - Driver [C:\Users\ZihanGao\.wdm\drivers\chromedriver\win64\143.0.7499.169\chromedriver-win32/chromedriver.exe] found in cache
-2025-12-24 10:38:46 [INFO] test_update.py:26 - 第1次升级完成
-2025-12-24 10:42:18 [INFO] test_update.py:26 - 第2次升级完成
-2025-12-24 10:45:25 [INFO] test_update.py:26 - 第3次升级完成
-2025-12-24 10:48:26 [INFO] test_update.py:26 - 第4次升级完成
-2025-12-24 10:51:35 [INFO] test_update.py:26 - 第5次升级完成
-2025-12-24 10:54:34 [INFO] test_update.py:26 - 第6次升级完成
-2025-12-24 10:57:53 [INFO] test_update.py:26 - 第7次升级完成
-2025-12-24 11:02:34 [INFO] test_update.py:26 - 第8次升级完成
-2025-12-24 11:02:50 [WARNING] connectionpool.py:868 - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=50826): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。")': /session/cd1e508a31145bcbc19269f36f72c0e4
-2025-12-24 11:02:54 [WARNING] connectionpool.py:868 - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=50826): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。")': /session/cd1e508a31145bcbc19269f36f72c0e4
-2025-12-24 11:02:58 [WARNING] connectionpool.py:868 - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=50826): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。")': /session/cd1e508a31145bcbc19269f36f72c0e4
+2026-01-06 08:51:36 [INFO] logger.py:11 - ====== WebDriver manager ======
+2026-01-06 08:51:37 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
+2026-01-06 08:51:38 [INFO] logger.py:11 - Get LATEST chromedriver version for google-chrome
+2026-01-06 08:51:38 [INFO] logger.py:11 - Driver [C:\Users\ZihanGao\.wdm\drivers\chromedriver\win64\143.0.7499.169\chromedriver-win32/chromedriver.exe] found in cache

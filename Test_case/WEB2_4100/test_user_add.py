@@ -2,7 +2,7 @@ import logging
 import time
 import pytest
 from selenium.webdriver.common.by import By
-from operation.WEB2.LoginPage import LoginPage
+from operation.WEB2_4100.LoginPage import LoginPage
 
 
 class TestUserOperations:
@@ -15,13 +15,11 @@ class TestUserOperations:
         """
         login_page = LoginPage(driver)
         user_numbers = 20
-        data_sequence = [[f'user{i}', i] for i in range(1, user_numbers + 1)]
-        for username, password in data_sequence:
-            login_page.add_user(username, password)
-
+        usernames_passwords = [[f'user{i}', i] for i in range(1, user_numbers + 1)]
+        login_page.add_user(usernames_passwords)
         time.sleep(0.2)
         # 检查data_sequence中最大的username是否在页面上
-        max_user = max(data_sequence, key=lambda x: x[1])[0]
+        max_user = max(usernames_passwords, key=lambda x: x[1])[0]
         span_max_user = login_page.driver.find_element(By.XPATH, f"//span[normalize-space(.)='{max_user}']")
         assert span_max_user
         logging.info(f"✅ 成功添加{user_numbers}个用户")

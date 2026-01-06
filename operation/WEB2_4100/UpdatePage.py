@@ -1,6 +1,8 @@
 import logging
 import time
-from selenium.common import TimeoutException, StaleElementReferenceException, ElementClickInterceptedException
+
+from selenium.webdriver import ActionChains, Keys
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -11,6 +13,7 @@ class UpdatePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.logger = logging.getLogger(__name__)
+        self.File_path = ""
 
     SETTINGS_BTN = (By.XPATH, "//span[normalize-space(.)='Settings']")
     Firmware_Update_BTN = (By.XPATH, "//div[normalize-space(.)='Firmware Update']")
@@ -18,8 +21,6 @@ class UpdatePage(BasePage):
     Update_File_Input_INPUT = (By.XPATH, "//input[@type='file']")
     Upload_BTN = (By.XPATH, "//span[normalize-space(.)='Upload']")
     Update_BTN = (By.XPATH, "//span[normalize-space(.)='Update']")
-
-    File_path = "C:/Users/ZihanGao/Downloads/AcuRev-4100-WEB2-v1.00p06.a2h"
 
     def update(self):
         self.click(self.SETTINGS_BTN)

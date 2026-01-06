@@ -33,8 +33,8 @@
 │   ├── IOM/                # 硬件精度与功能测试
 │   └── WEB2/               # Web 业务流程测试
 ├── tools/                  # 🧰 辅助工具箱
-│   ├── Gui自动化升级/        # AHK 脚本：处理非标准 GUI 交互
-│   └── modbus报文生成/       # 报文生成工具
+│   ├── Gui自动化升级/       # AHK 脚本：处理非标准 GUI 交互
+│   └── modbus报文生成/      # 报文生成工具
 ├── config.json             # 🌍 全局环境配置文件
 ├── conftest.py             # ⚡ Pytest Fixture (前后置/钩子函数)
 ├── pytest.ini              # ⚙️ Pytest 核心配置文件
@@ -83,6 +83,7 @@ pip install -r requirements.txt
 | **AO 电流精度** | `pytest -m ao_c` | Analog Output Current |
 
 ### 2. Web2 业务测试 (UI 自动化)
+默认URL：192.168.2.209。在`conftest.py`文件的 `driver`(函数) 中修改
 
 | 测试场景 | 运行命令 | 备注           |
 | --- | --- |--------------|
@@ -92,7 +93,7 @@ pip install -r requirements.txt
 
 ### 3. 特殊工具运行
 
-硬件校准脚本需单独作为 Python 脚本运行：
+IOM校准脚本需单独作为 Python 脚本运行：
 
 ```bash
 # 进入目录后选择对应方法执行
