@@ -896,7 +896,8 @@ def close_dc_all():
 if __name__ == "__main__":
     # print(read_dc(1))
     # print(read_dc(0))
-    close_dc_all()
+    set_dc(0,10)
+    # close_dc_all()
 
 
 

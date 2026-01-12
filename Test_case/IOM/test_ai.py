@@ -18,7 +18,7 @@ class TestAi:
         parameter_value = test_data['parameter'][index]
         voltage = test_data['voltage'][index]
         expected = test_data['expected'][index]
-        set_all_ai_param(modbus_client, type_line_value, parameter_value, ai_ao_number=ai_number)
+        # set_all_ai_param(modbus_client, type_line_value, parameter_value, ai_ao_number=ai_number)
         res = iom_test(modbus_client, ai_number=ai_number, ai_voltage=voltage, expected=expected)
         assert res, "AI电压精度不符合预期，用例失败"
 

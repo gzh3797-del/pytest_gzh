@@ -1,4 +1,6 @@
 import time
+import winsound
+
 import serial
 import struct
 from api.modbus_connet import ModbusRtuOrTcp
@@ -34,7 +36,7 @@ def float_to_hex_bytes(value):
     return hex_str
 
 
-def send_and_wait(ser, frame, expected_frame_code=None, timeout=40):
+def send_and_wait(ser, frame, expected_frame_code=None, flag=False, timeout=40):
     """
     发送一帧请求并等待正确的响应
     :param ser: 已打开的串口对象
@@ -60,32 +62,54 @@ def send_and_wait(ser, frame, expected_frame_code=None, timeout=40):
                 return None
             if len(res) >= 7:
                 if expected_frame_code is not None:
+                    if res[4] == 0x05:
+                        time.sleep(2)
+                        print("期望帧码:", expected_frame_code, "实际帧码:", res[4], "校验失败！")
+                        winsound.Beep(2000, 1000)
+                        return None
+                    if res[4] == 0x01 and flag:
+                        time.sleep(2)
+                        print("期望帧码:", expected_frame_code, "实际帧码:", res[4], "校验失败！")
+                        winsound.Beep(800, 300)
+                        winsound.Beep(600, 300)
+                        winsound.Beep(800, 300)
+                        winsound.Beep(600, 300)
+                        break
                     if res[4] != expected_frame_code:
                         time.sleep(2)
                         print("期望帧码:", expected_frame_code, "实际帧码:", res[4])
                         break
-                    print("期望帧码:", expected_frame_code, "实际帧码:", res[4])
+                    print("期望帧码:", expected_frame_code, "实际帧码:", res[4], "校准成功！")
                 return res
 
 
-def ai_c_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
+def ai_c_calibration(model_type, change_ai_type=False):
     """
     AI电流校准
-    :param ser: 已打开的串口对象
+    :param change_ai_type: 是否修改所有AI为电流档
+    :param client: modbus对象
     :param model_type: function model type，1或2
-    :param slave_id:
     :return: None
     """
+
+    slave_id = modbus_config['rtu']['slaveid']
+    print(f"进入AI电流校准程序")
+    if change_ai_type:
+        print("修改所有AI为电流档")
+        client = ModbusRtuOrTcp()
+        if model_type == 1:
+            set_all_ai_param(client, [2, 1], [20, 0, 1, 1, 2, 2, 3, 3, 4, 4])
+        elif model_type == 2:
+            set_all_ai_param(client, [2, 1], [20, 0, 1, 1, 2, 2, 3, 3, 4, 4])
+
     hex_id = f'{slave_id:02X}'
     ai_numbers = 17 if model_type == 2 else 9
     f_ai_c_1 = bytes.fromhex(f'{hex_id} 6A 50 00 00 02 04 00 FA 01 01')
     f_ai_c_2 = bytes.fromhex(f'{hex_id} 6A 50 00 00 02 04 00 FC 01 01')
     f_ai_c_0 = bytes.fromhex(f'{hex_id} 03 50 02 00 01')
-
     numbers = [x for x in range(1, ai_numbers)]
     all_f_1 = []
     all_f_2 = []
-
     for n in numbers:
         frame = bytearray(f_ai_c_1)
         frame2 = bytearray(f_ai_c_2)
@@ -94,9 +118,10 @@ def ai_c_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
         all_f_1.append(bytes(frame))
         all_f_2.append(bytes(frame2))
 
+    ser = serial.Serial(modbus_config['rtu']['port'], modbus_config['rtu']['baudrate'], timeout=1)
     time.sleep(3)
-    print(f"*************开始校准AI1电流*************")
-    for i in range(8, ai_numbers):
+    print(f"*************开始校准 AI1 电流*************")
+    for i in range(1, ai_numbers):
         print("DC源输出2mA")
         set_dc(0, 2)
         time.sleep(6.8)
@@ -110,25 +135,38 @@ def ai_c_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
         set_dc(0, 12)
         time.sleep(6.8)
         print(f"发送：{all_f_2[i - 1].hex(' ')}")
-        send_and_wait(ser, all_f_2[i - 1])
+        send_and_wait(ser, all_f_2[i - 1], flag=True)
 
         print(f"查询AI状态：{f_ai_c_0.hex(' ')}")
         send_and_wait(ser, f_ai_c_0, 0x03)
 
         close_dc(2)
-        print(f"*************AI{i}电流校准完成，你有8s时间切换到AI{i + 1}*************")
+        winsound.Beep(1000, 1000)
+        if i == ai_numbers - 1:
+            print("************* 所有AI电流校准完成 *************")
+        else:
+            print(f"************* AI {i} 电流校准完成，你有8s时间切换到 AI {i + 1} *************")
         time.sleep(6)
     close_dc_all()
 
 
-def ai_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
+def ai_v_calibration(model_type, change_ai_type=False):
     """
     AI电压校准
-    :param ser: 已打开的串口对象
+    :param change_ai_type: 是否修改所有AI为电流档
     :param model_type: function model type，1或2
-    :param slave_id:
     :return: None
     """
+    slave_id = modbus_config['rtu']['slaveid']
+    print(f"进入AI电压校准程序")
+    if change_ai_type:
+        print("修改所有AI为电压档")
+        client = ModbusRtuOrTcp()
+        if model_type == 1:
+            set_all_ai_param(client, [0, 1], [10, 0, 1, 1, 2, 2, 3, 3, 4, 4])
+        elif model_type == 2:
+            set_all_ai_param(client, [0, 1], [10, 0, 1, 1, 2, 2, 3, 3, 4, 4])
+
     hex_id = f'{slave_id:02X}'
     if model_type == 2:
         f_ai_v_1 = bytes.fromhex(f'{hex_id} 6A 50 00 00 02 04 00 AA 01 10')
@@ -137,6 +175,8 @@ def ai_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
         f_ai_v_1 = bytes.fromhex(f'{hex_id} 6A 50 00 00 02 04 00 AA 01 08')
         f_ai_v_2 = bytes.fromhex(f'{hex_id} 6A 50 00 00 02 04 00 BC 01 08')
     f_ai_v_0 = bytes.fromhex(f'{hex_id} 03 50 02 00 01')
+
+    ser = serial.Serial(modbus_config['rtu']['port'], modbus_config['rtu']['baudrate'], timeout=1)
     print(f"*************开始校准AI电压*************")
     print("DC源输出输出1V")
     set_dc(1, 0)
@@ -156,7 +196,7 @@ def ai_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
     close_dc_all()
 
 
-def ao_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
+def ao_v_calibration(model_type, change_ai_type=False):
     """
     AO电压校准
     :param ser: 已打开的串口对象
@@ -164,6 +204,17 @@ def ao_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
     :param slave_id:
     :return: None
     """
+    slave_id = modbus_config['rtu']['slaveid']
+    print(f"进入AO电压校准程序")
+    if change_ai_type:
+        print("修改所有AO为电压档")
+        client = ModbusRtuOrTcp()
+        if model_type == 1:
+            set_all_ao_param(client, [0, 1], [10, 0, 1, 1, 2, 2, 3, 3, 4, 4])
+        elif model_type == 2:
+            set_all_ao_param(client, [0, 1], [10, 0, 1, 1, 2, 2, 3, 3, 4, 4])
+
+
     hex_id = f'{slave_id:02X}'
     ao_numbers = 5 if model_type == 2 else 3
     if model_type == 2:
@@ -185,10 +236,10 @@ def ao_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
     f_ao_v_0 = bytes.fromhex(f'{hex_id} 03 51 02 00 01')
     list_f_ao = [f_ao1_v_1, f_ao2_v_1, f_ao3_v_1, f_ao4_v_1, f_ao1_v_2, f_ao2_v_2, f_ao3_v_2, f_ao4_v_2]
 
+    ser = serial.Serial(modbus_config['rtu']['port'], modbus_config['rtu']['baudrate'], timeout=1)
     print(f"**************************AO校准第一步**************************")
     send_and_wait(ser, f_ao_v_1)
     send_and_wait(ser, f_ao_v_0, 0x01)
-
     for n in range(1, ao_numbers):
         if n != 1:
             time.sleep(8)
@@ -202,12 +253,12 @@ def ao_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
             print(
                 f"AO{n}电压记录完成{value_ao_1},写入为{float_to_hex_bytes(value_ao_1)}，记录结束")
         else:
+            winsound.Beep(1000, 1000)
             print(f"AO{n}电压记录完成{value_ao_1},写入为{float_to_hex_bytes(value_ao_1)}，你有8s时间切换到AO{n + 1}")
 
     print(f"**************************AO校准第二步**************************")
     send_and_wait(ser, f_ao_v_2)
     send_and_wait(ser, f_ao_v_0, 0x02)
-
     for n in range(1, ao_numbers):
         if n != 1:
             time.sleep(8)
@@ -217,13 +268,14 @@ def ao_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
         value_ao_2 = read_dc(0)
         frame_ao = bytearray(list_f_ao[n - 1 + 4]) + bytes.fromhex(float_to_hex_bytes(value_ao_2))
         list_f_ao[n - 1 + 4] = bytes(frame_ao)
-        if n== ao_numbers-1:
+        if n == ao_numbers-1:
             print(
                 f"AO{n}电压记录完成{value_ao_2}，写入为{float_to_hex_bytes(value_ao_2)},记录结束")
         else:
+            winsound.Beep(1000, 1000)
             print(f"AO{n}电压记录完成{value_ao_2}，写入为{float_to_hex_bytes(value_ao_2)}，你有7s时间切换到AO{n + 1}")
 
-    print(f"**************************开始写入**************************")
+    print(f"**************************AO校准第三步，开始写入**************************")
     if model_type == 2:
         for n in range(8):
             send_and_wait(ser, list_f_ao[n])
@@ -239,20 +291,10 @@ def ao_v_calibration(ser, model_type, slave_id=modbus_config['rtu']['slaveid']):
 
 
 if __name__ == "__main__":
+    try:
+        # ai_v_calibration(model_type=2, change_ai_type=True)
+        ao_v_calibration(model_type=2, change_ai_type=True)
+    except KeyboardInterrupt:
+        close_dc_all()
 
-    client = ModbusRtuOrTcp()
-    target_port = 'COM39'
-    mode_type = 1
-    print(f"进入校准程序,修改所有ai_type为电压档")
-    if mode_type == 1:
-        set_all_ao_param(client, [0,1], [10,0,1,1,2,2,3,3,4,4], [1,8])
-    elif mode_type ==2:
-        set_all_ao_param(client, [0,1], [10,0,1,1,2,2,3,3,4,4])
-    ser = serial.Serial(target_port, 19200, timeout=1)
-    # print("开始校准AI电流")
-    # ai_c_calibration(ser, mode_type=mode_type)
-    # print("开始校准AI电压")
-    # ai_v_calibration(ser, slave_id=slave_id, mode_type=mode_type)
-    print("开始校准AO电压")
-    ao_v_calibration(ser, model_type=mode_type)
 

@@ -1,3 +1,4 @@
 logging模块
 allure报告
 
+添加测试成功提示音：winsound.Beep

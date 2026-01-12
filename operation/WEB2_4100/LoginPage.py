@@ -11,7 +11,8 @@ from api.ui_base_page import BasePage
 class LoginPage(BasePage):
     USERNAME_INPUT = (By.CSS_SELECTOR, "input[placeholder='Enter User Name']")
     PASSWORD_INPUT = (By.CSS_SELECTOR, "input[placeholder='Enter Password']")
-    LOGIN_BTN = (By.XPATH, "//button[span[text()='Sign In']]")
+    LOGIN_BTN = (By.XPATH, "//button[normalize-space(text())='Sign In']")
+
 
     SETTINGS_BTN = (By.XPATH, "//span[normalize-space(.)='Settings']")
     USER_MANAGEMENT_BTN = (By.XPATH, "//div[normalize-space(.)='User Management']")

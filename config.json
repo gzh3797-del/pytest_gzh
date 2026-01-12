@@ -1,9 +1,9 @@
 {
   "rtu": {
-    "port": "COM39",
+    "port": "COM11",
     "baudrate": 19200,
     "parity": "N",
-    "slaveid": 6
+    "slaveid": 1
   },
   "tcp": {
     "ip": "192.168.1.242",

@@ -100,7 +100,7 @@ def driver():
     web2_driver.driver.maximize_window()
 
     # 3. 统一登录，确保每个测试用例都从登录状态开始
-    web2_driver.driver.get("https://192.168.2.209/#/login")
+    web2_driver.driver.get("https://192.168.2.194/#/login")
     web2_driver.login("admin", "admin")
 
     yield driver  # 测试用例执行期间，driver 对象保持存活
