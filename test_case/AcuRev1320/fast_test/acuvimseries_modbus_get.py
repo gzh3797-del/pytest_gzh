@@ -9,8 +9,6 @@
 修改记录:
 """
 
-
-
 import statistics
 import struct
 import time
@@ -656,6 +654,20 @@ class HandleMemory:
             self.log.info(f'set_wire_mode_by_voltage fail, exp_val is:{exp_val}, act_val is:{act_val}')
             return False
 
+    def compare_res_by_set_value(self, exp_val, act_val):
+        """
+        判断清除能量是否成功设置
+        :param exp_val: 期望值
+        :param act_val: 寄存器值
+        :return: 判断结果
+        """
+        if exp_val == act_val:
+            self.log.info(f'set_value pass, act_val is:{act_val}')
+            return True
+        else:
+            self.log.info(f'set_value fail, exp_val is:{exp_val}, act_val is:{act_val}')
+            return False
+
     def set_wire_mode_by_voltage(self, voltage_wire_mode=0):
         """
         设置电压接线方式
@@ -1241,6 +1253,197 @@ class HandleMemory:
             value = self.read_frequency()
             self.log.info(f"第 {i + 1} 次读取数据:{value},RS485 连接正常")
             print(f"第 {i + 1} 次读取数据:{value},RS485 连接正常")
+
+    def set_demand_method(self, demand_method):
+        """
+        设置需量算法
+        :param demand_method: Fixed Window: 0  Sliding Window: 1
+        :return:
+        """
+        address = MemoryAddr.demand_algorithm_addr
+        values = demand_method
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_cleared_energy fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = demand_method
+        act_val = measure_value[0]
+        self.compare_res_by_set_value(exp_val, act_val)
+
+    def set_demand_interval(self, demand_interval):
+        """
+        设置上报间隔
+        :param demand_interval: 1~30 minute
+        :return:
+        """
+        address = MemoryAddr.demand_interval_addr
+        values = demand_interval
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_cleared_energy fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = demand_interval
+        act_val = measure_value[0]
+        self.compare_res_by_set_value(exp_val, act_val)
+
+    def set_demand_update_rate(self, demand_update_rate):
+        """
+        设置上报间隔
+        :param demand_update_rate: 1~30 minute
+        :return:
+        """
+        address = MemoryAddr.demand_update_rate_addr
+        values = demand_update_rate
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_cleared_energy fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = demand_update_rate
+        act_val = measure_value[0]
+        self.compare_res_by_set_value(exp_val, act_val)
+
+    def read_demand_sys_active_power(self):
+        """
+        获取寄存器值:system_active_power
+        :return:system_active_power
+        """
+        address = MemoryAddr.demand_addr["system_active_power"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand system_active_power ret is:{measure_value}')
+        return value
+
+    def read_demand_sys_reactive_power(self):
+        """
+        获取寄存器值:system_reactive_power
+        :return:system_reactive_power
+        """
+        address = MemoryAddr.demand_addr["system_reactive_power"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand system_reactive_power ret is:{measure_value}')
+        return value
+
+    def read_demand_sys_apparent_power(self):
+        """
+        获取寄存器值:system_apparent_power
+        :return:system_apparent_power
+        """
+        address = MemoryAddr.demand_addr["system_apparent_power"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand system_apparent_power ret is:{measure_value}')
+        return value
+
+    def read_demand_ia(self):
+        """
+        获取寄存器值:phase_a_current
+        :return:phase_a_current
+        """
+        address = MemoryAddr.demand_addr["phase_a_current"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand phase_a_current ret is:{measure_value}')
+        return value
+
+    def read_demand_ib(self):
+        """
+        获取寄存器值:phase_b_current
+        :return:phase_b_current
+        """
+        address = MemoryAddr.demand_addr["phase_b_current"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand phase_b_current ret is:{measure_value}')
+        return value
+
+    def read_demand_ic(self):
+        """
+        获取寄存器值:phase_c_current
+        :return:phase_c_current
+        """
+        address = MemoryAddr.demand_addr["phase_c_current"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand phase_c_current ret is:{measure_value}')
+        return value
+
+    def read_demand_in(self):
+        """
+        获取寄存器值:phase_n_current
+        :return:phase_n_current
+        """
+        address = MemoryAddr.demand_addr["phase_n_current"]
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read demand phase_n_current ret is:{measure_value}')
+        return value
+
+    def set_sys_millisecond(self, sys_millisecond):
+        """
+        设置上报间隔
+        :param sys_millisecond: 
+        """
+        address = MemoryAddr.sys_millisecond
+        values = sys_millisecond
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_sys_millisecond fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = sys_millisecond
+        act_val = measure_value[0]
+        self.compare_res_by_set_value(exp_val, act_val)
+
+    def set_clear_max_demand(self, clear_max_demand):
+        """
+        # 重置系统最大需量值，重置需量
+        """
+        address = MemoryAddr.clear_max_demand
+        values = clear_max_demand
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_clear_max_demand fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = clear_max_demand
+        act_val = measure_value[0]
+        self.compare_res_by_set_value(exp_val, act_val)
+
 
 
 if __name__ == '__main__':
