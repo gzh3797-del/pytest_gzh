@@ -1,14 +1,14 @@
 import sys
-import webdriver_manager.chrome
+# import webdriver_manager.chrome
 import yaml
 import pytest
 import os
 import time
 import logging
 from _pytest.fixtures import FixtureRequest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.service import Service
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
 from comm.source_control import close_dc_all
 from test_case.WEB2_4100.operation.LoginPage import LoginPage
