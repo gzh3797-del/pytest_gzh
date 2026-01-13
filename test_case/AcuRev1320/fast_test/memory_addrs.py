@@ -440,7 +440,7 @@ class MemoryAddr:
         "phase_n_current": 0xC472,
     }
     sys_millisecond = 0x1026
-    clear_max_demand = 0X1131
+    clear_max_demand = 0x1131
 
 
 
