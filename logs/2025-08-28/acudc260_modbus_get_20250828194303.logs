@@ -1,1 +1,0 @@
-INFO    2025-08-28 19:43:03,558  root:acudc260_fast_test.py:419 测试进度:['test_case', 'Voltage', 'Current_1', 'Current_2', '等待时间(h)', 'voltage_accuracy', 'current_accuracy', 'power_accuracy', '采样次数', '采样间隔'],执行时间:2025_08_28 19:43:03
