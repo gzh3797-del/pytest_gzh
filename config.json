@@ -1,6 +1,6 @@
 {
   "rtu": {
-    "port": "COM10",
+    "port": "COM14",
     "baudrate": 19200,
     "parity": "N",
     "slaveid": 1
@@ -8,6 +8,13 @@
   "tcp": {
     "ip": "192.168.1.254",
     "port": 502
+  },
+  "reboot": {
+    "_comment": "继电器开关通信参数",
+    "port": "COM11",
+    "baudrate": 9600,
+    "parity": "N",
+    "slaveid": 1
   },
   "source": {
     "ip": "192.168.1.105",
