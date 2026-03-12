@@ -211,11 +211,11 @@ class AutoHelper:
                     else:
                         pytest.fail(f"⚠️ 序号 {index} 超出范围，共找到 {len(all_locations)} 个元素")
 
-                time.sleep(0.2)
+                time.sleep(1)
 
             except Exception:
                 # 捕获所有异常，继续等待（依赖防睡眠机制）
-                time.sleep(0.2)
+                time.sleep(1)
                 continue
 
         pytest.fail(f"❌ 未找到指定元素 {image_path}（超时 {timeout} 秒）")
@@ -522,13 +522,13 @@ class AutoHelper:
 
     def click_pos(self, pos):
         pyautogui.click(pos)
-        self.wait(0.5)
+        self.wait(1)
         self.logger.info(f'点击坐标{pos}')
 
     def double_click_pos(self, pos):
         pyautogui.click(pos)
         pyautogui.click(pos)
-        self.wait(0.5)
+        self.wait(1)
         self.logger.info(f'双击坐标{pos}')
 
     def copy_echilog_info(self, time, type, old_value, new_value):
