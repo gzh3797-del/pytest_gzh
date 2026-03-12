@@ -1,4 +1,0 @@
-INFO    2026-03-12 11:07:45,554  AutoHelper:QT_auto_utils_1320.py:37 🚀 自动化助手初始化完成
-DEBUG   2026-03-12 11:07:45,569  pymodbus.logging:tcp.py:169 Connection to Modbus server established. Socket ('192.168.1.51', 52846)
-INFO    2026-03-12 11:07:45,569  root:modbus_rtu_tcp.py:27 modbus rtu connect no error
-INFO    2026-03-12 11:07:45,569  root:modbus_rtu_tcp.py:29 modbus rtu connect execute completed

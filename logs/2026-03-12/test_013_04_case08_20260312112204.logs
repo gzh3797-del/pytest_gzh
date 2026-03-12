@@ -1,4 +1,0 @@
-INFO    2026-03-12 11:22:04,688  AutoHelper:QT_auto_utils_1320.py:37 🚀 自动化助手初始化完成
-ERROR   2026-03-12 11:22:07,690  pymodbus.logging:tcp.py:174 Connection to (192.168.1.254, 502) failed: timed out
-INFO    2026-03-12 11:22:07,691  root:modbus_rtu_tcp.py:27 modbus rtu connect no error
-INFO    2026-03-12 11:22:07,691  root:modbus_rtu_tcp.py:29 modbus rtu connect execute completed

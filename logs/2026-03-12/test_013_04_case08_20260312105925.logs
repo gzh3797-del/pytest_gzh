@@ -1,3 +1,0 @@
-INFO    2026-03-12 10:59:25,708  AutoHelper:QT_auto_utils_1320.py:37 🚀 自动化助手初始化完成
-INFO    2026-03-12 10:59:25,712  root:modbus_rtu_tcp.py:27 modbus rtu connect no error
-INFO    2026-03-12 10:59:25,712  root:modbus_rtu_tcp.py:29 modbus rtu connect execute completed

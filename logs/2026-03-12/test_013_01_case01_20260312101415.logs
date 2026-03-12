@@ -1,4 +1,0 @@
-INFO    2026-03-12 10:14:15,266  AutoHelper:QT_auto_utils_1320.py:37 🚀 自动化助手初始化完成
-ERROR   2026-03-12 10:14:15,266  pymodbus.logging:serial.py:228 could not open port 'COM3': FileNotFoundError(2, '系统找不到指定的文件。', None, 2)
-INFO    2026-03-12 10:14:15,266  root:modbus_rtu_tcp.py:27 modbus rtu connect no error
-INFO    2026-03-12 10:14:15,266  root:modbus_rtu_tcp.py:29 modbus rtu connect execute completed
