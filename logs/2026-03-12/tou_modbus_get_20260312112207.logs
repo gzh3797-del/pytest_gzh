@@ -1,0 +1,28 @@
+INFO    2026-03-12 11:22:07,710  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: win+d
+INFO    2026-03-12 11:22:07,817  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:22:07,919  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:22:08,919  AutoHelper:QT_auto_utils_1320.py:78 📱 启动应用: Acuview 2.exe
+INFO    2026-03-12 11:22:08,919  AutoHelper:QT_auto_utils_1320.py:79 📁 进入目录: C:\Users\CongsongLiu\Acuview2
+INFO    2026-03-12 11:22:10,940  AutoHelper:QT_auto_utils_1320.py:89 ✅ 应用启动成功: Acuview 2.exe
+INFO    2026-03-12 11:22:10,940  AutoHelper:QT_auto_utils_1320.py:349 🔗 开始连接设备流程，设备图片: 1320 TCP.png
+INFO    2026-03-12 11:22:11,334  AutoHelper:QT_auto_utils_1320.py:374 📍 Select按钮位置: Box(left=np.int64(485), top=np.int64(181), width=71, height=50)
+INFO    2026-03-12 11:22:11,334  AutoHelper:QT_auto_utils_1320.py:375 📍 设备图片位置: Box(left=np.int64(645), top=np.int64(236), width=70, height=27)
+INFO    2026-03-12 11:22:11,470  AutoHelper:QT_auto_utils_1320.py:381 🎯 点击位置: (np.int64(520), np.int64(249))
+INFO    2026-03-12 11:22:11,470  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:22:12,472  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Connect.png
+INFO    2026-03-12 11:22:12,723  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:22:12,723  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1330), np.int64(143))
+INFO    2026-03-12 11:22:13,835  AutoHelper:QT_auto_utils_1320.py:388 ✅ 设备连接成功
+INFO    2026-03-12 11:22:13,835  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 3 秒
+INFO    2026-03-12 11:22:18,836  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: login_success.png
+WARNING 2026-03-12 11:22:23,903  AutoHelper:QT_auto_utils_1320.py:457 ⚠️ 未找到图片: login_success.png
+INFO    2026-03-12 11:22:23,903  root:TOU_setting.py:57 login:False
+INFO    2026-03-12 11:22:24,014  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:22:25,017  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 11:22:25,130  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:22:26,130  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(247, 237)
+INFO    2026-03-12 11:22:26,263  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:22:27,264  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(269, 265)
+INFO    2026-03-12 11:22:27,380  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:22:28,380  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(793, 308)
+INFO    2026-03-12 11:22:28,381  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: confirm.png

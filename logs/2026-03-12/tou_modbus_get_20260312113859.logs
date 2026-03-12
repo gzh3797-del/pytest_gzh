@@ -1,0 +1,78 @@
+INFO    2026-03-12 11:38:59,356  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:38:59,454  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 29 个匹配元素
+INFO    2026-03-12 11:38:59,455  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:00,575  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:00,689  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 28 个匹配元素
+INFO    2026-03-12 11:39:00,707  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:01,823  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:01,920  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 27 个匹配元素
+INFO    2026-03-12 11:39:01,920  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:03,039  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:03,129  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 26 个匹配元素
+INFO    2026-03-12 11:39:03,129  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:04,238  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:04,333  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 25 个匹配元素
+INFO    2026-03-12 11:39:04,333  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:05,438  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:05,531  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 24 个匹配元素
+INFO    2026-03-12 11:39:05,531  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:06,653  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:06,746  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 23 个匹配元素
+INFO    2026-03-12 11:39:06,746  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:07,853  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:07,949  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 22 个匹配元素
+INFO    2026-03-12 11:39:07,950  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:09,071  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:09,172  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 21 个匹配元素
+INFO    2026-03-12 11:39:09,172  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:10,285  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:10,376  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 20 个匹配元素
+INFO    2026-03-12 11:39:10,376  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:11,485  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:11,586  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 19 个匹配元素
+INFO    2026-03-12 11:39:11,586  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:12,701  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:12,795  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 18 个匹配元素
+INFO    2026-03-12 11:39:12,795  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:13,901  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:13,999  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 17 个匹配元素
+INFO    2026-03-12 11:39:13,999  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:15,120  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:15,216  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 16 个匹配元素
+INFO    2026-03-12 11:39:15,216  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(908), np.int64(453))
+INFO    2026-03-12 11:39:16,332  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:16,429  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 15 个匹配元素
+INFO    2026-03-12 11:39:16,429  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:17,533  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:17,631  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 14 个匹配元素
+INFO    2026-03-12 11:39:17,631  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:18,749  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:18,838  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 13 个匹配元素
+INFO    2026-03-12 11:39:18,838  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:19,966  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:20,056  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 12 个匹配元素
+INFO    2026-03-12 11:39:20,056  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:21,165  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:21,260  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 11 个匹配元素
+INFO    2026-03-12 11:39:21,260  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:22,384  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:22,476  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 10 个匹配元素
+INFO    2026-03-12 11:39:22,477  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:23,581  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:23,673  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 9 个匹配元素
+INFO    2026-03-12 11:39:23,673  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:24,783  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:24,883  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 8 个匹配元素
+INFO    2026-03-12 11:39:24,883  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:25,997  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:26,095  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 7 个匹配元素
+INFO    2026-03-12 11:39:26,095  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:27,214  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:27,310  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 6 个匹配元素
+INFO    2026-03-12 11:39:27,310  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:28,430  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:28,529  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 5 个匹配元素
+INFO    2026-03-12 11:39:28,529  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))
+INFO    2026-03-12 11:39:29,646  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Remove.png
+INFO    2026-03-12 11:39:29,762  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 4 个匹配元素
+INFO    2026-03-12 11:39:29,762  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1378), np.int64(453))

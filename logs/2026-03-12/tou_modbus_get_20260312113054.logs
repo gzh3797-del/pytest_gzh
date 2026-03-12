@@ -1,0 +1,696 @@
+INFO    2026-03-12 11:30:54,719  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: win+d
+INFO    2026-03-12 11:30:54,831  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:30:54,932  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:30:55,933  AutoHelper:QT_auto_utils_1320.py:78 📱 启动应用: Acuview 2.exe
+INFO    2026-03-12 11:30:55,933  AutoHelper:QT_auto_utils_1320.py:79 📁 进入目录: C:\Users\CongsongLiu\Acuview2
+INFO    2026-03-12 11:30:57,956  AutoHelper:QT_auto_utils_1320.py:89 ✅ 应用启动成功: Acuview 2.exe
+INFO    2026-03-12 11:30:57,956  AutoHelper:QT_auto_utils_1320.py:349 🔗 开始连接设备流程，设备图片: 1320 TCP.png
+INFO    2026-03-12 11:30:58,370  AutoHelper:QT_auto_utils_1320.py:374 📍 Select按钮位置: Box(left=np.int64(485), top=np.int64(181), width=71, height=50)
+INFO    2026-03-12 11:30:58,370  AutoHelper:QT_auto_utils_1320.py:375 📍 设备图片位置: Box(left=np.int64(645), top=np.int64(236), width=70, height=27)
+INFO    2026-03-12 11:30:58,490  AutoHelper:QT_auto_utils_1320.py:381 🎯 点击位置: (np.int64(520), np.int64(249))
+INFO    2026-03-12 11:30:58,490  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:30:59,492  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Connect.png
+INFO    2026-03-12 11:30:59,679  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:30:59,679  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1330), np.int64(143))
+INFO    2026-03-12 11:31:00,802  AutoHelper:QT_auto_utils_1320.py:388 ✅ 设备连接成功
+INFO    2026-03-12 11:31:00,802  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 3 秒
+INFO    2026-03-12 11:31:05,806  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: login_success.png
+INFO    2026-03-12 11:31:06,053  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: login_success.png
+INFO    2026-03-12 11:31:06,053  root:TOU_setting.py:57 login:True
+INFO    2026-03-12 11:31:06,168  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:07,169  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 11:31:07,281  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:08,282  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(247, 237)
+INFO    2026-03-12 11:31:08,399  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:09,400  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(269, 265)
+INFO    2026-03-12 11:31:09,518  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:10,520  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(793, 308)
+INFO    2026-03-12 11:31:10,520  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: confirm.png
+INFO    2026-03-12 11:31:10,767  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:10,767  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1005), np.int64(518))
+INFO    2026-03-12 11:31:12,017  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:13,018  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 11:31:13,131  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:14,133  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(255, 415)
+INFO    2026-03-12 11:31:14,265  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:15,266  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(252, 440)
+INFO    2026-03-12 11:31:16,267  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: TOU_Setting_Success.png
+INFO    2026-03-12 11:31:16,487  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: TOU_Setting_Success.png
+INFO    2026-03-12 11:31:16,487  root:TOU_setting.py:90 进入tou_setting页面:True
+INFO    2026-03-12 11:31:16,596  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:17,598  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 257)
+INFO    2026-03-12 11:31:17,713  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:18,714  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 257)
+DEBUG   2026-03-12 11:31:18,714  pymodbus.logging:transaction.py:184 Current transaction state - IDLE
+DEBUG   2026-03-12 11:31:18,714  pymodbus.logging:transaction.py:193 Running transaction 1
+DEBUG   2026-03-12 11:31:18,714  pymodbus.logging:transaction.py:293 SEND: 0x0 0x1 0x0 0x0 0x0 0x6 0x1 0x3 0x60 0x1f 0x0 0x1
+DEBUG   2026-03-12 11:31:18,714  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2026-03-12 11:31:18,714  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2026-03-12 11:31:18,716  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:transaction.py:324 RECV: 0x0 0x1 0x0 0x0 0x0 0x5 0x1 0x3 0x2 0x0 0x0
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:base.py:92 Processing: 0x0 0x1 0x0 0x0 0x0 0x5 0x1 0x3 0x2 0x0 0x0
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:transaction.py:67 Adding transaction 1
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:transaction.py:78 Getting transaction 1
+DEBUG   2026-03-12 11:31:18,717  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2026-03-12 11:31:18,717  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (1)
+INFO    2026-03-12 11:31:18,827  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:19,829  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(561, 314)
+INFO    2026-03-12 11:31:19,829  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: End Of Month.png
+INFO    2026-03-12 11:31:20,028  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:20,028  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(593), np.int64(461))
+INFO    2026-03-12 11:31:21,163  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: At Time.png
+INFO    2026-03-12 11:31:21,352  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:21,352  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(786), np.int64(502))
+INFO    2026-03-12 11:31:22,487  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:31:22,605  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:31:22,708  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 01 00:30:00
+INFO    2026-03-12 11:31:23,077  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:31:23,077  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Sharp.png
+INFO    2026-03-12 11:31:23,277  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:23,277  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1030), np.int64(471))
+INFO    2026-03-12 11:31:24,394  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Peak.png
+INFO    2026-03-12 11:31:24,544  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:24,544  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1128), np.int64(471))
+INFO    2026-03-12 11:31:25,661  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Valley.png
+INFO    2026-03-12 11:31:25,871  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:25,871  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1241), np.int64(472))
+INFO    2026-03-12 11:31:26,994  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Normal.png
+INFO    2026-03-12 11:31:27,199  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:27,199  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1356), np.int64(472))
+INFO    2026-03-12 11:31:28,441  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:29,442  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:29,559  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:30,561  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:30,674  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:31,676  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:31,793  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:32,794  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:32,907  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:33,908  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:34,023  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:35,024  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:35,142  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:36,143  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:36,272  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:37,274  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:37,390  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:38,391  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:38,503  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:39,507  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:39,620  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:40,622  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:40,737  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:41,738  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:41,852  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:42,853  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:42,970  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:43,972  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:44,087  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:45,089  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 914)
+INFO    2026-03-12 11:31:45,206  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:46,208  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1608, 258)
+INFO    2026-03-12 11:31:46,318  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:47,319  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1477, 339)
+INFO    2026-03-12 11:31:47,436  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:48,437  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(872, 353)
+INFO    2026-03-12 11:31:48,438  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:31:48,553  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:31:48,654  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 00:00
+INFO    2026-03-12 11:31:49,015  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:31:49,137  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:50,137  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(982, 353)
+INFO    2026-03-12 11:31:50,250  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:51,253  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(982, 372)
+INFO    2026-03-12 11:31:51,253  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: confirm.png
+INFO    2026-03-12 11:31:51,434  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:51,434  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1121), np.int64(816))
+INFO    2026-03-12 11:31:54,666  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:55,667  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(913, 257)
+INFO    2026-03-12 11:31:55,783  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:56,784  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(646, 339)
+INFO    2026-03-12 11:31:56,784  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:31:56,898  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:31:57,000  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 01-01
+INFO    2026-03-12 11:31:57,398  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:31:57,517  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:58,517  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(771, 338)
+INFO    2026-03-12 11:31:58,632  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:31:59,634  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(771, 378)
+INFO    2026-03-12 11:31:59,634  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: update.png
+INFO    2026-03-12 11:31:59,808  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:31:59,808  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(758), np.int64(207))
+INFO    2026-03-12 11:32:00,931  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:32:01,119  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:32:01,119  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:32:02,264  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: Update Successful.png
+INFO    2026-03-12 11:32:02,411  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: Update Successful.png
+INFO    2026-03-12 11:32:02,411  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:32:02,658  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:32:02,658  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:184 Current transaction state - TRANSACTION_COMPLETE
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:193 Running transaction 2
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:293 SEND: 0x0 0x2 0x0 0x0 0x0 0x6 0x1 0x3 0x62 0xf0 0x0 0x1
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:base.py:250 New Transaction state "SENDING"
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:317 Changing transaction state from "SENDING" to "WAITING FOR REPLY"
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:419 Changing transaction state from "WAITING FOR REPLY" to "PROCESSING REPLY"
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:324 RECV: 0x0 0x2 0x0 0x0 0x0 0x5 0x1 0x3 0x2 0x0 0x0
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:base.py:92 Processing: 0x0 0x2 0x0 0x0 0x0 0x5 0x1 0x3 0x2 0x0 0x0
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:decoders.py:103 decode PDU for 3
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:base.py:102 Frame advanced, resetting header!!
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:67 Adding transaction 2
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:78 Getting transaction 2
+DEBUG   2026-03-12 11:32:03,778  pymodbus.logging:transaction.py:258 Changing transaction state from "PROCESSING REPLY" to "TRANSACTION_COMPLETE"
+INFO    2026-03-12 11:32:03,778  root:modbus_rtu_tcp.py:44 read_measurement ret is:ReadHoldingRegistersResponse (1)
+INFO    2026-03-12 11:32:03,906  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:04,908  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 11:32:05,030  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:06,031  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(255, 415)
+INFO    2026-03-12 11:32:06,144  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:07,147  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(296, 463)
+INFO    2026-03-12 11:32:07,260  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:08,261  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1710, 325)
+INFO    2026-03-12 11:32:08,383  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:09,384  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(556, 315)
+INFO    2026-03-12 11:32:09,496  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:10,498  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(824, 319)
+INFO    2026-03-12 11:32:10,498  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:10,615  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:10,717  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 2024
+INFO    2026-03-12 11:32:11,071  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:11,191  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:12,191  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1061, 320)
+INFO    2026-03-12 11:32:12,191  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:12,313  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:12,415  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 2099
+INFO    2026-03-12 11:32:12,777  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:14,891  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:15,893  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:16,008  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:17,009  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 452)
+INFO    2026-03-12 11:32:17,009  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:17,125  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:17,226  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 01-01
+INFO    2026-03-12 11:32:17,581  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:17,696  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:18,697  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 452)
+INFO    2026-03-12 11:32:18,808  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:19,809  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 492)
+INFO    2026-03-12 11:32:19,923  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:20,924  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:21,038  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:22,039  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 482)
+INFO    2026-03-12 11:32:22,039  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:22,164  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:22,265  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 01-10
+INFO    2026-03-12 11:32:22,630  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:22,737  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:23,738  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 482)
+INFO    2026-03-12 11:32:23,855  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:24,858  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 522)
+INFO    2026-03-12 11:32:24,970  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:25,972  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:26,087  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:27,088  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 512)
+INFO    2026-03-12 11:32:27,088  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:27,202  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:27,303  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 01-20
+INFO    2026-03-12 11:32:27,677  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:27,802  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:28,803  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 512)
+INFO    2026-03-12 11:32:28,918  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:29,919  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 552)
+INFO    2026-03-12 11:32:30,040  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:31,041  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:31,167  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:32,168  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 542)
+INFO    2026-03-12 11:32:32,168  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:32,281  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:32,382  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 02-01
+INFO    2026-03-12 11:32:32,789  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:32,903  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:33,903  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 542)
+INFO    2026-03-12 11:32:34,018  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:35,018  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 582)
+INFO    2026-03-12 11:32:35,136  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:36,138  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:36,253  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:37,254  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 572)
+INFO    2026-03-12 11:32:37,254  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:37,373  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:37,474  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 02-10
+INFO    2026-03-12 11:32:37,859  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:37,965  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:38,966  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 572)
+INFO    2026-03-12 11:32:39,081  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:40,084  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 612)
+INFO    2026-03-12 11:32:40,217  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:41,218  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:41,333  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:42,334  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 602)
+INFO    2026-03-12 11:32:42,334  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:42,449  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:42,550  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 02-20
+INFO    2026-03-12 11:32:42,918  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:43,030  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:44,031  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 602)
+INFO    2026-03-12 11:32:44,146  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:45,147  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 642)
+INFO    2026-03-12 11:32:45,266  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:46,267  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:46,380  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:47,381  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 632)
+INFO    2026-03-12 11:32:47,381  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:47,493  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:47,594  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 03-01
+INFO    2026-03-12 11:32:47,945  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:48,066  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:49,066  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 632)
+INFO    2026-03-12 11:32:49,183  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:50,184  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 672)
+INFO    2026-03-12 11:32:50,302  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:51,303  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:51,409  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:52,410  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 662)
+INFO    2026-03-12 11:32:52,410  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:52,527  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:52,627  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 03-10
+INFO    2026-03-12 11:32:52,996  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:53,113  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:54,114  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 662)
+INFO    2026-03-12 11:32:54,248  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:55,249  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 702)
+INFO    2026-03-12 11:32:55,362  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:56,363  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:32:56,475  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:57,476  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 692)
+INFO    2026-03-12 11:32:57,477  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:32:57,589  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:32:57,690  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 03-20
+INFO    2026-03-12 11:32:58,052  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:32:58,177  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:32:59,178  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 692)
+INFO    2026-03-12 11:32:59,289  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:00,290  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 732)
+INFO    2026-03-12 11:33:00,419  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:01,420  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:01,541  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:02,543  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 722)
+INFO    2026-03-12 11:33:02,544  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:02,659  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:02,760  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 04-01
+INFO    2026-03-12 11:33:03,126  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:03,256  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:04,257  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 722)
+INFO    2026-03-12 11:33:04,374  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:05,380  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 762)
+INFO    2026-03-12 11:33:05,489  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:06,490  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:06,605  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:07,606  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 752)
+INFO    2026-03-12 11:33:07,606  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:07,719  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:07,820  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 04-10
+INFO    2026-03-12 11:33:08,184  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:08,305  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:09,306  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 752)
+INFO    2026-03-12 11:33:09,423  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:10,424  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 792)
+INFO    2026-03-12 11:33:10,653  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:11,661  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:11,783  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:12,787  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 782)
+INFO    2026-03-12 11:33:12,788  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:12,899  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:13,001  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 04-20
+INFO    2026-03-12 11:33:13,367  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:13,485  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:14,486  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 782)
+INFO    2026-03-12 11:33:14,602  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:15,602  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 822)
+INFO    2026-03-12 11:33:15,718  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:16,719  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:16,833  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:17,835  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 812)
+INFO    2026-03-12 11:33:17,835  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:17,947  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:18,048  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 05-01
+INFO    2026-03-12 11:33:18,425  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:18,535  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:19,537  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 812)
+INFO    2026-03-12 11:33:19,650  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:20,651  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 852)
+INFO    2026-03-12 11:33:20,767  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:21,770  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:21,885  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:22,886  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 842)
+INFO    2026-03-12 11:33:22,886  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:23,001  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:23,102  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 05-10
+INFO    2026-03-12 11:33:23,472  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:23,583  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:24,584  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 842)
+INFO    2026-03-12 11:33:24,702  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:25,703  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 882)
+INFO    2026-03-12 11:33:25,814  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:26,814  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:26,930  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:27,931  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 872)
+INFO    2026-03-12 11:33:27,931  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:28,051  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:28,153  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 05-20
+INFO    2026-03-12 11:33:28,512  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:28,630  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:29,631  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 872)
+INFO    2026-03-12 11:33:29,747  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:30,749  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 912)
+INFO    2026-03-12 11:33:30,867  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:31,867  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:31,999  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:32,999  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 902)
+INFO    2026-03-12 11:33:32,999  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:33,118  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:33,222  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 06-01
+INFO    2026-03-12 11:33:33,595  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:33,709  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:34,710  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 902)
+INFO    2026-03-12 11:33:34,828  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:35,829  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 942)
+INFO    2026-03-12 11:33:35,948  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:36,950  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:37,061  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:38,062  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:33:38,176  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:39,177  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:33:39,177  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:39,291  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:39,392  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 06-10
+INFO    2026-03-12 11:33:39,772  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:39,892  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:40,892  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:33:41,008  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:42,010  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:33:42,129  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:43,131  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:43,261  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:44,262  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:33:44,379  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:45,381  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:33:45,381  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:45,492  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:45,593  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 06-20
+INFO    2026-03-12 11:33:45,960  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:46,075  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:47,076  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:33:47,190  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:48,205  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:33:48,327  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:49,332  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:49,443  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:50,444  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:33:50,556  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:51,557  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:33:51,557  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:51,673  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:51,773  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 07-01
+INFO    2026-03-12 11:33:52,133  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:52,256  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:53,257  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:33:53,371  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:54,372  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:33:54,486  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:55,487  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:33:55,603  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:56,604  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:33:56,722  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:57,723  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:33:57,723  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:33:57,840  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:33:57,942  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 07-10
+INFO    2026-03-12 11:33:58,301  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:33:58,418  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:33:59,419  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:33:59,537  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:00,538  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:00,650  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:01,651  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:01,769  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:02,771  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:02,884  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:03,886  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:03,886  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:04,006  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:04,109  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 07-20
+INFO    2026-03-12 11:34:04,475  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:04,585  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:05,586  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:05,699  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:06,705  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:06,815  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:07,816  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:07,930  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:08,931  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:09,047  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:10,050  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:10,052  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:10,167  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:10,271  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 08-01
+INFO    2026-03-12 11:34:10,663  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:10,780  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:11,781  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:11,896  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:12,898  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:13,013  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:14,014  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:14,131  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:15,137  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:15,262  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:16,262  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:16,262  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:16,375  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:16,478  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 08-10
+INFO    2026-03-12 11:34:16,837  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:16,949  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:17,949  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:18,069  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:19,070  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:19,179  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:20,181  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:20,298  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:21,299  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:21,411  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:22,412  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:22,412  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:22,525  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:22,627  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 08-20
+INFO    2026-03-12 11:34:23,023  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:23,148  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:24,149  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:24,261  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:25,262  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:25,376  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:26,377  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:26,490  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:27,492  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:27,608  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:28,610  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:28,612  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:28,723  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:28,824  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 09-01
+INFO    2026-03-12 11:34:29,186  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:29,309  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:30,309  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:30,422  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:31,426  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:31,539  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:32,540  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:32,657  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:33,659  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:33,772  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:34,774  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:34,774  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:34,891  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:34,996  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 09-10
+INFO    2026-03-12 11:34:35,376  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:35,498  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:36,498  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:36,604  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:37,606  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:37,720  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:38,721  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:38,837  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:39,838  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:39,962  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:40,963  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:40,963  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:41,074  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:41,175  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 09-20
+INFO    2026-03-12 11:34:41,553  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:41,669  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:42,670  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:42,786  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:43,787  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:43,901  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:44,903  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:45,020  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:46,023  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:46,137  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:47,138  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:47,139  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:47,253  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:47,354  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 10-01
+INFO    2026-03-12 11:34:47,724  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:47,836  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:48,837  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:48,956  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:49,957  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:50,077  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:51,078  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:51,205  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:52,206  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:52,315  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:53,319  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:53,319  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:53,432  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:53,533  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 11-01
+INFO    2026-03-12 11:34:53,904  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:34:54,018  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:55,022  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:34:55,148  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:56,150  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:34:56,263  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:57,263  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:34:57,382  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:58,383  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(953, 913)
+INFO    2026-03-12 11:34:58,498  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:34:59,498  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(645, 909)
+INFO    2026-03-12 11:34:59,498  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: ctrl+a
+INFO    2026-03-12 11:34:59,613  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 11:34:59,714  AutoHelper:QT_auto_utils_1320.py:503 📋 准备粘贴文本: 12-01
+INFO    2026-03-12 11:35:00,094  AutoHelper:QT_auto_utils_1320.py:517 ✅ 文本粘贴完成
+INFO    2026-03-12 11:35:00,213  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:01,214  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 910)
+INFO    2026-03-12 11:35:01,330  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:02,331  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(769, 950)
+INFO    2026-03-12 11:35:02,447  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:03,448  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(914, 380)
+INFO    2026-03-12 11:35:03,448  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: The limit of index.png
+INFO    2026-03-12 11:35:03,659  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: The limit of index.png
+INFO    2026-03-12 11:35:03,659  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:35:03,870  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:03,870  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:35:04,995  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: update.png
+INFO    2026-03-12 11:35:05,177  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:05,177  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(844), np.int64(207))
+INFO    2026-03-12 11:35:06,294  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:35:06,509  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:06,509  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:35:07,628  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: Update Successful.png
+INFO    2026-03-12 11:35:12,727  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: Update Successful.png
+INFO    2026-03-12 11:35:12,727  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:35:12,982  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:12,982  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:35:14,224  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:15,225  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:15,342  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:16,343  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:16,457  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:17,458  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:17,573  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:18,573  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:18,693  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:19,693  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:19,805  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:20,809  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:20,925  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:21,930  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:22,039  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:23,040  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:23,158  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:24,159  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:24,273  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:25,274  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:25,386  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:26,387  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:26,508  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:27,509  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:27,619  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:28,620  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:28,736  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:29,737  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:29,851  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:30,853  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:30,969  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:31,970  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:32,087  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:33,088  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:33,202  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:34,209  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:34,317  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:35,318  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:35,432  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:36,433  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:36,551  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:37,552  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:37,671  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:38,673  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:38,782  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:39,783  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:39,897  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:40,898  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:41,020  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:42,021  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:42,133  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:43,134  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:43,264  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:44,265  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:44,381  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:45,382  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:45,498  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:46,500  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:46,615  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:47,617  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(907, 451)
+INFO    2026-03-12 11:35:47,617  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: update.png
+INFO    2026-03-12 11:35:47,762  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:47,762  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(844), np.int64(207))
+INFO    2026-03-12 11:35:48,879  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:35:49,065  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:49,065  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:35:50,201  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: Update Successful.png
+INFO    2026-03-12 11:35:55,080  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: Update Successful.png
+INFO    2026-03-12 11:35:55,080  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:35:55,209  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:35:55,209  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:35:56,460  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:57,461  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 11:35:57,573  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:58,574  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(255, 415)
+INFO    2026-03-12 11:35:58,690  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:35:59,692  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(252, 440)
+INFO    2026-03-12 11:36:00,693  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: TOU Reset.png
+INFO    2026-03-12 11:36:00,935  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:36:00,935  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1037), np.int64(207))
+INFO    2026-03-12 11:36:02,055  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:36:02,213  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:36:02,213  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:36:03,343  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:36:03,481  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:36:03,481  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:36:04,727  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:36:05,728  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 11:36:05,839  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:36:06,839  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(255, 415)
+INFO    2026-03-12 11:36:06,954  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:36:07,955  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(296, 463)
+INFO    2026-03-12 11:36:09,069  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 1 秒
+INFO    2026-03-12 11:36:10,070  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1361, 267)
+INFO    2026-03-12 11:36:10,070  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:36:10,226  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:36:10,226  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:36:11,338  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Yes.png
+INFO    2026-03-12 11:36:11,523  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 11:36:11,523  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1073), np.int64(532))
+INFO    2026-03-12 11:36:12,640  AutoHelper:QT_auto_utils_1320.py:107 🔪 开始关闭所有Acuview进程...
+INFO    2026-03-12 11:36:12,668  AutoHelper:QT_auto_utils_1320.py:125 ✅ 已终止进程: Acuview 2.exe (PID: 18732)
+INFO    2026-03-12 11:36:14,689  AutoHelper:QT_auto_utils_1320.py:144 🎯 共关闭 1 个Acuview进程

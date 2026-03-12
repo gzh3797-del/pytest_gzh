@@ -39,7 +39,7 @@ class TestAcuviewTou:
         self.handle_memory = HandleMemory(slave_id=1)
         # self.helper.kill_acuview_apps()
 
-    def login(self, connect_mode: int = 1):
+    def login(self, connect_mode: int = 0):
         """
         打开上位机，连接登录AcuRev_1320设备
         @param connect_mode: 0:TCP方式 1:RTU方式
@@ -120,8 +120,24 @@ class TestAcuviewTou:
         上位机TOU setting 页面上点击reset to default，恢复TOU设置
         @return:
         """
+        self.helper.click_pos(PageAddr.setting)
+        self.helper.click_pos(PageAddr.tou_setting)
+        self.helper.click_pos(PageAddr.tou)
         time.sleep(1)
         self.helper.click_image(PageAddr.tou_reset)
+        self.helper.click_image(PageAddr.yes)
+        self.helper.click_image(PageAddr.yes)
+
+    def ten_holidays_clear(self):
+        """
+        上位机TOU ten_holidays 页面上点击ten_holidays_clear，恢复ten_holidays设置
+        @return:
+        """
+        self.helper.click_pos(PageAddr.setting)
+        self.helper.click_pos(PageAddr.tou_setting)
+        self.helper.click_pos(PageAddr.ten_years_holiday)
+        time.sleep(1)
+        self.helper.click_pos(PageAddr.ten_years_holiday_clear)
         self.helper.click_image(PageAddr.yes)
         self.helper.click_image(PageAddr.yes)
 
@@ -376,9 +392,11 @@ class TestAcuviewTou:
         if tou_enable == 0:
             self.helper.click_pos(PageAddr.enable_special_weekday_schedule)
 
-    def open_holiday_setting_enable(self):
+    def open_holiday_setting_enable(self, holiday_start_date='2024', holiday_end_date='2099'):
         """
         holiday_setting_enable使能打开
+        @param holiday_start_date:开始年份
+        @param holiday_end_date:结束年份
         @return:
         """
 
@@ -390,6 +408,12 @@ class TestAcuviewTou:
             # 上位机点击右侧进度条，返回TOU页面顶部
             self.helper.click_pos((1710, 325))
             self.helper.click_pos(PageAddr.holiday_setting_enable)
+            self.helper.click_pos(PageAddr.ten_years_holiday_start_date)
+            self.helper.hotkey('ctrl', 'a')
+            self.helper.paste_text(holiday_start_date)
+            self.helper.click_pos(PageAddr.ten_years_holiday_end_date)
+            self.helper.hotkey('ctrl', 'a')
+            self.helper.paste_text(holiday_end_date)
 
     def close_enable_special_weekday_schedule(self):
         """
@@ -523,16 +547,16 @@ class TestAcuviewTou:
                     self.helper.click_pos((schedule_id_x, schedule_id_y + 40 + j))
 
     def year1_holidays_add(self, holidays_id: int = 1,
-                         start_date: list = ['01-01', '01-10', '01-20', '02-01', '02-10', '02-20',
-                                             '03-01', '03-10', '03-20', '04-01', '04-10', '04-20',
-                                             '05-01', '05-10', '05-20', '06-01', '06-10', '06-20',
-                                             '07-01', '07-10', '07-20', '08-01', '08-10', '08-20',
-                                             '09-01', '09-10', '09-20', '10-01', '11-01', '12-01'],
-                         schedule_id: list = [1, 1, 1, 1, 1, 1,
-                                              1, 1, 1, 1, 1, 1,
-                                              1, 1, 1, 1, 1, 1,
-                                              1, 1, 1, 1, 1, 1,
-                                              1, 1, 1, 1, 1, 1]):
+                           start_date: list = ['01-01', '01-10', '01-20', '02-01', '02-10', '02-20',
+                                               '03-01', '03-10', '03-20', '04-01', '04-10', '04-20',
+                                               '05-01', '05-10', '05-20', '06-01', '06-10', '06-20',
+                                               '07-01', '07-10', '07-20', '08-01', '08-10', '08-20',
+                                               '09-01', '09-10', '09-20', '10-01', '11-01', '12-01'],
+                           schedule_id: list = [1, 1, 1, 1, 1, 1,
+                                                1, 1, 1, 1, 1, 1,
+                                                1, 1, 1, 1, 1, 1,
+                                                1, 1, 1, 1, 1, 1,
+                                                1, 1, 1, 1, 1, 1]):
         """
         上位机TOU Setting页面增加tou_holidays
         @param holidays_id: 需要增加都少个tou_holidays，此处填写多少
@@ -570,7 +594,7 @@ class TestAcuviewTou:
                     self.helper.click_pos((schedule_id_x, schedule_id_y + 40 + j))
                 schedule_id_y += 30
             else:
-                self.helper.click_pos(PageAddr.tou_holidays_add)
+                self.helper.click_pos(PageAddr.year1_holidays_add)
                 self.helper.click_pos((953, 913))
                 self.helper.click_pos((645, 909))
                 self.helper.hotkey('ctrl', 'a')
@@ -594,12 +618,24 @@ class TestAcuviewTou:
                         self.helper.click_pos((schedule_id_x + 56, schedule_id_y + 40 + j))
                         self.helper.click_pos((schedule_id_x + 56, schedule_id_y + 40 + j))
                     self.helper.click_pos((schedule_id_x, schedule_id_y + 40 + j))
+
     def tou_holidays_add_31(self):
         """
         添加第31个tou_holidays
         @return:
         """
         self.helper.click_pos(PageAddr.tou_holidays_add)
+        result = self.helper.check_image_exists(PageAddr.the_limit_of_index)
+        if result is True:
+            self.helper.click_image(PageAddr.yes)
+        return result
+
+    def ten_year1_holiday_add_31(self):
+        """
+        添加第31个tou_holidays
+        @return:
+        """
+        self.helper.click_pos(PageAddr.year1_holidays_add)
         result = self.helper.check_image_exists(PageAddr.the_limit_of_index)
         if result is True:
             self.helper.click_image(PageAddr.yes)
@@ -633,12 +669,12 @@ class TestAcuviewTou:
 
     def tou_year1_holidays_remove(self, number: int = 1):
         """
-        上位机上删除special weekday schedules
+        上位机上删除tou_year1_holidays
         @param number: 需要删除的schedules个数
         @return:
         """
         for i in range(number):
-            self.helper.click_image(PageAddr.remove, index=number)
+            self.helper.click_image(PageAddr.remove)
             number -= 1
 
     def check_season_ID_undefined(self):
@@ -985,5 +1021,5 @@ if __name__ == "__main__":
     # TestAcuviewTou.setting_format1_DST_start(start_time="04-01 00:00", start_adjust_time="50")
     # TestAcuviewTou.click_update()
     # TestAcuviewTou.set_device_time()
-    result = TestAcuviewTou.tou_holidays_add_31()
-    print(result)
+    TestAcuviewTou.tou_year1_holidays_remove(number=26)
+    # print(result)

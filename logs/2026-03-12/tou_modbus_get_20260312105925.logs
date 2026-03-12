@@ -1,0 +1,6 @@
+INFO    2026-03-12 10:59:25,739  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: win+d
+INFO    2026-03-12 10:59:25,847  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 10:59:25,949  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 2 秒
+INFO    2026-03-12 10:59:27,950  AutoHelper:QT_auto_utils_1320.py:78 📱 启动应用: Acuview 2.exe
+INFO    2026-03-12 10:59:27,950  AutoHelper:QT_auto_utils_1320.py:79 📁 进入目录: C:\Users\CongsongLiu\Acuview2
+INFO    2026-03-12 10:59:29,963  AutoHelper:QT_auto_utils_1320.py:89 ✅ 应用启动成功: Acuview 2.exe

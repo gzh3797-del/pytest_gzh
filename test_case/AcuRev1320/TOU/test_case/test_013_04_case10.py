@@ -6,8 +6,7 @@ from tools.log import Log
 Log(str(__file__).split("\\")[-1])
 
 """
-    Function_AcuRev1320_013_04_case7
-    Enable场景，第1年手动添加&删除2个节日，配置TOU Schedules 中的任两个Schedule ID，update保存配置成功。
+    Function_AcuRev1320_013_04_case10
 """
 
 tou = TestAcuviewTou()
@@ -19,8 +18,9 @@ start_date = ['01-01', '02-01', '03-01', '04-01', '05-01', '06-01',
               '07-01', '08-01', '09-01', '10-01', '11-01', '12-01']
 seasons_schedule_id = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
-holidays_start_date = ['06-01', '07-02']
-schedule_id = [1, 2]
+
+# holidays_start_date = ['06-01', '07-02']
+# schedule_id = [1, 2]
 
 
 def setup_function():
@@ -35,7 +35,7 @@ def setup_function():
     # 上位机TOU Setting页面设置billing_and_tariff
     tou.billing_and_tariff_Setting(billing_mode=0, at_time='01 00:30:00', tariff=3)
     # 配置1个Schedule Id，Schedule ID对应配置1个segment ID
-    tou.tou_schedules_add(schedule_id=2, segment_id=4, segment_tariff=segment_tariff, segment_time=segment_time)
+    tou.tou_schedules_add(schedule_id=1, segment_id=1, segment_tariff=segment_tariff, segment_time=segment_time)
     # 配置1个session,对应Schedule Id 1
     tou.tou_seasons_add(session_id=1, start_date=start_date, seasons_schedule_id=seasons_schedule_id)
     # 上位机上点击update
@@ -44,18 +44,11 @@ def setup_function():
 
 
 def test_013_03_case1():
-    # 上位机TOU Setting页面设置holiday_setting_enabled打开
-    tou.open_holiday_setting_enable()
-    tou.year1_holidays_add(holidays_id=2, start_date=holidays_start_date, schedule_id=schedule_id)
-    # 上位机上点击update
+    # Enable场景，第1和第2年，设置相同年份
+    tou.open_holiday_setting_enable(holiday_start_date='2025', holiday_end_date='2024')
+    # update保存设置成功
     update_success = tou.click_update()
     assert update_success
-    # 删除第2个节日
-    tou.tou_year1_holidays_remove(number=2)
-    # 上位机上点击update
-    update_success = tou.click_update()
-    assert update_success
-
 
 def teardown_function():
     # 恢复TOU设置，上位机上点击reset to default

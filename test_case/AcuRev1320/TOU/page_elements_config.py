@@ -85,3 +85,6 @@ class PageAddr:
     year1_holidays_start_date = (645, 452)
     year1_holidays_schedule_id = (769, 452)
     year1_holidays_add = (914, 380)
+    ten_years_holiday_clear = (1361, 267)
+    ten_years_holiday_start_date = (824, 319)
+    ten_years_holiday_end_date = (1061, 320)

@@ -1,0 +1,37 @@
+INFO    2026-03-12 10:14:15,292  AutoHelper:QT_auto_utils_1320.py:170 🔧 执行快捷键: win+d
+INFO    2026-03-12 10:14:15,405  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.1 秒
+INFO    2026-03-12 10:14:15,506  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 2 秒
+INFO    2026-03-12 10:14:17,507  AutoHelper:QT_auto_utils_1320.py:78 📱 启动应用: Acuview 2.exe
+INFO    2026-03-12 10:14:17,507  AutoHelper:QT_auto_utils_1320.py:79 📁 进入目录: C:\Users\CongsongLiu\Acuview2
+INFO    2026-03-12 10:14:19,528  AutoHelper:QT_auto_utils_1320.py:89 ✅ 应用启动成功: Acuview 2.exe
+INFO    2026-03-12 10:14:21,529  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: 1320 RTU.png
+INFO    2026-03-12 10:14:22,749  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 10:14:22,749  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(520), np.int64(249))
+INFO    2026-03-12 10:14:23,985  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.5 秒
+INFO    2026-03-12 10:14:24,486  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(1321, 143)
+INFO    2026-03-12 10:14:24,487  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: RTU connect Failed.png
+WARNING 2026-03-12 10:14:30,529  AutoHelper:QT_auto_utils_1320.py:457 ⚠️ 未找到图片: RTU connect Failed.png
+INFO    2026-03-12 10:14:33,530  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: login_success.png
+INFO    2026-03-12 10:14:33,845  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: login_success.png
+INFO    2026-03-12 10:14:33,845  root:TOU_setting.py:76 login:True
+INFO    2026-03-12 10:14:33,977  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.5 秒
+INFO    2026-03-12 10:14:34,478  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 10:14:34,596  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.5 秒
+INFO    2026-03-12 10:14:35,097  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(247, 237)
+INFO    2026-03-12 10:14:35,212  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.5 秒
+INFO    2026-03-12 10:14:35,713  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(269, 265)
+INFO    2026-03-12 10:14:35,831  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.5 秒
+INFO    2026-03-12 10:14:36,333  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(793, 308)
+INFO    2026-03-12 10:14:36,333  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: confirm.png
+INFO    2026-03-12 10:14:36,603  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 10:14:36,603  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(1005), np.int64(518))
+INFO    2026-03-12 10:14:37,843  AutoHelper:QT_auto_utils_1320.py:328 ⏳ 等待 0.5 秒
+INFO    2026-03-12 10:14:38,344  AutoHelper:QT_auto_utils_1320.py:526 点击坐标(392, 201)
+INFO    2026-03-12 10:14:38,344  AutoHelper:QT_auto_utils_1320.py:191 🔍 查找第 1 个图片元素: Daylight Saving Time.png
+INFO    2026-03-12 10:14:38,562  AutoHelper:QT_auto_utils_1320.py:200 📊 找到 1 个匹配元素
+INFO    2026-03-12 10:14:38,578  AutoHelper:QT_auto_utils_1320.py:207 ✅ 点击第 1 个元素，位置: (np.int64(278), np.int64(563))
+INFO    2026-03-12 10:14:40,691  AutoHelper:QT_auto_utils_1320.py:443 🔍 检查图片存在: enter_dst_setting_success.png
+INFO    2026-03-12 10:14:40,932  AutoHelper:QT_auto_utils_1320.py:450 ✅ 找到图片: enter_dst_setting_success.png
+INFO    2026-03-12 10:14:40,932  root:TOU_setting.py:783 进入dst_setting页面:True
+ERROR   2026-03-12 10:14:40,932  pymodbus.logging:serial.py:228 could not open port 'COM3': FileNotFoundError(2, '系统找不到指定的文件。', None, 2)
+ERROR   2026-03-12 10:14:41,480  pymodbus.logging:serial.py:228 could not open port 'COM3': FileNotFoundError(2, '系统找不到指定的文件。', None, 2)
