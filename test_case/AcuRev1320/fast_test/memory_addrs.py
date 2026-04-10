@@ -21,10 +21,14 @@ class MemoryReg:
     reg_int32 = 2
     reg_uint16 = 6
     reg_float32 = 2
+    reg_uint16_t = 1
+    reg_timestamp_active_energy = 146 # 114 + 32
 
 
 class MemoryAddr:
-
+    phase_order_rms_addr = 0x1063
+    set_freq_rms_addr = 0x1041
+    sys_time_rms_addr= 0x1020
     # freq_rms_addr = 0x3000
     # ua_rms_addr = 0x3002
     # ub_rms_addr = 0x3004
@@ -116,52 +120,52 @@ class MemoryAddr:
     # in_p_rms_addr = 0xB2CE
 
     #  ================AcuRev1320 10min update========================== #
-    freq_rms_addr = 0xA6FF
-    ua_rms_addr = 0xA701
-    ub_rms_addr = 0xA703
-    uc_rms_addr = 0xA705
-    uv_avg_rms_addr = 0xA70D
-
-    uab_rms_addr = 0xA70F
-    ubc_rms_addr = 0xA711
-    uca_rms_addr = 0xA713
-    ul_avg_rms_addr = 0xA71B
-
-    ia_rms_addr = 0xA71D
-    ib_rms_addr = 0xA71F
-    ic_rms_addr = 0xA721
-    in_rms_addr = 0xA723
-    iv_avg_rms_addr = 0xA72D
-
-    pa_rms_addr = 0xA72F
-    pb_rms_addr = 0xA731
-    pc_rms_addr = 0xA733
-
-    qa_rms_addr = 0xA737
-    qb_rms_addr = 0xA739
-    qc_rms_addr = 0xA73B
-
-    sa_rms_addr = 0xA73F
-    sb_rms_addr = 0xA741
-    sc_rms_addr = 0xA743
-
-    p_total_rms_addr = 0xA735
-    q_total_rms_addr = 0xA73D
-    s_total_rms_addr = 0xA745
-
-    pf_a_rms_addr = 0xA747
-    pf_b_rms_addr = 0xA749
-    pf_c_rms_addr = 0xA74B
-    pf_total_rms_addr = 0xA74D
-
-    ua_phase_angle_rms_addr = 0xA707
-    ub_phase_angle_rms_addr = 0xA709
-    uc_phase_angle_rms_addr = 0xA70B
-
-    ia_phase_angle_rms_addr = 0xA725
-    ib_phase_angle_rms_addr = 0xA727
-    ic_phase_angle_rms_addr = 0xA729
-    in_p_rms_addr = 0xA72B
+    # freq_rms_addr = 0xA6FF
+    # ua_rms_addr = 0xA701
+    # ub_rms_addr = 0xA703
+    # uc_rms_addr = 0xA705
+    # uv_avg_rms_addr = 0xA70D
+    #
+    # uab_rms_addr = 0xA70F
+    # ubc_rms_addr = 0xA711
+    # uca_rms_addr = 0xA713
+    # ul_avg_rms_addr = 0xA71B
+    #
+    # ia_rms_addr = 0xA71D
+    # ib_rms_addr = 0xA71F
+    # ic_rms_addr = 0xA721
+    # in_rms_addr = 0xA723
+    # iv_avg_rms_addr = 0xA72D
+    #
+    # pa_rms_addr = 0xA72F
+    # pb_rms_addr = 0xA731
+    # pc_rms_addr = 0xA733
+    #
+    # qa_rms_addr = 0xA737
+    # qb_rms_addr = 0xA739
+    # qc_rms_addr = 0xA73B
+    #
+    # sa_rms_addr = 0xA73F
+    # sb_rms_addr = 0xA741
+    # sc_rms_addr = 0xA743
+    #
+    # p_total_rms_addr = 0xA735
+    # q_total_rms_addr = 0xA73D
+    # s_total_rms_addr = 0xA745
+    #
+    # pf_a_rms_addr = 0xA747
+    # pf_b_rms_addr = 0xA749
+    # pf_c_rms_addr = 0xA74B
+    # pf_total_rms_addr = 0xA74D
+    #
+    # ua_phase_angle_rms_addr = 0xA707
+    # ub_phase_angle_rms_addr = 0xA709
+    # uc_phase_angle_rms_addr = 0xA70B
+    #
+    # ia_phase_angle_rms_addr = 0xA725
+    # ib_phase_angle_rms_addr = 0xA727
+    # ic_phase_angle_rms_addr = 0xA729
+    # in_p_rms_addr = 0xA72B
 
     #  ================3s update============================ #
     # freq_rms_addr = 0x9B80
@@ -211,52 +215,60 @@ class MemoryAddr:
     # ic_phase_angle_rms_addr = 0x9BAA
     # in_p_rms_addr = 0x9BAC
     #  ================200ms update============================ #
-    # freq_rms_addr = 0x9007
-    # ua_rms_addr = 0x9009
-    # ub_rms_addr = 0x900B
-    # uc_rms_addr = 0x900D
-    # uv_avg_rms_addr = 0x9015
-    #
-    # uab_rms_addr = 0x9017
-    # ubc_rms_addr = 0x9019
-    # uca_rms_addr = 0x901B
-    # ul_avg_rms_addr = 0x9023
-    #
-    # ia_rms_addr = 0x9025
-    # ib_rms_addr = 0x9027
-    # ic_rms_addr = 0x9029
-    # in_rms_addr = 0x902B
-    # iv_avg_rms_addr = 0x9035
-    #
-    # pa_rms_addr = 0x9037
-    # pb_rms_addr = 0x9039
-    # pc_rms_addr = 0x903B
-    #
-    # qa_rms_addr = 0x903F
-    # qb_rms_addr = 0x9041
-    # qc_rms_addr = 0x9043
-    #
-    # sa_rms_addr = 0x9047
-    # sb_rms_addr = 0x9049
-    # sc_rms_addr = 0x904B
-    #
-    # p_total_rms_addr = 0x903D
-    # q_total_rms_addr = 0x9045
-    # s_total_rms_addr = 0x904D
-    #
-    # pf_a_rms_addr = 0x904F
-    # pf_b_rms_addr = 0x9051
-    # pf_c_rms_addr = 0x9053
-    # pf_total_rms_addr = 0x9055
-    #
-    # ua_phase_angle_rms_addr = 0x900F
-    # ub_phase_angle_rms_addr = 0x9011
-    # uc_phase_angle_rms_addr = 0x9013
-    #
-    # ia_phase_angle_rms_addr = 0x902D
-    # ib_phase_angle_rms_addr = 0x902F
-    # ic_phase_angle_rms_addr = 0x9031
-    # in_p_rms_addr = 0x9033
+    freq_rms_addr = 0x9307
+    ua_rms_addr = 0x9309
+    ub_rms_addr = 0x930B
+    uc_rms_addr = 0x930D
+
+    ua_phase_angle_rms_addr = 0x930F
+    ub_phase_angle_rms_addr = 0x9311
+    uc_phase_angle_rms_addr = 0x9313
+
+    uab_phase_angle_rms_addr = 0x931D
+    ubc_phase_angle_rms_addr = 0x931F
+    uca_phase_angle_rms_addr = 0x9321
+
+    uv_avg_rms_addr = 0x9315
+
+    uab_rms_addr = 0x9317
+    ubc_rms_addr = 0x9319
+    uca_rms_addr = 0x931B
+    ul_avg_rms_addr = 0x9323
+
+    ia_rms_addr = 0x9325
+    ib_rms_addr = 0x9327
+    ic_rms_addr = 0x9329
+    in_rms_addr = 0x932B
+
+    ia_phase_angle_rms_addr = 0x932D
+    ib_phase_angle_rms_addr = 0x932F
+    ic_phase_angle_rms_addr = 0x9331
+    in_p_rms_addr = 0x9333
+
+    iv_avg_rms_addr = 0x9335
+
+    pa_rms_addr = 0x9337
+    pb_rms_addr = 0x9339
+    pc_rms_addr = 0x933B
+
+    qa_rms_addr = 0x933F
+    qb_rms_addr = 0x9341
+    qc_rms_addr = 0x9343
+
+    sa_rms_addr = 0x9347
+    sb_rms_addr = 0x9349
+    sc_rms_addr = 0x934B
+
+    p_total_rms_addr = 0x933D
+    q_total_rms_addr = 0x9345
+    s_total_rms_addr = 0x934D
+
+    pf_a_rms_addr = 0x934F
+    pf_b_rms_addr = 0x9351
+    pf_c_rms_addr = 0x9353
+    pf_total_rms_addr = 0x9355
+
+
 
     #  ================Moving Average 20ms update============================ #
     # freq_rms_addr = 0xC5AC
@@ -329,37 +341,30 @@ class MemoryAddr:
     # in_rms_addr = 0xC48E
     # iv_avg_rms_addr = 0xC490
     #
-    #
     # pa_rms_addr = 0xC4AC
     # pb_rms_addr = 0xC4AE
     # pc_rms_addr = 0xC4B0
-    #
     #
     # qa_rms_addr = 0xC4B4
     # qb_rms_addr = 0xC4B6
     # qc_rms_addr = 0xC4B8
     #
-    #
     # sa_rms_addr = 0xC4BC
     # sb_rms_addr = 0xC4BE
     # sc_rms_addr = 0xC4C0
     #
-    #
     # p_total_rms_addr = 0xC4B2
     # q_total_rms_addr = 0xC4BA
     # s_total_rms_addr = 0xC4C2
-    #
     #
     # pf_a_rms_addr = 0xC4C4
     # pf_b_rms_addr = 0xC4C6
     # pf_c_rms_addr = 0xC4C8
     # pf_total_rms_addr = 0xC4CA
     #
-    #
-    # ua_phase_angle_rms_addr = 0xC49A
-    # ub_phase_angle_rms_addr = 0xC49C
-    # uc_phase_angle_rms_addr = 0xC49E
-    #
+    # ua_phase_angle_rms_addr = 0xC4A0
+    # ub_phase_angle_rms_addr = 0xC4A2
+    # uc_phase_angle_rms_addr = 0xC4A4
     #
     # ia_phase_angle_rms_addr = 0xC4A6
     # ib_phase_angle_rms_addr = 0xC4A8
@@ -367,62 +372,56 @@ class MemoryAddr:
     # in_p_rms_addr =
 
     #  =======================Energy 20ms================================= #
+    # time_stamp_rms_addr = 0xC47A
+    time_stamp_rms_addr = 0x9050
     clear_energy_addr = 0x1130
 
-    pa_imp_energy_addr = 0xC4EC
-    pa_exp_energy_addr = 0xC4F4
+    pa_imp_energy_addr = 0x90E2
+    pb_imp_energy_addr = 0x90E4
+    pc_imp_energy_addr = 0x90E6
+    p_sys_imp_energy_addr = 0x90E8
 
-    pb_imp_energy_addr = 0xC4EE
-    pb_exp_energy_addr = 0xC4F6
+    pa_exp_energy_addr = 0x90EA
+    pb_exp_energy_addr = 0x90EC
+    pc_exp_energy_addr = 0x90EE
+    p_sys_exp_energy_addr = 0x90F0
 
-    pc_imp_energy_addr = 0xC4F0
-    pc_exp_energy_addr = 0xC4F8
+    p_sys_total_energy_addr = 0x90F8
+    p_sys_net_energy_addr = 0x9100
 
-    qa_imp_energy_addr = 0xC50C
-    qa_exp_energy_addr = 0xC514
+    qa_imp_energy_addr = 0x9102
+    qb_imp_energy_addr = 0x9104
+    qc_imp_energy_addr = 0x9106
+    q_sys_imp_energy_addr = 0x9108
 
-    qb_imp_energy_addr = 0xC50E
-    qb_exp_energy_addr = 0xC516
+    qa_exp_energy_addr = 0x910A
+    qb_exp_energy_addr = 0x910C
+    qc_exp_energy_addr = 0x910E
+    q_sys_exp_energy_addr = 0x9110
 
-    qc_imp_energy_addr = 0xC510
-    qc_exp_energy_addr = 0xC518
-
-    sa_imp_energy_addr = 0xC52C
-    sa_exp_energy_addr = 0xC534
-
-    sb_imp_energy_addr = 0xC52E
-    sb_exp_energy_addr = 0xC536
-
-    sc_imp_energy_addr = 0xC530
-    sc_exp_energy_addr = 0xC538
+    q_sys_total_energy_addr = 0x9118
+    q_sys_net_energy_addr = 0x9120
 
     # phaseA phaseB phaseC视在能量
-    sa_app_energy_addr = 0xC53C
-    sb_app_energy_addr = 0xC53E
-    sc_app_energy_addr = 0xC540
+    sa_total_energy_addr = 0x9122
+    sb_total_energy_addr = 0x9124
+    sc_total_energy_addr = 0x9126
+    s_sys_total_energy_addr = 0x9128
+
+    # sa_imp_energy_addr = 0xC52C
+    # sb_imp_energy_addr = 0xC52E
+    # sc_imp_energy_addr = 0xC530
+    # s_sys_imp_energy_addr = 0xC532
+
+    # sa_exp_energy_addr = 0xC534
+    # sb_exp_energy_addr = 0xC536
+    # sc_exp_energy_addr = 0xC538
+    # s_sys_exp_energy_addr = 0xC53A
 
     # acc_start_time_energy_addr =
     # acc_end_time_energy_addr =
 
-    p_sys_imp_energy_addr = 0xC4F2
-    p_sys_exp_energy_addr = 0xC4FA
-    p_sys_total_energy_addr = 0xC502
-    p_sys_net_energy_addr = 0xC50A
-
-    q_sys_imp_energy_addr = 0xC512
-    q_sys_exp_energy_addr = 0xC51A
-    q_sys_total_energy_addr = 0xC522
-    q_sys_net_energy_addr = 0xC52A
-
-    s_sys_imp_energy_addr = 0xC532
-    s_sys_exp_energy_addr = 0xC53A
-
-    s_sys_total_energy_addr = 0xC542
-    s_sys_net_energy_addr = 0xC54A
-
     #  =======================Energy 20ms================================= #
-
-
 
     # AcuRev1320 modbus addr
     voltage_wire_addr = 0x1042
@@ -441,6 +440,3 @@ class MemoryAddr:
     }
     sys_millisecond = 0x1026
     clear_max_demand = 0x1131
-
-
-
