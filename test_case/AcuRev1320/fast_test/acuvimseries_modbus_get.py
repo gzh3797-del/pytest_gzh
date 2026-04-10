@@ -8,10 +8,11 @@
 版本:v1.0
 修改记录:
 """
-
+import math
 import statistics
 import struct
 import time
+from datetime import datetime
 
 from comm.modbus_rtu_tcp import ModbusRtuOrTcp
 # from comm.source_control import SourCon
@@ -85,10 +86,13 @@ class HandleMemory:
             min_val_accuracy = round(((min_val - standard_value) / standard_value), 5)
             max_val_accuracy = round(((max_val - standard_value) / standard_value), 5)
         else:
-            if all(val == 0 for val in [avg_val, min_val, max_val, standard_value]) or avg_val < 0.001:
-                (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (0, 0, 0)
-            else:
-                (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (1, 1, 1)
+            avg_val_accuracy = round((avg_val - standard_value), 5)
+            min_val_accuracy = round((min_val - standard_value), 5)
+            max_val_accuracy = round((max_val - standard_value), 5)
+            # if all(val == 0 for val in [avg_val, min_val, max_val, standard_value]) or avg_val < 0.001:
+            #     (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (0, 0, 0)
+            # else:
+            #     (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (1, 1, 1)
         return [min_val, min_val_accuracy], [max_val, max_val_accuracy], [avg_val, avg_val_accuracy]
 
     @staticmethod
@@ -103,18 +107,25 @@ class HandleMemory:
         min_val = min(phase_angle_values)
         max_val = max(phase_angle_values)
         avg_val = statistics.mean(phase_angle_values)
-        if standard_value:
-            avg_val_accuracy = round((avg_val - standard_value), 5)
-            min_val_accuracy = round((min_val - standard_value), 5)
-            max_val_accuracy = round((max_val - standard_value), 5)
-            min_val = (min_val + 360) if min_val < 0 else min_val
-            max_val = (max_val + 360) if max_val < 0 else max_val
-            avg_val = (avg_val + 360) if avg_val < 0 else avg_val
-        else:
-            if all(val == 0 for val in [avg_val, min_val, max_val, standard_value]) or avg_val < 0.001:
-                (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (0, 0, 0)
-            else:
-                (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (1, 1, 1)
+
+        avg_val_accuracy = round((avg_val - standard_value), 5)
+        min_val_accuracy = round((min_val - standard_value), 5)
+        max_val_accuracy = round((max_val - standard_value), 5)
+        min_val = (min_val + 360) if min_val < 0 else min_val
+        max_val = (max_val + 360) if max_val < 0 else max_val
+        avg_val = (avg_val + 360) if avg_val < 0 else avg_val
+        # if standard_value:
+        #     avg_val_accuracy = round((avg_val - standard_value), 5)
+        #     min_val_accuracy = round((min_val - standard_value), 5)
+        #     max_val_accuracy = round((max_val - standard_value), 5)
+        #     min_val = (min_val + 360) if min_val < 0 else min_val
+        #     max_val = (max_val + 360) if max_val < 0 else max_val
+        #     avg_val = (avg_val + 360) if avg_val < 0 else avg_val
+        # else:
+        #     if all(val == 0 for val in [avg_val, min_val, max_val, standard_value]) or avg_val < 0.001:
+        #         (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (0, 0, 0)
+        #     else:
+        #         (avg_val_accuracy, min_val_accuracy, max_val_accuracy) = (1, 1, 1)
         return [min_val, min_val_accuracy], [max_val, max_val_accuracy], [avg_val, avg_val_accuracy]
 
     def read_frequency(self):
@@ -131,6 +142,20 @@ class HandleMemory:
         self.log.info(f'read frequency ret is:{measure_value}')
         return value
 
+    def read_sys_set_frequency(self):
+        """
+        获取寄存器值:频率
+        :return: 频率
+        """
+        address = MemoryAddr.set_freq_rms_addr
+        count = MemoryReg.reg_single
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!H', bytes(bytes_value))[0]
+        self.log.info(f'read sys_set_frequency ret is:{measure_value}')
+        return value
+
     def read_ua_voltage(self):
         """
         获取寄存器值:ua
@@ -140,6 +165,8 @@ class HandleMemory:
         count = MemoryReg.reg_double
         slave = self.slave_id
         measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        # if type(measure_value) == "str":
+        #     measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ua_voltage ret is:{measure_value}')
@@ -325,6 +352,7 @@ class HandleMemory:
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pa_power ret is:{measure_value}')
+        # print(f'read pa_power ret is:{value}')
         return value
 
     def read_pb_power(self):
@@ -339,6 +367,7 @@ class HandleMemory:
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pb_power ret is:{measure_value}')
+        # print(f'read pb_power ret is:{value}')
         return value
 
     def read_pc_power(self):
@@ -353,6 +382,7 @@ class HandleMemory:
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pc_power ret is:{measure_value}')
+        # print(f'read pc_power ret is:{value}')
         return value
 
     def read_p_total_power(self):
@@ -367,6 +397,7 @@ class HandleMemory:
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read p_total_power ret is:{measure_value}')
+        # print(f'read ps_power ret is:{value}')
         return value
 
     def read_qa_power(self):
@@ -542,10 +573,20 @@ class HandleMemory:
         获取寄存器值:ua_phase_angle
         :return: ua_phase_angle
         """
-        measure_value = [0]
-        value = measure_value[0] / 10
+        address = MemoryAddr.ua_phase_angle_rms_addr
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        # value = math.radians(value)
+        # print(value)
         self.log.info(f'read ua_phase_angle ret is:{measure_value}')
         return value
+        # measure_value = [0]
+        # value = measure_value[0] / 10
+        # self.log.info(f'read ua_phase_angle ret is:{measure_value}')
+        # return value
 
     def read_ub_phase_angle(self):
         """
@@ -553,10 +594,12 @@ class HandleMemory:
         :return: ub_phase_angle
         """
         address = MemoryAddr.ub_phase_angle_rms_addr
-        count = MemoryReg.reg_single
+        count = MemoryReg.reg_float32
         slave = self.slave_id
         measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
-        value = measure_value[0] / 10
+        # value = measure_value[0] / 10
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ub_phase_angle ret is:{measure_value}')
         return value
 
@@ -566,11 +609,57 @@ class HandleMemory:
         :return: uc_phase_angle
         """
         address = MemoryAddr.uc_phase_angle_rms_addr
-        count = MemoryReg.reg_single
+        count = MemoryReg.reg_float32
         slave = self.slave_id
         measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
-        value = measure_value[0] / 10
+        # value = measure_value[0] / 10
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read uc_phase_angle ret is:{measure_value}')
+        return value
+
+    def read_uab_phase_angle(self):
+        """
+        获取寄存器值:ua_phase_angle
+        :return: ua_phase_angle
+        """
+        address = MemoryAddr.uab_phase_angle_rms_addr
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        # value = math.radians(value)
+        # print(value)
+        self.log.info(f'read uab_phase_angle ret is:{measure_value}')
+        return value
+
+    def read_ubc_phase_angle(self):
+        """
+        获取寄存器值:ub_phase_angle
+        :return: ub_phase_angle
+        """
+        address = MemoryAddr.ubc_phase_angle_rms_addr
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read ubc_phase_angle ret is:{measure_value}')
+        return value
+
+    def read_uca_phase_angle(self):
+        """
+        获取寄存器值:uc_phase_angle
+        :return: uc_phase_angle
+        """
+        address = MemoryAddr.uca_phase_angle_rms_addr
+        count = MemoryReg.reg_float32
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read uca_phase_angle ret is:{measure_value}')
         return value
 
     def read_ia_phase_angle(self):
@@ -579,10 +668,11 @@ class HandleMemory:
         :return: ia_phase_angle
         """
         address = MemoryAddr.ia_phase_angle_rms_addr
-        count = MemoryReg.reg_single
+        count = MemoryReg.reg_float32
         slave = self.slave_id
         measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
-        value = measure_value[0] / 10
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ia_phase_angle ret is:{measure_value}')
         return value
 
@@ -592,10 +682,11 @@ class HandleMemory:
         :return: ib_phase_angle
         """
         address = MemoryAddr.ib_phase_angle_rms_addr
-        count = MemoryReg.reg_single
+        count = MemoryReg.reg_float32
         slave = self.slave_id
         measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
-        value = measure_value[0] / 10
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ib_phase_angle ret is:{measure_value}')
         return value
 
@@ -605,10 +696,11 @@ class HandleMemory:
         :return: ic_phase_angle
         """
         address = MemoryAddr.ic_phase_angle_rms_addr
-        count = MemoryReg.reg_single
+        count = MemoryReg.reg_float32
         slave = self.slave_id
         measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
-        value = measure_value[0] / 10
+        bytes_value = self.get_bytes_value(measure_value)
+        value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ic_phase_angle ret is:{measure_value}')
         return value
 
@@ -640,6 +732,20 @@ class HandleMemory:
             self.log.info(f'set_wire_mode_by_current fail, exp_val is:{exp_val}, act_val is:{act_val}')
             return False
 
+    def compare_res(self, exp_val, act_val):
+        """
+        判断电流接线方式是否成功设置
+        :param exp_val: 期望值
+        :param act_val: 寄存器值
+        :return: 判断结果
+        """
+        if exp_val == act_val:
+            self.log.info(f'set_para pass, act_val is:{act_val}')
+            return True
+        else:
+            self.log.info(f'set_para fail, exp_val is:{exp_val}, act_val is:{act_val}')
+            return False
+
     def compare_res_by_set_clear_energy_flag(self, exp_val, act_val):
         """
         判断清除能量是否成功设置
@@ -668,7 +774,7 @@ class HandleMemory:
             self.log.info(f'set_value fail, exp_val is:{exp_val}, act_val is:{act_val}')
             return False
 
-    def set_wire_mode_by_voltage(self, voltage_wire_mode=0):
+    def set_wire_mode_by_voltage(self, voltage_wire_mode=4):
         """
         设置电压接线方式
         :param voltage_wire_mode: 电压接线方式
@@ -1230,15 +1336,12 @@ class HandleMemory:
         address = MemoryAddr.clear_energy_addr
         values = clear_energy_flag
         slave = self.slave_id
-        count = MemoryReg.reg_single
         ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
         if address != ret.address:
-            self.log.error(f'set_cleared_energy fail, ret is:{ret}')
+            self.log.error(f'set_cleared_energy Failed, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
-        exp_val = clear_energy_flag
-        act_val = measure_value[0]
-        self.compare_res_by_set_clear_energy_flag(exp_val, act_val)
+        self.log.info('clear_energy Passed')
+        return 'clear_energy Passed'
 
     def hold_rs485_connect(self, hold_time, time_interval=3):
         """
@@ -1444,8 +1547,100 @@ class HandleMemory:
         act_val = measure_value[0]
         self.compare_res_by_set_value(exp_val, act_val)
 
+    def read_active_power_energy(self):
+        """
+        获取寄存器值:iv_avg
+        :return: iv_avg
+        """
+        address = MemoryAddr.time_stamp_rms_addr
+        count = MemoryReg.reg_timestamp_active_energy
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        # bytes_value = self.get_bytes_value(measure_value)
+        # value = struct.unpack('!f', bytes(bytes_value))[0]
+        self.log.info(f'read measure_value ret is:{measure_value}')
+        return measure_value
+
+    def read_sys_time(self):
+        """
+        获取寄存器值:sys_time
+        :return: sys_time
+        """
+        address = MemoryAddr.sys_time_rms_addr
+        count = MemoryReg.reg_uint16_t * 7
+        slave = self.slave_id
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        self.log.info(f"read local_time:{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}")
+        print(f"read local_time:{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}")
+        bytes_value = self.get_bytes_value(measure_value)
+        date_time_list = struct.unpack('!7H', bytes(bytes_value))
+        self.log.info(f'read sys_time:{date_time_list}')
+        print(f'read sys_time:{date_time_list}')
+        date_time_obj = datetime(*date_time_list[:-1], date_time_list[-1] * 1000)
+        formatted_date_time = date_time_obj.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        self.log.info(f'read sys_time ret is:{measure_value}')
+        self.log.info(f'read sys_time ret is:{formatted_date_time}')
+        print(f'read sys_time ret is:{formatted_date_time}')
+        return date_time_list
+
+    def set_sys_freq(self, freq):
+        """
+        设置电流接线方式
+        :param freq: 频率
+        :return:
+        """
+
+        address = MemoryAddr.set_freq_rms_addr
+        values = freq
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_sys_freq fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = freq
+        act_val = measure_value[0]
+        self.compare_res(exp_val, act_val)
+
+    def set_phase_order(self, phase_order):
+        """
+        设置电流接线方式
+        :param phase_order: 相序 0:ABC,1:ACB
+        :return:
+        """
+        address = MemoryAddr.phase_order_rms_addr
+        values = phase_order
+        slave = self.slave_id
+        count = MemoryReg.reg_single
+        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        if address != ret.address:
+            self.log.error(f'set_phase_order fail, ret is:{ret}')
+            return False
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        exp_val = phase_order
+        act_val = measure_value[0]
+        self.compare_res(exp_val, act_val)
 
 
 if __name__ == '__main__':
     rm = HandleMemory()
+    rm.read_sys_time()
+    for i in range(4996):
+        print(f"第{i}次")
+        rm.set_cleared_energy(1)
+        time.sleep(0.1)
     rm.close_rtu_client()
+
+    # pa = rm.read_pa_power()
+    # pb = rm.read_pb_power()
+    # pc = rm.read_pc_power()
+    # # pv= 69/1000
+    # pv = 347 / 1000
+    # pa_acc = (pv - pa) / pv
+    # pb_acc = (pv - pb) / pv
+    # pc_acc = (pv - pc) / pv
+    # print(f"pa_acc:{round(pa_acc, 5)}")
+    # print(f"pb_acc:{round(pb_acc, 5)}")
+    # print(f"pc_acc:{round(pc_acc, 5)}")
+    # rm.close_rtu_client()
