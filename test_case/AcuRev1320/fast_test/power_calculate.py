@@ -28,7 +28,7 @@ class CalculatePower:
         """
         voltage_current_angle = voltage_angle - current_angle
         active_power = (voltage * current * math.cos(math.radians(voltage_current_angle)))
-        return active_power
+        return active_power / 1000
 
     @classmethod
     def calculate_reactive_power(cls, voltage, current, voltage_angle, current_angle):
@@ -42,7 +42,7 @@ class CalculatePower:
         """
         voltage_current_angle = voltage_angle - current_angle
         reactive_power = (voltage * current * math.sin(math.radians(voltage_current_angle)))
-        return reactive_power
+        return reactive_power / 1000
 
     @classmethod
     def calculate_apparent_power(cls, voltage, current):
@@ -53,7 +53,7 @@ class CalculatePower:
         :return:视在功率
         """
         apparent_power = (voltage * current)
-        return apparent_power
+        return apparent_power / 1000
 
     @classmethod
     def calculate_power_factor(cls, voltage_angle, current_angle):

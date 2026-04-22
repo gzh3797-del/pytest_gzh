@@ -1624,23 +1624,21 @@ class HandleMemory:
 
 
 if __name__ == '__main__':
-    rm = HandleMemory()
-    rm.read_sys_time()
-    for i in range(4996):
-        print(f"第{i}次")
-        rm.set_cleared_energy(1)
-        time.sleep(0.1)
-    rm.close_rtu_client()
-
-    # pa = rm.read_pa_power()
-    # pb = rm.read_pb_power()
-    # pc = rm.read_pc_power()
-    # # pv= 69/1000
-    # pv = 347 / 1000
-    # pa_acc = (pv - pa) / pv
-    # pb_acc = (pv - pb) / pv
-    # pc_acc = (pv - pc) / pv
-    # print(f"pa_acc:{round(pa_acc, 5)}")
-    # print(f"pb_acc:{round(pb_acc, 5)}")
-    # print(f"pc_acc:{round(pc_acc, 5)}")
+    # syslog
+    # rm = HandleMemory()
+    # rm.read_sys_time()
+    # for i in range(4990):
+    #     print(f"第{i}次")
+    #     rm.set_cleared_energy(1)
+    #     time.sleep(0.1)
     # rm.close_rtu_client()
+
+    # auditlog
+    rm = HandleMemory()
+    for i in range(2118 // 2):
+        print(f"第{i}次")
+        time.sleep(0.1)
+        rm.set_sys_freq(0)
+        time.sleep(0.1)
+        rm.set_sys_freq(1)
+    rm.close_rtu_client()

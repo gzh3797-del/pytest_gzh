@@ -155,7 +155,7 @@ class Cl3021SourCon:
     def __init__(self):
         self.udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.udp_socket.settimeout(3)
-        logging.info(modbus_config['local']['ip'], modbus_config['local']['port'])
+        logging.info(f"{modbus_config['local']['ip']}, {modbus_config['local']['port']}")
         self.udp_socket.bind((modbus_config['local']['ip'], modbus_config['local']['port']))
         self.dest_addr = (modbus_config['source']['ip'], modbus_config['source']['port'])
 
@@ -324,7 +324,7 @@ def set_ac(quc: float, qub: float, qua: float, qic: float, qib: float, qia: floa
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
-    time.sleep(5)
+    time.sleep(20)
     return ret
 
 
