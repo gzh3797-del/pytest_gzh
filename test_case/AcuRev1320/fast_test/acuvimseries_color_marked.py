@@ -5,7 +5,7 @@
 功能描述:标记excel颜色
 创建日期:2025-08-05
 作者:王洋
-版本:v1.0
+版本:v2.0
 修改记录:
 """
 
@@ -21,20 +21,30 @@ from openpyxl.styles import PatternFill
 current_time = datetime.now().strftime('%Y%m%d')
 filedir = Path(__file__).parent
 
-input_filename = "Precision_Measure_3E4WY_20250805142822.xlsx"
+input_filename = "Precision_Measure_3E4WY-P_20260424114746.xlsx"
 output_filename = f"precision_measure_color_marked_excel_{datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
 INPUT_FILEPATH = os.path.join(filedir, f"precision_measure_{current_time}", input_filename)
 OUTPUT_FILEPATH = os.path.join(filedir, f"color_marked_{current_time}", output_filename)
 if not os.path.exists(OUTPUT_FILEPATH):
     os.makedirs(Path(OUTPUT_FILEPATH).parent, exist_ok=True)
 
-input_filename_of_energy = "Energy_Measure_3E4WY_20250805142822.xlsx"
+input_filename_of_energy = "Precision_Measure_2E3WD_20251121135115.xlsx"
 output_filename_of_energy = f"energy_measure_color_marked_excel_{datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
 INPUT_FILEPATH_OF_ENERGY = os.path.join(filedir, f"energy_measure_{current_time}", input_filename_of_energy)
 OUTPUT_FILEPATH_OF_ENERGY = os.path.join(filedir, f"color_marked_{current_time}",
                                          output_filename_of_energy)
 if not os.path.exists(OUTPUT_FILEPATH_OF_ENERGY):
     os.makedirs(Path(OUTPUT_FILEPATH_OF_ENERGY).parent, exist_ok=True)
+
+fail_res_input_filename = f"fail_res_precision_measure_excel_{datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
+FAIL_RES_INPUT_FILEPATH = os.path.join(filedir, f"fail_res_color_marked_{current_time}", fail_res_input_filename)
+if not os.path.exists(FAIL_RES_INPUT_FILEPATH):
+    os.makedirs(Path(FAIL_RES_INPUT_FILEPATH).parent, exist_ok=True)
+
+fail_res_output_filename = f"fail_res_precision_measure_excel_{datetime.now().strftime('%Y%m%d%H%M%S')}.xlsx"
+FAIL_RES_OUTPUT_FILEPATH = os.path.join(filedir, f"fail_res_color_marked_{current_time}", fail_res_output_filename)
+if not os.path.exists(FAIL_RES_OUTPUT_FILEPATH):
+    os.makedirs(Path(FAIL_RES_OUTPUT_FILEPATH).parent, exist_ok=True)
 
 RED_FORMAT = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
 YELLOW_FORMAT = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
@@ -136,10 +146,15 @@ class MarkColor:
         :return:
         """
         cell = ws.cell(row=row_obj.Index + 2, column=df.columns.get_loc(compare_column) + 1)
-        if (getattr(row_obj, compare_column, 0) - getattr(row_obj, refer_column, 0)) > 0.002:
+        if (abs(getattr(row_obj, compare_column, 0)) - getattr(row_obj, refer_column, 0)) > 0.002:
             cell.fill = RED_FORMAT
-        elif (getattr(row_obj, compare_column, 0) - getattr(row_obj, refer_column, 0)) > 0:
+        elif (abs(getattr(row_obj, compare_column, 0)) - getattr(row_obj, refer_column, 0)) > 0:
             cell.fill = YELLOW_FORMAT
+
+        # if (getattr(row_obj, compare_column, 0) - getattr(row_obj, refer_column, 0)) > 0.002:
+        #     cell.fill = RED_FORMAT
+        # elif (getattr(row_obj, compare_column, 0) - getattr(row_obj, refer_column, 0)) > 0:
+        #     cell.fill = YELLOW_FORMAT
         return
 
     def fill_color_by_measure_results(self, ws, df, row_obj, compare_columns):
@@ -213,7 +228,86 @@ class MarkColor:
             self.read_excel_data_of_energy_measure()
             self.mark_color_of_energy()
 
+class FailRes(MarkColor):
+
+    def __init__(self):
+        super().__init__()
+        self.fail_res_input_filepath = FAIL_RES_INPUT_FILEPATH
+        self.fail_res_output_filepath = FAIL_RES_OUTPUT_FILEPATH
+
+    def save_row_by_fail_res(self):
+        cols_to_check = []
+        df = pd.read_excel(self.input_filepath, sheet_name=0, nrows=0)
+        columns = df.columns.tolist()
+        for column in columns:
+            if column.endswith("精度测试结果"):
+                cols_to_check.append(column)
+
+        df_to_fail = pd.read_excel(self.input_filepath)
+        df_to_fail = df_to_fail[df_to_fail[cols_to_check].isin(["Failed"]).any(axis=1)]
+        df_to_fail.to_excel(self.fail_res_input_filepath, index=False)
+
+    def read_excel_data(self):
+        """
+        读取和保存测试结果的表头
+        :return: 保存表头的字典
+        """
+        df = pd.read_excel(self.fail_res_input_filepath, sheet_name=0, nrows=0)
+        columns = df.columns.tolist()
+        for column in columns:
+            if column.endswith("电压精度最小值") or column.endswith("电压精度最大值") or column.endswith(
+                    "电压精度平均值"):
+                self.standard_columns['voltage_accuracy'].append(column)
+            elif column.endswith("电流精度最小值") or column.endswith("电流精度最大值") or column.endswith(
+                    "电流精度平均值"):
+                self.standard_columns['current_accuracy'].append(column)
+            elif column.endswith("电压相位精度最小值") or column.endswith("电压相位精度最大值") or column.endswith(
+                    "电压相位精度平均值"):
+                self.standard_columns['phase_angle_accuracy'].append(column)
+            elif column.endswith("电流相位精度最小值") or column.endswith("电流相位精度最大值") or column.endswith(
+                    "电流相位精度平均值"):
+                self.standard_columns['phase_angle_accuracy'].append(column)
+            elif column.endswith("有功功率精度最小值") or column.endswith("有功功率精度最大值") or column.endswith(
+                    "有功功率精度平均值"):
+                self.standard_columns['active_power_accuracy'].append(column)
+            elif column.endswith("精度测试结果") or column.endswith("精度测试结果") or column.endswith("精度测试结果"):
+                self.standard_columns['accuracy_res'].append(column)
+        return self.standard_columns
+
+    def mark_color(self):
+        """
+        对测试结果进行颜色标记
+        :return:
+        """
+        start_time = time.perf_counter()
+        df = pd.read_excel(self.fail_res_input_filepath, sheet_name=0)
+        wb = openpyxl.load_workbook(self.fail_res_input_filepath)
+        ws = wb.active
+        for row in df.itertuples(index=True, name="Pandas"):
+            for refer_col, compare_cols in self.standard_columns.items():
+                if refer_col == 'accuracy_res':
+                    self.fill_color_by_measure_results(ws, df, row, compare_cols)
+                else:
+                    self.fill_color_by_measure_values(ws, df, row, refer_col, compare_cols)
+        wb.save(self.fail_res_output_filepath)
+        print(f"real_time_color_marked cost_time:{time.perf_counter() - start_time}s")
+
+    def run_script(self, color_marked_flag=0):
+        """
+        运行脚本函数
+        :return:
+        """
+        if not color_marked_flag:
+            self.save_row_by_fail_res()
+            self.read_excel_data()
+            self.mark_color()
+        else:
+            self.read_excel_data_of_energy_measure()
+            self.mark_color_of_energy()
+
 
 if __name__ == '__main__':
     marked_flag = 0
     MarkColor().run_script(color_marked_flag=marked_flag)
+    FailRes().run_script(color_marked_flag=marked_flag)
+

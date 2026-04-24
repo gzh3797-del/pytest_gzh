@@ -24,5 +24,5 @@ def write_json(key, value):
         modbus_config['tcp'][key] = value
     if key == 'port':
         modbus_config['tcp'][key] = value
-    with open(root_path + '/config.json', "w", encoding="utf-8") as f:
+    with open(root_path + '/config_9600.json', "w", encoding="utf-8") as f:
         json.dump(modbus_config, f, indent=4, ensure_ascii=False)

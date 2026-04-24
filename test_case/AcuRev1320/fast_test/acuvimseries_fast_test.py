@@ -3180,13 +3180,13 @@ def run_precision_measure_script(test_type, wire_type):
     set_gear_switching_mode('00000000')  # 档位切换归零
 
     # 处理6: 3e4wY-P放开
-    # set_ac(
-    #     quc=0, qub=0, qua=0,
-    #     qic=0, qib=0, qia=0,
-    #     uc=0, ub=0, ua=220,
-    #     ic=0, ib=0, ia=0, f=0
-    # )
-    # time.sleep(5)
+    set_ac(
+        quc=0, qub=0, qua=0,
+        qic=0, qib=0, qia=0,
+        uc=0, ub=0, ua=220,
+        ic=0, ib=0, ia=0, f=0
+    )
+    time.sleep(5)
 
     precision_measure = PrecisionMeasure()
 
@@ -3206,12 +3206,23 @@ if __name__ == '__main__':
     :param measure_mode: 0:mA, 1:None, 2:mV, 3:rct
     :param wire_type: 0:1e2w1p, 1:2e3w1p, 2:2e3wD, 3:2e3wN, 4:3e4wY, 5:3e4wD  6:3e4wY-P # AcuRev1320 项目
     """
-    device_reboot.pow_off_device()
+    # device_reboot.pow_off_device()
     # time.sleep(5)
     # device_reboot.pow_on_device()
     # up_source_ac()
     # switch_device_screen_interface(inter=0x00)  # 切换至默认界面
 
-    # measure_mode = 2
-    # wire_mode = 4
+    # measure_mode = 0
+    # wire_mode = 6
     # run_precision_measure_script(test_type=measure_mode, wire_type=wire_mode)
+
+    # CT类型选择
+    measure_mode = 0
+    # 同一套接线可连续执行：1e2w1p(0), 2e3w1p(1), 2e3wN(3), 3e4wD(5)
+    for wire_mode in [0, 1, 3, 5]:
+        run_precision_measure_script(test_type=measure_mode, wire_type=wire_mode)
+
+    # 需单独接线，每种执行前暂停等待确认：3e4wY(4), 2e3wD(2), 3e4wY-P(6)
+    for wire_mode in [4, 2, 6]:
+        input(f"\n请完成 wire_type={wire_mode} 接线后，按 Enter 继续...")
+        run_precision_measure_script(test_type=measure_mode, wire_type=wire_mode)

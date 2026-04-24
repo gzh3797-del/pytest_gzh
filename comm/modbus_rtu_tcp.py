@@ -5,6 +5,7 @@ import socket
 import serial
 import struct
 import crcmod
+import time
 
 
 class ModbusRtuOrTcp:
@@ -38,16 +39,28 @@ class ModbusRtuOrTcp:
         except Exception as e:
             return e
 
-    def read_measurement(self, address, count, slave):
-        try:
-            resp = self.client.read_holding_registers(address=address, count=count, slave=slave)
-            logging.info('read_measurement ret is:{}'.format(resp))
-            if resp.isError():
-                return "resp is error"
-            measurement = resp.registers
-            return measurement
-        except Exception as e:
-            return e
+    # 快速精度测试过程，出现异常导致整个测试停止，源代码临时保留，新代码见下面新的函数
+    # def read_measurement(self, address, count, slave):
+    #     try:
+    #         resp = self.client.read_holding_registers(address=address, count=count, slave=slave)
+    #         logging.info('read_measurement ret is:{}'.format(resp))
+    #         if resp.isError():
+    #             return "resp is error"
+    #         measurement = resp.registers
+    #         return measurement
+    #     except Exception as e:
+    #         return e
+
+  def read_measurement(self, address, count, slave):
+      for attempt in range(5):
+          try:
+              resp = self.client.read_holding_registers(address=address, count=count, slave=slave)
+              if not resp.isError():
+                  return resp.registers
+          except Exception as e:
+              logging.warning(f'read attempt {attempt+1} failed: {e}')
+              time.sleep(0.1)
+      return None
 
 
 class ModbusTcp6A:
