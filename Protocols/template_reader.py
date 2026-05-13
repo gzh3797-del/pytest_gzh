@@ -25,7 +25,8 @@ class TemplateParam:
     unit:        str   # unit 列（空字符串表示无单位）
     bacnet_ip:   str   # BACnetIP 列原始值（非空 → BACnet 发布）
     acucloud:    str   # AcuCloud 列原始值（非空 → AcuCloud 同步）
-    mqtt:        str = ""  # MQTT 列原始值（非空 → MQTT 发布）
+    mqtt:        str = ""     # MQTT 列原始值（非空 → MQTT 发布）
+    datalog:     str = ""     # DataLog 列原始值（非空 → Datalog 记录）
 
 
 def _norm(s: str) -> str:
@@ -70,28 +71,30 @@ def load_template(xlsx_path: str) -> list[TemplateParam]:
         except ValueError:
             raise ValueError(f"模板缺少列 '{name}'，当前列：{headers}")
 
-    ci_key    = _col("paramType")
-    ci_desc   = _col("descrption")   # 模板原始拼写（少一个 i）
-    ci_unit   = _col("unit")
-    ci_bacnet = _col("BACnetIP")
-    ci_cloud  = _col("AcuCloud")
-    ci_mqtt   = headers.index("MQTT") if "MQTT" in headers else -1
+    ci_key     = _col("paramType")
+    ci_desc    = _col("descrption")   # 模板原始拼写（少一个 i）
+    ci_unit    = _col("unit")
+    ci_bacnet  = _col("BACnetIP")
+    ci_cloud   = _col("AcuCloud")
+    ci_mqtt    = headers.index("MQTT")    if "MQTT"    in headers else -1
+    ci_datalog = headers.index("DataLog") if "DataLog" in headers else -1
+
+    def _str(row: tuple, ci: int) -> str:
+        return str(row[ci]).strip() if ci >= 0 and row[ci] is not None else ""
 
     params: list[TemplateParam] = []
     for row in rows[1:]:
         key = row[ci_key]
         if not key:
             continue
-        mqtt_val = ""
-        if ci_mqtt >= 0 and row[ci_mqtt] is not None:
-            mqtt_val = str(row[ci_mqtt]).strip()
         params.append(TemplateParam(
             param_key   = str(key).strip(),
-            description = str(row[ci_desc]).strip()   if row[ci_desc]   is not None else "",
-            unit        = str(row[ci_unit]).strip()   if row[ci_unit]   is not None else "",
-            bacnet_ip   = str(row[ci_bacnet]).strip() if row[ci_bacnet] is not None else "",
-            acucloud    = str(row[ci_cloud]).strip()  if row[ci_cloud]  is not None else "",
-            mqtt        = mqtt_val,
+            description = _str(row, ci_desc),
+            unit        = _str(row, ci_unit),
+            bacnet_ip   = _str(row, ci_bacnet),
+            acucloud    = _str(row, ci_cloud),
+            mqtt        = _str(row, ci_mqtt),
+            datalog     = _str(row, ci_datalog),
         ))
 
     return params
@@ -110,3 +113,8 @@ def get_cloud_params(xlsx_path: str) -> list[TemplateParam]:
 def get_mqtt_params(xlsx_path: str) -> list[TemplateParam]:
     """返回 MQTT 列非空的参数（MQTT 发布范围）。"""
     return [p for p in load_template(xlsx_path) if p.mqtt]
+
+
+def get_datalog_params(xlsx_path: str) -> list[TemplateParam]:
+    """返回 DataLog 列非空的参数（Datalog 记录范围）。"""
+    return [p for p in load_template(xlsx_path) if p.datalog]

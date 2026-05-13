@@ -26,8 +26,8 @@ LOCAL_PORT = 47808            # 本机 BACnet 监听端口
 MODBUS_MODE = "tcp"
 
 # ── Modbus RTU（串口）配置，仅 MODBUS_MODE="rtu" 时生效 ──────────────────────
-MODBUS_RTU_PORT     = "COM3"   # 串口号（Windows: "COM3"，Linux: "/dev/ttyUSB0"）
-MODBUS_RTU_BAUDRATE = 9600
+MODBUS_RTU_PORT     = "COM11"   # 串口号（Windows: "COM3"，Linux: "/dev/ttyUSB0"）
+MODBUS_RTU_BAUDRATE = 19200
 MODBUS_RTU_PARITY   = "N"      # N=无校验  E=偶校验  O=奇校验
 MODBUS_RTU_STOPBITS = 1
 MODBUS_RTU_BYTESIZE = 8
@@ -37,11 +37,11 @@ MODBUS_RTU_BYTESIZE = 8
 # RTU 模式：仅 unit_id（slave 地址）生效，host/port 忽略
 # 格式："设备名": ("IP", 端口, Unit ID)
 MODBUS_DEVICE_MAP: dict = {
-    "AcuRev4100": ("192.168.2.63", 2000, 101),
-    "AcuRev2100": ("192.168.2.165", 502, 101),
-    "AcuvimIIW":  ("192.168.2.7",   502,   2),
+    "AcuRev4100": ("192.168.2.30", 502, 102),
+    "AcuRev2100": ("192.168.2.64", 502, 101),
+    "AcuvimIIW":  ("192.168.2.27",   502,   2),
     "AcuvimIIR":  ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit
-    "AcuVIM3":    ("192.168.2.162", 502,   1),
+    "AcuVIM3":    ("192.168.2.32", 502,   1),
     "AcuIOM01":   ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit
     "AcuIOM02":   ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit
     "AcuIOM03":   ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit
@@ -84,3 +84,10 @@ MQTT_DATA_DIR = _os.path.join(_BASE, "MQTT")
 # ── MQTT 快照比对容差（与 AcuCloud 相同，补偿时序差异） ──────────────────────
 MQTT_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
 MQTT_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
+
+# ── Datalog 数据目录 ──────────────────────────────────────────────────────────
+DATALOG_DATA_DIR = _os.path.join(_BASE, "Datas", "DatalogDatas")
+
+# ── Datalog 快照比对容差 ───────────────────────────────────────────────────────
+DATALOG_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
+DATALOG_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）

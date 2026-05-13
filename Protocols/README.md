@@ -180,6 +180,43 @@ python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --file "Protocols/M
 
 ---
 
+## Datalog/datalog_comparator.py — Datalog CSV 快照 vs 实时 Modbus 三段式比对
+
+从 `Datas/DatalogDatas/` 目录读取网关导出的 Datalog CSV 文件，与设备实时 Modbus 寄存器值三段式比对。
+CSV 列名即 `param_key`，无需额外映射。
+
+**比对流程：**
+1. 范围检查：模板 `DataLog` 列参数 vs CSV 实际列名（缺失 / 多余）
+2. 单位检查：`param_key` 后缀单位 vs 模板 `unit` 列（相位字母 / 通道号后缀自动跳过）
+3. 数值比对：CSV 快照值 vs 实时 Modbus 读取值，容差 ±5% / ±1.0
+
+报告输出到 `reports/datalog_<设备名>_<时间戳>.html`，包含三段可折叠区块。
+
+**CSV 文件命名约定：** 文件名须包含设备型号关键字（如 `AcuRev4100`、`Acuvim3`、`AcuRevIIW`），
+支持模糊匹配；也可用 `--file` 直接指定路径。
+
+```bash
+# 自动匹配文件，取最新数据行
+python Protocols/Datalog/datalog_comparator.py --device acurev4100
+python Protocols/Datalog/datalog_comparator.py --device acurev2100
+python Protocols/Datalog/datalog_comparator.py --device acuvimiiw
+python Protocols/Datalog/datalog_comparator.py --device acuvim3
+
+# 指定 CSV 文件路径
+python Protocols/Datalog/datalog_comparator.py --device acurev4100 --file "Protocols/Datas/DatalogDatas/Logger1-AHI260110088-AcuRev4100-1778651820-1min.csv"
+
+# 指定数据行（1 = 第一行，默认取最新行）
+python Protocols/Datalog/datalog_comparator.py --device acurev4100 --row 1
+
+# 跳过单位检查（仅范围 + 数值）
+python Protocols/Datalog/datalog_comparator.py --device acurev4100 --no-meta
+
+# 只比对指定参数
+python Protocols/Datalog/datalog_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V P_kW
+```
+
+---
+
 ## 配置（config.py）
 
 | 配置项 | 说明 |
@@ -199,6 +236,8 @@ python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --file "Protocols/M
 | `CLOUD_DATA_DIR` | AcuCloud xlsx 快照文件目录 |
 | `MQTT_DATA_DIR` | MQTT JSON 快照文件目录（`MQTT/`） |
 | `MQTT_TOLERANCE_PERCENT` / `MQTT_TOLERANCE_ABSOLUTE` | MQTT 快照比对容差 |
+| `DATALOG_DATA_DIR` | Datalog CSV 快照文件目录（`Datas/DatalogDatas/`） |
+| `DATALOG_TOLERANCE_PERCENT` / `DATALOG_TOLERANCE_ABSOLUTE` | Datalog 快照比对容差 |
 | `REPORT_DIR` | HTML 报告输出目录 |
 
 ---
@@ -218,8 +257,11 @@ Protocols/
 ├── MQTT/                      # MQTT 数据
 │   ├── mqtt_comparator.py     # MQTT 快照 vs Modbus 三段式比对主程序
 │   └── <设备名>data.json      # 网关推送的 MQTT JSON 快照（如 4100data.json）
+├── Datalog/                   # Datalog 数据
+│   └── datalog_comparator.py  # Datalog CSV vs Modbus 三段式比对主程序
 ├── Datas/                     # 测试数据文件
 │   ├── acuclouddatas/         # AcuCloud 导出 xlsx 快照
+│   ├── DatalogDatas/          # Datalog 导出 CSV 快照
 │   └── awsdatas/              # AWS IoT / EDS 相关数据
 │       └── eds/               # 设备 EDS 文件（EtherNet/IP 用）
 │           └── AcuRev-4100.eds
