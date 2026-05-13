@@ -1,0 +1,46 @@
+Col 1: 模块
+Col 2: 子模块
+Col 3: 需求时间
+Col 4: 需求领域
+Col 5: FTS编号
+Col 6: FTS名称(用例编号)
+Col 7: 用例编号
+Col 8: 用例标题
+Col 9: 预置条件
+Col 10: 测试步骤
+Col 11: 预期结果
+Col 12: 用例级别
+Col 13: 是否通过
+Col 14: 测试负责人
+Col 15: 半自动化
+Col 16: 自动化
+Col 17: 完成自动化
+Col 18: 问题单来源
+Col 19: 备注
+Col 20: None
+
+Total rows: 921
+
+Row2 sample:
+  Col1 (模块): About
+  Col2 (子模块): About
+  Col3 (需求时间): None
+  Col4 (需求领域): ALL
+  Col5 (FTS编号): FTS_AcuHMI_009_08_case01
+  Col6 (FTS名称(用例编号)): 验证设备名字写入及长度
+  Col7 (用例编号): TestCase_AcuHMI_009_08_case01
+  Col8 (用例标题): 设备名字大于40个字符，保存配置失败，小于等于40个字符，保存配置成功
+  Col9 (预置条件): 1、管理权限登录AcuHMI网页
+  Col10 (测试步骤): 1.About->Device information设置name超过40个字符
+2.设置name小于等于40个字符
+  Col11 (预期结果): 1.保存配置失败
+2.保存配置成功
+  Col12 (用例级别): LV3
+  Col13 (是否通过): None
+  Col14 (测试负责人): None
+  Col15 (半自动化): None
+  Col16 (自动化): 是
+  Col17 (完成自动化): None
+  Col18 (问题单来源): None
+  Col19 (备注): None
+  Col20 (None): None

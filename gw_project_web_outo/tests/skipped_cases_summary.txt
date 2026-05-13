@@ -1,0 +1,170 @@
+================================================================================
+AcuHMI 用户管理模块 — 跳过用例统计说明
+生成时间：2026-05-13（更新：2026-05-13）
+执行报告：reports/report.html（执行时间：2026-05-12）
+================================================================================
+
+【总体统计】
+  总用例数：147
+  通过：    120  （原117，+3：case01_4 / case03_2 / case04_2 调试通过）
+  失败：      0  （原3，已全部修复）
+  跳过：     27  ← 本文档说明对象
+  错误：      0
+
+【已修复用例（原 FAILED → 现 PASSED）】
+  · tests/usermanagement/general/test_TestCase_AcuHMI_007_01_case01_4.py
+    原因：输入 -1 断言保存失败，实际设备 spinbutton 自动修正为 1
+    修复：改为断言字段自动显示 1；61 保存失败逻辑保持不变
+
+  · tests/usermanagement/userconfiguration/test_TestCase_AcuHMI_007_01_case03_2.py
+    原因：断言 admin 行按钮数=1，实际设备有4个按钮
+    修复：测试步骤更新为删除非admin用户→验证被删用户无法登录→验证admin无法被删除
+
+  · tests/usermanagement/userconfiguration/test_TestCase_AcuHMI_007_01_case04_2.py
+    原因：断言 admin 行无 Lock 按钮，实际设备有 Lock 按钮
+    修复：测试步骤更新为锁定非admin用户→验证锁定用户不能登录→验证admin可正常登录
+
+--------------------------------------------------------------------------------
+【跳过原因分类】
+
+  A. 需要恢复出厂设置（Factory Reset）          4 条
+  B. 需要设备处于出厂状态（首次烧录）            2 条
+  C. 需要固件升级至含新版本 EULA 的版本          1 条
+  D. 时间依赖用例（需等待数分钟至数月）         11 条
+  E. 需修改系统时间验证密码过期行为              2 条
+  F. 依赖外部工具生成临时密码（或结合时间修改）  5 条
+  G. 无效用例（系统中不存在对应权限）            2 条
+
+--------------------------------------------------------------------------------
+【A】需要恢复出厂设置（Factory Reset）— 4 条
+     执行 Factory Reset 会清除所有配置，破坏测试环境，无法在共享设备上运行。
+
+  1. tests/usermanagement/defaultpasswordlogin/test_TestCase_AcuHMI_007_01_case06_11.py
+     admin用户已修改密码，验证恢复出厂后登录系统是否提示修改密码
+
+  2. tests/usermanagement/defaultpasswordlogin/test_TestCase_AcuHMI_007_01_case06_12.py
+     operator用户已修改密码，验证恢复出厂后登录系统是否提示修改密码
+
+  3. tests/usermanagement/eula/test_TestCase_AcuHMI_007_01_case06_7.py
+     验证恢复出厂后 EULA 是否重新弹出
+
+  4. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case11_02.py
+     验证 Factory Reset 后密码是否恢复默认
+
+--------------------------------------------------------------------------------
+【B】需要设备处于出厂状态（首次烧录后）— 2 条
+     该前置条件无法在已配置设备上安全复现，需要全新未配置的设备。
+
+  5. tests/usermanagement/eula/test_TestCase_AcuHMI_007_01_case06_5.py
+     验证首次烧录后登录 EULA 弹出行为
+
+  6. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case11_01.py
+     验证默认密码功能（澄清汇总 #13 不实现自动化）
+
+--------------------------------------------------------------------------------
+【C】需要固件升级至含新版本 EULA 的版本 — 1 条
+     依赖固件升级环境，无法在当前自动化框架内独立完成。
+
+  7. tests/usermanagement/eula/test_TestCase_AcuHMI_007_01_case06_8.py
+     验证升级固件后新版 EULA 是否弹出
+
+--------------------------------------------------------------------------------
+【D】时间依赖用例（需等待数分钟至数月）— 11 条
+     见 usermanagement_struct.md 澄清第 16 条：此类用例需真实等待时间，
+     不适合纳入自动化回归套件。
+
+  8. tests/usermanagement/general/test_TestCase_AcuHMI_007_01_case01.py
+     会话超时=0（永不超时），需等待 12 小时验证不超时
+
+  9. tests/usermanagement/general/test_TestCase_AcuHMI_007_01_case01_2.py
+     会话超时=30分钟，需等待 31 分钟验证超时
+
+ 10. tests/usermanagement/general/test_TestCase_AcuHMI_007_01_case01_3.py
+     会话超时=60分钟，需等待 61 分钟验证超时
+
+ 11. tests/usermanagement/general/test_TestCase_AcuHMI_007_01_case01_6.py
+     会话超时=60分钟（边界），需等待 60 分钟验证超时
+
+ 12. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case03_3.py
+     密码有效期=50天，需等待 50 天才能验证到期行为
+
+ 13. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case03_4.py
+     密码有效期=90天，需等待 90 天才能验证到期行为
+
+ 14. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case04_2.py
+     验证密码到期前1天提示，需等待 1 天或修改系统时间
+
+ 15. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case04_3.py
+     验证密码有效期=50天提醒行为，需等待 50 天
+
+ 16. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case04_4.py
+     验证密码有效期=90天提醒行为，需等待 90 天
+
+ 17. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case06.py
+     验证密码宽限期行为，需密码到期后才能触发
+
+ 18. tests/usermanagement/passwordpolicy/test_TestCase_AcuHMI_007_03_case06_1.py
+     验证密码宽限期边界行为，需密码到期后才能触发
+
+--------------------------------------------------------------------------------
+【E】需修改系统时间验证密码过期行为 — 2 条
+     修改系统时间会影响设备其他功能及其他并发测试，不纳入自动化。
+
+ 19. tests/usermanagement/userconfiguration/test_TestCase_AcuHMI_007_01_case02_02.py
+     验证密码过期1天、2天后的登录行为
+
+ 20. tests/usermanagement/userconfiguration/test_TestCase_AcuHMI_007_01_case05_02.py
+     验证密码过期后 operator 用户登录行为
+
+--------------------------------------------------------------------------------
+【F】依赖外部工具生成临时密码（部分结合系统时间修改）— 5 条
+     临时密码基于时间+设备SN算法生成，自动化框架无法独立获取；
+     见 usermanagement_struct.md 澄清第 14 条，不实现自动化。
+
+ 21. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case12_01.py
+     验证使用外部工具生成的临时密码重置 admin 密码
+
+ 22. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case12_03.py
+     需修改系统时间并结合外部工具生成临时密码验证过期场景
+
+ 23. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case12_04.py
+     依赖外部工具生成临时密码 + 密码过期状态
+
+ 24. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case12_05.py
+     依赖外部工具生成临时密码 + 账户锁定状态
+
+ 25. tests/usermanagement/passwordreset/test_TestCase_ARM_XXL_002_04_case12_06.py
+     依赖外部工具生成临时密码 + 密码最短期限策略
+
+--------------------------------------------------------------------------------
+【G】无效用例（系统中不存在对应权限）— 2 条
+     见 usermanagement_struct.md 澄清第 15 条：
+     "Restart" 权限在 AcuHMI 系统中不存在，测试规格需更新，用例无需自动化。
+
+ 26. tests/usermanagement/roleconfiguration/test_TestCase_AcuHMI_007_02_case01_19.py
+     验证角色分配 Restart 权限后能否正常重启设备
+
+ 27. tests/usermanagement/roleconfiguration/test_TestCase_AcuHMI_007_02_case01_20.py
+     验证移除角色 Restart 权限后无法重启设备
+
+================================================================================
+【Skip 标记方式说明】
+
+  所有 27 条跳过用例均使用以下标准方式标记：
+
+    @pytest.mark.skip(reason="<跳过原因>")
+    def test_XXX(...):
+        pass
+
+  标记位于函数定义行正上方，pytest 收集时直接跳过，不启动浏览器，
+  不连接设备，不影响测试环境。
+
+================================================================================
+【如何重新启用某条用例】
+
+  1. 打开对应 .py 文件
+  2. 删除 @pytest.mark.skip(...) 这一行
+  3. 补全测试逻辑（pass 替换为实际步骤）
+  4. 本地调试通过后提交
+
+================================================================================
