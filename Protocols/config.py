@@ -89,5 +89,5 @@ MQTT_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
 DATALOG_DATA_DIR = _os.path.join(_BASE, "Datas", "DatalogDatas")
 
 # ── Datalog 快照比对容差 ───────────────────────────────────────────────────────
-DATALOG_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
-DATALOG_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
+DATALOG_TOLERANCE_PERCENT  = 5.0    # ±5%（相对容差）
+DATALOG_TOLERANCE_ABSOLUTE = 0.05   # ±0.05（绝对容差，与 BACnet 一致；防止小值误判通过）

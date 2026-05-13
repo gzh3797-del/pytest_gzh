@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-datalog_comparator.py — Datalog CSV 快照 vs 实时 Modbus 三段式比对
+datalog_comparator.py — Datalog CSV 快照 vs 实时 Modbus 两段式比对
 
 比对流程：
   1. 范围检查：模板 DataLog 列参数 vs CSV 列名（缺失 / 多余）
-  2. 单位检查：param_key 后缀单位 vs 模板 unit 列
-  3. 数值比对：CSV 快照值 vs 实时 Modbus 读取值，容差 ±5% / ±1.0
+  2. 数值比对：CSV 快照值 vs 实时 Modbus 读取值，容差 ±5% / ±0.05
 
 用法：
   python Protocols/Datalog/datalog_comparator.py --device acurev4100
   python Protocols/Datalog/datalog_comparator.py --device acurev4100 --file <csv路径>
   python Protocols/Datalog/datalog_comparator.py --device acurev4100 --row 1
-  python Protocols/Datalog/datalog_comparator.py --device acurev4100 --no-meta
   python Protocols/Datalog/datalog_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V
 """
 
@@ -20,9 +18,7 @@ from __future__ import annotations
 import asyncio
 import csv
 import html
-import importlib
 import logging
-import re
 import sys
 import time
 from dataclasses import dataclass
@@ -33,7 +29,7 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
-from modbus_reader import ModbusReader, ModbusResult, get_reader
+from modbus_reader import ModbusResult, get_reader
 from template_reader import find_template_file, get_datalog_params
 
 log = logging.getLogger(__name__)
@@ -59,23 +55,15 @@ _DEVICE_FILE_KEYWORDS: dict[str, str] = {
 
 @dataclass
 class DatalogScopeReport:
-    template_count:      int
-    csv_count:           int
-    matched_keys:        list[str]
-    missing_from_csv:    list[str]   # 模板有但 CSV 无
-    extra_in_csv:        list[str]   # CSV 有但模板无
+    template_count:   int
+    csv_count:        int
+    matched_keys:     list[str]
+    missing_from_csv: list[str]   # 模板有但 CSV 无
+    extra_in_csv:     list[str]   # CSV 有但模板无
 
     @property
     def scope_ok(self) -> bool:
         return not self.missing_from_csv and not self.extra_in_csv
-
-
-@dataclass
-class DatalogUnitResult:
-    param_key:    str
-    key_suffix:   str           # param_key 后缀（推断单位）
-    tmpl_unit:    str           # 模板单位
-    status:       str = ""      # PASS | FAIL | SKIP
 
 
 @dataclass
@@ -160,29 +148,6 @@ def load_datalog_row(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 单位推断与比对
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _norm_unit(u: str) -> str:
-    return u.strip().lower().replace("°", "deg").replace("℃", "degc")
-
-
-_SKIP_SUFFIXES = re.compile(r'^([abc]|[0-9]+)$')
-
-def _check_unit(param_key: str, tmpl_unit: str) -> DatalogUnitResult:
-    """从 param_key 后缀推断单位，与模板 unit 比较。"""
-    suffix = param_key.rsplit("_", 1)[-1] if "_" in param_key else ""
-    r = DatalogUnitResult(param_key=param_key, key_suffix=suffix, tmpl_unit=tmpl_unit)
-
-    if not tmpl_unit or not suffix or _SKIP_SUFFIXES.match(suffix):
-        r.status = "SKIP"
-        return r
-
-    r.status = "PASS" if _norm_unit(suffix) == _norm_unit(tmpl_unit) else "FAIL"
-    return r
-
-
-# ─────────────────────────────────────────────────────────────────────────────
 # 数值比对
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -230,13 +195,7 @@ async def run_datalog_comparison(
     csv_path: str,
     row_index: int = -1,
     param_keys: Optional[list[str]] = None,
-    skip_unit: bool = False,
-) -> tuple[
-    DatalogScopeReport,
-    list[DatalogUnitResult],
-    list[DatalogCompareResult],
-    str,
-]:
+) -> tuple[DatalogScopeReport, list[DatalogCompareResult], str]:
     t0 = time.time()
 
     # ── 加载 CSV ───────────────────────────────────────────────────────────────
@@ -249,34 +208,21 @@ async def run_datalog_comparison(
         tmpl_path   = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
         tmpl_params = get_datalog_params(tmpl_path)
         tmpl_keys   = {p.param_key for p in tmpl_params}
-        tmpl_unit_map = {p.param_key: p.unit for p in tmpl_params}
     except Exception as exc:
         log.warning("无法加载模板，范围检查将跳过：%s", exc)
         tmpl_keys = set()
-        tmpl_unit_map = {}
 
     matched_keys_set  = tmpl_keys & csv_keys if tmpl_keys else csv_keys
-    missing_from_csv  = sorted(tmpl_keys - csv_keys)
-    extra_in_csv      = sorted(csv_keys - tmpl_keys)
     scope_report = DatalogScopeReport(
         template_count   = len(tmpl_keys),
         csv_count        = len(csv_keys),
         matched_keys     = sorted(matched_keys_set),
-        missing_from_csv = missing_from_csv,
-        extra_in_csv     = extra_in_csv,
+        missing_from_csv = sorted(tmpl_keys - csv_keys),
+        extra_in_csv     = sorted(csv_keys - tmpl_keys),
     )
     log.info("范围检查：模板=%d  CSV=%d  匹配=%d  缺失=%d  多余=%d",
              len(tmpl_keys), len(csv_keys), len(matched_keys_set),
-             len(missing_from_csv), len(extra_in_csv))
-
-    # ── 单位检查 ───────────────────────────────────────────────────────────────
-    unit_results: list[DatalogUnitResult] = []
-    if not skip_unit and tmpl_keys:
-        for key in sorted(matched_keys_set):
-            if param_keys is None or key in param_keys:
-                unit_results.append(_check_unit(key, tmpl_unit_map.get(key, "")))
-        unit_fail = sum(1 for r in unit_results if r.status == "FAIL")
-        log.info("单位检查：%d 项，FAIL=%d", len(unit_results), unit_fail)
+             len(scope_report.missing_from_csv), len(scope_report.extra_in_csv))
 
     # ── 实时 Modbus ────────────────────────────────────────────────────────────
     compare_keys = sorted(matched_keys_set)
@@ -295,7 +241,7 @@ async def run_datalog_comparison(
         results.append(_compare_one(key, value_map.get(key), mr))
 
     log.info("比对完成，耗时 %.1f 秒，共 %d 项", time.time() - t0, len(results))
-    return scope_report, unit_results, results, timestamp_str
+    return scope_report, results, timestamp_str
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -323,7 +269,6 @@ def summary(results: list[DatalogCompareResult]) -> dict:
 
 def print_summary(
     scope: DatalogScopeReport,
-    unit_results: list[DatalogUnitResult],
     results: list[DatalogCompareResult],
 ) -> None:
     s = summary(results)
@@ -338,11 +283,6 @@ def print_summary(
         print(f"  缺失参数（前10）: {scope.missing_from_csv[:10]}")
     if scope.extra_in_csv:
         print(f"  多余参数（前10）: {scope.extra_in_csv[:10]}")
-    if unit_results:
-        uf = [r for r in unit_results if r.status == "FAIL"]
-        print(f"  【单位检查】{len(unit_results)} 项，FAIL={len(uf)}")
-        for r in uf[:5]:
-            print(f"    {r.param_key}: 后缀={r.key_suffix}  模板={r.tmpl_unit}")
     print(f"  【数值比对】总={s['total']}  PASS={s['pass']} ({s['pass_rate']})  "
           f"FAIL={s['fail']}  ERR={s['error']}")
     if s["worst_fails"]:
@@ -379,7 +319,6 @@ def _fmt(v: Optional[float], digits: int = 6) -> str:
 
 def generate_html_report(
     scope: DatalogScopeReport,
-    unit_results: list[DatalogUnitResult],
     results: list[DatalogCompareResult],
     timestamp_str: str = "",
     csv_path: str = "",
@@ -444,41 +383,7 @@ def generate_html_report(
 </div>
 </details>"""
 
-    # ── Section 2: 单位检查 ────────────────────────────────────────────────────
-    if unit_results:
-        unit_fail = [r for r in unit_results if r.status == "FAIL"]
-        unit_badge = (
-            (f'<span class="badge err-badge">不匹配 {len(unit_fail)}</span>' if unit_fail else "") +
-            ('<span class="badge ok-badge">全部一致</span>' if not unit_fail else "")
-        )
-        unit_rows = "".join(
-            f'<tr style="background:{"#f8d7da" if r.status == "FAIL" else "#d4edda" if r.status == "PASS" else "#f8f9fa"}">'
-            f'<td class="num">{i+1}</td>'
-            f'<td class="key">{html.escape(r.param_key)}</td>'
-            f'<td class="val">{html.escape(r.key_suffix)}</td>'
-            f'<td class="val">{html.escape(r.tmpl_unit)}</td>'
-            f'<td class="stat">{"失败" if r.status == "FAIL" else "通过" if r.status == "PASS" else "跳过"}</td>'
-            f'</tr>'
-            for i, r in enumerate(unit_results)
-        )
-        unit_html = f"""
-<details class="section">
-<summary>二、单位检查
-  <span class="sum-info">{len(unit_results)} 项 · FAIL={len(unit_fail)}</span>
-  {unit_badge}
-</summary>
-<div class="section-body">
-<table>
-<colgroup><col class="c-idx"><col class="c-key"><col class="c-val"><col class="c-val"><col class="c-stat"></colgroup>
-<thead><tr><th>#</th><th>param_key</th><th>后缀单位</th><th>模板单位</th><th>结果</th></tr></thead>
-<tbody>{unit_rows}</tbody>
-</table>
-</div>
-</details>"""
-    else:
-        unit_html = ""
-
-    # ── Section 3: 数值比对 ────────────────────────────────────────────────────
+    # ── Section 2: 数值比对 ────────────────────────────────────────────────────
     rows_html = []
     for i, r in enumerate(results):
         bg   = _STATUS_COLOR.get(r.status, "#ffffff")
@@ -506,10 +411,9 @@ def generate_html_report(
         (f'<span class="badge warn-badge">异常 {s["error"]}</span>' if s["error"] else "") +
         ('<span class="badge ok-badge">全部通过</span>' if not s["fail"] and not s["error"] else "")
     )
-    val_section_num = "三" if unit_results else "二"
     val_html = f"""
 <details open class="section">
-<summary>{val_section_num}、数值比对（Datalog 快照 vs 实时 Modbus）
+<summary>二、数值比对（Datalog 快照 vs 实时 Modbus）
   <span class="sum-info">共 {s['total']} 项 · 通过率 {s['pass_rate']}</span>
   {val_badge}
 </summary>
@@ -609,7 +513,6 @@ def generate_html_report(
   容差：±{config.DATALOG_TOLERANCE_PERCENT}% / ±{config.DATALOG_TOLERANCE_ABSOLUTE}
 </div>
 {scope_html}
-{unit_html}
 {val_html}
 </body>
 </html>"""
@@ -643,7 +546,6 @@ async def _main(
     csv_path: str,
     row_index: int,
     param_keys: Optional[list[str]],
-    skip_unit: bool,
 ) -> None:
     logging.basicConfig(
         level=logging.INFO,
@@ -651,12 +553,12 @@ async def _main(
         datefmt="%H:%M:%S",
     )
 
-    scope, unit_results, results, timestamp_str = await run_datalog_comparison(
-        csv_path, row_index, param_keys, skip_unit,
+    scope, results, timestamp_str = await run_datalog_comparison(
+        csv_path, row_index, param_keys,
     )
-    print_summary(scope, unit_results, results)
+    print_summary(scope, results)
     report_path = generate_html_report(
-        scope, unit_results, results,
+        scope, results,
         timestamp_str=timestamp_str,
         csv_path=csv_path,
     )
@@ -694,13 +596,10 @@ if __name__ == "__main__":
         idx = sys.argv.index("--row")
         _row_index = int(sys.argv[idx + 1]) - 1
 
-    # ── --no-meta ─────────────────────────────────────────────────────────────
-    _skip_unit = "--no-meta" in sys.argv
-
     # ── --keys ────────────────────────────────────────────────────────────────
     _keys: Optional[list[str]] = None
     if "--keys" in sys.argv:
         idx = sys.argv.index("--keys")
         _keys = sys.argv[idx + 1:]
 
-    asyncio.run(_main(_csv_path, _row_index, _keys, _skip_unit))
+    asyncio.run(_main(_csv_path, _row_index, _keys))
