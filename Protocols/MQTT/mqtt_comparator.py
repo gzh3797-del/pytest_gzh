@@ -51,7 +51,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
 from modbus_reader import ModbusReader, ModbusResult
-from template_reader import TemplateParam, find_template_file, load_template
+from template_reader import TemplateParam, find_template_file, get_mqtt_params
 
 log = logging.getLogger(__name__)
 
@@ -287,13 +287,13 @@ async def run_mqtt_comparison(
         json_path, module_index
     )
 
-    # ── 加载模板 ───────────────────────────────────────────────────────────────
+    # ── 加载模板（按 MQTT 列过滤） ────────────────────────────────────────────
     try:
         tmpl_path   = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
-        tmpl_params = load_template(tmpl_path)           # 全量，不按协议列过滤
+        tmpl_params = get_mqtt_params(tmpl_path)         # 仅 MQTT 列非空的参数
         tmpl_map    = {p.param_key: p for p in tmpl_params}
         tmpl_keys   = set(tmpl_map)
-        log.info("已加载模板：%s（%d 个参数）", tmpl_path, len(tmpl_keys))
+        log.info("已加载模板：%s（MQTT 范围 %d 个参数）", tmpl_path, len(tmpl_keys))
     except Exception as exc:
         log.warning("无法加载模板文件，范围/单位检查将跳过：%s", exc)
         tmpl_map, tmpl_keys = {}, set()
