@@ -38,7 +38,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
 from modbus_reader import ModbusReader, ModbusResult, get_reader
-from template_reader import find_template_file, get_cloud_params
+from template_reader import find_template_file, get_cloud_params, get_cloud_acucloud_params, natural_sort_key
 
 log = logging.getLogger(__name__)
 
@@ -243,21 +243,31 @@ async def run_cloud_comparison(
     colmap_keys = set(col_map.values())
 
     # ── 模板范围检查 ───────────────────────────────────────────────────────────
+    # 优先使用 AcuCloud 专用模板（paramType_AcuCloud 列）；
+    # 若该设备尚未迁移（如 AcuRev-4100），回退到主模板的 AcuCloud 列。
+    tmpl_keys: set[str] = set()
     try:
-        tmpl_path   = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
-        tmpl_params = get_cloud_params(tmpl_path)
-        tmpl_keys   = {p.param_key for p in tmpl_params}
-    except Exception as exc:
-        log.warning("无法加载模板文件，范围检查将跳过：%s", exc)
-        tmpl_keys = set()
+        ac_tmpl_path = find_template_file(config.ACUCLOUD_TEMPLATE_DIR, config.DEVICE_NAME)
+        tmpl_params  = get_cloud_acucloud_params(ac_tmpl_path)
+        tmpl_keys    = {p.param_key for p in tmpl_params}
+        log.info("使用 AcuCloud 专用模板：%s（%d 个参数）", ac_tmpl_path, len(tmpl_keys))
+    except Exception as exc_ac:
+        log.info("AcuCloud 专用模板不可用（%s），回退到主模板 AcuCloud 列", exc_ac)
+        try:
+            tmpl_path   = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
+            tmpl_params = get_cloud_params(tmpl_path)
+            tmpl_keys   = {p.param_key for p in tmpl_params}
+            log.info("使用主模板 AcuCloud 列：%s（%d 个参数）", tmpl_path, len(tmpl_keys))
+        except Exception as exc:
+            log.warning("无法加载任何模板文件，范围检查将跳过：%s", exc)
 
     matched_keys_set  = tmpl_keys & colmap_keys if tmpl_keys else colmap_keys
-    missing_from_colmap = sorted(tmpl_keys - colmap_keys)
-    extra_in_colmap     = sorted(colmap_keys - tmpl_keys)
+    missing_from_colmap = sorted(tmpl_keys - colmap_keys, key=natural_sort_key)
+    extra_in_colmap     = sorted(colmap_keys - tmpl_keys, key=natural_sort_key)
     scope_report = CloudScopeReport(
         template_count      = len(tmpl_keys),
         colmap_count        = len(colmap_keys),
-        matched_keys        = sorted(matched_keys_set),
+        matched_keys        = sorted(matched_keys_set, key=natural_sort_key),
         missing_from_colmap = missing_from_colmap,
         extra_in_colmap     = extra_in_colmap,
     )
@@ -294,7 +304,8 @@ async def run_cloud_comparison(
 
     # ── 比对 ───────────────────────────────────────────────────────────────────
     results: list[CloudCompareResult] = []
-    for pkey, cv in matched.items():
+    for pkey in sorted(matched, key=natural_sort_key):
+        cv = matched[pkey]
         mr = modbus_map.get(pkey)
         results.append(_compare_one(pkey, cv, mr))
 
@@ -376,7 +387,10 @@ _STATUS_LABEL = {
 
 
 def _fmt(v: Optional[float], digits: int = 6) -> str:
-    return "—" if v is None else f"{v:.{digits}g}"
+    if v is None:
+        return "—"
+    s = f"{v:.{digits}f}"
+    return s.rstrip('0').rstrip('.') if '.' in s else s
 
 
 def generate_html_report(
@@ -611,6 +625,37 @@ def generate_html_report(
 </style>
 </head>
 <body>
+<button id="err-toggle" onclick="toggleErrOnly()"
+  style="position:fixed;top:16px;right:20px;z-index:999;padding:6px 16px;
+         background:#dc3545;color:#fff;border:none;border-radius:4px;
+         cursor:pointer;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.25)">
+  仅显示异常
+</button>
+<script>
+function toggleErrOnly() {{
+  var btn = document.getElementById('err-toggle');
+  var on = btn.dataset.active === '1';
+  if (on) {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.style.display = ''; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{ tr.style.display = ''; }});
+  }} else {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.open = true; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{
+      var _s = (tr.getAttribute('style')||'').toLowerCase();
+      tr.style.display = _s.indexOf('d4edda') !== -1 ? 'none' : '';
+    }});
+    document.querySelectorAll('details.section').forEach(function(d) {{
+      var hasErr = d.dataset.hasError === '1' || Array.from(d.querySelectorAll('tbody tr')).some(function(tr) {{
+        return (tr.getAttribute('style')||'').toLowerCase().indexOf('d4edda') === -1;
+      }});
+      if (!hasErr) {{ d.style.display = 'none'; }}
+    }});
+  }}
+  btn.textContent      = on ? '仅显示异常' : '显示全部';
+  btn.style.background = on ? '#dc3545'    : '#6c757d';
+  btn.dataset.active   = on ? '0' : '1';
+}}
+</script>
 <h1>AcuCloud 快照 vs 实时 Modbus 比对报告</h1>
 <div class="device-name">设备：{html.escape(config.DEVICE_NAME)}</div>
 <div class="meta">

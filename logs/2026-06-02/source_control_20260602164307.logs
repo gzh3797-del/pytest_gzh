@@ -1,0 +1,49 @@
+DEBUG   2026-06-02 16:43:07,664  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 50611)
+DEBUG   2026-06-02 16:43:07,664  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0xca 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-06-02 16:43:07,664  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-06-02 16:43:08,666  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0xca 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-06-02 16:43:08,666  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-06-02 16:43:08,666  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0xca 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-06-02 16:43:08,666  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-06-02 16:43:08,666  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-06-02 16:43:17,771  root:wiring_check_page.py:58 Login successful
+INFO    2026-06-02 16:43:18,599  root:test_2e3w_network.py:28 [V-02G-ABC] 条件2 guard：Vab≈0 且 Vcn<0.8*VRATE → 条件2不触发，条件7 Vc Missing
+DEBUG   2026-06-02 16:43:18,600  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0xca 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-06-02 16:43:18,601  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-06-02 16:43:19,102  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-06-02 16:43:27,103  root:test_2e3w_network.py:39   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-06-02 16:43:27,847  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-06-02 16:43:27,930  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-06-02 16:43:27,942  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-06-02 16:43:27,945  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-06-02 16:43:28,404  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-06-02 16:43:31,966  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-06-02 16:43:33,094  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-06-02 16:43:35,135  root:test_2e3w_network.py:50   → PASS
+INFO    2026-06-02 16:43:35,135  root:test_2e3w_network.py:28 [V-03G-ABC] 条件3 guard：Vbc≈0 且 Van<0.8*VRATE → 条件3不触发，条件5 Va Missing
+DEBUG   2026-06-02 16:43:35,136  pymodbus.logging:base.py:72 Processing: 0x0 0x5 0x0 0x0 0x0 0x6 0xca 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-06-02 16:43:35,136  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-06-02 16:43:35,637  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-06-02 16:43:43,639  root:test_2e3w_network.py:39   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-06-02 16:43:44,331  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-06-02 16:43:44,421  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-06-02 16:43:44,427  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-06-02 16:43:45,369  root:wiring_check_page.py:100 Save nominal voltage clicked
+INFO    2026-06-02 16:43:45,918  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-06-02 16:43:48,963  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-06-02 16:43:50,017  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-06-02 16:43:51,809  root:test_2e3w_network.py:50   → PASS
+INFO    2026-06-02 16:43:51,809  root:test_2e3w_network.py:28 [V-04G-ABC] 条件4 guard：Vca≈0 且 Vbn<0.8*VRATE → 条件4不触发，条件6 Vb Missing
+DEBUG   2026-06-02 16:43:51,811  pymodbus.logging:base.py:72 Processing: 0x0 0x6 0x0 0x0 0x0 0x6 0xca 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-06-02 16:43:51,811  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-06-02 16:43:52,311  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-06-02 16:44:00,312  root:test_2e3w_network.py:39   预期: {'voltage': {'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-06-02 16:44:00,990  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-06-02 16:44:01,058  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-06-02 16:44:01,069  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-06-02 16:44:01,076  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-06-02 16:44:01,503  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-06-02 16:44:04,557  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-06-02 16:44:05,621  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-06-02 16:44:07,386  root:test_2e3w_network.py:50   → PASS
+INFO    2026-06-02 16:44:07,628  root:source_control.py:158 192.168.0.151, 10005

@@ -1,0 +1,6 @@
+DEBUG   2026-06-02 16:27:30,614  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 62149)
+ERROR   2026-06-02 16:27:42,661  pymodbus.logging:transaction.py:152 No response received after 3 retries, continue with next request
+ERROR   2026-06-02 16:27:54,689  pymodbus.logging:transaction.py:152 Repeating....
+INFO    2026-06-02 16:27:54,690  root:source_control.py:158 192.168.0.151, 10005
+ERROR   2026-06-02 16:28:14,732  pymodbus.logging:transaction.py:152 No response received after 3 retries, continue with next request
+ERROR   2026-06-02 16:28:26,762  pymodbus.logging:transaction.py:152 No response received after 3 retries, continue with next request

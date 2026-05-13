@@ -324,7 +324,7 @@ def set_ac(quc: float, qub: float, qua: float, qic: float, qib: float, qia: floa
     source_control = Cl3021SourCon()
     ret = source_control.send(pdu)
     source_control.close()
-    time.sleep(20)
+    time.sleep(8)
     return ret
 
 

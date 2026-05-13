@@ -1,0 +1,23 @@
+DEBUG   2026-06-01 11:14:06,431  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 56281)
+DEBUG   2026-06-01 11:14:06,432  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-06-01 11:14:06,432  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-06-01 11:14:06,432  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0x66 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-06-01 11:14:06,432  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-06-01 11:14:06,432  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0x66 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-06-01 11:14:06,432  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-06-01 11:14:06,432  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-06-01 11:14:11,663  root:wiring_check_page.py:58 Login successful
+INFO    2026-06-01 11:14:12,366  root:test_1e2w.py:61 [PASS] 正常接线 1E2W，Va=230V@0°
+DEBUG   2026-06-01 11:14:12,367  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-06-01 11:14:12,368  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-06-01 11:14:12,868  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-06-01 11:14:20,870  root:test_1e2w.py:70   预期: {'voltage': {'A': 'Pass', 'B': 'N/A', 'C': 'N/A', 'order': 'N/A'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'N/A'}}
+INFO    2026-06-01 11:14:21,578  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-06-01 11:14:21,659  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-06-01 11:14:21,673  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-06-01 11:14:21,677  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-06-01 11:14:21,988  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-06-01 11:14:25,525  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-06-01 11:14:26,542  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-06-01 11:14:28,333  root:test_1e2w.py:77   → PASS
+INFO    2026-06-01 11:14:28,677  root:source_control.py:158 192.168.0.151, 10005

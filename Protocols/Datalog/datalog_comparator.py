@@ -3,8 +3,8 @@
 datalog_comparator.py — Datalog 快照 vs 实时 Modbus 比对
 
 支持两种文件格式：
-  CSV  → 两段式（范围检查 + 数值比对），容差 ±5% / ±0.05
-  JSON → 三段式（范围检查 + 单位检查 + 数值比对），容差 ±5% / ±0.05
+  CSV  → 两段式（范围检查 + 数值比对），容差 max(±0.05, ±5%)
+  JSON → 三段式（范围检查 + 单位检查 + 数值比对），容差 max(±0.05, ±5%)
 
 用法：
   python Protocols/Datalog/datalog_comparator.py --device acurev4100
@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
 from modbus_reader import ModbusResult, get_reader
-from template_reader import find_template_file, get_datalog_params
+from template_reader import find_template_file, get_datalog_params, natural_sort_key
 
 log = logging.getLogger(__name__)
 
@@ -85,6 +85,7 @@ class DatalogCompareResult:
     modbus_error: str = ""
     diff_abs:     Optional[float] = None
     diff_pct:     Optional[float] = None
+    tol_basis:    str = ""   # 判断依据：相对 ≤5% / 绝对 ≤0.05 / zero
     status:       str = ""   # PASS | FAIL | FILE_ERR | MODBUS_ERR | BOTH_ERR
 
     @property
@@ -266,12 +267,19 @@ def _compare_one(
     ref  = max(abs(cv), abs(mv))
     cr.diff_abs = diff
     if ref <= 1e-9:
-        # 两值均极接近零，视为通过
         cr.diff_pct = 0.0
+        cr.tol_basis = "zero"
         cr.status = "PASS"
     else:
         cr.diff_pct = diff / ref * 100
-        cr.status = "PASS" if cr.diff_pct <= config.DATALOG_TOLERANCE_PERCENT else "FAIL"
+        rel_tol = ref * config.DATALOG_TOLERANCE_PERCENT / 100
+        abs_tol = config.DATALOG_TOLERANCE_ABSOLUTE
+        if rel_tol >= abs_tol:
+            cr.tol_basis = f"相对 ≤{config.DATALOG_TOLERANCE_PERCENT}%"
+            cr.status = "PASS" if diff <= rel_tol else "FAIL"
+        else:
+            cr.tol_basis = f"绝对 ≤{abs_tol}"
+            cr.status = "PASS" if diff <= abs_tol else "FAIL"
     return cr
 
 
@@ -316,9 +324,9 @@ async def run_datalog_comparison(
     scope_report = DatalogScopeReport(
         template_count    = len(tmpl_keys),
         file_count        = len(file_keys),
-        matched_keys      = sorted(matched_keys_set),
-        missing_from_file = sorted(tmpl_keys - file_keys),
-        extra_in_file     = sorted(file_keys - tmpl_keys),
+        matched_keys      = sorted(matched_keys_set, key=natural_sort_key),
+        missing_from_file = sorted(tmpl_keys - file_keys, key=natural_sort_key),
+        extra_in_file     = sorted(file_keys - tmpl_keys, key=natural_sort_key),
     )
     log.info("范围检查：模板=%d  文件=%d  匹配=%d  缺失=%d  多余=%d",
              len(tmpl_keys), len(file_keys), len(matched_keys_set),
@@ -327,7 +335,7 @@ async def run_datalog_comparison(
     # ── 单位检查（仅 JSON） ────────────────────────────────────────────────────
     unit_results: list[DatalogUnitResult] = []
     if ext == ".json" and tmpl_keys:
-        for key in sorted(matched_keys_set):
+        for key in sorted(matched_keys_set, key=natural_sort_key):
             if param_keys is None or key in param_keys:
                 unit_results.append(
                     _check_unit(key, unit_map.get(key, ""), tmpl_unit_map.get(key, ""))
@@ -336,7 +344,7 @@ async def run_datalog_comparison(
         log.info("单位检查：%d 项，FAIL=%d", len(unit_results), unit_fail)
 
     # ── 实时 Modbus ────────────────────────────────────────────────────────────
-    compare_keys = sorted(matched_keys_set)
+    compare_keys = sorted(matched_keys_set, key=natural_sort_key)
     if param_keys:
         compare_keys = [k for k in compare_keys if k in param_keys]
 
@@ -431,7 +439,10 @@ _STATUS_LABEL = {
 
 
 def _fmt(v: Optional[float], digits: int = 6) -> str:
-    return "—" if v is None else f"{v:.{digits}g}"
+    if v is None:
+        return "—"
+    s = f"{v:.{digits}f}"
+    return s.rstrip('0').rstrip('.') if '.' in s else s
 
 
 def generate_html_report(
@@ -553,6 +564,7 @@ def generate_html_report(
           <td class="val">{_fmt(r.modbus_value)}</td>
           <td class="val">{_fmt(r.diff_abs, 4) if r.diff_abs is not None else "—"}</td>
           <td class="val">{f"{r.diff_pct:.3f}%" if r.diff_pct is not None else "—"}</td>
+          <td class="basis">{html.escape(r.tol_basis) if r.tol_basis else "—"}</td>
           <td class="stat">{stat}</td>
           <td class="err">{err_hint}</td>
         </tr>""")
@@ -578,12 +590,12 @@ def generate_html_report(
 <table>
 <colgroup>
   <col class="c-idx"><col class="c-key"><col class="c-val"><col class="c-val">
-  <col class="c-diff"><col class="c-pct"><col class="c-stat"><col class="c-err">
+  <col class="c-diff"><col class="c-pct"><col class="c-basis"><col class="c-stat"><col class="c-err">
 </colgroup>
 <thead>
   <tr>
     <th>#</th><th>参数名 (param_key)</th><th>{file_type} 快照值</th><th>Modbus 实时值</th>
-    <th>绝对差值</th><th>相对差值</th><th>结果</th><th>错误信息</th>
+    <th>绝对差值</th><th>相对差值</th><th>判断依据</th><th>结果</th><th>错误信息</th>
   </tr>
 </thead>
 <tbody>{"".join(rows_html)}</tbody>
@@ -621,17 +633,19 @@ def generate_html_report(
   colgroup col.c-idx  {{ width: 48px; }}
   colgroup col.c-key  {{ width: 280px; }}
   colgroup col.c-val  {{ width: 110px; }}
-  colgroup col.c-diff {{ width: 90px; }}
-  colgroup col.c-pct  {{ width: 80px; }}
-  colgroup col.c-stat {{ width: 90px; }}
-  colgroup col.c-err  {{ width: auto; }}
+  colgroup col.c-diff  {{ width: 90px; }}
+  colgroup col.c-pct   {{ width: 80px; }}
+  colgroup col.c-basis {{ width: 110px; }}
+  colgroup col.c-stat  {{ width: 90px; }}
+  colgroup col.c-err   {{ width: auto; }}
   thead tr {{ background: #343a40; color: #fff; }}
   th   {{ padding: 9px 8px; text-align: center; font-size: 12px; white-space: nowrap; }}
   td   {{ padding: 5px 8px; border-bottom: 1px solid #eee; vertical-align: middle; }}
   td.num  {{ text-align: right; color: #999; font-size: 11px; }}
   td.key  {{ font-family: monospace; font-size: 12px; word-break: break-all; }}
-  td.val  {{ text-align: right; font-family: monospace; font-size: 12px; }}
-  td.stat {{ text-align: center; font-weight: bold; font-size: 12px; }}
+  td.val   {{ text-align: right; font-family: monospace; font-size: 12px; }}
+  td.basis {{ text-align: center; font-size: 11px; color: #555; }}
+  td.stat  {{ text-align: center; font-weight: bold; font-size: 12px; }}
   td.err  {{ font-size: 11px; color: #666; word-break: break-all; }}
   tr:hover td {{ filter: brightness(0.96); }}
   thead th {{ position: sticky; top: 0; z-index: 1; }}
@@ -654,6 +668,37 @@ def generate_html_report(
 </style>
 </head>
 <body>
+<button id="err-toggle" onclick="toggleErrOnly()"
+  style="position:fixed;top:16px;right:20px;z-index:999;padding:6px 16px;
+         background:#dc3545;color:#fff;border:none;border-radius:4px;
+         cursor:pointer;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.25)">
+  仅显示异常
+</button>
+<script>
+function toggleErrOnly() {{
+  var btn = document.getElementById('err-toggle');
+  var on = btn.dataset.active === '1';
+  if (on) {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.style.display = ''; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{ tr.style.display = ''; }});
+  }} else {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.open = true; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{
+      var _s = (tr.getAttribute('style')||'').toLowerCase();
+      tr.style.display = _s.indexOf('d4edda') !== -1 ? 'none' : '';
+    }});
+    document.querySelectorAll('details.section').forEach(function(d) {{
+      var hasErr = d.dataset.hasError === '1' || Array.from(d.querySelectorAll('tbody tr')).some(function(tr) {{
+        return (tr.getAttribute('style')||'').toLowerCase().indexOf('d4edda') === -1;
+      }});
+      if (!hasErr) {{ d.style.display = 'none'; }}
+    }});
+  }}
+  btn.textContent      = on ? '仅显示异常' : '显示全部';
+  btn.style.background = on ? '#dc3545'    : '#6c757d';
+  btn.dataset.active   = on ? '0' : '1';
+}}
+</script>
 <h1>Datalog 快照 vs 实时 Modbus 比对报告</h1>
 <div class="device-name">设备：{html.escape(config.DEVICE_NAME)}</div>
 <div class="meta">

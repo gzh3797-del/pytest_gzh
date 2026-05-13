@@ -51,7 +51,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
 from modbus_reader import ModbusReader, ModbusResult, get_reader
-from template_reader import TemplateParam, find_template_file, get_mqtt_params
+from template_reader import TemplateParam, find_template_file, get_mqtt_params, natural_sort_key
 
 log = logging.getLogger(__name__)
 
@@ -303,8 +303,8 @@ async def run_mqtt_comparison(
     # ── 范围检查 ───────────────────────────────────────────────────────────────
     if tmpl_keys:
         matched_keys_set   = tmpl_keys & json_keys
-        missing_from_json  = sorted(tmpl_keys - json_keys)
-        extra_in_json      = sorted(json_keys - tmpl_keys)
+        missing_from_json  = sorted(tmpl_keys - json_keys, key=natural_sort_key)
+        extra_in_json      = sorted(json_keys - tmpl_keys, key=natural_sort_key)
     else:
         matched_keys_set  = json_keys
         missing_from_json = []
@@ -313,7 +313,7 @@ async def run_mqtt_comparison(
     scope_report = MQTTScopeReport(
         template_count   = len(tmpl_keys),
         json_count       = len(json_keys),
-        matched_keys     = sorted(matched_keys_set),
+        matched_keys     = sorted(matched_keys_set, key=natural_sort_key),
         missing_from_json = missing_from_json,
         extra_in_json    = extra_in_json,
     )
@@ -324,7 +324,7 @@ async def run_mqtt_comparison(
     # ── 单位检查 ───────────────────────────────────────────────────────────────
     unit_results: list[MQTTUnitResult] = []
     if check_meta and tmpl_map:
-        for pkey in sorted(matched_keys_set):
+        for pkey in sorted(matched_keys_set, key=natural_sort_key):
             tmpl_unit = tmpl_map[pkey].unit
             json_unit = unit_map.get(pkey, "")
             unit_results.append(check_unit(pkey, tmpl_unit, json_unit))
@@ -352,7 +352,8 @@ async def run_mqtt_comparison(
 
     # ── 数值比对 ───────────────────────────────────────────────────────────────
     compare_results: list[MQTTCompareResult] = []
-    for pkey, mv in comparable.items():
+    for pkey in sorted(comparable, key=natural_sort_key):
+        mv = comparable[pkey]
         mr = modbus_map.get(pkey)
         compare_results.append(_compare_one(pkey, mv, mr))
 
@@ -447,7 +448,10 @@ _STATUS_LABEL = {
 
 
 def _fmt(v: Optional[float], digits: int = 6) -> str:
-    return "—" if v is None else f"{v:.{digits}g}"
+    if v is None:
+        return "—"
+    s = f"{v:.{digits}f}"
+    return s.rstrip('0').rstrip('.') if '.' in s else s
 
 
 def generate_html_report(
@@ -695,6 +699,37 @@ def generate_html_report(
 </style>
 </head>
 <body>
+<button id="err-toggle" onclick="toggleErrOnly()"
+  style="position:fixed;top:16px;right:20px;z-index:999;padding:6px 16px;
+         background:#dc3545;color:#fff;border:none;border-radius:4px;
+         cursor:pointer;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.25)">
+  仅显示异常
+</button>
+<script>
+function toggleErrOnly() {{
+  var btn = document.getElementById('err-toggle');
+  var on = btn.dataset.active === '1';
+  if (on) {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.style.display = ''; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{ tr.style.display = ''; }});
+  }} else {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.open = true; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{
+      var _s = (tr.getAttribute('style')||'').toLowerCase();
+      tr.style.display = _s.indexOf('d4edda') !== -1 ? 'none' : '';
+    }});
+    document.querySelectorAll('details.section').forEach(function(d) {{
+      var hasErr = d.dataset.hasError === '1' || Array.from(d.querySelectorAll('tbody tr')).some(function(tr) {{
+        return (tr.getAttribute('style')||'').toLowerCase().indexOf('d4edda') === -1;
+      }});
+      if (!hasErr) {{ d.style.display = 'none'; }}
+    }});
+  }}
+  btn.textContent      = on ? '仅显示异常' : '显示全部';
+  btn.style.background = on ? '#dc3545'    : '#6c757d';
+  btn.dataset.active   = on ? '0' : '1';
+}}
+</script>
 <h1>MQTT 快照 vs 实时 Modbus 比对报告</h1>
 <div class="device-name">设备：{html.escape(config.DEVICE_NAME)}</div>
 <div class="meta">

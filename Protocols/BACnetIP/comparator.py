@@ -35,9 +35,10 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
-from bacnet_reader import BACnetReader, AIObject, ReadResult
+from bacnet_reader import (BACnetReader, AIObject, ReadResult,
+                            DeviceInfoResult, ProtocolErrorTestResult, StabilityResult)
 from modbus_reader import ModbusReader, ModbusResult, get_reader
-from template_reader import TemplateParam, find_template_file, get_bacnet_params
+from template_reader import TemplateParam, find_template_file, get_bacnet_params, get_bacnet_params_by_range, natural_sort_key
 
 log = logging.getLogger(__name__)
 
@@ -171,23 +172,32 @@ def compare_all(
 async def run_comparison(
     param_keys: Optional[list[str]] = None,
     check_meta: bool = False,
-) -> tuple[ScopeReport, list[MetaCheckResult], list[CompareResult]]:
+    check_proto: bool = True,
+) -> tuple[ScopeReport, list[MetaCheckResult], list[CompareResult],
+           Optional[DeviceInfoResult], list[ProtocolErrorTestResult],
+           Optional[StabilityResult]]:
     """
-    完整比对流程：范围检查 → （可选）元数据检查 → 数值比对。
+    完整比对流程：范围检查 → （可选）元数据检查 → 数值比对 → 协议规范测试。
 
     Args:
-        param_keys:  要比对的参数名列表；None 表示比对全部匹配参数。
-        check_meta:  True 时额外读取 BACnet description/units 并与模板对比。
+        param_keys:   要比对的参数名列表；None 表示比对全部匹配参数。
+        check_meta:   True 时额外读取 BACnet description/units 并与模板对比。
+        check_proto:  True 时执行 Device Object 属性、错误响应、稳定性测试。
 
     Returns:
-        (ScopeReport, list[MetaCheckResult], list[CompareResult])
+        (ScopeReport, list[MetaCheckResult], list[CompareResult],
+         DeviceInfoResult, list[ProtocolErrorTestResult], StabilityResult)
     """
     t0 = time.time()
 
     # ── 加载模板范围 ───────────────────────────────────────────────────────────
     try:
-        tmpl_path   = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
-        tmpl_params = get_bacnet_params(tmpl_path)
+        tmpl_path    = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
+        range_marker = getattr(config, 'BACNET_RANGE_MARKER', '')
+        if range_marker:
+            tmpl_params = get_bacnet_params_by_range(tmpl_path, range_marker)
+        else:
+            tmpl_params = get_bacnet_params(tmpl_path)
         tmpl_map    = {p.param_key: p for p in tmpl_params}
         tmpl_keys   = set(tmpl_map)
     except Exception as exc:
@@ -202,14 +212,14 @@ async def run_comparison(
 
         gw_keys = {o.param_key for o in objects}
 
-        # ── 范围检查 ──────────────────────────────────────────────────────────
-        matched_keys_set  = tmpl_keys & gw_keys if tmpl_keys else gw_keys
-        missing_from_gw   = sorted(tmpl_keys - gw_keys)
-        extra_in_gw       = sorted(gw_keys - tmpl_keys)
+        # ── 范围检查（BACnet 模板 vs 网关实际发布） ────────────────────────────
+        matched_keys_set = tmpl_keys & gw_keys if tmpl_keys else gw_keys
+        missing_from_gw  = sorted(tmpl_keys - gw_keys, key=natural_sort_key)
+        extra_in_gw      = sorted(gw_keys - tmpl_keys, key=natural_sort_key)
         scope_report = ScopeReport(
             template_count  = len(tmpl_keys),
             gateway_count   = len(gw_keys),
-            matched_keys    = sorted(matched_keys_set),
+            matched_keys    = sorted(matched_keys_set, key=natural_sort_key),
             missing_from_gw = missing_from_gw,
             extra_in_gw     = extra_in_gw,
         )
@@ -255,11 +265,24 @@ async def run_comparison(
         bacnet_map: dict[str, ReadResult]  = {r.obj.param_key: r for r in bacnet_results}
         modbus_map: dict[str, ModbusResult] = {r.param_key: r for r in modbus_results}
 
+        # ── 协议规范测试（复用同一 BACnet 连接）──────────────────────────────
+        dev_info: Optional[DeviceInfoResult] = None
+        err_tests: list[ProtocolErrorTestResult] = []
+        stability: Optional[StabilityResult] = None
+
+        if check_proto:
+            log.info("执行 BACnet 协议规范测试…")
+            dev_info  = await bacnet.read_device_info()
+            probe_objs = bacnet_objects[:1] if bacnet_objects else objects[:1]
+            err_tests  = await bacnet.test_error_responses(probe_objs)
+            stability  = await bacnet.check_stability(probe_objs)
+
     # ── 数值比对 ──────────────────────────────────────────────────────────────
     compare_results = compare_all(bacnet_map, modbus_map, target_keys)
     elapsed = time.time() - t0
     log.info("比对完成，耗时 %.1f 秒", elapsed)
-    return scope_report, meta_results, compare_results
+
+    return scope_report, meta_results, compare_results, dev_info, err_tests, stability
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -295,6 +318,9 @@ def print_summary(
     scope: ScopeReport,
     meta: list[MetaCheckResult],
     results: list[CompareResult],
+    dev_info: Optional[DeviceInfoResult] = None,
+    err_tests: Optional[list[ProtocolErrorTestResult]] = None,
+    stability: Optional[StabilityResult] = None,
 ) -> None:
     """打印比对摘要到控制台。"""
     print("\n" + "=" * 70)
@@ -320,6 +346,17 @@ def print_summary(
         for r in s["worst_fails"]:
             print(f"    {r.param_key:40s}  BACnet={r.bacnet_value:.6g}  "
                   f"Modbus={r.modbus_value:.6g}  Δ%={r.diff_pct:.2f}%")
+    if dev_info is not None:
+        status = "OK" if dev_info.ok else f"FAIL（{dev_info.error}）"
+        print(f"  【Device Object】{status}  设备={dev_info.object_name}  "
+              f"厂商={dev_info.vendor_name}  固件={dev_info.firmware_revision}  "
+              f"协议版本={dev_info.protocol_version}.{dev_info.protocol_revision}")
+    if err_tests:
+        passed = sum(1 for t in err_tests if t.passed)
+        print(f"  【协议合规性】{passed}/{len(err_tests)} 通过")
+    if stability is not None:
+        status = "OK" if stability.ok else "FAIL"
+        print(f"  【连接稳定性】{status}  {stability.successes}/{stability.attempts} 次成功")
     print("=" * 70)
 
 
@@ -347,7 +384,8 @@ _STATUS_LABEL = {
 def _fmt(v: Optional[float], digits: int = 6) -> str:
     if v is None:
         return "—"
-    return f"{v:.{digits}g}"
+    s = f"{v:.{digits}f}"
+    return s.rstrip('0').rstrip('.') if '.' in s else s
 
 
 def generate_html_report(
@@ -355,13 +393,16 @@ def generate_html_report(
     meta: list[MetaCheckResult],
     results: list[CompareResult],
     output_path: Optional[str] = None,
+    dev_info: Optional[DeviceInfoResult] = None,
+    err_tests: Optional[list[ProtocolErrorTestResult]] = None,
+    stability: Optional[StabilityResult] = None,
 ) -> str:
-    """生成三段式 HTML 比对报告（范围检查 / 元数据检查 / 数值比对），返回文件路径。"""
+    """生成六段式 HTML 比对报告，返回文件路径。"""
     if output_path is None:
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_dir = Path(config.REPORT_DIR)
         report_dir.mkdir(parents=True, exist_ok=True)
-        output_path = str(report_dir / f"compare_{config.DEVICE_NAME}_{ts}.html")
+        output_path = str(report_dir / f"bacnet_{config.DEVICE_NAME}_{ts}.html")
 
     s = summary(results)
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -540,6 +581,107 @@ def generate_html_report(
 </div>
 </details>"""
 
+    # ── Section 4: Device Object 属性 ────────────────────────────────────────
+    if dev_info is not None:
+        dev_ok_color = "#d4edda" if dev_info.ok else "#f8d7da"
+        dev_ok_label = "OK" if dev_info.ok else "FAIL"
+        _DEV_PROPS = [
+            ("设备实例号 (objectIdentifier)",      dev_info.object_identifier),
+            ("设备名称 (objectName)",               dev_info.object_name),
+            ("系统状态 (systemStatus)",              dev_info.system_status),
+            ("厂商名称 (vendorName)",                dev_info.vendor_name),
+            ("厂商 ID (vendorIdentifier)",          dev_info.vendor_id),
+            ("型号名称 (modelName)",                 dev_info.model_name),
+            ("固件版本 (firmwareRevision)",          dev_info.firmware_revision),
+            ("应用软件版本 (applicationSoftwareVersion)", dev_info.app_sw_version),
+            ("协议版本 (protocolVersion)",           dev_info.protocol_version),
+            ("协议修订号 (protocolRevision)",        dev_info.protocol_revision),
+            ("最大 APDU 长度 (maxApduLengthAccepted)", dev_info.max_apdu_length),
+            ("分段支持 (segmentationSupported)",     dev_info.segmentation),
+        ]
+        dev_rows = "".join(
+            f'<tr style="background:{"#d4edda" if v else "#f8d7da"}">'
+            f'<td class="key">{html.escape(name)}</td>'
+            f'<td class="val">{html.escape(v) if v else "<em style=\'color:#721c24\'>未获取</em>"}</td></tr>'
+            for name, v in _DEV_PROPS
+        )
+        dev_badge = f'<span class="badge {"ok-badge" if dev_info.ok else "err-badge"}">{dev_ok_label}</span>'
+        dev_info_html = f"""
+<details open class="section">
+<summary>四、BACnet Device Object 属性（ANSI/ASHRAE 135 §12.11）
+  <span class="sum-info">必需属性合规性验证</span>
+  {dev_badge}
+</summary>
+<div class="section-body">
+<table>
+<colgroup><col style="width:360px"><col></colgroup>
+<thead><tr><th>属性（BACnet 标准名）</th><th>读取值</th></tr></thead>
+<tbody>{dev_rows}</tbody>
+</table>
+</div>
+</details>"""
+    else:
+        dev_info_html = ""
+
+    # ── Section 5: 协议合规性测试 ─────────────────────────────────────────────
+    if err_tests:
+        passed_n = sum(1 for t in err_tests if t.passed)
+        proto_badge = (f'<span class="badge err-badge">失败 {len(err_tests)-passed_n}</span>'
+                       if passed_n < len(err_tests) else
+                       '<span class="badge ok-badge">全部通过</span>')
+        err_rows = "".join(
+            f'<tr style="background:{"#d4edda" if t.passed else "#f8d7da"}">'
+            f'<td class="num">{i+1}</td>'
+            f'<td class="key">{html.escape(t.test_name)}</td>'
+            f'<td class="stat">{"通过" if t.passed else "失败"}</td>'
+            f'<td class="err">{html.escape(t.detail)}</td></tr>'
+            for i, t in enumerate(err_tests)
+        )
+        err_tests_html = f"""
+<details open class="section">
+<summary>五、协议合规性测试（ANSI/ASHRAE 135 §16 错误处理 + AI 必需属性）
+  <span class="sum-info">{passed_n}/{len(err_tests)} 通过</span>
+  {proto_badge}
+</summary>
+<div class="section-body">
+<table>
+<colgroup><col style="width:48px"><col><col style="width:80px"><col style="width:260px"></colgroup>
+<thead><tr><th>#</th><th>测试项</th><th>结果</th><th>详情</th></tr></thead>
+<tbody>{err_rows}</tbody>
+</table>
+</div>
+</details>"""
+    else:
+        err_tests_html = ""
+
+    # ── Section 6: 连接稳定性 ────────────────────────────────────────────────
+    if stability is not None:
+        stab_ok = stability.ok
+        stab_badge = ('<span class="badge ok-badge">稳定</span>' if stab_ok else
+                      '<span class="badge err-badge">不稳定</span>')
+        stab_color = "#d4edda" if stab_ok else "#f8d7da"
+        err_list_html = ("".join(
+            f'<li style="color:#721c24">{html.escape(e)}</li>' for e in stability.errors
+        )) if stability.errors else ""
+        stab_err_attr = '' if stab_ok else ' data-has-error="1"'
+        stability_html = f"""
+<details open class="section"{stab_err_attr}>
+<summary>六、连接稳定性测试
+  <span class="sum-info">连续读取 {stability.attempts} 次</span>
+  {stab_badge}
+</summary>
+<div class="section-body">
+<div class="cards">
+  <div class="card total"><div class="num">{stability.attempts}</div><div class="lbl">总次数</div></div>
+  <div class="card pass"><div class="num">{stability.successes}</div><div class="lbl">成功</div></div>
+  <div class="card fail"><div class="num">{stability.attempts - stability.successes}</div><div class="lbl">失败</div></div>
+</div>
+{f'<ul style="margin:0;padding-left:20px">{err_list_html}</ul>' if err_list_html else ""}
+</div>
+</details>"""
+    else:
+        stability_html = ""
+
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -602,6 +744,37 @@ def generate_html_report(
 </style>
 </head>
 <body>
+<button id="err-toggle" onclick="toggleErrOnly()"
+  style="position:fixed;top:16px;right:20px;z-index:999;padding:6px 16px;
+         background:#dc3545;color:#fff;border:none;border-radius:4px;
+         cursor:pointer;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.25)">
+  仅显示异常
+</button>
+<script>
+function toggleErrOnly() {{
+  var btn = document.getElementById('err-toggle');
+  var on = btn.dataset.active === '1';
+  if (on) {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.style.display = ''; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{ tr.style.display = ''; }});
+  }} else {{
+    document.querySelectorAll('details.section').forEach(function(d) {{ d.open = true; }});
+    document.querySelectorAll('tbody tr').forEach(function(tr) {{
+      var _s = (tr.getAttribute('style')||'').toLowerCase();
+      tr.style.display = _s.indexOf('d4edda') !== -1 ? 'none' : '';
+    }});
+    document.querySelectorAll('details.section').forEach(function(d) {{
+      var hasErr = d.dataset.hasError === '1' || Array.from(d.querySelectorAll('tbody tr')).some(function(tr) {{
+        return (tr.getAttribute('style')||'').toLowerCase().indexOf('d4edda') === -1;
+      }});
+      if (!hasErr) {{ d.style.display = 'none'; }}
+    }});
+  }}
+  btn.textContent      = on ? '仅显示异常' : '显示全部';
+  btn.style.background = on ? '#dc3545'    : '#6c757d';
+  btn.dataset.active   = on ? '0' : '1';
+}}
+</script>
 <h1>BACnet vs Modbus 比对报告</h1>
 <div class="device-name">设备：{html.escape(config.DEVICE_NAME)}</div>
 <div class="meta">
@@ -613,6 +786,9 @@ def generate_html_report(
 {scope_html}
 {meta_html}
 {val_html}
+{dev_info_html}
+{err_tests_html}
+{stability_html}
 </body>
 </html>"""
 
@@ -625,7 +801,8 @@ def generate_html_report(
 # 命令行入口
 # ─────────────────────────────────────────────────────────────────────────────
 
-async def _main(param_keys: Optional[list[str]], quick: bool, check_meta: bool) -> None:
+async def _main(param_keys: Optional[list[str]], quick: bool,
+               check_meta: bool, check_proto: bool) -> None:
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s  %(levelname)-7s  %(message)s",
@@ -639,9 +816,14 @@ async def _main(param_keys: Optional[list[str]], quick: bool, check_meta: bool) 
         param_keys = all_keys[:30]
         log.info("快速模式：仅比对前 %d 个参数", len(param_keys))
 
-    scope, meta, results = await run_comparison(param_keys, check_meta=check_meta)
-    print_summary(scope, meta, results)
-    report_path = generate_html_report(scope, meta, results)
+    scope, meta, results, dev_info, err_tests, stability = await run_comparison(
+        param_keys, check_meta=check_meta, check_proto=check_proto
+    )
+    print_summary(scope, meta, results, dev_info, err_tests, stability)
+    report_path = generate_html_report(scope, meta, results,
+                                       dev_info=dev_info,
+                                       err_tests=err_tests,
+                                       stability=stability)
     print(f"\n  HTML 报告：{report_path}\n")
 
 
@@ -659,17 +841,29 @@ _DEVICE_MAP: dict[str, tuple[str, str]] = {
     "acuiom04":    ("AcuIOM04",    "devices.acuiom04"),
 }
 
+# AcuIOM 设备需要使用 range 列过滤 BACnet 参数范围（无 BACnetIP 列）
+_RANGE_MARKER_MAP: dict[str, str] = {
+    "acuiom01": "8",
+    "acuiom02": "8",
+    "acuiom03": "10",
+    "acuiom04": "10",
+}
+
 
 if __name__ == "__main__":
     import sys as _sys
 
-    quick      = "--quick"   in _sys.argv
-    check_meta = "--no-meta" not in _sys.argv   # 默认开启，--no-meta 可关闭
+    quick       = "--quick"    in _sys.argv
+    check_meta  = "--no-meta"  not in _sys.argv   # 默认开启，--no-meta 可关闭
+    check_proto = "--no-proto" not in _sys.argv   # 默认开启，--no-proto 可关闭
 
     # 无论是否传 --device，都先从 MODBUS_DEVICE_MAP 初始化默认设备的连接参数
     if config.DEVICE_NAME in config.MODBUS_DEVICE_MAP:
         config.MODBUS_HOST, config.MODBUS_PORT, config.MODBUS_UNIT = \
             config.MODBUS_DEVICE_MAP[config.DEVICE_NAME]
+    # 根据默认设备设置 BACnet range 过滤标记（AcuIOM 专用）
+    _default_key = config.DEVICE_NAME.lower().replace("-", "")
+    config.BACNET_RANGE_MARKER = _RANGE_MARKER_MAP.get(_default_key, "")
 
     # --device <名称>  覆盖 config 中的设备配置
     _dev_value: Optional[str] = None
@@ -680,10 +874,11 @@ if __name__ == "__main__":
             print(f"[ERROR] 未知设备 '{_dev_value}'，可选：{list(_DEVICE_MAP)}")
             _sys.exit(1)
         config.DEVICE_NAME, config.DEVICE_MODULE = _DEVICE_MAP[_dev_value]
-        # 同步更新 Modbus 连接参数
+        # 同步更新 Modbus 连接参数和 BACnet range 过滤标记
         if config.DEVICE_NAME in config.MODBUS_DEVICE_MAP:
             config.MODBUS_HOST, config.MODBUS_PORT, config.MODBUS_UNIT = \
                 config.MODBUS_DEVICE_MAP[config.DEVICE_NAME]
+        config.BACNET_RANGE_MARKER = _RANGE_MARKER_MAP.get(_dev_value, "")
         print(f"[INFO] 已切换设备: {config.DEVICE_NAME}  "
               f"Modbus={config.MODBUS_HOST}:{config.MODBUS_PORT} unit={config.MODBUS_UNIT}")
 
@@ -700,4 +895,4 @@ if __name__ == "__main__":
     else:
         keys = None
 
-    asyncio.run(_main(keys, quick, check_meta))
+    asyncio.run(_main(keys, quick, check_meta, check_proto))

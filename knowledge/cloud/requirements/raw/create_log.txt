@@ -1,0 +1,80 @@
+=== LOGIN ===
+  OK — http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/home
+
+=== ENSURE FACILITY: 2026051412 ===
+  Facility '2026051412' already exists — skipping creation
+  [ss] 00_fac_exists.png
+
+Facility ready: True
+
+=== ENTER FACILITY ===
+
+=== Calculated Meter ===
+  [ss] calc_00_devices.png
+  [ss] calc_01_step1.png
+    Facility = 2026051412  [ok:2026051412]
+    Name = calc_2026051412
+  [ss] calc_02_filled.png
+    → clicked 'Submit'
+  [ss] calc_03_step2.png
+  Step 2 URL: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/installation/devices/addCalcuatedMeter
+  [ss] calc_add_param.png
+    Add param btn: clicked Add parameter button
+  [ss] calc_param_selector.png
+    Param sel[0]: clicked:phys_acuvimIII_2026051412|all:phys_acuvimIII_2026051412,phys_acuvimIII_2026051412,phys_acuvimII_2026051412,gateway_2026051412,phys_acuvimII_2026051412,phys_acuvimII_2026051412,gateway_2026051412,gateway_2026051412,phys_acuvimIII_2026051412
+    Param sel[1]: clicked:Line-to-Neutral Va|all:Line-to-Neutral Va,Phase B Voltage Crest Factor,Phase A Voltage Crest Factor,Phase B Current Demand,Phase C Current Demand,Phase B Apparent Power Demand,Phase C Apparent Power Demand,Phase B Current Even-order Harmonic Distortion,Phase C Even-order Voltage Harmonic Distortion,Phase A Current Even-order Harmonic Distortion,Phase B Current K Factor,Phase C Current K Factor,Phase C Current Odd-order Harmonic Distortion,Phase B Odd-order Voltage Harmonic Distortion,Phase A Current Odd-order Harmonic Distortion,Phase A Power Factor
+  [ss] calc_param_selector_filled.png
+    Add Parameter Submit: clicked:Submit
+  [ss] calc_param_added.png
+    Formula value after param: '$2516418_TEST2026051412PHY02.VLNa_V'
+    Add Formula Submit: clicked:Submit
+  [ss] calc_03b_after_formula.png
+    Row1 Unit: clicked:kWh|all:kWh
+    Row1 Parameter Type: none|dom:receiver_20250807,Gold Mills,DATA_FORWARD112,test_vee,facility_0210
+  [ss] calc_04_step2_filled.png
+    Subscription Tier = Data Logger  [ok:Data Logger]
+  [ss] calc_05_sub_filled.png
+    → clicked 'Submit'
+  URL after submit: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/installation/devices
+  API: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/devices/createByType → [200] {"data":{"id":2516435,"deviceName":"calc_2026051412","facilityId":6241,"deviceType":"CALCULATED","modelName":"CALCULATED","serialNumber":null,"token":null,"formula":"$2516418_TEST2026051412PHY02.VLNa_V","interval":null,"source":null},"code":200,"msg":"success"}
+  API: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/devices/devicemodel/gerModelListAll → [200] {"data":[{"id":1,"name":"Acuvim II","mpSpecifications":null,"phases":"3","meterType":["electricity"],"isPqEventSupported":null,"isPqReportSupported":null,"devicesDeviceModelParametersList":null},{"id":2,"name":"CALCULATED","mpSpecifications":null,"phases":"1","meterType":["electricity"],"isPqEventSu
+  API: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/devices/list → [200] {"data":{"index":1,"count":"2097","data":[{"id":"2511289","deviceName":"0","facilityName":"receiver_20250807","organizationName":"AG PROYECTOS Y SERVICIOS, S.A.","facilityId":"5341","timezone":"Etc/GMT-8","deviceType":"PHYSICAL","modelName":"Acuvim II","modelId":1,"serialNumber":"2511289_08","lastUp
+  [ss] calc_06_result.png
+  navigated=True  api_ok=True
+  [ss] calc_07_verify.png
+
+=== Manual Metering Device ===
+  [ss] mm_01_form.png
+    Facility = 2026051412  [ok:2026051412]
+    Name = manual_2026051412
+    Utility Type = Electricity  [ok:Electricity]
+    Reading Cycle period: clicked:Every Month
+  [ss] mm_01b_rc_period.png
+    Reading Cycle day: clicked:01|all:01,02,03,04,05,06,07,08
+    Reading Cycle total wrappers: 3
+  [ss] mm_01c_time_panel.png
+    Reading Cycle time: ok-clicked:OK
+    Location = TestLab-2026051412
+    Email Recipients = renjie.jiao@accuenergy.com
+    Subscription Tier = Data Logger  [ok:Data Logger]
+  [ss] mm_02_filled.png
+    → clicked 'Submit'
+  URL after submit: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/installation/devices
+  API: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/devices/createByType → [200] {"data":{"id":2516436,"deviceName":"manual_2026051412","facilityId":6241,"deviceType":"MANUAL","modelName":"Manual Electricity","serialNumber":"202605140928287655","token":null,"formula":null,"interval":null,"source":null},"code":200,"msg":"success"}
+  API: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/devices/devicemodel/gerModelListAll → [200] {"data":[{"id":1,"name":"Acuvim II","mpSpecifications":null,"phases":"3","meterType":["electricity"],"isPqEventSupported":null,"isPqReportSupported":null,"devicesDeviceModelParametersList":null},{"id":2,"name":"CALCULATED","mpSpecifications":null,"phases":"1","meterType":["electricity"],"isPqEventSu
+  API: http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/devices/list → [200] {"data":{"index":1,"count":"2098","data":[{"id":"2511289","deviceName":"0","facilityName":"receiver_20250807","organizationName":"AG PROYECTOS Y SERVICIOS, S.A.","facilityId":"5341","timezone":"Etc/GMT-8","deviceType":"PHYSICAL","modelName":"Acuvim II","modelId":1,"serialNumber":"2511289_08","lastUp
+  [ss] mm_03_result.png
+  navigated=True  api_ok=True
+  [ss] mm_04_verify.png
+
+=== RESULTS ===
+  Acuvim II: OK
+  Acuvim III: OK
+  AcuLink810: OK
+  Single Param: OK
+  Calc Meter: OK
+  Manual Meter: OK
+
+=== FINAL DEVICE LIST ===
+  [ss] 99_final_devices.png
+Lines with '2026051412': 0
