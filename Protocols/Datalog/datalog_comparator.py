@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-datalog_comparator.py — Datalog CSV 快照 vs 实时 Modbus 两段式比对
+datalog_comparator.py — Datalog 快照 vs 实时 Modbus 比对
 
-比对流程：
-  1. 范围检查：模板 DataLog 列参数 vs CSV 列名（缺失 / 多余）
-  2. 数值比对：CSV 快照值 vs 实时 Modbus 读取值，容差 ±5% / ±0.05
+支持两种文件格式：
+  CSV  → 两段式（范围检查 + 数值比对），容差 ±5% / ±0.05
+  JSON → 三段式（范围检查 + 单位检查 + 数值比对），容差 ±5% / ±0.05
 
 用法：
   python Protocols/Datalog/datalog_comparator.py --device acurev4100
-  python Protocols/Datalog/datalog_comparator.py --device acurev4100 --file <csv路径>
+  python Protocols/Datalog/datalog_comparator.py --device acurev4100 --file <路径>
   python Protocols/Datalog/datalog_comparator.py --device acurev4100 --row 1
   python Protocols/Datalog/datalog_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V
 """
@@ -18,7 +18,9 @@ from __future__ import annotations
 import asyncio
 import csv
 import html
+import json
 import logging
+import re
 import sys
 import time
 from dataclasses import dataclass
@@ -56,26 +58,34 @@ _DEVICE_FILE_KEYWORDS: dict[str, str] = {
 @dataclass
 class DatalogScopeReport:
     template_count:   int
-    csv_count:        int
+    file_count:       int
     matched_keys:     list[str]
-    missing_from_csv: list[str]   # 模板有但 CSV 无
-    extra_in_csv:     list[str]   # CSV 有但模板无
+    missing_from_file: list[str]   # 模板有但文件无
+    extra_in_file:    list[str]    # 文件有但模板无
 
     @property
     def scope_ok(self) -> bool:
-        return not self.missing_from_csv and not self.extra_in_csv
+        return not self.missing_from_file and not self.extra_in_file
+
+
+@dataclass
+class DatalogUnitResult:
+    param_key:  str
+    file_unit:  str    # 文件中的单位（JSON 字段）
+    tmpl_unit:  str    # 模板单位
+    status:     str    # PASS | FAIL | SKIP
 
 
 @dataclass
 class DatalogCompareResult:
     param_key:    str
-    csv_value:    Optional[float] = None
+    file_value:   Optional[float] = None
     modbus_value: Optional[float] = None
-    csv_error:    str = ""
+    file_error:   str = ""
     modbus_error: str = ""
     diff_abs:     Optional[float] = None
     diff_pct:     Optional[float] = None
-    status:       str = ""   # PASS | FAIL | CSV_ERR | MODBUS_ERR | BOTH_ERR
+    status:       str = ""   # PASS | FAIL | FILE_ERR | MODBUS_ERR | BOTH_ERR
 
     @property
     def ok(self) -> bool:
@@ -83,25 +93,35 @@ class DatalogCompareResult:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# 文件查找
+# ─────────────────────────────────────────────────────────────────────────────
+
+def find_datalog_file(data_dir: str, device_key: str) -> str:
+    """
+    在 data_dir 中查找与设备匹配的 Datalog 文件（JSON 优先，次选 CSV；取修改时间最新）。
+    """
+    keyword = _DEVICE_FILE_KEYWORDS.get(device_key.lower(), device_key.lower())
+    matched: list[Path] = []
+    for ext in ("*.json", "*.csv"):
+        matched.extend(
+            p for p in Path(data_dir).glob(ext)
+            if keyword.lower() in p.name.lower()
+        )
+    if not matched:
+        raise FileNotFoundError(
+            f"在 {data_dir} 中未找到包含 '{keyword}' 的 Datalog 文件（json/csv）"
+        )
+    # JSON 优先：若有 JSON 文件则只取 JSON，否则取 CSV
+    json_files = [p for p in matched if p.suffix.lower() == ".json"]
+    chosen = sorted(json_files or matched, key=lambda p: p.stat().st_mtime)
+    return str(chosen[-1])
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # CSV 加载
 # ─────────────────────────────────────────────────────────────────────────────
 
-def find_datalog_csv(data_dir: str, device_key: str) -> str:
-    """在 data_dir 中查找与设备匹配的 Datalog CSV 文件（取修改时间最新）。"""
-    keyword = _DEVICE_FILE_KEYWORDS.get(device_key.lower(), device_key.lower())
-    matches = sorted(
-        (p for p in Path(data_dir).glob("*.csv")
-         if keyword.lower() in p.name.lower()),
-        key=lambda p: p.stat().st_mtime,
-    )
-    if not matches:
-        raise FileNotFoundError(
-            f"在 {data_dir} 中未找到包含 '{keyword}' 的 CSV 文件"
-        )
-    return str(matches[-1])
-
-
-def load_datalog_row(
+def load_datalog_csv(
     csv_path: str,
     row_index: int = -1,
 ) -> tuple[dict[str, Optional[float]], str, list[str]]:
@@ -109,9 +129,7 @@ def load_datalog_row(
     读取 Datalog CSV 一行数据。
 
     Returns:
-        (value_map, timestamp_str, csv_columns)
-        value_map:   dict[param_key → float | None]，跳过 TimeTag 列
-        csv_columns: CSV 所有数据列名（不含 TimeTag）
+        (value_map, timestamp_str, file_columns)
     """
     with open(csv_path, encoding="utf-8-sig", newline="") as f:
         reader = csv.reader(f)
@@ -121,30 +139,100 @@ def load_datalog_row(
     if not data_rows:
         raise ValueError(f"CSV 文件无数据行：{csv_path}")
 
-    if row_index == -1:
-        row = data_rows[-1]
-        log.info("使用第 %d 数据行（最新）", len(data_rows))
-    else:
-        row = data_rows[row_index]
-        log.info("使用第 %d 数据行", row_index + 1)
+    row = data_rows[-1] if row_index == -1 else data_rows[row_index]
+    log.info("CSV 使用第 %d 数据行，时间戳：%s",
+             len(data_rows) if row_index == -1 else row_index + 1, row[0])
 
     timestamp_str = str(row[0]) if row else "未知"
-    csv_columns = [h.strip() for h in headers[1:] if h.strip()]
+    file_columns  = [h.strip() for h in headers[1:] if h.strip()]
 
     value_map: dict[str, Optional[float]] = {}
     for h, v in zip(headers[1:], row[1:]):
         h = h.strip()
         if not h:
             continue
-        if v is None or v == "":
+        try:
+            value_map[h] = float(v) if v not in (None, "") else None
+        except (ValueError, TypeError):
             value_map[h] = None
-        else:
-            try:
-                value_map[h] = float(v)
-            except (ValueError, TypeError):
-                value_map[h] = None
 
-    return value_map, timestamp_str, csv_columns
+    return value_map, timestamp_str, file_columns
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JSON 加载
+# ─────────────────────────────────────────────────────────────────────────────
+
+def load_datalog_json(
+    json_path: str,
+    row_index: int = -1,
+) -> tuple[dict[str, Optional[float]], dict[str, str], str, list[str]]:
+    """
+    读取 Datalog JSON 文件。
+
+    JSON 结构：
+      { "timestamp": [...], "device": { "readings": [{"param","unit","value":[...]}, ...] } }
+
+    Returns:
+        (value_map, unit_map, timestamp_str, file_columns)
+        value_map:   dict[param_key → float | None]
+        unit_map:    dict[param_key → unit_str]
+        file_columns: 全部 param 列表（不含 TimeTag）
+    """
+    with open(json_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    timestamps = data.get("timestamp", [])
+    if timestamps:
+        idx = -1 if row_index == -1 else row_index
+        ts_val = timestamps[idx]
+        timestamp_str = str(ts_val)
+        val_idx = len(timestamps) - 1 if row_index == -1 else row_index
+    else:
+        timestamp_str = "未知"
+        val_idx = 0
+
+    readings = data["device"]["readings"]
+    log.info("JSON 设备：%s  readings=%d  时间戳索引=%d（%s）",
+             data["device"].get("name", ""), len(readings), val_idx, timestamp_str)
+
+    value_map: dict[str, Optional[float]] = {}
+    unit_map:  dict[str, str] = {}
+    file_columns: list[str] = []
+
+    for r in readings:
+        pkey = str(r["param"]).strip()
+        unit = str(r.get("unit", "")).strip()
+        vals = r.get("value", [])
+        file_columns.append(pkey)
+        unit_map[pkey] = unit
+        if vals and val_idx < len(vals):
+            raw = vals[val_idx]
+            try:
+                value_map[pkey] = float(raw)
+            except (ValueError, TypeError):
+                value_map[pkey] = None
+        else:
+            value_map[pkey] = None
+
+    return value_map, unit_map, timestamp_str, file_columns
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 单位比对（JSON 专用）
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _norm_unit(u: str) -> str:
+    return u.strip().lower().replace("°", "deg").replace("℃", "degc").replace("deg c", "degc")
+
+
+def _check_unit(param_key: str, file_unit: str, tmpl_unit: str) -> DatalogUnitResult:
+    r = DatalogUnitResult(param_key=param_key, file_unit=file_unit, tmpl_unit=tmpl_unit)
+    if not tmpl_unit and not file_unit:
+        r.status = "SKIP"
+        return r
+    r.status = "PASS" if _norm_unit(file_unit) == _norm_unit(tmpl_unit) else "FAIL"
+    return r
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -153,25 +241,25 @@ def load_datalog_row(
 
 def _compare_one(
     param_key: str,
-    csv_value: Optional[float],
+    file_value: Optional[float],
     mr: Optional[ModbusResult],
 ) -> DatalogCompareResult:
     cr = DatalogCompareResult(param_key=param_key)
 
-    if csv_value is None:
-        cr.csv_error = "CSV 无数据"
+    if file_value is None:
+        cr.file_error = "文件无数据"
     if mr is None or not mr.ok:
         cr.modbus_error = (mr.error if mr else "未读取到")
 
-    if cr.csv_error and cr.modbus_error:
+    if cr.file_error and cr.modbus_error:
         cr.status = "BOTH_ERR"; return cr
-    if cr.csv_error:
-        cr.status = "CSV_ERR"; return cr
+    if cr.file_error:
+        cr.status = "FILE_ERR"; return cr
     if cr.modbus_error:
         cr.status = "MODBUS_ERR"; return cr
 
-    cv, mv = csv_value, mr.value
-    cr.csv_value = cv
+    cv, mv = file_value, mr.value
+    cr.file_value   = cv
     cr.modbus_value = mv
 
     diff = abs(cv - mv)
@@ -192,37 +280,60 @@ def _compare_one(
 # ─────────────────────────────────────────────────────────────────────────────
 
 async def run_datalog_comparison(
-    csv_path: str,
+    file_path: str,
     row_index: int = -1,
     param_keys: Optional[list[str]] = None,
-) -> tuple[DatalogScopeReport, list[DatalogCompareResult], str]:
+) -> tuple[DatalogScopeReport, list[DatalogUnitResult], list[DatalogCompareResult], str]:
+    """
+    执行 Datalog 比对。CSV 返回空 unit_results；JSON 返回单位检查结果。
+    """
     t0 = time.time()
+    ext = Path(file_path).suffix.lower()
 
-    # ── 加载 CSV ───────────────────────────────────────────────────────────────
-    log.info("加载 CSV：%s", csv_path)
-    value_map, timestamp_str, csv_columns = load_datalog_row(csv_path, row_index)
-    csv_keys = set(csv_columns)
+    # ── 加载文件 ───────────────────────────────────────────────────────────────
+    unit_map: dict[str, str] = {}
+    if ext == ".json":
+        log.info("加载 JSON：%s", file_path)
+        value_map, unit_map, timestamp_str, file_columns = load_datalog_json(file_path, row_index)
+    else:
+        log.info("加载 CSV：%s", file_path)
+        value_map, timestamp_str, file_columns = load_datalog_csv(file_path, row_index)
+
+    file_keys = set(file_columns)
 
     # ── 模板范围 ───────────────────────────────────────────────────────────────
+    tmpl_unit_map: dict[str, str] = {}
     try:
         tmpl_path   = find_template_file(config.TEMPLATE_DIR, config.DEVICE_NAME)
         tmpl_params = get_datalog_params(tmpl_path)
         tmpl_keys   = {p.param_key for p in tmpl_params}
+        tmpl_unit_map = {p.param_key: p.unit for p in tmpl_params}
     except Exception as exc:
         log.warning("无法加载模板，范围检查将跳过：%s", exc)
         tmpl_keys = set()
 
-    matched_keys_set  = tmpl_keys & csv_keys if tmpl_keys else csv_keys
+    matched_keys_set = tmpl_keys & file_keys if tmpl_keys else file_keys
     scope_report = DatalogScopeReport(
-        template_count   = len(tmpl_keys),
-        csv_count        = len(csv_keys),
-        matched_keys     = sorted(matched_keys_set),
-        missing_from_csv = sorted(tmpl_keys - csv_keys),
-        extra_in_csv     = sorted(csv_keys - tmpl_keys),
+        template_count    = len(tmpl_keys),
+        file_count        = len(file_keys),
+        matched_keys      = sorted(matched_keys_set),
+        missing_from_file = sorted(tmpl_keys - file_keys),
+        extra_in_file     = sorted(file_keys - tmpl_keys),
     )
-    log.info("范围检查：模板=%d  CSV=%d  匹配=%d  缺失=%d  多余=%d",
-             len(tmpl_keys), len(csv_keys), len(matched_keys_set),
-             len(scope_report.missing_from_csv), len(scope_report.extra_in_csv))
+    log.info("范围检查：模板=%d  文件=%d  匹配=%d  缺失=%d  多余=%d",
+             len(tmpl_keys), len(file_keys), len(matched_keys_set),
+             len(scope_report.missing_from_file), len(scope_report.extra_in_file))
+
+    # ── 单位检查（仅 JSON） ────────────────────────────────────────────────────
+    unit_results: list[DatalogUnitResult] = []
+    if ext == ".json" and tmpl_keys:
+        for key in sorted(matched_keys_set):
+            if param_keys is None or key in param_keys:
+                unit_results.append(
+                    _check_unit(key, unit_map.get(key, ""), tmpl_unit_map.get(key, ""))
+                )
+        unit_fail = sum(1 for r in unit_results if r.status == "FAIL")
+        log.info("单位检查：%d 项，FAIL=%d", len(unit_results), unit_fail)
 
     # ── 实时 Modbus ────────────────────────────────────────────────────────────
     compare_keys = sorted(matched_keys_set)
@@ -241,7 +352,7 @@ async def run_datalog_comparison(
         results.append(_compare_one(key, value_map.get(key), mr))
 
     log.info("比对完成，耗时 %.1f 秒，共 %d 项", time.time() - t0, len(results))
-    return scope_report, results, timestamp_str
+    return scope_report, unit_results, results, timestamp_str
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -269,6 +380,7 @@ def summary(results: list[DatalogCompareResult]) -> dict:
 
 def print_summary(
     scope: DatalogScopeReport,
+    unit_results: list[DatalogUnitResult],
     results: list[DatalogCompareResult],
 ) -> None:
     s = summary(results)
@@ -276,19 +388,24 @@ def print_summary(
     print("  Datalog 快照 vs 实时 Modbus 比对摘要")
     print(f"  时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 70)
-    print(f"  【参数范围】模板={scope.template_count}  CSV={scope.csv_count}  "
+    print(f"  【参数范围】模板={scope.template_count}  文件={scope.file_count}  "
           f"匹配={len(scope.matched_keys)}  "
-          f"缺失={len(scope.missing_from_csv)}  多余={len(scope.extra_in_csv)}")
-    if scope.missing_from_csv:
-        print(f"  缺失参数（前10）: {scope.missing_from_csv[:10]}")
-    if scope.extra_in_csv:
-        print(f"  多余参数（前10）: {scope.extra_in_csv[:10]}")
+          f"缺失={len(scope.missing_from_file)}  多余={len(scope.extra_in_file)}")
+    if scope.missing_from_file:
+        print(f"  缺失参数（前10）: {scope.missing_from_file[:10]}")
+    if scope.extra_in_file:
+        print(f"  多余参数（前10）: {scope.extra_in_file[:10]}")
+    if unit_results:
+        uf = [r for r in unit_results if r.status == "FAIL"]
+        print(f"  【单位检查】{len(unit_results)} 项，FAIL={len(uf)}")
+        for r in uf[:5]:
+            print(f"    {r.param_key}: 文件={r.file_unit}  模板={r.tmpl_unit}")
     print(f"  【数值比对】总={s['total']}  PASS={s['pass']} ({s['pass_rate']})  "
           f"FAIL={s['fail']}  ERR={s['error']}")
     if s["worst_fails"]:
         print("\n  差异最大的失败参数（Top 10）：")
         for r in s["worst_fails"]:
-            print(f"    {r.param_key:40s}  CSV={r.csv_value:.6g}  "
+            print(f"    {r.param_key:40s}  文件={r.file_value:.6g}  "
                   f"Modbus={r.modbus_value:.6g}  Δ%={r.diff_pct:.2f}%")
     print("=" * 70)
 
@@ -300,14 +417,14 @@ def print_summary(
 _STATUS_COLOR = {
     "PASS":       "#d4edda",
     "FAIL":       "#f8d7da",
-    "CSV_ERR":    "#fff3cd",
+    "FILE_ERR":   "#fff3cd",
     "MODBUS_ERR": "#fff3cd",
     "BOTH_ERR":   "#e2e3e5",
 }
 _STATUS_LABEL = {
     "PASS":       "通过",
     "FAIL":       "失败",
-    "CSV_ERR":    "CSV异常",
+    "FILE_ERR":   "文件异常",
     "MODBUS_ERR": "Modbus异常",
     "BOTH_ERR":   "双路异常",
 }
@@ -319,9 +436,10 @@ def _fmt(v: Optional[float], digits: int = 6) -> str:
 
 def generate_html_report(
     scope: DatalogScopeReport,
+    unit_results: list[DatalogUnitResult],
     results: list[DatalogCompareResult],
     timestamp_str: str = "",
-    csv_path: str = "",
+    file_path: str = "",
     output_path: Optional[str] = None,
 ) -> str:
     if output_path is None:
@@ -331,8 +449,9 @@ def generate_html_report(
         output_path = str(report_dir / f"datalog_{config.DEVICE_NAME}_{ts}.html")
 
     s = summary(results)
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    csv_basename = Path(csv_path).name if csv_path else "—"
+    now_str      = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_basename = Path(file_path).name if file_path else "—"
+    file_type    = "JSON" if file_path.lower().endswith(".json") else "CSV"
 
     # ── Section 1: 范围检查 ────────────────────────────────────────────────────
     def _list_rows(keys: list[str], bg: str) -> str:
@@ -344,53 +463,85 @@ def generate_html_report(
 
     scope_color = "#d4edda" if scope.scope_ok else "#f8d7da"
     scope_label = "一致" if scope.scope_ok else "不一致"
-
     missing_html = (
-        f'<h3 style="color:#721c24;margin-top:12px">模板有但 CSV 缺失（{len(scope.missing_from_csv)} 条）</h3>'
+        f'<h3 style="color:#721c24;margin-top:12px">模板有但文件缺失（{len(scope.missing_from_file)} 条）</h3>'
         f'<table><colgroup><col style="width:48px"><col></colgroup>'
         f'<thead><tr><th>#</th><th>param_key</th></tr></thead>'
-        f'<tbody>{_list_rows(scope.missing_from_csv, "#f8d7da")}</tbody></table>'
-    ) if scope.missing_from_csv else ""
-
+        f'<tbody>{_list_rows(scope.missing_from_file, "#f8d7da")}</tbody></table>'
+    ) if scope.missing_from_file else ""
     extra_html = (
-        f'<h3 style="color:#856404;margin-top:12px">CSV 有但模板未列入（{len(scope.extra_in_csv)} 条）</h3>'
+        f'<h3 style="color:#856404;margin-top:12px">文件有但模板未列入（{len(scope.extra_in_file)} 条）</h3>'
         f'<table><colgroup><col style="width:48px"><col></colgroup>'
         f'<thead><tr><th>#</th><th>param_key</th></tr></thead>'
-        f'<tbody>{_list_rows(scope.extra_in_csv, "#fff3cd")}</tbody></table>'
-    ) if scope.extra_in_csv else ""
-
+        f'<tbody>{_list_rows(scope.extra_in_file, "#fff3cd")}</tbody></table>'
+    ) if scope.extra_in_file else ""
     scope_badge = (
-        (f'<span class="badge err-badge">缺失 {len(scope.missing_from_csv)}</span>' if scope.missing_from_csv else "") +
-        (f'<span class="badge warn-badge">多余 {len(scope.extra_in_csv)}</span>' if scope.extra_in_csv else "") +
+        (f'<span class="badge err-badge">缺失 {len(scope.missing_from_file)}</span>' if scope.missing_from_file else "") +
+        (f'<span class="badge warn-badge">多余 {len(scope.extra_in_file)}</span>' if scope.extra_in_file else "") +
         ('<span class="badge ok-badge">一致</span>' if scope.scope_ok else "")
     )
     scope_html = f"""
 <details open class="section">
 <summary>一、参数范围检查
-  <span class="sum-info">模板 {scope.template_count} / CSV {scope.csv_count} / 匹配 {len(scope.matched_keys)}</span>
+  <span class="sum-info">模板 {scope.template_count} / {file_type} {scope.file_count} / 匹配 {len(scope.matched_keys)}</span>
   {scope_badge}
 </summary>
 <div class="section-body">
 <div class="cards">
   <div class="card total"><div class="num">{scope.template_count}</div><div class="lbl">模板 DataLog 参数</div></div>
-  <div class="card total"><div class="num">{scope.csv_count}</div><div class="lbl">CSV 实际列数</div></div>
+  <div class="card total"><div class="num">{scope.file_count}</div><div class="lbl">{file_type} 实际列数</div></div>
   <div class="card pass"> <div class="num">{len(scope.matched_keys)}</div><div class="lbl">匹配</div></div>
-  <div class="card fail"> <div class="num">{len(scope.missing_from_csv)}</div><div class="lbl">模板有/CSV缺</div></div>
-  <div class="card err">  <div class="num">{len(scope.extra_in_csv)}</div><div class="lbl">CSV多/模板无</div></div>
+  <div class="card fail"> <div class="num">{len(scope.missing_from_file)}</div><div class="lbl">模板有/文件缺</div></div>
+  <div class="card err">  <div class="num">{len(scope.extra_in_file)}</div><div class="lbl">文件多/模板无</div></div>
   <div class="card" style="background:{scope_color}"><div class="num" style="font-size:18px">{scope_label}</div><div class="lbl">范围结论</div></div>
 </div>
 {missing_html}{extra_html}
 </div>
 </details>"""
 
-    # ── Section 2: 数值比对 ────────────────────────────────────────────────────
+    # ── Section 2: 单位检查（仅 JSON） ────────────────────────────────────────
+    unit_html = ""
+    val_section_num = "二"
+    if unit_results:
+        val_section_num = "三"
+        unit_fail = [r for r in unit_results if r.status == "FAIL"]
+        unit_badge = (
+            (f'<span class="badge err-badge">不匹配 {len(unit_fail)}</span>' if unit_fail else "") +
+            ('<span class="badge ok-badge">全部一致</span>' if not unit_fail else "")
+        )
+        unit_rows = "".join(
+            f'<tr style="background:{"#f8d7da" if r.status == "FAIL" else "#d4edda" if r.status == "PASS" else "#f8f9fa"}">'
+            f'<td class="num">{i+1}</td>'
+            f'<td class="key">{html.escape(r.param_key)}</td>'
+            f'<td class="val">{html.escape(r.file_unit)}</td>'
+            f'<td class="val">{html.escape(r.tmpl_unit)}</td>'
+            f'<td class="stat">{"失败" if r.status == "FAIL" else "通过" if r.status == "PASS" else "跳过"}</td>'
+            f'</tr>'
+            for i, r in enumerate(unit_results)
+        )
+        unit_html = f"""
+<details class="section">
+<summary>二、单位检查
+  <span class="sum-info">{len(unit_results)} 项 · FAIL={len(unit_fail)}</span>
+  {unit_badge}
+</summary>
+<div class="section-body">
+<table>
+<colgroup><col class="c-idx"><col class="c-key"><col class="c-val"><col class="c-val"><col class="c-stat"></colgroup>
+<thead><tr><th>#</th><th>param_key</th><th>文件单位</th><th>模板单位</th><th>结果</th></tr></thead>
+<tbody>{unit_rows}</tbody>
+</table>
+</div>
+</details>"""
+
+    # ── Section 2/3: 数值比对 ──────────────────────────────────────────────────
     rows_html = []
     for i, r in enumerate(results):
         bg   = _STATUS_COLOR.get(r.status, "#ffffff")
         stat = _STATUS_LABEL.get(r.status, r.status)
         err_hint = ""
-        if r.csv_error:
-            err_hint += f"CSV: {html.escape(r.csv_error)}"
+        if r.file_error:
+            err_hint += f"文件: {html.escape(r.file_error)}"
         if r.modbus_error:
             if err_hint: err_hint += "<br>"
             err_hint += f"Modbus: {html.escape(r.modbus_error)}"
@@ -398,7 +549,7 @@ def generate_html_report(
         <tr style="background:{bg}">
           <td class="num">{i+1}</td>
           <td class="key">{html.escape(r.param_key)}</td>
-          <td class="val">{_fmt(r.csv_value)}</td>
+          <td class="val">{_fmt(r.file_value)}</td>
           <td class="val">{_fmt(r.modbus_value)}</td>
           <td class="val">{_fmt(r.diff_abs, 4) if r.diff_abs is not None else "—"}</td>
           <td class="val">{f"{r.diff_pct:.3f}%" if r.diff_pct is not None else "—"}</td>
@@ -413,7 +564,7 @@ def generate_html_report(
     )
     val_html = f"""
 <details open class="section">
-<summary>二、数值比对（Datalog 快照 vs 实时 Modbus）
+<summary>{val_section_num}、数值比对（Datalog 快照 vs 实时 Modbus）
   <span class="sum-info">共 {s['total']} 项 · 通过率 {s['pass_rate']}</span>
   {val_badge}
 </summary>
@@ -431,7 +582,7 @@ def generate_html_report(
 </colgroup>
 <thead>
   <tr>
-    <th>#</th><th>参数名 (param_key)</th><th>CSV 快照值</th><th>Modbus 实时值</th>
+    <th>#</th><th>参数名 (param_key)</th><th>{file_type} 快照值</th><th>Modbus 实时值</th>
     <th>绝对差值</th><th>相对差值</th><th>结果</th><th>错误信息</th>
   </tr>
 </thead>
@@ -507,12 +658,13 @@ def generate_html_report(
 <div class="device-name">设备：{html.escape(config.DEVICE_NAME)}</div>
 <div class="meta">
   生成时间：{now_str} &nbsp;|&nbsp;
-  数据文件：{html.escape(csv_basename)} &nbsp;|&nbsp;
+  数据文件：{html.escape(file_basename)}（{file_type}） &nbsp;|&nbsp;
   快照时间戳：{html.escape(timestamp_str)} &nbsp;|&nbsp;
   Modbus：{modbus_info} &nbsp;|&nbsp;
   容差：±{config.DATALOG_TOLERANCE_PERCENT}% / ±{config.DATALOG_TOLERANCE_ABSOLUTE}
 </div>
 {scope_html}
+{unit_html}
 {val_html}
 </body>
 </html>"""
@@ -543,7 +695,7 @@ _DEVICE_MAP: dict[str, tuple[str, str]] = {
 # ─────────────────────────────────────────────────────────────────────────────
 
 async def _main(
-    csv_path: str,
+    file_path: str,
     row_index: int,
     param_keys: Optional[list[str]],
 ) -> None:
@@ -553,14 +705,14 @@ async def _main(
         datefmt="%H:%M:%S",
     )
 
-    scope, results, timestamp_str = await run_datalog_comparison(
-        csv_path, row_index, param_keys,
+    scope, unit_results, results, timestamp_str = await run_datalog_comparison(
+        file_path, row_index, param_keys,
     )
-    print_summary(scope, results)
+    print_summary(scope, unit_results, results)
     report_path = generate_html_report(
-        scope, results,
+        scope, unit_results, results,
         timestamp_str=timestamp_str,
-        csv_path=csv_path,
+        file_path=file_path,
     )
     print(f"\n  HTML 报告：{report_path}\n")
 
@@ -583,12 +735,12 @@ if __name__ == "__main__":
     # ── --file ────────────────────────────────────────────────────────────────
     if "--file" in sys.argv:
         idx = sys.argv.index("--file")
-        _csv_path = sys.argv[idx + 1]
+        _file_path = sys.argv[idx + 1]
     else:
-        _csv_path = find_datalog_csv(
+        _file_path = find_datalog_file(
             config.DATALOG_DATA_DIR, _dev_value or config.DEVICE_NAME.lower()
         )
-        print(f"[INFO] 自动选取文件：{Path(_csv_path).name}")
+        print(f"[INFO] 自动选取文件：{Path(_file_path).name}")
 
     # ── --row ─────────────────────────────────────────────────────────────────
     _row_index = -1
@@ -602,4 +754,4 @@ if __name__ == "__main__":
         idx = sys.argv.index("--keys")
         _keys = sys.argv[idx + 1:]
 
-    asyncio.run(_main(_csv_path, _row_index, _keys))
+    asyncio.run(_main(_file_path, _row_index, _keys))
