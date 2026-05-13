@@ -73,7 +73,7 @@ class DatalogUnitResult:
     param_key:  str
     file_unit:  str    # 文件中的单位（JSON 字段）
     tmpl_unit:  str    # 模板单位
-    status:     str    # PASS | FAIL | SKIP
+    status:     str = ""    # PASS | FAIL | SKIP
 
 
 @dataclass
