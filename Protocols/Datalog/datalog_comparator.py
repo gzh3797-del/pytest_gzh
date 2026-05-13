@@ -265,13 +265,13 @@ def _compare_one(
     diff = abs(cv - mv)
     ref  = max(abs(cv), abs(mv))
     cr.diff_abs = diff
-    cr.diff_pct = (diff / ref * 100) if ref > 1e-12 else 0.0
-
-    tol = max(
-        config.DATALOG_TOLERANCE_ABSOLUTE,
-        ref * config.DATALOG_TOLERANCE_PERCENT / 100,
-    )
-    cr.status = "PASS" if diff <= tol else "FAIL"
+    if ref <= 1e-9:
+        # 两值均极接近零，视为通过
+        cr.diff_pct = 0.0
+        cr.status = "PASS"
+    else:
+        cr.diff_pct = diff / ref * 100
+        cr.status = "PASS" if cr.diff_pct <= config.DATALOG_TOLERANCE_PERCENT else "FAIL"
     return cr
 
 
