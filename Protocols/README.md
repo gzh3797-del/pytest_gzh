@@ -19,7 +19,7 @@
 
 ---
 
-## bacnet/comparator.py — BACnet vs 实时 Modbus 比对
+## BACnetIP/comparator.py — BACnet vs 实时 Modbus 比对
 
 **比对流程：**
 1. 从 `Template/` 目录加载设备模板，获取应发布到 BACnet 的参数范围
@@ -31,32 +31,32 @@
 
 ```bash
 # 全量比对（默认设备，包含范围检查 + 元数据检查 + 数值比对）
-python BACnetIP/comparator.py
+python Protocols/BACnetIP/comparator.py
 
 # 指定设备
-python BACnetIP/comparator.py --device acurev4100
-python BACnetIP/comparator.py --device acurev2100
-python BACnetIP/comparator.py --device acuvimiiw
-python BACnetIP/comparator.py --device acuvimiir
-python BACnetIP/comparator.py --device acuvim3
-python BACnetIP/comparator.py --device acuiom01
-python BACnetIP/comparator.py --device acuiom02
+python Protocols/BACnetIP/comparator.py --device acurev4100
+python Protocols/BACnetIP/comparator.py --device acurev2100
+python Protocols/BACnetIP/comparator.py --device acuvimiiw
+python Protocols/BACnetIP/comparator.py --device acuvimiir
+python Protocols/BACnetIP/comparator.py --device acuvim3
+python Protocols/BACnetIP/comparator.py --device acuiom01
+python Protocols/BACnetIP/comparator.py --device acuiom02
 
 # 快速模式：只比对前 30 个参数（跳过元数据检查）
-python BACnetIP/comparator.py --quick
-python BACnetIP/comparator.py --device acurev2100 --quick
+python Protocols/BACnetIP/comparator.py --quick
+python Protocols/BACnetIP/comparator.py --device acurev2100 --quick
 
 # 只比对指定参数
-python BACnetIP/comparator.py --keys FREQ_Hz VLN_a_V P_kW
-python BACnetIP/comparator.py --device acuvimiiw --keys FREQ_Hz I_a_A
+python Protocols/BACnetIP/comparator.py --keys FREQ_Hz VLN_a_V P_kW
+python Protocols/BACnetIP/comparator.py --device acuvimiiw --keys FREQ_Hz I_a_A
 
 # 关闭元数据检查（仅范围 + 数值）
-python BACnetIP/comparator.py --no-meta
+python Protocols/BACnetIP/comparator.py --no-meta
 ```
 
 ---
 
-## enip/enip_comparator.py — EtherNet/IP vs 实时 Modbus 比对
+## EtherNetIP/enip_comparator.py — EtherNet/IP vs 实时 Modbus 比对
 
 通过 CIP 协议（pycomm3）读取网关 WEB2 上的 EtherNet/IP Assembly Instance 100，
 与设备 Modbus TCP 实时值进行比对。
@@ -75,13 +75,13 @@ python BACnetIP/comparator.py --no-meta
 
 ```bash
 # 全量比对（AcuRev-4100，默认配置）
-python EtherNetIP/enip_comparator.py
+python Protocols/EtherNetIP/enip_comparator.py
 
 # 快速模式：只比对前 30 个参数
-python EtherNetIP/enip_comparator.py --quick
+python Protocols/EtherNetIP/enip_comparator.py --quick
 
 # 只比对指定参数
-python EtherNetIP/enip_comparator.py --keys FREQ_Hz VLN_a_V P_kW
+python Protocols/EtherNetIP/enip_comparator.py --keys FREQ_Hz VLN_a_V P_kW
 ```
 
 > **注意：** AcuRev-4100 Modbus TCP 连接数有限，若 WEB2 网关已占用全部连接槽，
@@ -89,7 +89,7 @@ python EtherNetIP/enip_comparator.py --keys FREQ_Hz VLN_a_V P_kW
 
 ---
 
-## cloud/cloud_comparator.py — AcuCloud 历史快照 vs 实时 Modbus 比对
+## AcuCloud/cloud_comparator.py — AcuCloud 历史快照 vs 实时 Modbus 比对
 
 从 `Acuclouddatas/` 目录读取 AcuCloud 导出的 xlsx 文件，与设备实时 Modbus 寄存器值比对。
 因快照与实时读取存在时序差异，容差较大（默认 ±5% / ±1.0）。
@@ -100,23 +100,23 @@ python EtherNetIP/enip_comparator.py --keys FREQ_Hz VLN_a_V P_kW
 
 ```bash
 # 自动匹配文件，取最新数据行（需先用 --device 指定设备）
-python AcuCloud/cloud_comparator.py --device acurev4100
-python AcuCloud/cloud_comparator.py --device acurev2100
-python AcuCloud/cloud_comparator.py --device acuvimiiw
-python AcuCloud/cloud_comparator.py --device acuvimiir
-python AcuCloud/cloud_comparator.py --device acuvim3
+python Protocols/AcuCloud/cloud_comparator.py --device acurev4100
+python Protocols/AcuCloud/cloud_comparator.py --device acurev2100
+python Protocols/AcuCloud/cloud_comparator.py --device acuvimiiw
+python Protocols/AcuCloud/cloud_comparator.py --device acuvimiir
+python Protocols/AcuCloud/cloud_comparator.py --device acuvim3
 
 # 指定 xlsx 文件路径
-python AcuCloud/cloud_comparator.py --device acurev4100 --file "Acuclouddatas\AcuRev4100.xlsx"
+python Protocols/AcuCloud/cloud_comparator.py --device acurev4100 --file "Protocols/Datas/acuclouddatas/AcuRev4100.xlsx"
 
 # 指定数据行（1 = 第一行，默认取最新行）
-python AcuCloud/cloud_comparator.py --device acurev4100 --row 1
+python Protocols/AcuCloud/cloud_comparator.py --device acurev4100 --row 1
 
 # 只比对指定参数
-python AcuCloud/cloud_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V P_kW
+python Protocols/AcuCloud/cloud_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V P_kW
 
 # 组合用法
-python AcuCloud/cloud_comparator.py --device acurev2100 --file <xlsx路径> --row 2
+python Protocols/AcuCloud/cloud_comparator.py --device acurev2100 --file <xlsx路径> --row 2
 ```
 
 ---
@@ -138,26 +138,26 @@ JSON 的 `param` 字段直接对应 `param_key`，无需列标题映射。
 
 ```bash
 # 自动匹配文件，使用第一个 online 模块
-python MQTT/mqtt_comparator.py --device acurev4100
-python MQTT/mqtt_comparator.py --device acurev2100
-python MQTT/mqtt_comparator.py --device acuvimiiw
-python MQTT/mqtt_comparator.py --device acuvimiir
-python MQTT/mqtt_comparator.py --device acuvim3
+python Protocols/MQTT/mqtt_comparator.py --device acurev4100
+python Protocols/MQTT/mqtt_comparator.py --device acurev2100
+python Protocols/MQTT/mqtt_comparator.py --device acuvimiiw
+python Protocols/MQTT/mqtt_comparator.py --device acuvimiir
+python Protocols/MQTT/mqtt_comparator.py --device acuvim3
 
 # 指定 JSON 文件路径
-python MQTT/mqtt_comparator.py --device acurev4100 --file "MQTT/4100data.json"
+python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --file "Protocols/MQTT/4100data.json"
 
 # 指定模块下标（JSON modules 数组下标，默认取第一个 online 模块）
-python MQTT/mqtt_comparator.py --device acurev4100 --module 0
+python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --module 0
 
 # 跳过单位检查（仅范围 + 数值）
-python MQTT/mqtt_comparator.py --device acurev4100 --no-meta
+python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --no-meta
 
 # 只比对指定参数
-python MQTT/mqtt_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V P_kW
+python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V P_kW
 
 # 组合用法
-python MQTT/mqtt_comparator.py --device acurev4100 --file "MQTT/4100data.json" --module 0 --no-meta
+python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --file "Protocols/MQTT/4100data.json" --module 0 --no-meta
 ```
 
 ---
