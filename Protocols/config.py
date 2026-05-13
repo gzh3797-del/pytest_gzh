@@ -89,6 +89,7 @@ MQTT_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
 DATALOG_DATA_DIR = _os.path.join(_BASE, "Datas", "DatalogDatas")
 
 # ── Datalog 快照比对容差 ───────────────────────────────────────────────────────
-# 判断逻辑：纯相对容差（diff_pct > PERCENT → FAIL），两值均极接近零时豁免
-# 不使用绝对容差下限，避免小值参数（如 0.01A vs 0.06A）误判为通过
+# 判断逻辑：max(绝对容差, 相对容差) — 与 BACnet/AcuCloud 一致（IEC/ANSI 惯例）
+# 当参考值较小（< abs/rel 交叉点）时绝对容差生效，较大时相对容差生效
 DATALOG_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
+DATALOG_TOLERANCE_ABSOLUTE = 0.05  # ±0.05（绝对容差下限，防止极小值误判）

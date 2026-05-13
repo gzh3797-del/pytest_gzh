@@ -3,8 +3,8 @@
 datalog_comparator.py — Datalog 快照 vs 实时 Modbus 比对
 
 支持两种文件格式：
-  CSV  → 两段式（范围检查 + 数值比对），容差 ±5% / ±0.05
-  JSON → 三段式（范围检查 + 单位检查 + 数值比对），容差 ±5% / ±0.05
+  CSV  → 两段式（范围检查 + 数值比对），容差 max(±0.05, ±5%)
+  JSON → 三段式（范围检查 + 单位检查 + 数值比对），容差 max(±0.05, ±5%)
 
 用法：
   python Protocols/Datalog/datalog_comparator.py --device acurev4100
@@ -85,6 +85,7 @@ class DatalogCompareResult:
     modbus_error: str = ""
     diff_abs:     Optional[float] = None
     diff_pct:     Optional[float] = None
+    tol_basis:    str = ""   # 判断依据：相对 ≤5% / 绝对 ≤0.05 / zero
     status:       str = ""   # PASS | FAIL | FILE_ERR | MODBUS_ERR | BOTH_ERR
 
     @property
@@ -266,12 +267,19 @@ def _compare_one(
     ref  = max(abs(cv), abs(mv))
     cr.diff_abs = diff
     if ref <= 1e-9:
-        # 两值均极接近零，视为通过
         cr.diff_pct = 0.0
+        cr.tol_basis = "zero"
         cr.status = "PASS"
     else:
         cr.diff_pct = diff / ref * 100
-        cr.status = "PASS" if cr.diff_pct <= config.DATALOG_TOLERANCE_PERCENT else "FAIL"
+        rel_tol = ref * config.DATALOG_TOLERANCE_PERCENT / 100
+        abs_tol = config.DATALOG_TOLERANCE_ABSOLUTE
+        if rel_tol >= abs_tol:
+            cr.tol_basis = f"相对 ≤{config.DATALOG_TOLERANCE_PERCENT}%"
+            cr.status = "PASS" if diff <= rel_tol else "FAIL"
+        else:
+            cr.tol_basis = f"绝对 ≤{abs_tol}"
+            cr.status = "PASS" if diff <= abs_tol else "FAIL"
     return cr
 
 
@@ -553,6 +561,7 @@ def generate_html_report(
           <td class="val">{_fmt(r.modbus_value)}</td>
           <td class="val">{_fmt(r.diff_abs, 4) if r.diff_abs is not None else "—"}</td>
           <td class="val">{f"{r.diff_pct:.3f}%" if r.diff_pct is not None else "—"}</td>
+          <td class="basis">{html.escape(r.tol_basis) if r.tol_basis else "—"}</td>
           <td class="stat">{stat}</td>
           <td class="err">{err_hint}</td>
         </tr>""")
@@ -578,12 +587,12 @@ def generate_html_report(
 <table>
 <colgroup>
   <col class="c-idx"><col class="c-key"><col class="c-val"><col class="c-val">
-  <col class="c-diff"><col class="c-pct"><col class="c-stat"><col class="c-err">
+  <col class="c-diff"><col class="c-pct"><col class="c-basis"><col class="c-stat"><col class="c-err">
 </colgroup>
 <thead>
   <tr>
     <th>#</th><th>参数名 (param_key)</th><th>{file_type} 快照值</th><th>Modbus 实时值</th>
-    <th>绝对差值</th><th>相对差值</th><th>结果</th><th>错误信息</th>
+    <th>绝对差值</th><th>相对差值</th><th>判断依据</th><th>结果</th><th>错误信息</th>
   </tr>
 </thead>
 <tbody>{"".join(rows_html)}</tbody>
@@ -621,17 +630,19 @@ def generate_html_report(
   colgroup col.c-idx  {{ width: 48px; }}
   colgroup col.c-key  {{ width: 280px; }}
   colgroup col.c-val  {{ width: 110px; }}
-  colgroup col.c-diff {{ width: 90px; }}
-  colgroup col.c-pct  {{ width: 80px; }}
-  colgroup col.c-stat {{ width: 90px; }}
-  colgroup col.c-err  {{ width: auto; }}
+  colgroup col.c-diff  {{ width: 90px; }}
+  colgroup col.c-pct   {{ width: 80px; }}
+  colgroup col.c-basis {{ width: 110px; }}
+  colgroup col.c-stat  {{ width: 90px; }}
+  colgroup col.c-err   {{ width: auto; }}
   thead tr {{ background: #343a40; color: #fff; }}
   th   {{ padding: 9px 8px; text-align: center; font-size: 12px; white-space: nowrap; }}
   td   {{ padding: 5px 8px; border-bottom: 1px solid #eee; vertical-align: middle; }}
   td.num  {{ text-align: right; color: #999; font-size: 11px; }}
   td.key  {{ font-family: monospace; font-size: 12px; word-break: break-all; }}
-  td.val  {{ text-align: right; font-family: monospace; font-size: 12px; }}
-  td.stat {{ text-align: center; font-weight: bold; font-size: 12px; }}
+  td.val   {{ text-align: right; font-family: monospace; font-size: 12px; }}
+  td.basis {{ text-align: center; font-size: 11px; color: #555; }}
+  td.stat  {{ text-align: center; font-weight: bold; font-size: 12px; }}
   td.err  {{ font-size: 11px; color: #666; word-break: break-all; }}
   tr:hover td {{ filter: brightness(0.96); }}
   thead th {{ position: sticky; top: 0; z-index: 1; }}
