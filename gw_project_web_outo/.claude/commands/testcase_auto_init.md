@@ -1,4 +1,4 @@
-# testcase-analyze-generate_init — 自动化测试项目初始化 Skill
+# testcase_auto_init — 自动化测试项目初始化 Skill
 
 ## 用途
 为新产品/新项目一键生成 Playwright + pytest 自动化测试框架骨架，
@@ -8,7 +8,7 @@
 
 | Skill | 使用时机 | 使用频率 |
 |-------|---------|---------|
-| `/testcase-analyze-generate_init` | 新产品/新项目启动时 | **一次性** |
+| `/testcase_auto_init` | 新产品/新项目启动时 | **一次性** |
 | `/testcase-analyze` | 每次分析手工用例时 | 反复使用 |
 
 ---
@@ -16,10 +16,10 @@
 ## 调用格式
 
 ```
-/testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200
-/testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200 --password Admin@654321
-/testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200 --dir C:\projects\acuhmi2_auto
-/testcase-analyze-generate_init --product NewGW --url https://192.168.1.100 --username-field "Username" --password-field "Password" --login-button "Log In" --logged-in-indicator "Dashboard"
+/testcase_auto_init --product AcuHMI2 --url https://192.168.2.200
+/testcase_auto_init --product AcuHMI2 --url https://192.168.2.200 --password Admin@654321
+/testcase_auto_init --product AcuHMI2 --url https://192.168.2.200 --dir C:\projects\acuhmi2_auto
+/testcase_auto_init --product NewGW --url https://192.168.1.100 --username-field "Username" --password-field "Password" --login-button "Log In" --logged-in-indicator "Dashboard"
 ```
 
 参数说明：
@@ -58,11 +58,11 @@
 ❌ 缺少必填参数。
 
 用法：
-  /testcase-analyze-generate_init --product <产品名> --url <设备地址>
+  /testcase_auto_init --product <产品名> --url <设备地址>
 
 示例：
-  /testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200
-  /testcase-analyze-generate_init --product NewGW --url https://192.168.1.100 \
+  /testcase_auto_init --product AcuHMI2 --url https://192.168.2.200
+  /testcase_auto_init --product NewGW --url https://192.168.1.100 \
       --username-field "Username" --password-field "Password" \
       --login-button "Log In" --logged-in-indicator "Dashboard"
 ```
@@ -102,7 +102,7 @@ mkdir "<TARGET_DIR>\reports"
 mkdir "<TARGET_DIR>\screenshots"
 mkdir "<TARGET_DIR>\.claude\commands"
 mkdir "<TARGET_DIR>\auto_test_skills\testcase-analyze"
-mkdir "<TARGET_DIR>\auto_test_skills\testcase-analyze-generate_init"
+mkdir "<TARGET_DIR>\auto_test_skills\testcase_auto_init"
 ```
 
 ### Step 3 — 写入通用样板文件
@@ -512,14 +512,14 @@ def test_login_wrong_password(page):
     pytest -v
 ```
 
-### Step 7 — 写入 testcase-analyze-generate_init Skill 存档
+### Step 7 — 写入 testcase_auto_init Skill 存档
 
-读取 `.claude/commands/testcase-analyze-generate_init.md` 内容，写入目标项目：
-- `<TARGET_DIR>/.claude/commands/testcase-analyze-generate_init.md`
-- `<TARGET_DIR>/auto_test_skills/testcase-analyze-generate_init/testcase-analyze-generate_init.md`
+读取 `.claude/commands/testcase_auto_init.md` 内容，写入目标项目：
+- `<TARGET_DIR>/.claude/commands/testcase_auto_init.md`
+- `<TARGET_DIR>/auto_test_skills/testcase_auto_init/testcase_auto_init.md`
 
-若 `auto_test_skills/testcase-analyze-generate_init/testcase-analyze-generate_init-readme.md` 存在，也写入：
-- `<TARGET_DIR>/auto_test_skills/testcase-analyze-generate_init/testcase-analyze-generate_init-readme.md`
+若 `auto_test_skills/testcase_auto_init/testcase_auto_init-readme.md` 存在，也写入：
+- `<TARGET_DIR>/auto_test_skills/testcase_auto_init/testcase_auto_init-readme.md`
 
 ### Step 8 — 输出初始化摘要
 
@@ -538,9 +538,9 @@ def test_login_wrong_password(page):
   定制：config/settings.py（BASE_URL=<TARGET_URL>）
         .env.example / pages/login_page.py（完整版 or 存根版）/ tests/test_smoke.py
   Skill：.claude/commands/testcase-analyze.md
-         .claude/commands/testcase-analyze-generate_init.md
+         .claude/commands/testcase_auto_init.md
          auto_test_skills/testcase-analyze/（3 个文件）
-         auto_test_skills/testcase-analyze-generate_init/（2 个文件）
+         auto_test_skills/testcase_auto_init/（2 个文件）
   其他：readme.md / product_structure_testcase_regulation/autotest_generativerule.md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 下一步

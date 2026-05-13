@@ -1,8 +1,8 @@
-# testcase-analyze-generate_init Skill 使用说明
+# testcase_auto_init Skill 使用说明
 
 ## 功能简介
 
-`testcase-analyze-generate_init` 是一个 Claude Code 自定义 Skill，
+`testcase_auto_init` 是一个 Claude Code 自定义 Skill，
 用于为新产品/新项目**一键生成** Playwright + pytest 自动化测试框架骨架，
 复用 gw_project_web_outo 已验证的目录结构、配置文件和 Page Object 模式。
 
@@ -13,7 +13,7 @@
 ```
 【新产品启动】项目第 0 天，运行一次
     ↓
-/testcase-analyze-generate_init --product X --url https://...
+/testcase_auto_init --product X --url https://...
     ↓
 框架骨架就绪（目录、配置、Page Object、Skill 文件全部生成）
     ↓
@@ -26,7 +26,7 @@
 
 | Skill | 使用时机 | 使用频率 |
 |-------|---------|---------|
-| `/testcase-analyze-generate_init` | 新产品/新项目启动时 | **一次性** |
+| `/testcase_auto_init` | 新产品/新项目启动时 | **一次性** |
 | `/testcase-analyze` | 每次分析手工用例时 | 反复使用 |
 | `/testcase-generate`（未来） | 每次生成自动化脚本时 | 反复使用 |
 
@@ -35,12 +35,12 @@
 ## 目录结构
 
 ```
-auto_test_skills/testcase-analyze-generate_init/
-├── testcase-analyze-generate_init.md          # Skill 主体内容（执行流程）
-└── testcase-analyze-generate_init-readme.md   # 本说明文档
+auto_test_skills/testcase_auto_init/
+├── testcase_auto_init.md          # Skill 主体内容（执行流程）
+└── testcase_auto_init-readme.md   # 本说明文档
 
 .claude/commands/
-└── testcase-analyze-generate_init.md          # Skill 调用入口（内容与上面相同）
+└── testcase_auto_init.md          # Skill 调用入口（内容与上面相同）
 ```
 
 ---
@@ -55,14 +55,14 @@ git pull
 
 拉取后确认以下文件存在：
 ```
-.claude\commands\testcase-analyze-generate_init.md
+.claude\commands\testcase_auto_init.md
 ```
 
 ### 方式 B：手动复制
 
 将以下文件复制到同事的 gw_project_web_outo 目录：
 ```
-.claude\commands\testcase-analyze-generate_init.md
+.claude\commands\testcase_auto_init.md
 ```
 
 ### 环境依赖
@@ -93,7 +93,7 @@ git pull
 
 **场景 1：最简调用（存根模式）**
 ```
-/testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200
+/testcase_auto_init --product AcuHMI2 --url https://192.168.2.200
 ```
 - 生成完整框架骨架
 - `login_page.py` 含 TODO 注释（选择器待填写）
@@ -102,17 +102,17 @@ git pull
 
 **场景 2：指定密码**
 ```
-/testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200 --password Admin@654321
+/testcase_auto_init --product AcuHMI2 --url https://192.168.2.200 --password Admin@654321
 ```
 
 **场景 3：指定输出目录**
 ```
-/testcase-analyze-generate_init --product AcuHMI2 --url https://192.168.2.200 --dir C:\projects\acuhmi2_auto
+/testcase_auto_init --product AcuHMI2 --url https://192.168.2.200 --dir C:\projects\acuhmi2_auto
 ```
 
 **场景 4：完整登录选择器（完整模式）**
 ```
-/testcase-analyze-generate_init --product NewGW --url https://192.168.1.100 --username-field "Username" --password-field "Password" --login-button "Log In" --logged-in-indicator "Dashboard"
+/testcase_auto_init --product NewGW --url https://192.168.1.100 --username-field "Username" --password-field "Password" --login-button "Log In" --logged-in-indicator "Dashboard"
 ```
 - `login_page.py` 直接生成可运行版本
 - `test_smoke.py` 无 skip，可直接运行
@@ -150,15 +150,15 @@ git pull
 ├── .claude/
 │   └── commands/
 │       ├── testcase-analyze.md
-│       └── testcase-analyze-generate_init.md
+│       └── testcase_auto_init.md
 ├── auto_test_skills/
 │   ├── testcase-analyze/
 │   │   ├── testcase-analyze.md
 │   │   ├── testcase-analyze-readme.md
 │   │   └── excel_writer.py
-│   └── testcase-analyze-generate_init/
-│       ├── testcase-analyze-generate_init.md
-│       └── testcase-analyze-generate_init-readme.md
+│   └── testcase_auto_init/
+│       ├── testcase_auto_init.md
+│       └── testcase_auto_init-readme.md
 ├── conftest.py                 ← 通用 pytest 配置
 ├── pytest.ini                  ← 通用 pytest 配置
 ├── requirements.txt            ← 通用依赖
@@ -271,7 +271,7 @@ product_structure_testcase_regulation/<module>_struct.md
 
 ```
 【初始化，一次性】
-/testcase-analyze-generate_init --product X --url https://...
+/testcase_auto_init --product X --url https://...
     ↓
 框架骨架就绪 + testcase-analyze Skill 已复制到新项目
     ↓
@@ -299,7 +299,7 @@ cd <TARGET_DIR>
 **Q：调用后报"缺少必填参数"？**
 A：确认 `--product` 和 `--url` 都已提供。示例：
 ```
-/testcase-analyze-generate_init --product MyProduct --url https://192.168.1.100
+/testcase_auto_init --product MyProduct --url https://192.168.1.100
 ```
 
 **Q：目标目录已存在，会覆盖吗？**
@@ -327,7 +327,7 @@ A：`excel_writer.py` 按固定列名匹配，若列名不同需修改 `excel_wr
 
 | 文件 | 说明 |
 |------|------|
-| `.claude/commands/testcase-analyze-generate_init.md` | Skill 调用入口（执行逻辑） |
-| `auto_test_skills/testcase-analyze-generate_init/testcase-analyze-generate_init.md` | 存档副本 |
+| `.claude/commands/testcase_auto_init.md` | Skill 调用入口（执行逻辑） |
+| `auto_test_skills/testcase_auto_init/testcase_auto_init.md` | 存档副本 |
 | `auto_test_skills/testcase-analyze/testcase-analyze.md` | testcase-analyze Skill（将被复制到新项目） |
 | `product_structure_testcase_regulation/autotest_generativerule.md` | 自动化通用规则（将被复制到新项目） |
