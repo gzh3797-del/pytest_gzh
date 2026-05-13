@@ -64,3 +64,10 @@ CLOUD_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
 
 # ── AcuCloud 数据目录 ─────────────────────────────────────────────────────────
 CLOUD_DATA_DIR = _os.path.join(_BASE, "Datas", "acuclouddatas")
+
+# ── MQTT 数据目录 ─────────────────────────────────────────────────────────────
+MQTT_DATA_DIR = _os.path.join(_BASE, "MQTT")
+
+# ── MQTT 快照比对容差（与 AcuCloud 相同，补偿时序差异） ──────────────────────
+MQTT_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
+MQTT_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
