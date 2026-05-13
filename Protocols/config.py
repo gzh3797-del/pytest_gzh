@@ -20,8 +20,21 @@ DEVICE_INSTANCE  = 4194302            # 设备实例号（None = 运行时自动
 LOCAL_IP   = "192.168.2.45"  # 本机网卡 IP（BAC0 监听地址）
 LOCAL_PORT = 47808            # 本机 BACnet 监听端口
 
+# ── Modbus 通信方式 ────────────────────────────────────────────────────────────
+# "tcp"：通过网络直连设备（默认）
+# "rtu"：通过串口 RS485 连接设备（设备与电脑不同网段时使用）
+MODBUS_MODE = "tcp"
+
+# ── Modbus RTU（串口）配置，仅 MODBUS_MODE="rtu" 时生效 ──────────────────────
+MODBUS_RTU_PORT     = "COM3"   # 串口号（Windows: "COM3"，Linux: "/dev/ttyUSB0"）
+MODBUS_RTU_BAUDRATE = 9600
+MODBUS_RTU_PARITY   = "N"      # N=无校验  E=偶校验  O=奇校验
+MODBUS_RTU_STOPBITS = 1
+MODBUS_RTU_BYTESIZE = 8
+
 # ── 下挂设备（Modbus TCP Client） ────────────────────────────────────────────
-# 每台设备独立配置 (host, port, unit_id)，运行时按 DEVICE_NAME 自动选取
+# TCP 模式：host/port/unit_id 均生效
+# RTU 模式：仅 unit_id（slave 地址）生效，host/port 忽略
 # 格式："设备名": ("IP", 端口, Unit ID)
 MODBUS_DEVICE_MAP: dict = {
     "AcuRev4100": ("192.168.2.63", 2000, 101),

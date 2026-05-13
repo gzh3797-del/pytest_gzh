@@ -50,7 +50,7 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
-from modbus_reader import ModbusReader, ModbusResult
+from modbus_reader import ModbusReader, ModbusResult, get_reader
 from template_reader import TemplateParam, find_template_file, get_mqtt_params
 
 log = logging.getLogger(__name__)
@@ -345,7 +345,7 @@ async def run_mqtt_comparison(
 
     # ── 实时读取 Modbus ────────────────────────────────────────────────────────
     log.info("读取实时 Modbus 寄存器…")
-    async with ModbusReader() as modbus:
+    async with get_reader() as modbus:
         modbus_results = await modbus.read_params(list(comparable.keys()))
 
     modbus_map: dict[str, ModbusResult] = {r.param_key: r for r in modbus_results}

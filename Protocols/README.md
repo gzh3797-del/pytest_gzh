@@ -17,6 +17,24 @@
 
 > 运行前请确认 `config.py` 中 `MODBUS_DEVICE_MAP` 内对应设备的 IP / Unit ID 已填写正确。
 
+### Modbus RTU 模式（设备与电脑不同网段时）
+
+web2 作为 DHCP Server 为下挂设备分配 IP，导致下挂设备（如 AcuRev4100）与测试电脑不在同一网段，
+无法通过 Modbus TCP 直连。此时在 `config.py` 中切换为 RTU 模式，通过 RS485 串口读取：
+
+```python
+# config.py
+MODBUS_MODE         = "rtu"
+MODBUS_RTU_PORT     = "COM3"   # 实际串口号
+MODBUS_RTU_BAUDRATE = 9600     # 与设备波特率一致
+MODBUS_RTU_PARITY   = "N"
+MODBUS_RTU_STOPBITS = 1
+MODBUS_RTU_BYTESIZE = 8
+```
+
+RTU 模式下 `MODBUS_DEVICE_MAP` 中的 IP/Port 被忽略，仅 Unit ID（slave 地址）生效。
+所有比对脚本（BACnetIP / AcuCloud / MQTT / EtherNetIP）无需修改，切换配置后直接运行。
+
 ---
 
 ## BACnetIP/comparator.py — BACnet vs 实时 Modbus 比对
@@ -169,7 +187,10 @@ python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --file "Protocols/M
 | `DEVICE_NAME` / `DEVICE_MODULE` | 默认测试设备（运行时可用 `--device` 覆盖） |
 | `GATEWAY_IP` / `GATEWAY_PORT` | BACnet 网关地址与端口 |
 | `LOCAL_IP` / `LOCAL_PORT` | 本机 BACnet 监听地址 |
-| `MODBUS_DEVICE_MAP` | 各设备 Modbus TCP 连接参数（IP、端口、Unit ID） |
+| `MODBUS_MODE` | Modbus 通信方式：`"tcp"`（默认）或 `"rtu"`（串口，设备与电脑不同网段时使用） |
+| `MODBUS_DEVICE_MAP` | 各设备 Modbus 连接参数；TCP 模式三项均生效，RTU 模式仅 Unit ID 生效 |
+| `MODBUS_RTU_PORT` | RTU 串口号（Windows: `"COM3"`，Linux: `"/dev/ttyUSB0"`） |
+| `MODBUS_RTU_BAUDRATE` / `MODBUS_RTU_PARITY` / `MODBUS_RTU_STOPBITS` / `MODBUS_RTU_BYTESIZE` | RTU 串口参数（默认 9600/N/1/8） |
 | `TEMPLATE_DIR` | 设备参数模板 xlsx 目录（`template/`） |
 | `READ_TIMEOUT` / `MAX_RETRIES` / `RETRY_WAIT` | 单次读取超时、重试次数、重试间隔 |
 | `CONNECT_WAIT` | BAC0 启动后等待网关就绪时间（秒） |
