@@ -4,7 +4,7 @@
 读取 Excel 中已被 `/testcase-analyze` 标注为深绿色（已理解）的用例，
 结合模块的 `*_struct.md` 页面结构文档，为每条用例生成独立的 Playwright + pytest 测试脚本。
 
-**前提**：需先运行 `/testcase-analyze`，Excel 第 21 列有绿色标注后再调用本 Skill。
+**前提**：需先运行 `/testcase-analyze`，Excel 第 13 列有绿色标注后再调用本 Skill。
 
 | Skill | 阶段 | 频率 |
 |-------|------|------|

@@ -283,7 +283,7 @@ cd <TARGET_DIR>
 将手工测试用例 Excel 放入 Manual_testcase/
 /testcase-analyze --all
     ↓
-查看红色行（需澄清），在 Excel 第 22 列填写用户答复
+查看红色行（需澄清），在 Excel 第 14 列填写用户答复
 /testcase-analyze --module <有疑问的模块>
     ↓
 重复直到所有行变为深绿色

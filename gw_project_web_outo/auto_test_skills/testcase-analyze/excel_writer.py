@@ -27,19 +27,16 @@ except ImportError:
 # ── 列名常量 ────────────────────────────────────────────────────────────────
 COL_MODULE      = "模块"
 COL_SUBMODULE   = "子模块"
-COL_FTS_ID      = "FTS编号"
-COL_FTS_NAME    = "FTS名称(用例编号)"
 COL_CASE_ID     = "用例编号"
 COL_TITLE       = "用例标题"
 COL_PRECOND     = "预置条件"
 COL_STEPS       = "测试步骤"
 COL_EXPECTED    = "预期结果"
 COL_LEVEL       = "用例级别"
-COL_SEMI_AUTO   = "半自动化"
-COL_AUTO        = "自动化"
-COL_DONE_AUTO   = "完成自动化"
-COL_CLAUDE_NOTE = "需补充信息(claude识别回填)"
-COL_USER_REPLY  = "用户答复(基于需补充信息，澄清信息)"
+COL_SEMI_AUTO   = "用户识别半自动化"
+COL_AUTO        = "用户识别自动化"
+COL_CLAUDE_NOTE = "需补充信息(cloude识别回填)"
+COL_USER_REPLY  = "用户答复(基于需补充信息,澄清信息)"
 
 COLOR_GREEN  = "006400"   # 深绿：已理解
 COLOR_RED    = "FF0000"   # 红色：需澄清
@@ -54,10 +51,15 @@ def _load(path: str):
     return openpyxl.load_workbook(str(p))
 
 
+def _normalize_col(s: str) -> str:
+    """规范化列名：去除换行符和首尾空格，统一中英文逗号。"""
+    return s.replace('\n', '').replace('\r', '').replace('，', ',').strip()
+
+
 def _col_map(ws) -> dict:
-    """返回 {列名: 列索引(1-based)} 的映射。"""
+    """返回 {规范化列名: 列索引(1-based)} 的映射。"""
     return {
-        cell.value: cell.column
+        _normalize_col(cell.value): cell.column
         for cell in ws[1]
         if cell.value is not None
     }
@@ -135,8 +137,6 @@ def cmd_read(excel_path: str, module: str):
 
         results.append({
             "row":          row_idx,
-            "fts_id":       _get(row, COL_FTS_ID),
-            "fts_name":     _get(row, COL_FTS_NAME),
             "case_id":      _get(row, COL_CASE_ID),
             "title":        _get(row, COL_TITLE),
             "precondition": _get(row, COL_PRECOND),

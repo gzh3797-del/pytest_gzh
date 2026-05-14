@@ -12,7 +12,7 @@
 
 ```
 【分析阶段】/testcase-analyze --all
-    ↓ Excel 第 21 列标注绿/红/橙
+    ↓ Excel 第 13 列标注绿/红/橙
 【生成阶段】/auto_testcase_generate --module 用户管理
     ↓ 读取绿色用例 → 生成 tests/<module>/<submodule>/test_<case_id>.py
 【执行阶段】pytest tests/usermanagement/ -v
@@ -28,7 +28,7 @@
 
 **松耦合，通过 Excel 数据间接关联，无代码层面依赖。**
 
-- `testcase-analyze` 写入 Excel 第 21 列（`claude_color=006400` 表示已理解）
+- `testcase-analyze` 写入 Excel 第 13 列（`claude_color=006400` 表示已理解）
 - `auto_testcase_generate` 读取该列过滤绿色用例
 - 两者共享 `excel_writer.py` 工具，但可以独立部署和调用
 
@@ -70,7 +70,7 @@ auto_test_skills\testcase-analyze\excel_writer.py  # 依赖（通常已有）
 
 ## 二、调用方式
 
-> **重要**：必须先运行 `/testcase-analyze` 完成用例分析（Excel 第 21 列有绿色标注），
+> **重要**：必须先运行 `/testcase-analyze` 完成用例分析（Excel 第 13 列有绿色标注），
 > 再调用本 Skill 生成脚本。
 
 ### 参数说明
@@ -242,7 +242,7 @@ def test_TestCase_AcuHMI_007_05_case01_1(login_page: LoginPage):
 
 **Q：调用后输出「可生成 0 条」？**
 A：有两种可能：
-- 该模块尚未运行 `/testcase-analyze`，Excel 第 21 列无绿色标注
+- 该模块尚未运行 `/testcase-analyze`，Excel 第 13 列无绿色标注
 - 所有绿色用例的文件已存在且未加 `--overwrite`
 
 **Q：子模块目录名显示警告？**
