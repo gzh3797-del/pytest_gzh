@@ -76,12 +76,32 @@ python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_
 
 ### Step 3 — 批量检查 struct.md 覆盖情况
 
-用 Glob 列出 `product_structure_testcase_regulation/` 下所有 `*_struct.md` 文件，逐一读取，
-判断每个文件是否覆盖 `TARGET_MODULES` 中的某个模块（文件名或第一行标题含模块名关键词）。
+用 Glob 列出 `product_structure_testcase_regulation/` 下所有 `*_struct.md` 文件。
 
-将 `TARGET_MODULES` 分为两组：
-- `HAS_DOC_MODULES`：找到对应 struct.md 的模块
-- `NO_DOC_MODULES`：未找到 struct.md 的模块
+**第一轮：匹配专属文档（per-module struct.md）**
+
+逐一读取每个 `*_struct.md`，判断是否覆盖 `TARGET_MODULES` 中的某个模块
+（文件名或第一行标题含模块名关键词）。
+
+将 `TARGET_MODULES` 暂分为两组：
+- `HAS_DOC_MODULES`：找到对应专属 struct.md 的模块
+- `UNMATCHED_MODULES`：暂未匹配到专属 struct.md 的模块
+
+**第二轮：检查产品级兜底文档（product-level struct.md）**
+
+对所有在第一轮中未被匹配到任何模块的 `*_struct.md` 文件
+（即文件名前缀不对应任何 TARGET_MODULE，如 `AcuHMI-1-7_struct.md`），
+视为产品级兜底文档。
+
+若存在兜底文档，读取其内容，逐一检查 `UNMATCHED_MODULES` 中每个模块名是否在文档中有对应章节：
+- 有对应章节 → 移入 `HAS_DOC_MODULES`，标记 `source=fallback`
+- 无对应章节 → 移入 `NO_DOC_MODULES`
+
+若不存在兜底文档，`UNMATCHED_MODULES` 全部移入 `NO_DOC_MODULES`。
+
+**最终两组：**
+- `HAS_DOC_MODULES`：有专属 struct.md 或在兜底文档中有章节的模块
+- `NO_DOC_MODULES`：两轮均未找到文档的模块
 
 **若 `NO_DOC_MODULES` 不为空，输出以下警告（然后继续，不停止）：**
 
@@ -91,12 +111,14 @@ python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_
   - <模块名2>
   ...
 
-建议后续补充对应的 struct.md，补充后重新调用即可更新颜色。
+建议在产品级文档中补充对应模块章节，或新建专属 struct.md。
 格式参考：product_structure_testcase_regulation/usermanagement_struct.md
 ```
 
 读取 `product_structure_testcase_regulation/autotest_generativerule.md`（通用自动化规则）。
-若 `HAS_DOC_MODULES` 不为空，读取各模块对应的 struct.md 文件内容。
+读取 `HAS_DOC_MODULES` 各模块的文档内容：
+- `source=per_module`：读取对应专属 struct.md 全文
+- `source=fallback`：从兜底文档中仅提取该模块对应的章节内容（不读整个文档）
 
 ### Step 4 — 初始化 Excel 列（幂等）
 

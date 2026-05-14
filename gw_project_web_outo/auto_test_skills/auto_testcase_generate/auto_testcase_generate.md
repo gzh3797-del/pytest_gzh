@@ -90,20 +90,34 @@ python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_
 
 用 Glob 列出 `product_structure_testcase_regulation/` 下所有 `*_struct.md` 文件。
 
-将 `TARGET_MODULES` 分为两组：
-- `HAS_DOC_MODULES`：找到对应 struct.md 的模块
-- `NO_DOC_MODULES`：未找到 struct.md 的模块
+**第一轮：匹配专属文档（per-module struct.md）**
+
+逐一读取每个 `*_struct.md`，判断是否覆盖 `TARGET_MODULES` 中的某个模块
+（文件名或第一行标题含模块名关键词）。
+
+暂分为：
+- `HAS_DOC_MODULES`：找到专属 struct.md 的模块
+- `UNMATCHED_MODULES`：暂未匹配的模块
+
+**第二轮：检查产品级兜底文档（product-level struct.md）**
+
+对第一轮未被匹配到任何模块的 `*_struct.md` 文件（如 `AcuHMI-1-7_struct.md`），
+视为产品级兜底文档，读取其内容，检查 `UNMATCHED_MODULES` 中每个模块名是否有对应章节：
+- 有对应章节 → 移入 `HAS_DOC_MODULES`，标记 `source=fallback`
+- 无对应章节 → 移入 `NO_DOC_MODULES`
 
 **若 `NO_DOC_MODULES` 不为空，输出警告（然后继续，不停止）：**
 ```
 ⚠️  以下模块缺少页面结构文档，无法生成测试脚本（已跳过）：
-  - <模块名1>
-  请补充 product_structure_testcase_regulation/<模块英文名>_struct.md 后重新调用。
+  - <模块名>
+  请在产品级文档中补充对应模块章节，或新建专属 struct.md 后重新调用。
 ```
 
 读取以下文件（后续生成时作为参考）：
 - `product_structure_testcase_regulation/autotest_generativerule.md`
-- 各 `HAS_DOC_MODULES` 对应的 struct.md 全文
+- `HAS_DOC_MODULES` 各模块的文档：
+  - `source=per_module`：读取专属 struct.md 全文
+  - `source=fallback`：从兜底文档中仅提取该模块对应的章节内容
 
 ### Step 4 — 读取绿色用例
 
