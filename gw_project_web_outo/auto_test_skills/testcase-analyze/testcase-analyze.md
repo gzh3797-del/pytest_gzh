@@ -2,7 +2,7 @@
 
 ## 用途
 分析指定模块的手工测试用例，判断每条用例是否可自动化实现，
-将理解程度回填到 Excel「需补充信息(cloude识别回填)」列（第 13 列）：
+将理解程度回填到 Excel「需补充信息(claude识别回填)」列（Q 列）：
 - 深绿色：已理解，可直接编写自动化脚本
 - 红色：有疑问，需用户澄清后才能实现
 - 橙色：半自动化用例，部分步骤需人工介入
@@ -126,7 +126,7 @@ python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_
 python auto_test_skills/testcase-analyze/excel_writer.py --init "<EXCEL_PATH>"
 ```
 
-确认「需补充信息(cloude识别回填)」（第 13 列）和「用户答复(基于需补充信息,澄清信息)」（第 14 列）两列存在。
+确认「需补充信息(claude识别回填)」（Q 列）和「用户答复(基于需补充信息,澄清信息)」（R 列）两列存在。
 
 ### Step 5 — 快速处理无文档模块（NO_DOC_MODULES）
 
@@ -241,6 +241,6 @@ About                   12     10       2       0        0
 
 - Excel 文件路径若包含中文或空格，用双引号包裹
 - `--write` 的 `--data` 参数若 JSON 过长，先写入临时文件再传路径（由 Claude 判断）
-- 分析过程中不修改用例的任何原始列（Col1-Col12），只写入 Col13（需补充信息）和 Col14（用户答复）
+- 分析过程中不修改用例的任何原始列（A-P），只写入「需补充信息(claude识别回填)」（Q 列）和「用户答复」（R 列）
 - 每个模块写入完成后立即保存，避免中途中断导致数据丢失
 - `--all` 模式下，无 struct.md 的模块会被快速批量标红，有 struct.md 的模块才做逐条精细分析

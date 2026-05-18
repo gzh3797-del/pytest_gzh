@@ -33,9 +33,9 @@ COL_PRECOND     = "预置条件"
 COL_STEPS       = "测试步骤"
 COL_EXPECTED    = "预期结果"
 COL_LEVEL       = "用例级别"
-COL_SEMI_AUTO   = "用户识别半自动化"
-COL_AUTO        = "用户识别自动化"
-COL_CLAUDE_NOTE = "需补充信息(cloude识别回填)"
+COL_SEMI_AUTO   = "半自动化"
+COL_AUTO        = "自动化"
+COL_CLAUDE_NOTE = "需补充信息(claude识别回填)"
 COL_USER_REPLY  = "用户答复(基于需补充信息,澄清信息)"
 
 COLOR_GREEN  = "006400"   # 深绿：已理解
