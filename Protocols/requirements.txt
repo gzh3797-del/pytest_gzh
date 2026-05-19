@@ -1,0 +1,4 @@
+BAC0>=2024.0
+pymodbus>=3.6
+openpyxl>=3.1
+pycomm3>=1.2
