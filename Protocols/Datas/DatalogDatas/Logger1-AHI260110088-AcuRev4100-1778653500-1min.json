@@ -1,0 +1,7431 @@
+{
+    "timestamp": [
+        1778653500
+    ],
+    "gateway": {
+        "name": "",
+        "model": "AcuHMI-1-7",
+        "serial": "AHI260110088"
+    },
+    "device": {
+        "name": "AcuRev4100",
+        "model": "AcuRev-4110-mV",
+        "serial": "AcuRev4100",
+        "online": true,
+        "readings": [
+            {
+                "param": "FREQ_Hz",
+                "unit": "Hz",
+                "value": [
+                    "50.000"
+                ]
+            },
+            {
+                "param": "VLN_a_V",
+                "unit": "V",
+                "value": [
+                    "99.925"
+                ]
+            },
+            {
+                "param": "VLN_b_V",
+                "unit": "V",
+                "value": [
+                    "173.196"
+                ]
+            },
+            {
+                "param": "VLN_c_V",
+                "unit": "V",
+                "value": [
+                    "173.197"
+                ]
+            },
+            {
+                "param": "VLN_avg_V",
+                "unit": "V",
+                "value": [
+                    "148.773"
+                ]
+            },
+            {
+                "param": "VLL_ab_V",
+                "unit": "V",
+                "value": [
+                    "100.026"
+                ]
+            },
+            {
+                "param": "VLL_bc_V",
+                "unit": "V",
+                "value": [
+                    "173.273"
+                ]
+            },
+            {
+                "param": "VLL_ca_V",
+                "unit": "V",
+                "value": [
+                    "100.078"
+                ]
+            },
+            {
+                "param": "VLL_avg_V",
+                "unit": "V",
+                "value": [
+                    "124.461"
+                ]
+            },
+            {
+                "param": "ANG_VLN_a",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_VLN_b",
+                "unit": "°",
+                "value": [
+                    "29.998"
+                ]
+            },
+            {
+                "param": "ANG_VLN_c",
+                "unit": "°",
+                "value": [
+                    "329.969"
+                ]
+            },
+            {
+                "param": "I_a_A",
+                "unit": "A",
+                "value": [
+                    "6.856"
+                ]
+            },
+            {
+                "param": "P_a_kW",
+                "unit": "kW",
+                "value": [
+                    "0.343"
+                ]
+            },
+            {
+                "param": "Q_a_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.056"
+                ]
+            },
+            {
+                "param": "S_a_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.685"
+                ]
+            },
+            {
+                "param": "PF_a",
+                "unit": "",
+                "value": [
+                    "0.501"
+                ]
+            },
+            {
+                "param": "I_b_A",
+                "unit": "A",
+                "value": [
+                    "5.828"
+                ]
+            },
+            {
+                "param": "P_b_kW",
+                "unit": "kW",
+                "value": [
+                    "0.243"
+                ]
+            },
+            {
+                "param": "Q_b_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.250"
+                ]
+            },
+            {
+                "param": "S_b_kVA",
+                "unit": "kVA",
+                "value": [
+                    "1.009"
+                ]
+            },
+            {
+                "param": "PF_b",
+                "unit": "",
+                "value": [
+                    "0.241"
+                ]
+            },
+            {
+                "param": "I_c_A",
+                "unit": "A",
+                "value": [
+                    "5.348"
+                ]
+            },
+            {
+                "param": "P_c_kW",
+                "unit": "kW",
+                "value": [
+                    "0.340"
+                ]
+            },
+            {
+                "param": "Q_c_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.002"
+                ]
+            },
+            {
+                "param": "S_c_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.926"
+                ]
+            },
+            {
+                "param": "PF_c",
+                "unit": "",
+                "value": [
+                    "0.368"
+                ]
+            },
+            {
+                "param": "I_avg_A",
+                "unit": "A",
+                "value": [
+                    "6.011"
+                ]
+            },
+            {
+                "param": "P_kW",
+                "unit": "kW",
+                "value": [
+                    "0.926"
+                ]
+            },
+            {
+                "param": "Q_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.192"
+                ]
+            },
+            {
+                "param": "S_kVA",
+                "unit": "kVA",
+                "value": [
+                    "2.621"
+                ]
+            },
+            {
+                "param": "PF",
+                "unit": "",
+                "value": [
+                    "0.354"
+                ]
+            },
+            {
+                "param": "I_001_A",
+                "unit": "A",
+                "value": [
+                    "0.987"
+                ]
+            },
+            {
+                "param": "P_001_kW",
+                "unit": "kW",
+                "value": [
+                    "0.049"
+                ]
+            },
+            {
+                "param": "Q_001_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.085"
+                ]
+            },
+            {
+                "param": "S_001_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "PF_001",
+                "unit": "",
+                "value": [
+                    "0.502"
+                ]
+            },
+            {
+                "param": "ANG_I_001",
+                "unit": "°",
+                "value": [
+                    "59.888"
+                ]
+            },
+            {
+                "param": "I_002_A",
+                "unit": "A",
+                "value": [
+                    "0.826"
+                ]
+            },
+            {
+                "param": "P_002_kW",
+                "unit": "kW",
+                "value": [
+                    "0.125"
+                ]
+            },
+            {
+                "param": "Q_002_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.069"
+                ]
+            },
+            {
+                "param": "S_002_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.143"
+                ]
+            },
+            {
+                "param": "PF_002",
+                "unit": "",
+                "value": [
+                    "0.877"
+                ]
+            },
+            {
+                "param": "ANG_I_002",
+                "unit": "°",
+                "value": [
+                    "58.691"
+                ]
+            },
+            {
+                "param": "I_003_A",
+                "unit": "A",
+                "value": [
+                    "0.345"
+                ]
+            },
+            {
+                "param": "P_003_kW",
+                "unit": "kW",
+                "value": [
+                    "0.005"
+                ]
+            },
+            {
+                "param": "Q_003_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.060"
+                ]
+            },
+            {
+                "param": "S_003_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.060"
+                ]
+            },
+            {
+                "param": "PF_003",
+                "unit": "",
+                "value": [
+                    "0.092"
+                ]
+            },
+            {
+                "param": "ANG_I_003",
+                "unit": "°",
+                "value": [
+                    "54.700"
+                ]
+            },
+            {
+                "param": "I_004_A",
+                "unit": "A",
+                "value": [
+                    "0.810"
+                ]
+            },
+            {
+                "param": "P_004_kW",
+                "unit": "kW",
+                "value": [
+                    "0.042"
+                ]
+            },
+            {
+                "param": "Q_004_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.069"
+                ]
+            },
+            {
+                "param": "S_004_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.081"
+                ]
+            },
+            {
+                "param": "PF_004",
+                "unit": "",
+                "value": [
+                    "0.522"
+                ]
+            },
+            {
+                "param": "ANG_I_004",
+                "unit": "°",
+                "value": [
+                    "58.544"
+                ]
+            },
+            {
+                "param": "I_005_A",
+                "unit": "A",
+                "value": [
+                    "0.810"
+                ]
+            },
+            {
+                "param": "P_005_kW",
+                "unit": "kW",
+                "value": [
+                    "0.123"
+                ]
+            },
+            {
+                "param": "Q_005_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.067"
+                ]
+            },
+            {
+                "param": "S_005_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "PF_005",
+                "unit": "",
+                "value": [
+                    "0.878"
+                ]
+            },
+            {
+                "param": "ANG_I_005",
+                "unit": "°",
+                "value": [
+                    "58.538"
+                ]
+            },
+            {
+                "param": "I_006_A",
+                "unit": "A",
+                "value": [
+                    "0.810"
+                ]
+            },
+            {
+                "param": "P_006_kW",
+                "unit": "kW",
+                "value": [
+                    "0.003"
+                ]
+            },
+            {
+                "param": "Q_006_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.140"
+                ]
+            },
+            {
+                "param": "S_006_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "PF_006",
+                "unit": "",
+                "value": [
+                    "0.025"
+                ]
+            },
+            {
+                "param": "ANG_I_006",
+                "unit": "°",
+                "value": [
+                    "58.540"
+                ]
+            },
+            {
+                "param": "I_007_A",
+                "unit": "A",
+                "value": [
+                    "0.999"
+                ]
+            },
+            {
+                "param": "P_007_kW",
+                "unit": "kW",
+                "value": [
+                    "0.050"
+                ]
+            },
+            {
+                "param": "Q_007_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "S_007_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.100"
+                ]
+            },
+            {
+                "param": "PF_007",
+                "unit": "",
+                "value": [
+                    "0.499"
+                ]
+            },
+            {
+                "param": "ANG_I_007",
+                "unit": "°",
+                "value": [
+                    "299.963"
+                ]
+            },
+            {
+                "param": "I_008_A",
+                "unit": "A",
+                "value": [
+                    "0.132"
+                ]
+            },
+            {
+                "param": "P_008_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.002"
+                ]
+            },
+            {
+                "param": "Q_008_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "S_008_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "PF_008",
+                "unit": "",
+                "value": [
+                    "-0.104"
+                ]
+            },
+            {
+                "param": "ANG_I_008",
+                "unit": "°",
+                "value": [
+                    "294.137"
+                ]
+            },
+            {
+                "param": "I_009_A",
+                "unit": "A",
+                "value": [
+                    "0.131"
+                ]
+            },
+            {
+                "param": "P_009_kW",
+                "unit": "kW",
+                "value": [
+                    "0.018"
+                ]
+            },
+            {
+                "param": "Q_009_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "S_009_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "PF_009",
+                "unit": "",
+                "value": [
+                    "0.809"
+                ]
+            },
+            {
+                "param": "ANG_I_009",
+                "unit": "°",
+                "value": [
+                    "294.034"
+                ]
+            },
+            {
+                "param": "I_010_A",
+                "unit": "A",
+                "value": [
+                    "0.131"
+                ]
+            },
+            {
+                "param": "P_010_kW",
+                "unit": "kW",
+                "value": [
+                    "0.005"
+                ]
+            },
+            {
+                "param": "Q_010_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.012"
+                ]
+            },
+            {
+                "param": "S_010_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "PF_010",
+                "unit": "",
+                "value": [
+                    "0.406"
+                ]
+            },
+            {
+                "param": "ANG_I_010",
+                "unit": "°",
+                "value": [
+                    "294.029"
+                ]
+            },
+            {
+                "param": "I_011_A",
+                "unit": "A",
+                "value": [
+                    "0.131"
+                ]
+            },
+            {
+                "param": "P_011_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.002"
+                ]
+            },
+            {
+                "param": "Q_011_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "S_011_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "PF_011",
+                "unit": "",
+                "value": [
+                    "-0.105"
+                ]
+            },
+            {
+                "param": "ANG_I_011",
+                "unit": "°",
+                "value": [
+                    "294.030"
+                ]
+            },
+            {
+                "param": "I_012_A",
+                "unit": "A",
+                "value": [
+                    "0.131"
+                ]
+            },
+            {
+                "param": "P_012_kW",
+                "unit": "kW",
+                "value": [
+                    "0.018"
+                ]
+            },
+            {
+                "param": "Q_012_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "S_012_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "PF_012",
+                "unit": "",
+                "value": [
+                    "0.809"
+                ]
+            },
+            {
+                "param": "ANG_I_012",
+                "unit": "°",
+                "value": [
+                    "294.010"
+                ]
+            },
+            {
+                "param": "I_013_A",
+                "unit": "A",
+                "value": [
+                    "0.982"
+                ]
+            },
+            {
+                "param": "P_013_kW",
+                "unit": "kW",
+                "value": [
+                    "0.098"
+                ]
+            },
+            {
+                "param": "Q_013_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "S_013_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.098"
+                ]
+            },
+            {
+                "param": "PF_013",
+                "unit": "",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "ANG_I_013",
+                "unit": "°",
+                "value": [
+                    "359.839"
+                ]
+            },
+            {
+                "param": "I_014_A",
+                "unit": "A",
+                "value": [
+                    "0.982"
+                ]
+            },
+            {
+                "param": "P_014_kW",
+                "unit": "kW",
+                "value": [
+                    "0.147"
+                ]
+            },
+            {
+                "param": "Q_014_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "S_014_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "PF_014",
+                "unit": "",
+                "value": [
+                    "0.865"
+                ]
+            },
+            {
+                "param": "ANG_I_014",
+                "unit": "°",
+                "value": [
+                    "359.839"
+                ]
+            },
+            {
+                "param": "I_015_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_015_kW",
+                "unit": "kW",
+                "value": [
+                    "0.148"
+                ]
+            },
+            {
+                "param": "Q_015_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.085"
+                ]
+            },
+            {
+                "param": "S_015_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "PF_015",
+                "unit": "",
+                "value": [
+                    "0.867"
+                ]
+            },
+            {
+                "param": "ANG_I_015",
+                "unit": "°",
+                "value": [
+                    "359.833"
+                ]
+            },
+            {
+                "param": "I_016_A",
+                "unit": "A",
+                "value": [
+                    "0.982"
+                ]
+            },
+            {
+                "param": "P_016_kW",
+                "unit": "kW",
+                "value": [
+                    "0.098"
+                ]
+            },
+            {
+                "param": "Q_016_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "S_016_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.098"
+                ]
+            },
+            {
+                "param": "PF_016",
+                "unit": "",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "ANG_I_016",
+                "unit": "°",
+                "value": [
+                    "359.837"
+                ]
+            },
+            {
+                "param": "I_017_A",
+                "unit": "A",
+                "value": [
+                    "0.985"
+                ]
+            },
+            {
+                "param": "P_017_kW",
+                "unit": "kW",
+                "value": [
+                    "0.148"
+                ]
+            },
+            {
+                "param": "Q_017_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.086"
+                ]
+            },
+            {
+                "param": "S_017_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.171"
+                ]
+            },
+            {
+                "param": "PF_017",
+                "unit": "",
+                "value": [
+                    "0.865"
+                ]
+            },
+            {
+                "param": "ANG_I_017",
+                "unit": "°",
+                "value": [
+                    "359.835"
+                ]
+            },
+            {
+                "param": "I_018_A",
+                "unit": "A",
+                "value": [
+                    "0.985"
+                ]
+            },
+            {
+                "param": "P_018_kW",
+                "unit": "kW",
+                "value": [
+                    "0.148"
+                ]
+            },
+            {
+                "param": "Q_018_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.085"
+                ]
+            },
+            {
+                "param": "S_018_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.171"
+                ]
+            },
+            {
+                "param": "PF_018",
+                "unit": "",
+                "value": [
+                    "0.867"
+                ]
+            },
+            {
+                "param": "ANG_I_018",
+                "unit": "°",
+                "value": [
+                    "359.822"
+                ]
+            },
+            {
+                "param": "I_019_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_019_kW",
+                "unit": "kW",
+                "value": [
+                    "0.049"
+                ]
+            },
+            {
+                "param": "Q_019_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.085"
+                ]
+            },
+            {
+                "param": "S_019_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.098"
+                ]
+            },
+            {
+                "param": "PF_019",
+                "unit": "",
+                "value": [
+                    "0.502"
+                ]
+            },
+            {
+                "param": "ANG_I_019",
+                "unit": "°",
+                "value": [
+                    "59.839"
+                ]
+            },
+            {
+                "param": "I_020_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_020_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.148"
+                ]
+            },
+            {
+                "param": "Q_020_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "S_020_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "PF_020",
+                "unit": "",
+                "value": [
+                    "-0.867"
+                ]
+            },
+            {
+                "param": "ANG_I_020",
+                "unit": "°",
+                "value": [
+                    "239.845"
+                ]
+            },
+            {
+                "param": "I_021_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_021_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.000"
+                ]
+            },
+            {
+                "param": "Q_021_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "S_021_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "PF_021",
+                "unit": "",
+                "value": [
+                    "-0.002"
+                ]
+            },
+            {
+                "param": "ANG_I_021",
+                "unit": "°",
+                "value": [
+                    "239.838"
+                ]
+            },
+            {
+                "param": "I_022_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_022_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.049"
+                ]
+            },
+            {
+                "param": "Q_022_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "S_022_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.098"
+                ]
+            },
+            {
+                "param": "PF_022",
+                "unit": "",
+                "value": [
+                    "-0.502"
+                ]
+            },
+            {
+                "param": "ANG_I_022",
+                "unit": "°",
+                "value": [
+                    "239.846"
+                ]
+            },
+            {
+                "param": "I_023_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_023_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.148"
+                ]
+            },
+            {
+                "param": "Q_023_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.084"
+                ]
+            },
+            {
+                "param": "S_023_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "PF_023",
+                "unit": "",
+                "value": [
+                    "-0.868"
+                ]
+            },
+            {
+                "param": "ANG_I_023",
+                "unit": "°",
+                "value": [
+                    "239.763"
+                ]
+            },
+            {
+                "param": "I_024_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_024_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.000"
+                ]
+            },
+            {
+                "param": "Q_024_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "S_024_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "PF_024",
+                "unit": "",
+                "value": [
+                    "-0.002"
+                ]
+            },
+            {
+                "param": "ANG_I_024",
+                "unit": "°",
+                "value": [
+                    "239.836"
+                ]
+            },
+            {
+                "param": "I_s001_A",
+                "unit": "A",
+                "value": [
+                    "0.719"
+                ]
+            },
+            {
+                "param": "P_s001_kW",
+                "unit": "kW",
+                "value": [
+                    "0.180"
+                ]
+            },
+            {
+                "param": "Q_s001_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.214"
+                ]
+            },
+            {
+                "param": "S_s001_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.301"
+                ]
+            },
+            {
+                "param": "PF_s001",
+                "unit": "",
+                "value": [
+                    "0.598"
+                ]
+            },
+            {
+                "param": "I_s002_A",
+                "unit": "A",
+                "value": [
+                    "0.809"
+                ]
+            },
+            {
+                "param": "P_s002_kW",
+                "unit": "kW",
+                "value": [
+                    "0.169"
+                ]
+            },
+            {
+                "param": "Q_s002_kvar",
+                "unit": "kvar",
+                "value": [
+                    "-0.276"
+                ]
+            },
+            {
+                "param": "S_s002_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.361"
+                ]
+            },
+            {
+                "param": "PF_s002",
+                "unit": "",
+                "value": [
+                    "0.467"
+                ]
+            },
+            {
+                "param": "I_s003_A",
+                "unit": "A",
+                "value": [
+                    "0.421"
+                ]
+            },
+            {
+                "param": "P_s003_kW",
+                "unit": "kW",
+                "value": [
+                    "0.066"
+                ]
+            },
+            {
+                "param": "Q_s003_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.123"
+                ]
+            },
+            {
+                "param": "S_s003_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.145"
+                ]
+            },
+            {
+                "param": "PF_s003",
+                "unit": "",
+                "value": [
+                    "0.453"
+                ]
+            },
+            {
+                "param": "I_s004_A",
+                "unit": "A",
+                "value": [
+                    "0.131"
+                ]
+            },
+            {
+                "param": "P_s004_kW",
+                "unit": "kW",
+                "value": [
+                    "0.021"
+                ]
+            },
+            {
+                "param": "Q_s004_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.048"
+                ]
+            },
+            {
+                "param": "S_s004_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.058"
+                ]
+            },
+            {
+                "param": "PF_s004",
+                "unit": "",
+                "value": [
+                    "0.364"
+                ]
+            },
+            {
+                "param": "I_s005_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_s005_kW",
+                "unit": "kW",
+                "value": [
+                    "0.393"
+                ]
+            },
+            {
+                "param": "Q_s005_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "S_s005_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.439"
+                ]
+            },
+            {
+                "param": "PF_s005",
+                "unit": "",
+                "value": [
+                    "0.896"
+                ]
+            },
+            {
+                "param": "I_s006_A",
+                "unit": "A",
+                "value": [
+                    "0.984"
+                ]
+            },
+            {
+                "param": "P_s006_kW",
+                "unit": "kW",
+                "value": [
+                    "0.394"
+                ]
+            },
+            {
+                "param": "Q_s006_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "S_s006_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.439"
+                ]
+            },
+            {
+                "param": "PF_s006",
+                "unit": "",
+                "value": [
+                    "0.896"
+                ]
+            },
+            {
+                "param": "I_s007_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_s007_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.099"
+                ]
+            },
+            {
+                "param": "Q_s007_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.170"
+                ]
+            },
+            {
+                "param": "S_s007_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.439"
+                ]
+            },
+            {
+                "param": "PF_s007",
+                "unit": "",
+                "value": [
+                    "-0.225"
+                ]
+            },
+            {
+                "param": "I_s008_A",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "P_s008_kW",
+                "unit": "kW",
+                "value": [
+                    "-0.197"
+                ]
+            },
+            {
+                "param": "Q_s008_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.340"
+                ]
+            },
+            {
+                "param": "S_s008_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.439"
+                ]
+            },
+            {
+                "param": "PF_s008",
+                "unit": "",
+                "value": [
+                    "-0.450"
+                ]
+            },
+            {
+                "param": "I_s009_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "P_s009_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "Q_s009_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "S_s009_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "PF_s009",
+                "unit": "",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "I_s010_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "P_s010_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "Q_s010_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "S_s010_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "PF_s010",
+                "unit": "",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "I_s011_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "P_s011_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "Q_s011_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "S_s011_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "PF_s011",
+                "unit": "",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "I_s012_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "P_s012_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "Q_s012_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "S_s012_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "PF_s012",
+                "unit": "",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_I_a_A",
+                "unit": "A",
+                "value": [
+                    "6.507"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_a_kW",
+                "unit": "kW",
+                "value": [
+                    "0.319"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_a_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_a_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_a_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.011"
+                ]
+            },
+            {
+                "param": "DMD_S_a_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.638"
+                ]
+            },
+            {
+                "param": "DMD_I_b_A",
+                "unit": "A",
+                "value": [
+                    "4.872"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_b_kW",
+                "unit": "kW",
+                "value": [
+                    "0.080"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_b_kW",
+                "unit": "kW",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_b_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.351"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_b_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_b_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.836"
+                ]
+            },
+            {
+                "param": "DMD_I_c_A",
+                "unit": "A",
+                "value": [
+                    "4.656"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_c_kW",
+                "unit": "kW",
+                "value": [
+                    "0.346"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_c_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_c_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.142"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_c_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_c_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.800"
+                ]
+            },
+            {
+                "param": "DMD_I_avg_A",
+                "unit": "A",
+                "value": [
+                    "5.345"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_kW",
+                "unit": "kW",
+                "value": [
+                    "0.745"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_kW",
+                "unit": "kW",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.495"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.011"
+                ]
+            },
+            {
+                "param": "DMD_S_kVA",
+                "unit": "kVA",
+                "value": [
+                    "2.274"
+                ]
+            },
+            {
+                "param": "DMD_I_001_A",
+                "unit": "A",
+                "value": [
+                    "1.022"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_001_kW",
+                "unit": "kW",
+                "value": [
+                    "0.050"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_001_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_001_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_001_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "DMD_S_001_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.100"
+                ]
+            },
+            {
+                "param": "DMD_I_002_A",
+                "unit": "A",
+                "value": [
+                    "0.282"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_002_kW",
+                "unit": "kW",
+                "value": [
+                    "0.044"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_002_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_002_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_002_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.021"
+                ]
+            },
+            {
+                "param": "DMD_S_002_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.049"
+                ]
+            },
+            {
+                "param": "DMD_I_003_A",
+                "unit": "A",
+                "value": [
+                    "0.066"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_003_kW",
+                "unit": "kW",
+                "value": [
+                    "0.002"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_003_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_003_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_003_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.010"
+                ]
+            },
+            {
+                "param": "DMD_S_003_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.011"
+                ]
+            },
+            {
+                "param": "DMD_I_004_A",
+                "unit": "A",
+                "value": [
+                    "0.275"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_004_kW",
+                "unit": "kW",
+                "value": [
+                    "0.015"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_004_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_004_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_004_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.022"
+                ]
+            },
+            {
+                "param": "DMD_S_004_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.027"
+                ]
+            },
+            {
+                "param": "DMD_I_005_A",
+                "unit": "A",
+                "value": [
+                    "0.275"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_005_kW",
+                "unit": "kW",
+                "value": [
+                    "0.043"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_005_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_005_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_005_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.021"
+                ]
+            },
+            {
+                "param": "DMD_S_005_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.047"
+                ]
+            },
+            {
+                "param": "DMD_I_006_A",
+                "unit": "A",
+                "value": [
+                    "0.275"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_006_kW",
+                "unit": "kW",
+                "value": [
+                    "0.003"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_006_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_006_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_006_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.047"
+                ]
+            },
+            {
+                "param": "DMD_S_006_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.047"
+                ]
+            },
+            {
+                "param": "DMD_I_007_A",
+                "unit": "A",
+                "value": [
+                    "1.038"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_007_kW",
+                "unit": "kW",
+                "value": [
+                    "0.051"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_007_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_007_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.088"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_007_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_007_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.102"
+                ]
+            },
+            {
+                "param": "DMD_I_008_A",
+                "unit": "A",
+                "value": [
+                    "0.141"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_008_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_008_kW",
+                "unit": "kW",
+                "value": [
+                    "0.003"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_008_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_008_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_008_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "DMD_I_009_A",
+                "unit": "A",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_009_kW",
+                "unit": "kW",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_009_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_009_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.014"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_009_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_009_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "DMD_I_010_A",
+                "unit": "A",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_010_kW",
+                "unit": "kW",
+                "value": [
+                    "0.006"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_010_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_010_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_010_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_010_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.014"
+                ]
+            },
+            {
+                "param": "DMD_I_011_A",
+                "unit": "A",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_011_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_011_kW",
+                "unit": "kW",
+                "value": [
+                    "0.003"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_011_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_011_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_011_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "DMD_I_012_A",
+                "unit": "A",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_012_kW",
+                "unit": "kW",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_012_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_012_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.014"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_012_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_012_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "DMD_I_013_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_013_kW",
+                "unit": "kW",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_013_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_013_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_013_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_013_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "DMD_I_014_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_014_kW",
+                "unit": "kW",
+                "value": [
+                    "0.149"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_014_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_014_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_014_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_014_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_015_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_015_kW",
+                "unit": "kW",
+                "value": [
+                    "0.149"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_015_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_015_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_015_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "DMD_S_015_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_016_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_016_kW",
+                "unit": "kW",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_016_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_016_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_016_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_016_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "DMD_I_017_A",
+                "unit": "A",
+                "value": [
+                    "1.011"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_017_kW",
+                "unit": "kW",
+                "value": [
+                    "0.149"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_017_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_017_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_017_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_017_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_018_A",
+                "unit": "A",
+                "value": [
+                    "1.010"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_018_kW",
+                "unit": "kW",
+                "value": [
+                    "0.150"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_018_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_018_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_018_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.088"
+                ]
+            },
+            {
+                "param": "DMD_S_018_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.174"
+                ]
+            },
+            {
+                "param": "DMD_I_019_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_019_kW",
+                "unit": "kW",
+                "value": [
+                    "0.049"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_019_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_019_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_019_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "DMD_S_019_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "DMD_I_020_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_020_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_020_kW",
+                "unit": "kW",
+                "value": [
+                    "0.150"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_020_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_020_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_020_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_021_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_021_kW",
+                "unit": "kW",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_021_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_021_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_021_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_021_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_022_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_022_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_022_kW",
+                "unit": "kW",
+                "value": [
+                    "0.049"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_022_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_022_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_022_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.099"
+                ]
+            },
+            {
+                "param": "DMD_I_023_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_023_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_023_kW",
+                "unit": "kW",
+                "value": [
+                    "0.150"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_023_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_023_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_023_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_024_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_024_kW",
+                "unit": "kW",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_024_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_024_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_024_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_024_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.173"
+                ]
+            },
+            {
+                "param": "DMD_I_s001_A",
+                "unit": "A",
+                "value": [
+                    "0.457"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s001_kW",
+                "unit": "kW",
+                "value": [
+                    "0.096"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s001_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s001_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s001_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.118"
+                ]
+            },
+            {
+                "param": "DMD_S_s001_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.160"
+                ]
+            },
+            {
+                "param": "DMD_I_s002_A",
+                "unit": "A",
+                "value": [
+                    "0.275"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s002_kW",
+                "unit": "kW",
+                "value": [
+                    "0.061"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s002_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s002_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s002_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.090"
+                ]
+            },
+            {
+                "param": "DMD_S_s002_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.122"
+                ]
+            },
+            {
+                "param": "DMD_I_s003_A",
+                "unit": "A",
+                "value": [
+                    "0.440"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s003_kW",
+                "unit": "kW",
+                "value": [
+                    "0.071"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s003_kW",
+                "unit": "kW",
+                "value": [
+                    "0.003"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s003_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.126"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s003_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s003_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.150"
+                ]
+            },
+            {
+                "param": "DMD_I_s004_A",
+                "unit": "A",
+                "value": [
+                    "0.140"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s004_kW",
+                "unit": "kW",
+                "value": [
+                    "0.025"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s004_kW",
+                "unit": "kW",
+                "value": [
+                    "0.003"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s004_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.050"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s004_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s004_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.062"
+                ]
+            },
+            {
+                "param": "DMD_I_s005_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s005_kW",
+                "unit": "kW",
+                "value": [
+                    "0.397"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s005_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s005_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s005_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.088"
+                ]
+            },
+            {
+                "param": "DMD_S_s005_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.445"
+                ]
+            },
+            {
+                "param": "DMD_I_s006_A",
+                "unit": "A",
+                "value": [
+                    "1.010"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s006_kW",
+                "unit": "kW",
+                "value": [
+                    "0.398"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s006_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s006_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s006_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.088"
+                ]
+            },
+            {
+                "param": "DMD_S_s006_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.446"
+                ]
+            },
+            {
+                "param": "DMD_I_s007_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s007_kW",
+                "unit": "kW",
+                "value": [
+                    "0.051"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s007_kW",
+                "unit": "kW",
+                "value": [
+                    "0.150"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s007_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.258"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s007_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "DMD_S_s007_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.445"
+                ]
+            },
+            {
+                "param": "DMD_I_s008_A",
+                "unit": "A",
+                "value": [
+                    "1.008"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s008_kW",
+                "unit": "kW",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s008_kW",
+                "unit": "kW",
+                "value": [
+                    "0.200"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s008_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.344"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s008_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s008_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.445"
+                ]
+            },
+            {
+                "param": "DMD_I_s009_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s009_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s009_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s009_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s009_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s009_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_I_s010_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s010_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s010_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s010_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s010_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s010_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_I_s011_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s011_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s011_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s011_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s011_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s011_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_I_s012_A",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_P_s012_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_P_s012_kW",
+                "unit": "kW",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_IMP_Q_s012_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_EXP_Q_s012_kvar",
+                "unit": "kvar",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "DMD_S_s012_kVA",
+                "unit": "kVA",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_V",
+                "unit": "V",
+                "value": [
+                    "66.721"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_V",
+                "unit": "V",
+                "value": [
+                    "133.327"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_V",
+                "unit": "V",
+                "value": [
+                    "33.347"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_V",
+                "unit": "°",
+                "value": [
+                    "180.045"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_V",
+                "unit": "°",
+                "value": [
+                    "0.058"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_V",
+                "unit": "°",
+                "value": [
+                    "0.070"
+                ]
+            },
+            {
+                "param": "UNBL_V_%",
+                "unit": "%",
+                "value": [
+                    "49.980"
+                ]
+            },
+            {
+                "param": "THD_V_a_%",
+                "unit": "%",
+                "value": [
+                    "0.011"
+                ]
+            },
+            {
+                "param": "OTHD_V_a_%",
+                "unit": "%",
+                "value": [
+                    "0.010"
+                ]
+            },
+            {
+                "param": "ETHD_V_a_%",
+                "unit": "%",
+                "value": [
+                    "0.006"
+                ]
+            },
+            {
+                "param": "CF_V_a_%",
+                "unit": "%",
+                "value": [
+                    "1.414"
+                ]
+            },
+            {
+                "param": "THFF_V_a_%",
+                "unit": "%",
+                "value": [
+                    "0.444"
+                ]
+            },
+            {
+                "param": "THD_V_b_%",
+                "unit": "%",
+                "value": [
+                    "0.006"
+                ]
+            },
+            {
+                "param": "OTHD_V_b_%",
+                "unit": "%",
+                "value": [
+                    "0.004"
+                ]
+            },
+            {
+                "param": "ETHD_V_b_%",
+                "unit": "%",
+                "value": [
+                    "0.004"
+                ]
+            },
+            {
+                "param": "CF_V_b_%",
+                "unit": "%",
+                "value": [
+                    "1.414"
+                ]
+            },
+            {
+                "param": "THFF_V_b_%",
+                "unit": "%",
+                "value": [
+                    "0.444"
+                ]
+            },
+            {
+                "param": "THD_V_c_%",
+                "unit": "%",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "OTHD_V_c_%",
+                "unit": "%",
+                "value": [
+                    "0.004"
+                ]
+            },
+            {
+                "param": "ETHD_V_c_%",
+                "unit": "%",
+                "value": [
+                    "0.012"
+                ]
+            },
+            {
+                "param": "CF_V_c_%",
+                "unit": "%",
+                "value": [
+                    "1.414"
+                ]
+            },
+            {
+                "param": "THFF_V_c_%",
+                "unit": "%",
+                "value": [
+                    "0.444"
+                ]
+            },
+            {
+                "param": "THD_V_avg_%",
+                "unit": "%",
+                "value": [
+                    "0.010"
+                ]
+            },
+            {
+                "param": "OTHD_V_avg_%",
+                "unit": "%",
+                "value": [
+                    "0.006"
+                ]
+            },
+            {
+                "param": "ETHD_V_avg_%",
+                "unit": "%",
+                "value": [
+                    "0.007"
+                ]
+            },
+            {
+                "param": "THD_I_001_%",
+                "unit": "%",
+                "value": [
+                    "0.080"
+                ]
+            },
+            {
+                "param": "OTHD_I_001_%",
+                "unit": "%",
+                "value": [
+                    "0.047"
+                ]
+            },
+            {
+                "param": "ETHD_I_001_%",
+                "unit": "%",
+                "value": [
+                    "0.065"
+                ]
+            },
+            {
+                "param": "KF_I_001_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_002_%",
+                "unit": "%",
+                "value": [
+                    "0.113"
+                ]
+            },
+            {
+                "param": "OTHD_I_002_%",
+                "unit": "%",
+                "value": [
+                    "0.095"
+                ]
+            },
+            {
+                "param": "ETHD_I_002_%",
+                "unit": "%",
+                "value": [
+                    "0.061"
+                ]
+            },
+            {
+                "param": "KF_I_002_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_003_%",
+                "unit": "%",
+                "value": [
+                    "0.263"
+                ]
+            },
+            {
+                "param": "OTHD_I_003_%",
+                "unit": "%",
+                "value": [
+                    "0.249"
+                ]
+            },
+            {
+                "param": "ETHD_I_003_%",
+                "unit": "%",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "KF_I_003_%",
+                "unit": "%",
+                "value": [
+                    "1.001"
+                ]
+            },
+            {
+                "param": "THD_I_004_%",
+                "unit": "%",
+                "value": [
+                    "0.108"
+                ]
+            },
+            {
+                "param": "OTHD_I_004_%",
+                "unit": "%",
+                "value": [
+                    "0.090"
+                ]
+            },
+            {
+                "param": "ETHD_I_004_%",
+                "unit": "%",
+                "value": [
+                    "0.060"
+                ]
+            },
+            {
+                "param": "KF_I_004_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_005_%",
+                "unit": "%",
+                "value": [
+                    "0.102"
+                ]
+            },
+            {
+                "param": "OTHD_I_005_%",
+                "unit": "%",
+                "value": [
+                    "0.082"
+                ]
+            },
+            {
+                "param": "ETHD_I_005_%",
+                "unit": "%",
+                "value": [
+                    "0.061"
+                ]
+            },
+            {
+                "param": "KF_I_005_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_006_%",
+                "unit": "%",
+                "value": [
+                    "0.103"
+                ]
+            },
+            {
+                "param": "OTHD_I_006_%",
+                "unit": "%",
+                "value": [
+                    "0.082"
+                ]
+            },
+            {
+                "param": "ETHD_I_006_%",
+                "unit": "%",
+                "value": [
+                    "0.062"
+                ]
+            },
+            {
+                "param": "KF_I_006_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_007_%",
+                "unit": "%",
+                "value": [
+                    "0.026"
+                ]
+            },
+            {
+                "param": "OTHD_I_007_%",
+                "unit": "%",
+                "value": [
+                    "0.012"
+                ]
+            },
+            {
+                "param": "ETHD_I_007_%",
+                "unit": "%",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "KF_I_007_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_008_%",
+                "unit": "%",
+                "value": [
+                    "1.851"
+                ]
+            },
+            {
+                "param": "OTHD_I_008_%",
+                "unit": "%",
+                "value": [
+                    "1.841"
+                ]
+            },
+            {
+                "param": "ETHD_I_008_%",
+                "unit": "%",
+                "value": [
+                    "0.191"
+                ]
+            },
+            {
+                "param": "KF_I_008_%",
+                "unit": "%",
+                "value": [
+                    "1.022"
+                ]
+            },
+            {
+                "param": "THD_I_009_%",
+                "unit": "%",
+                "value": [
+                    "1.822"
+                ]
+            },
+            {
+                "param": "OTHD_I_009_%",
+                "unit": "%",
+                "value": [
+                    "1.812"
+                ]
+            },
+            {
+                "param": "ETHD_I_009_%",
+                "unit": "%",
+                "value": [
+                    "0.192"
+                ]
+            },
+            {
+                "param": "KF_I_009_%",
+                "unit": "%",
+                "value": [
+                    "1.021"
+                ]
+            },
+            {
+                "param": "THD_I_010_%",
+                "unit": "%",
+                "value": [
+                    "1.815"
+                ]
+            },
+            {
+                "param": "OTHD_I_010_%",
+                "unit": "%",
+                "value": [
+                    "1.805"
+                ]
+            },
+            {
+                "param": "ETHD_I_010_%",
+                "unit": "%",
+                "value": [
+                    "0.193"
+                ]
+            },
+            {
+                "param": "KF_I_010_%",
+                "unit": "%",
+                "value": [
+                    "1.021"
+                ]
+            },
+            {
+                "param": "THD_I_011_%",
+                "unit": "%",
+                "value": [
+                    "1.817"
+                ]
+            },
+            {
+                "param": "OTHD_I_011_%",
+                "unit": "%",
+                "value": [
+                    "1.807"
+                ]
+            },
+            {
+                "param": "ETHD_I_011_%",
+                "unit": "%",
+                "value": [
+                    "0.190"
+                ]
+            },
+            {
+                "param": "KF_I_011_%",
+                "unit": "%",
+                "value": [
+                    "1.021"
+                ]
+            },
+            {
+                "param": "THD_I_012_%",
+                "unit": "%",
+                "value": [
+                    "1.822"
+                ]
+            },
+            {
+                "param": "OTHD_I_012_%",
+                "unit": "%",
+                "value": [
+                    "1.812"
+                ]
+            },
+            {
+                "param": "ETHD_I_012_%",
+                "unit": "%",
+                "value": [
+                    "0.197"
+                ]
+            },
+            {
+                "param": "KF_I_012_%",
+                "unit": "%",
+                "value": [
+                    "1.021"
+                ]
+            },
+            {
+                "param": "THD_I_013_%",
+                "unit": "%",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "OTHD_I_013_%",
+                "unit": "%",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "ETHD_I_013_%",
+                "unit": "%",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "KF_I_013_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_014_%",
+                "unit": "%",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "OTHD_I_014_%",
+                "unit": "%",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "ETHD_I_014_%",
+                "unit": "%",
+                "value": [
+                    "0.012"
+                ]
+            },
+            {
+                "param": "KF_I_014_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_015_%",
+                "unit": "%",
+                "value": [
+                    "0.024"
+                ]
+            },
+            {
+                "param": "OTHD_I_015_%",
+                "unit": "%",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "ETHD_I_015_%",
+                "unit": "%",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "KF_I_015_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_016_%",
+                "unit": "%",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "OTHD_I_016_%",
+                "unit": "%",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "ETHD_I_016_%",
+                "unit": "%",
+                "value": [
+                    "0.010"
+                ]
+            },
+            {
+                "param": "KF_I_016_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_017_%",
+                "unit": "%",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "OTHD_I_017_%",
+                "unit": "%",
+                "value": [
+                    "0.020"
+                ]
+            },
+            {
+                "param": "ETHD_I_017_%",
+                "unit": "%",
+                "value": [
+                    "0.010"
+                ]
+            },
+            {
+                "param": "KF_I_017_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_018_%",
+                "unit": "%",
+                "value": [
+                    "0.023"
+                ]
+            },
+            {
+                "param": "OTHD_I_018_%",
+                "unit": "%",
+                "value": [
+                    "0.021"
+                ]
+            },
+            {
+                "param": "ETHD_I_018_%",
+                "unit": "%",
+                "value": [
+                    "0.011"
+                ]
+            },
+            {
+                "param": "KF_I_018_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_019_%",
+                "unit": "%",
+                "value": [
+                    "0.080"
+                ]
+            },
+            {
+                "param": "OTHD_I_019_%",
+                "unit": "%",
+                "value": [
+                    "0.048"
+                ]
+            },
+            {
+                "param": "ETHD_I_019_%",
+                "unit": "%",
+                "value": [
+                    "0.064"
+                ]
+            },
+            {
+                "param": "KF_I_019_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_020_%",
+                "unit": "%",
+                "value": [
+                    "0.079"
+                ]
+            },
+            {
+                "param": "OTHD_I_020_%",
+                "unit": "%",
+                "value": [
+                    "0.047"
+                ]
+            },
+            {
+                "param": "ETHD_I_020_%",
+                "unit": "%",
+                "value": [
+                    "0.064"
+                ]
+            },
+            {
+                "param": "KF_I_020_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_021_%",
+                "unit": "%",
+                "value": [
+                    "0.079"
+                ]
+            },
+            {
+                "param": "OTHD_I_021_%",
+                "unit": "%",
+                "value": [
+                    "0.046"
+                ]
+            },
+            {
+                "param": "ETHD_I_021_%",
+                "unit": "%",
+                "value": [
+                    "0.064"
+                ]
+            },
+            {
+                "param": "KF_I_021_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_022_%",
+                "unit": "%",
+                "value": [
+                    "0.078"
+                ]
+            },
+            {
+                "param": "OTHD_I_022_%",
+                "unit": "%",
+                "value": [
+                    "0.047"
+                ]
+            },
+            {
+                "param": "ETHD_I_022_%",
+                "unit": "%",
+                "value": [
+                    "0.063"
+                ]
+            },
+            {
+                "param": "KF_I_022_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_023_%",
+                "unit": "%",
+                "value": [
+                    "0.080"
+                ]
+            },
+            {
+                "param": "OTHD_I_023_%",
+                "unit": "%",
+                "value": [
+                    "0.048"
+                ]
+            },
+            {
+                "param": "ETHD_I_023_%",
+                "unit": "%",
+                "value": [
+                    "0.064"
+                ]
+            },
+            {
+                "param": "KF_I_023_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "THD_I_024_%",
+                "unit": "%",
+                "value": [
+                    "0.080"
+                ]
+            },
+            {
+                "param": "OTHD_I_024_%",
+                "unit": "%",
+                "value": [
+                    "0.048"
+                ]
+            },
+            {
+                "param": "ETHD_I_024_%",
+                "unit": "%",
+                "value": [
+                    "0.064"
+                ]
+            },
+            {
+                "param": "KF_I_024_%",
+                "unit": "%",
+                "value": [
+                    "1.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s001",
+                "unit": "A",
+                "value": [
+                    "0.197"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s001",
+                "unit": "A",
+                "value": [
+                    "0.718"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s001",
+                "unit": "A",
+                "value": [
+                    "0.191"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s001",
+                "unit": "°",
+                "value": [
+                    "108.279"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s001",
+                "unit": "°",
+                "value": [
+                    "58.675"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s001",
+                "unit": "°",
+                "value": [
+                    "16.621"
+                ]
+            },
+            {
+                "param": "UNBL_I_s001_%",
+                "unit": "%",
+                "value": [
+                    "96.908"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s002",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s002",
+                "unit": "A",
+                "value": [
+                    "0.808"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s002",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s002",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s002",
+                "unit": "°",
+                "value": [
+                    "58.602"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s002",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s002_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s003",
+                "unit": "A",
+                "value": [
+                    "0.290"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s003",
+                "unit": "A",
+                "value": [
+                    "0.421"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s003",
+                "unit": "A",
+                "value": [
+                    "0.290"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s003",
+                "unit": "°",
+                "value": [
+                    "301.071"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s003",
+                "unit": "°",
+                "value": [
+                    "298.661"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s003",
+                "unit": "°",
+                "value": [
+                    "301.002"
+                ]
+            },
+            {
+                "param": "UNBL_I_s003_%",
+                "unit": "%",
+                "value": [
+                    "99.995"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s004",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s004",
+                "unit": "A",
+                "value": [
+                    "0.131"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s004",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s004",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s004",
+                "unit": "°",
+                "value": [
+                    "293.404"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s004",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s004_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s005",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s005",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s005",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s005",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s005",
+                "unit": "°",
+                "value": [
+                    "359.907"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s005",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s005_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s006",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s006",
+                "unit": "A",
+                "value": [
+                    "0.984"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s006",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s006",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s006",
+                "unit": "°",
+                "value": [
+                    "359.902"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s006",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s006_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s007",
+                "unit": "A",
+                "value": [
+                    "0.655"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s007",
+                "unit": "A",
+                "value": [
+                    "0.328"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s007",
+                "unit": "A",
+                "value": [
+                    "0.655"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s007",
+                "unit": "°",
+                "value": [
+                    "59.880"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s007",
+                "unit": "°",
+                "value": [
+                    "239.877"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s007",
+                "unit": "°",
+                "value": [
+                    "59.864"
+                ]
+            },
+            {
+                "param": "UNBL_I_s007_%",
+                "unit": "%",
+                "value": [
+                    "99.988"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s008",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s008",
+                "unit": "A",
+                "value": [
+                    "0.983"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s008",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s008",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s008",
+                "unit": "°",
+                "value": [
+                    "239.847"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s008",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s008_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s009",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s009",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s009",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s009",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s009",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s009",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s009_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s010",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s010",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s010",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s010",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s010",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s010",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s010_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s011",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s011",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s011",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s011",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s011",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s011",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s011_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_POS_I_s012",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_ZERO_I_s012",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "MAG_SEQ_NEG_I_s012",
+                "unit": "A",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_POS_I_s012",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_ZERO_I_s012",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "ANG_SEQ_NEG_I_s012",
+                "unit": "°",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "UNBL_I_s012_%",
+                "unit": "%",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EP_IMP_a_kWh",
+                "unit": "kWh",
+                "value": [
+                    "6.439"
+                ]
+            },
+            {
+                "param": "EP_EXP_a_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.122"
+                ]
+            },
+            {
+                "param": "EP_NET_a_kWh",
+                "unit": "kWh",
+                "value": [
+                    "6.316"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_a_kWh",
+                "unit": "kWh",
+                "value": [
+                    "6.561"
+                ]
+            },
+            {
+                "param": "EQ_IMP_a_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.160"
+                ]
+            },
+            {
+                "param": "EQ_EXP_a_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.254"
+                ]
+            },
+            {
+                "param": "EQ_NET_a_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.093"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_a_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.414"
+                ]
+            },
+            {
+                "param": "ES_a_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "16.030"
+                ]
+            },
+            {
+                "param": "EP_IMP_b_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.022"
+                ]
+            },
+            {
+                "param": "EP_EXP_b_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.798"
+                ]
+            },
+            {
+                "param": "EP_NET_b_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.224"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_b_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.819"
+                ]
+            },
+            {
+                "param": "EQ_IMP_b_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "7.366"
+                ]
+            },
+            {
+                "param": "EQ_EXP_b_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.596"
+                ]
+            },
+            {
+                "param": "EQ_NET_b_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "6.770"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_b_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "7.962"
+                ]
+            },
+            {
+                "param": "ES_b_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "18.154"
+                ]
+            },
+            {
+                "param": "EP_IMP_c_kWh",
+                "unit": "kWh",
+                "value": [
+                    "6.737"
+                ]
+            },
+            {
+                "param": "EP_EXP_c_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.674"
+                ]
+            },
+            {
+                "param": "EP_NET_c_kWh",
+                "unit": "kWh",
+                "value": [
+                    "6.063"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_c_kWh",
+                "unit": "kWh",
+                "value": [
+                    "7.411"
+                ]
+            },
+            {
+                "param": "EQ_IMP_c_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "5.202"
+                ]
+            },
+            {
+                "param": "EQ_EXP_c_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.043"
+                ]
+            },
+            {
+                "param": "EQ_NET_c_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "5.159"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_c_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "5.244"
+                ]
+            },
+            {
+                "param": "ES_c_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "17.762"
+                ]
+            },
+            {
+                "param": "EP_IMP_kWh",
+                "unit": "kWh",
+                "value": [
+                    "14.198"
+                ]
+            },
+            {
+                "param": "EP_EXP_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.654"
+                ]
+            },
+            {
+                "param": "EP_NET_kWh",
+                "unit": "kWh",
+                "value": [
+                    "12.544"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_kWh",
+                "unit": "kWh",
+                "value": [
+                    "15.851"
+                ]
+            },
+            {
+                "param": "EQ_IMP_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "12.728"
+                ]
+            },
+            {
+                "param": "EQ_EXP_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.027"
+                ]
+            },
+            {
+                "param": "EQ_NET_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "11.701"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "13.754"
+                ]
+            },
+            {
+                "param": "ES_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "52.781"
+                ]
+            },
+            {
+                "param": "EP_IMP_001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.087"
+                ]
+            },
+            {
+                "param": "EP_EXP_001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.461"
+                ]
+            },
+            {
+                "param": "EP_NET_001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.626"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.549"
+                ]
+            },
+            {
+                "param": "EQ_IMP_001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.157"
+                ]
+            },
+            {
+                "param": "EQ_EXP_001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.896"
+                ]
+            },
+            {
+                "param": "EQ_NET_001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-1.739"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.052"
+                ]
+            },
+            {
+                "param": "ES_001_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.774"
+                ]
+            },
+            {
+                "param": "EP_IMP_002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.097"
+                ]
+            },
+            {
+                "param": "EP_EXP_002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.007"
+                ]
+            },
+            {
+                "param": "EP_NET_002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.090"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.104"
+                ]
+            },
+            {
+                "param": "EQ_IMP_002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.086"
+                ]
+            },
+            {
+                "param": "EQ_EXP_002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.578"
+                ]
+            },
+            {
+                "param": "EQ_NET_002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.492"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.664"
+                ]
+            },
+            {
+                "param": "ES_002_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "1.323"
+                ]
+            },
+            {
+                "param": "EP_IMP_003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.040"
+                ]
+            },
+            {
+                "param": "EP_EXP_003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EP_NET_003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.040"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.040"
+                ]
+            },
+            {
+                "param": "EQ_IMP_003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.012"
+                ]
+            },
+            {
+                "param": "EQ_EXP_003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.221"
+                ]
+            },
+            {
+                "param": "EQ_NET_003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.209"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.233"
+                ]
+            },
+            {
+                "param": "ES_003_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.244"
+                ]
+            },
+            {
+                "param": "EP_IMP_004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.192"
+                ]
+            },
+            {
+                "param": "EP_EXP_004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EP_NET_004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.192"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.192"
+                ]
+            },
+            {
+                "param": "EQ_IMP_004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "EQ_EXP_004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.268"
+                ]
+            },
+            {
+                "param": "EQ_NET_004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.267"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.269"
+                ]
+            },
+            {
+                "param": "ES_004_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.331"
+                ]
+            },
+            {
+                "param": "EP_IMP_005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.518"
+                ]
+            },
+            {
+                "param": "EP_EXP_005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "EP_NET_005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.517"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.520"
+                ]
+            },
+            {
+                "param": "EQ_IMP_005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EQ_EXP_005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.235"
+                ]
+            },
+            {
+                "param": "EQ_NET_005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.235"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.236"
+                ]
+            },
+            {
+                "param": "ES_005_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.572"
+                ]
+            },
+            {
+                "param": "EP_IMP_006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.057"
+                ]
+            },
+            {
+                "param": "EP_EXP_006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EP_NET_006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.057"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.057"
+                ]
+            },
+            {
+                "param": "EQ_IMP_006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.002"
+                ]
+            },
+            {
+                "param": "EQ_EXP_006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.566"
+                ]
+            },
+            {
+                "param": "EQ_NET_006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.564"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.568"
+                ]
+            },
+            {
+                "param": "ES_006_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.572"
+                ]
+            },
+            {
+                "param": "EP_IMP_007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.283"
+                ]
+            },
+            {
+                "param": "EP_EXP_007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.042"
+                ]
+            },
+            {
+                "param": "EP_NET_007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.242"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.325"
+                ]
+            },
+            {
+                "param": "EQ_IMP_007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.898"
+                ]
+            },
+            {
+                "param": "EQ_EXP_007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.399"
+                ]
+            },
+            {
+                "param": "EQ_NET_007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.499"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.297"
+                ]
+            },
+            {
+                "param": "ES_007_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.683"
+                ]
+            },
+            {
+                "param": "EP_IMP_008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.014"
+                ]
+            },
+            {
+                "param": "EP_EXP_008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.095"
+                ]
+            },
+            {
+                "param": "EP_NET_008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-0.081"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.109"
+                ]
+            },
+            {
+                "param": "EQ_IMP_008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.524"
+                ]
+            },
+            {
+                "param": "EQ_EXP_008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.006"
+                ]
+            },
+            {
+                "param": "EQ_NET_008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.519"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.530"
+                ]
+            },
+            {
+                "param": "ES_008_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.580"
+                ]
+            },
+            {
+                "param": "EP_IMP_009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.445"
+                ]
+            },
+            {
+                "param": "EP_EXP_009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.005"
+                ]
+            },
+            {
+                "param": "EP_NET_009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.441"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.450"
+                ]
+            },
+            {
+                "param": "EQ_IMP_009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.343"
+                ]
+            },
+            {
+                "param": "EQ_EXP_009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "EQ_NET_009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.330"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.356"
+                ]
+            },
+            {
+                "param": "ES_009_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.583"
+                ]
+            },
+            {
+                "param": "EP_IMP_010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.154"
+                ]
+            },
+            {
+                "param": "EP_EXP_010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.004"
+                ]
+            },
+            {
+                "param": "EP_NET_010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.150"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.157"
+                ]
+            },
+            {
+                "param": "EQ_IMP_010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.285"
+                ]
+            },
+            {
+                "param": "EQ_EXP_010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.039"
+                ]
+            },
+            {
+                "param": "EQ_NET_010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.246"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.325"
+                ]
+            },
+            {
+                "param": "ES_010_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.367"
+                ]
+            },
+            {
+                "param": "EP_IMP_011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.013"
+                ]
+            },
+            {
+                "param": "EP_EXP_011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.096"
+                ]
+            },
+            {
+                "param": "EP_NET_011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-0.084"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.109"
+                ]
+            },
+            {
+                "param": "EQ_IMP_011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.516"
+                ]
+            },
+            {
+                "param": "EQ_EXP_011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.017"
+                ]
+            },
+            {
+                "param": "EQ_NET_011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.498"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.533"
+                ]
+            },
+            {
+                "param": "ES_011_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.583"
+                ]
+            },
+            {
+                "param": "EP_IMP_012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.446"
+                ]
+            },
+            {
+                "param": "EP_EXP_012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.004"
+                ]
+            },
+            {
+                "param": "EP_NET_012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.443"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.450"
+                ]
+            },
+            {
+                "param": "EQ_IMP_012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.355"
+                ]
+            },
+            {
+                "param": "EQ_EXP_012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "EQ_NET_012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.354"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.357"
+                ]
+            },
+            {
+                "param": "ES_012_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.584"
+                ]
+            },
+            {
+                "param": "EP_IMP_013_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.328"
+                ]
+            },
+            {
+                "param": "EP_EXP_013_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.019"
+                ]
+            },
+            {
+                "param": "EP_NET_013_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.309"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_013_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.347"
+                ]
+            },
+            {
+                "param": "EQ_IMP_013_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.112"
+                ]
+            },
+            {
+                "param": "EQ_EXP_013_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EQ_NET_013_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.112"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_013_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.113"
+                ]
+            },
+            {
+                "param": "ES_013_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.426"
+                ]
+            },
+            {
+                "param": "EP_IMP_014_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.251"
+                ]
+            },
+            {
+                "param": "EP_EXP_014_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.125"
+                ]
+            },
+            {
+                "param": "EP_NET_014_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.126"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_014_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.376"
+                ]
+            },
+            {
+                "param": "EQ_IMP_014_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.916"
+                ]
+            },
+            {
+                "param": "EQ_EXP_014_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.143"
+                ]
+            },
+            {
+                "param": "EQ_NET_014_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.773"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_014_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.058"
+                ]
+            },
+            {
+                "param": "ES_014_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "3.999"
+                ]
+            },
+            {
+                "param": "EP_IMP_015_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.244"
+                ]
+            },
+            {
+                "param": "EP_EXP_015_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.174"
+                ]
+            },
+            {
+                "param": "EP_NET_015_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.070"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_015_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.418"
+                ]
+            },
+            {
+                "param": "EQ_IMP_015_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.092"
+                ]
+            },
+            {
+                "param": "EQ_EXP_015_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.884"
+                ]
+            },
+            {
+                "param": "EQ_NET_015_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-1.793"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_015_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.976"
+                ]
+            },
+            {
+                "param": "ES_015_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "3.995"
+                ]
+            },
+            {
+                "param": "EP_IMP_016_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.690"
+                ]
+            },
+            {
+                "param": "EP_EXP_016_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.031"
+                ]
+            },
+            {
+                "param": "EP_NET_016_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.660"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_016_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.721"
+                ]
+            },
+            {
+                "param": "EQ_IMP_016_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.061"
+                ]
+            },
+            {
+                "param": "EQ_EXP_016_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.002"
+                ]
+            },
+            {
+                "param": "EQ_NET_016_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.058"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_016_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.063"
+                ]
+            },
+            {
+                "param": "ES_016_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "1.749"
+                ]
+            },
+            {
+                "param": "EP_IMP_017_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.483"
+                ]
+            },
+            {
+                "param": "EP_EXP_017_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.027"
+                ]
+            },
+            {
+                "param": "EP_NET_017_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.456"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_017_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.511"
+                ]
+            },
+            {
+                "param": "EQ_IMP_017_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.493"
+                ]
+            },
+            {
+                "param": "EQ_EXP_017_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.046"
+                ]
+            },
+            {
+                "param": "EQ_NET_017_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.447"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_017_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.539"
+                ]
+            },
+            {
+                "param": "ES_017_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.962"
+                ]
+            },
+            {
+                "param": "EP_IMP_018_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.493"
+                ]
+            },
+            {
+                "param": "EP_EXP_018_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.082"
+                ]
+            },
+            {
+                "param": "EP_NET_018_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.411"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_018_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.575"
+                ]
+            },
+            {
+                "param": "EQ_IMP_018_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.028"
+                ]
+            },
+            {
+                "param": "EQ_EXP_018_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.409"
+                ]
+            },
+            {
+                "param": "EQ_NET_018_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-1.381"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_018_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.437"
+                ]
+            },
+            {
+                "param": "ES_018_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.964"
+                ]
+            },
+            {
+                "param": "EP_IMP_019_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.075"
+                ]
+            },
+            {
+                "param": "EP_EXP_019_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.454"
+                ]
+            },
+            {
+                "param": "EP_NET_019_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.621"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_019_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.530"
+                ]
+            },
+            {
+                "param": "EQ_IMP_019_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.154"
+                ]
+            },
+            {
+                "param": "EQ_EXP_019_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.867"
+                ]
+            },
+            {
+                "param": "EQ_NET_019_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-1.713"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_019_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.020"
+                ]
+            },
+            {
+                "param": "ES_019_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.732"
+                ]
+            },
+            {
+                "param": "EP_IMP_020_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.045"
+                ]
+            },
+            {
+                "param": "EP_EXP_020_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.489"
+                ]
+            },
+            {
+                "param": "EP_NET_020_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-3.444"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_020_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.535"
+                ]
+            },
+            {
+                "param": "EQ_IMP_020_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.993"
+                ]
+            },
+            {
+                "param": "EQ_EXP_020_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.253"
+                ]
+            },
+            {
+                "param": "EQ_NET_020_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.740"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_020_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.245"
+                ]
+            },
+            {
+                "param": "ES_020_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.291"
+                ]
+            },
+            {
+                "param": "EP_IMP_021_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.169"
+                ]
+            },
+            {
+                "param": "EP_EXP_021_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.194"
+                ]
+            },
+            {
+                "param": "EP_NET_021_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-0.024"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_021_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.363"
+                ]
+            },
+            {
+                "param": "EQ_IMP_021_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.063"
+                ]
+            },
+            {
+                "param": "EQ_EXP_021_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.015"
+                ]
+            },
+            {
+                "param": "EQ_NET_021_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.048"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_021_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.078"
+                ]
+            },
+            {
+                "param": "ES_021_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.301"
+                ]
+            },
+            {
+                "param": "EP_IMP_022_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.372"
+                ]
+            },
+            {
+                "param": "EP_EXP_022_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.115"
+                ]
+            },
+            {
+                "param": "EP_NET_022_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-0.744"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_022_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.487"
+                ]
+            },
+            {
+                "param": "EQ_IMP_022_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.962"
+                ]
+            },
+            {
+                "param": "EQ_EXP_022_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.139"
+                ]
+            },
+            {
+                "param": "EQ_NET_022_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.823"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_022_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.101"
+                ]
+            },
+            {
+                "param": "ES_022_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.739"
+                ]
+            },
+            {
+                "param": "EP_IMP_023_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.128"
+                ]
+            },
+            {
+                "param": "EP_EXP_023_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.452"
+                ]
+            },
+            {
+                "param": "EP_NET_023_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-3.324"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_023_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.579"
+                ]
+            },
+            {
+                "param": "EQ_IMP_023_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.893"
+                ]
+            },
+            {
+                "param": "EQ_EXP_023_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.268"
+                ]
+            },
+            {
+                "param": "EQ_NET_023_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.625"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_023_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.161"
+                ]
+            },
+            {
+                "param": "ES_023_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.285"
+                ]
+            },
+            {
+                "param": "EP_IMP_024_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.087"
+                ]
+            },
+            {
+                "param": "EP_EXP_024_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.234"
+                ]
+            },
+            {
+                "param": "EP_NET_024_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-0.147"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_024_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.321"
+                ]
+            },
+            {
+                "param": "EQ_IMP_024_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.157"
+                ]
+            },
+            {
+                "param": "EQ_EXP_024_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.000"
+                ]
+            },
+            {
+                "param": "EQ_NET_024_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.157"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_024_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.158"
+                ]
+            },
+            {
+                "param": "ES_024_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.306"
+                ]
+            },
+            {
+                "param": "EP_IMP_s001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.193"
+                ]
+            },
+            {
+                "param": "EP_EXP_s001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.531"
+                ]
+            },
+            {
+                "param": "EP_NET_s001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.662"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s001_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.725"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.333"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.480"
+                ]
+            },
+            {
+                "param": "EQ_NET_s001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-2.147"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s001_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.813"
+                ]
+            },
+            {
+                "param": "ES_s001_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.218"
+                ]
+            },
+            {
+                "param": "EP_IMP_s002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.398"
+                ]
+            },
+            {
+                "param": "EP_EXP_s002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.001"
+                ]
+            },
+            {
+                "param": "EP_NET_s002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.397"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s002_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.399"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.008"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.729"
+                ]
+            },
+            {
+                "param": "EQ_NET_s002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.721"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s002_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.737"
+                ]
+            },
+            {
+                "param": "ES_s002_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "0.909"
+                ]
+            },
+            {
+                "param": "EP_IMP_s003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.960"
+                ]
+            },
+            {
+                "param": "EP_EXP_s003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.085"
+                ]
+            },
+            {
+                "param": "EP_NET_s003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.875"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s003_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.046"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.796"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.816"
+                ]
+            },
+            {
+                "param": "EQ_NET_s003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "-0.020"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s003_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.612"
+                ]
+            },
+            {
+                "param": "ES_s003_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.094"
+                ]
+            },
+            {
+                "param": "EP_IMP_s004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.107"
+                ]
+            },
+            {
+                "param": "EP_EXP_s004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.111"
+                ]
+            },
+            {
+                "param": "EP_NET_s004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.996"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s004_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.218"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.081"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.260"
+                ]
+            },
+            {
+                "param": "EQ_NET_s004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.821"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s004_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.341"
+                ]
+            },
+            {
+                "param": "ES_s004_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "2.734"
+                ]
+            },
+            {
+                "param": "EP_IMP_s005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.977"
+                ]
+            },
+            {
+                "param": "EP_EXP_s005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.202"
+                ]
+            },
+            {
+                "param": "EP_NET_s005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.776"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s005_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.179"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.117"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.707"
+                ]
+            },
+            {
+                "param": "EQ_NET_s005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.409"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s005_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.824"
+                ]
+            },
+            {
+                "param": "ES_s005_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "3.894"
+                ]
+            },
+            {
+                "param": "EP_IMP_s006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.762"
+                ]
+            },
+            {
+                "param": "EP_EXP_s006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.113"
+                ]
+            },
+            {
+                "param": "EP_NET_s006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.649"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s006_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.875"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.183"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.597"
+                ]
+            },
+            {
+                "param": "EQ_NET_s006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.585"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s006_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.780"
+                ]
+            },
+            {
+                "param": "ES_s006_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "3.654"
+                ]
+            },
+            {
+                "param": "EP_IMP_s007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "4.322"
+                ]
+            },
+            {
+                "param": "EP_EXP_s007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.638"
+                ]
+            },
+            {
+                "param": "EP_NET_s007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.684"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s007_kWh",
+                "unit": "kWh",
+                "value": [
+                    "5.961"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "3.488"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.741"
+                ]
+            },
+            {
+                "param": "EQ_NET_s007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.747"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s007_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.230"
+                ]
+            },
+            {
+                "param": "ES_s007_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "8.326"
+                ]
+            },
+            {
+                "param": "EP_IMP_s008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.830"
+                ]
+            },
+            {
+                "param": "EP_EXP_s008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.609"
+                ]
+            },
+            {
+                "param": "EP_NET_s008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.221"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s008_kWh",
+                "unit": "kWh",
+                "value": [
+                    "5.439"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.502"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.679"
+                ]
+            },
+            {
+                "param": "EQ_NET_s008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.822"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s008_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.181"
+                ]
+            },
+            {
+                "param": "ES_s008_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "7.766"
+                ]
+            },
+            {
+                "param": "EP_IMP_s009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.185"
+                ]
+            },
+            {
+                "param": "EP_EXP_s009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.043"
+                ]
+            },
+            {
+                "param": "EP_NET_s009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.141"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s009_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.228"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.990"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.888"
+                ]
+            },
+            {
+                "param": "EQ_NET_s009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.102"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s009_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.878"
+                ]
+            },
+            {
+                "param": "ES_s009_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "3.755"
+                ]
+            },
+            {
+                "param": "EP_IMP_s010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.787"
+                ]
+            },
+            {
+                "param": "EP_EXP_s010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.657"
+                ]
+            },
+            {
+                "param": "EP_NET_s010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-1.870"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s010_kWh",
+                "unit": "kWh",
+                "value": [
+                    "3.444"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.554"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "1.397"
+                ]
+            },
+            {
+                "param": "EQ_NET_s010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.157"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s010_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "2.951"
+                ]
+            },
+            {
+                "param": "ES_s010_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.744"
+                ]
+            },
+            {
+                "param": "EP_IMP_s011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.190"
+                ]
+            },
+            {
+                "param": "EP_EXP_s011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.857"
+                ]
+            },
+            {
+                "param": "EP_NET_s011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-0.667"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s011_kWh",
+                "unit": "kWh",
+                "value": [
+                    "1.048"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.175"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.171"
+                ]
+            },
+            {
+                "param": "EQ_NET_s011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.004"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s011_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.346"
+                ]
+            },
+            {
+                "param": "ES_s011_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "4.746"
+                ]
+            },
+            {
+                "param": "EP_IMP_s012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "0.137"
+                ]
+            },
+            {
+                "param": "EP_EXP_s012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.430"
+                ]
+            },
+            {
+                "param": "EP_NET_s012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "-2.294"
+                ]
+            },
+            {
+                "param": "EP_TOTAL_s012_kWh",
+                "unit": "kWh",
+                "value": [
+                    "2.567"
+                ]
+            },
+            {
+                "param": "EQ_IMP_s012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.166"
+                ]
+            },
+            {
+                "param": "EQ_EXP_s012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "0.222"
+                ]
+            },
+            {
+                "param": "EQ_NET_s012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "3.943"
+                ]
+            },
+            {
+                "param": "EQ_TOTAL_s012_kvarh",
+                "unit": "kvarh",
+                "value": [
+                    "4.388"
+                ]
+            },
+            {
+                "param": "ES_s012_kVAh",
+                "unit": "kVAh",
+                "value": [
+                    "5.875"
+                ]
+            },
+            {
+                "param": "DI_PC_001",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_PC_002",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_PC_003",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_PC_004",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_ST_001",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_ST_002",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_ST_003",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DI_ST_004",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_001",
+                "unit": "",
+                "value": [
+                    "1"
+                ]
+            },
+            {
+                "param": "DO_ST_002",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_003",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_004",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_005",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_006",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_007",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "DO_ST_008",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "RO_ST_001",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            },
+            {
+                "param": "RO_ST_002",
+                "unit": "",
+                "value": [
+                    "0"
+                ]
+            }
+        ]
+    }
+}
