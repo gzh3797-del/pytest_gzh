@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "accuenergy-testing-tools": {
+      "source": {
+        "source": "github",
+        "repo": "accuenergy/claude-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "testcase-design@accuenergy-testing-tools": true,
+    "strategy-design@accuenergy-testing-tools": true
+  }
+}
