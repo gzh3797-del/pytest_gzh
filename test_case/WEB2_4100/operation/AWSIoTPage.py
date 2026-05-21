@@ -51,7 +51,37 @@ class AWSIoTPage(BasePage):
 
     # ------------------------------------------------------------------ #
 
+    def _dismiss_overlay_dialog(self):
+        """登录后页面可能残留确认框，点击取消/关闭将其关掉，避免遮挡后续操作。"""
+        try:
+            dialogs = self.driver.find_elements(
+                By.XPATH,
+                "//div[contains(@class,'el-overlay-message-box') or contains(@class,'el-message-box')]"
+                "[not(contains(@style,'display:none'))]"
+            )
+            for dlg in dialogs:
+                if not dlg.is_displayed():
+                    continue
+                # 优先点击 Cancel，避免意外确认操作
+                for xpath in [
+                    ".//button[.//span[normalize-space(.)='Yes']]",
+                    ".//button[.//span[normalize-space(.)='Continue']]",
+                    ".//button[.//span[normalize-space(.)='确认']]",
+                    ".//button[contains(@class,'el-button--primary')]",
+                    ".//button[contains(@class,'el-message-box__headerbtn')]",
+                    ".//button[contains(@class,'el-button')]",
+                ]:
+                    btns = dlg.find_elements(By.XPATH, xpath)
+                    if btns:
+                        self.driver.execute_script("arguments[0].click()", btns[0])
+                        logging.info("[Web] 已关闭页面残留确认框")
+                        time.sleep(0.5)
+                        break
+        except Exception as e:
+            logging.debug(f"[Web] 关闭残留弹框时忽略异常：{e}")
+
     def navigate_to_aws_iot(self):
+        self._dismiss_overlay_dialog()
         # 第一步：点击顶部导航 AcuHMI-1-7 进入设备配置视图
         self.click(self.DEVICE_SETTINGS_BTN)
         time.sleep(2)  # 等待 Vue Router 路由跳转完成

@@ -1,7 +1,7 @@
 gateway:
   url: https://192.168.2.9/#/login
-  username: z
-  password: '1'
+  username: admin
+  password: 'Admin@110001'
 
 azure_iot:
   # 网关设备侧连接字符串（在 Azure Portal -> IoT Hub -> 设备 -> 连接字符串）

@@ -116,7 +116,18 @@ def _web_setup(cfg: dict, config_path: str = None):
         driver.get(gw['url'])
         time.sleep(2)
         LoginPage(driver).login(gw['username'], gw['password'])
-        WebDriverWait(driver, 30).until(EC.url_changes(gw['url']))
+        try:
+            WebDriverWait(driver, 30).until(EC.url_changes(gw['url']))
+        except Exception:
+            raise RuntimeError(
+                f"登录超时（30s 内页面未跳转），请检查账号密码是否正确。"
+                f"当前 URL: {driver.current_url}"
+            )
+        if 'login' in driver.current_url.lower():
+            raise RuntimeError(
+                f"登录失败（页面未跳转离开登录页），请检查账号密码。"
+                f"当前 URL: {driver.current_url}"
+            )
         time.sleep(2)
         logging.info(f"[Web] 登录成功：{driver.current_url}")
 
@@ -137,8 +148,14 @@ def _web_setup(cfg: dict, config_path: str = None):
         if page_devices:
             current  = sorted(aws.get('expected_devices', []))
             updated  = sorted(page_devices)
-            added    = sorted(set(updated) - set(current))
-            removed  = sorted(set(current) - set(updated))
+            # 大小写不敏感比对，避免 Acurev1300 vs AcuRev1300 被误报为新增/移除
+            current_lower = {d.lower(): d for d in current}
+            updated_lower = {d.lower(): d for d in updated}
+            added   = sorted(k for k in updated_lower if k not in current_lower)
+            removed = sorted(k for k in current_lower if k not in updated_lower)
+            # added/removed 显示页面实际名称
+            added   = [updated_lower[k] for k in added]
+            removed = [current_lower[k] for k in removed]
             if added or removed:
                 if added:
                     logging.info(f"[Web] 检测到新增设备：{added}")
@@ -326,6 +343,9 @@ def _compare_one_value(
         cr.status = "MODBUS_ERR"; return cr
     cr.aws_value    = aws_value
     cr.modbus_value = mr.value
+    import math
+    if math.isnan(aws_value) and math.isnan(mr.value):
+        cr.diff_abs = 0.0; cr.diff_pct = 0.0; cr.status = "PASS"; return cr
     diff = abs(aws_value - mr.value)
     ref  = max(abs(aws_value), abs(mr.value))
     cr.diff_abs = diff
@@ -786,7 +806,14 @@ def run_verifier(cfg: dict, timeout: int = 90, skip_web: bool = False,
             time.sleep(10)
 
     except Exception as e:
-        logging.error(f"[Web] 配置失败，终止验证：{e}")
+        import traceback
+        logging.error(f"[Web] 配置失败，终止验证：{type(e).__name__}: {e}")
+        logging.error(traceback.format_exc())
+        if _driver is not None:
+            try:
+                _driver.quit()
+            except Exception:
+                pass
         return False
 
     try:

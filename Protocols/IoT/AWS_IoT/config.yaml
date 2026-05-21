@@ -1,7 +1,7 @@
 gateway:
   url: https://192.168.2.9/#/login
-  username: z
-  password: '1'
+  username: admin
+  password: Admin@110001
 aws_iot:
   enable: true
   client_id: AHI260110001
@@ -14,10 +14,9 @@ aws_iot:
   sub_cert_file: Protocols/IoT/AWS_IoT/certs/29e287f92d07dc357838878febdac0cfc1d046b2abf81c715d2f42be4a2477c6-certificate.pem.crt
   sub_key_file: Protocols/IoT/AWS_IoT/certs/29e287f92d07dc357838878febdac0cfc1d046b2abf81c715d2f42be4a2477c6-private.pem.key
   expected_devices:
-  - AcuRev1300
   - AcuRev2100
   - AcuRev4100
+  - Acurev1300
   - Acuvim3
   - AcuvimIIR
   - AcuvimIIW
-  - TEST
