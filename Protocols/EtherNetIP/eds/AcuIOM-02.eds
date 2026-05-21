@@ -1,0 +1,613 @@
+$ EZ-EDS Version 3.29.1.20210209 Generated Electronic Data Sheet
+
+[File]
+        DescText = "AcuRev-4100-WEB2";
+        CreateDate = 05-18-2026;
+        CreateTime = 01:20:29;
+        ModDate = 05-18-2026;
+        ModTime = 01:20:29;
+        Revision = 1.00;
+
+[Device]
+        VendCode = 1582;
+        VendName = "Accuenergy (Canada) Inc.";
+        ProdType = 43;
+        ProdTypeStr = "Generic Device";
+        ProdCode = 10003;
+        MajRev = 1;
+        MinRev = 1;
+        ProdName = "AcuRev-4100-WEB2";
+        Catalog = "AcuRev-4100-WEB2";
+
+[Device Classification]
+        Class1 = EtherNetIP;
+
+[Params]
+        Param1 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI1_input_original_data",              $ name
+                "",                    $ units
+                "AI1 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param2 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI2_input_original_data",              $ name
+                "",                    $ units
+                "AI2 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param3 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI3_input_original_data",              $ name
+                "",                    $ units
+                "AI3 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param4 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI4_input_original_data",              $ name
+                "",                    $ units
+                "AI4 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param5 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI5_input_original_data",              $ name
+                "",                    $ units
+                "AI5 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param6 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI6_input_original_data",              $ name
+                "",                    $ units
+                "AI6 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param7 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI7_input_original_data",              $ name
+                "",                    $ units
+                "AI7 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param8 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI8_input_original_data",              $ name
+                "",                    $ units
+                "AI8 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param9 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI9_input_original_data",              $ name
+                "",                    $ units
+                "AI9 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param10 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI10_input_original_data",              $ name
+                "",                    $ units
+                "AI10 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param11 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI11_input_original_data",              $ name
+                "",                    $ units
+                "AI11 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param12 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI12_input_original_data",              $ name
+                "",                    $ units
+                "AI12 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param13 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI13_input_original_data",              $ name
+                "",                    $ units
+                "AI13 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param14 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI14_input_original_data",              $ name
+                "",                    $ units
+                "AI14 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param15 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI15_input_original_data",              $ name
+                "",                    $ units
+                "AI15 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param16 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI16_input_original_data",              $ name
+                "",                    $ units
+                "AI16 input original data",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param17 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI1_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI1 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param18 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI2_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI2 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param19 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI3_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI3 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param20 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI4_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI4 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param21 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI5_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI5 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param22 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI6_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI6 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param23 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI7_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI7 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param24 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI8_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI8 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param25 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI9_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI9 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param26 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI10_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI10 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param27 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI11_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI11 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param28 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI12_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI12 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param29 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI13_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI13 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param30 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI14_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI14 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param31 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI15_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI15 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+        Param32 =
+                0,                      $ reserved, shall equal 0
+                ,,                      $ Link Path Size, Link Path
+                0x0000,                 $ Descriptor
+                0xCA,                   $ Data Type
+                4,                      $ Data Size in bytes
+                "AI16_physical_measurement_reading",              $ name
+                "",                    $ units
+                "AI16 physical measurement reading",              $ help string
+                ,,0,                    $ min, max, default data values
+                ,,,,                    $ mult, div, base, offset scaling
+                ,,,,                    $ mult, div, base, offset links
+                ;                       $ decimal places
+
+[Assembly]
+        Object_Name = "Assembly Object";
+        Object_Class_Code = 0x04;
+        Assem100 =
+                $ Assembly Instance #:100 (0x64) - Assembly
+                "Readings",
+                ,
+                128,
+                0x0300,
+                ,,
+                32,Param1,
+                32,Param2,
+                32,Param3,
+                32,Param4,
+                32,Param5,
+                32,Param6,
+                32,Param7,
+                32,Param8,
+                32,Param9,
+                32,Param10,
+                32,Param11,
+                32,Param12,
+                32,Param13,
+                32,Param14,
+                32,Param15,
+                32,Param16,
+                32,Param17,
+                32,Param18,
+                32,Param19,
+                32,Param20,
+                32,Param21,
+                32,Param22,
+                32,Param23,
+                32,Param24,
+                32,Param25,
+                32,Param26,
+                32,Param27,
+                32,Param28,
+                32,Param29,
+                32,Param30,
+                32,Param31,
+                32,Param32;
+
+[Connection Manager]
+        Revision = 1;
+        Object_Name = "Connection Manager Object";
+        Object_Class_Code = 0x06;
+        MaxInst = 1;
+        Number_Of_Static_Instances = 1;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes =
+                1,
+                2,
+                3,
+                4,
+                6,
+                7;
+        Instance_Attributes =
+                1,
+                5;
+        Class_Services =
+                0x01,
+                0x0E;
+        Instance_Services =
+                0x01,
+                0x0E,
+                0x10,
+                0x4E,
+                0x54;
+        Connection1 =
+                0x84010002,              $ 0-15    = supported transport classes
+                                         $ 16      = trigger: cyclic
+                                         $ 17      = trigger: change of state
+                                         $ 18      = trigger: application
+                                         $ 19-23   = trigger: reserved
+                                         $ 24      = application type: listen-only
+                                         $ 25      = application type: input-only
+                                         $ 26      = application type: exclusive-owner
+                                         $ 27      = application type: redundant-owner
+                                         $ 28-30   = reserved
+                                         $ 31      = Direction: Client = 0 / Server = 1
+                0x556644a5,              $ 0       = O->T fixed size supported
+                                         $ 1       = O->T variable size supported
+                                         $ 2       = T->O fixed size supported
+                                         $ 3       = T->O variable size supported
+                                         $ 4-5     = O->T number of bytes per slot (obsolete)
+                                         $ 6-7     = T->O number of bytes per slot (obsolete)
+                                         $ 8-10    = O->T Real time transfer format
+                                         $ 11      = reserved
+                                         $ 12-14   = T->O Real time transfer format
+                                         $ 15      = reserved
+                                         $ 16      = O->T connection type: NULL
+                                         $ 17      = O->T connection type: MULTICAST
+                                         $ 18      = O->T connection type: POINT2POINT
+                                         $ 19      = O->T connection type: reserved
+                                         $ 20      = T->O connection type: NULL
+                                         $ 21      = T->O connection type: MULTICAST
+                                         $ 22      = T->O connection type: POINT2POINT
+                                         $ 23      = T->O connection type: reserved
+                                         $ 24      = O->T priority: LOW
+                                         $ 25      = O->T priority: HIGH
+                                         $ 26      = O->T priority: SCHEDULED
+                                         $ 27      = O->T priority: reserved
+                                         $ 28      = T->O priority: LOW
+                                         $ 29      = T->O priority: HIGH
+                                         $ 30      = T->O priority: SCHEDULED
+                                         $ 31      = T->O priority: reserved
+                500000,128,Assem100,     $ T->O RPI, size, format
+                ,,                       $ proxy config size, format
+                ,,                       $ target config size, format
+                "Asm 100 TO",            $ Connection Name
+                "",                      $ help string
+                "20 04 24 64";           $ Path
+
+
+[TCP/IP Interface Class]
+        Revision = 4;
+        Object_Name = "TCP/IP Interface Object";
+        Object_Class_Code = 0xF5;
+        MaxInst = 3;
+        Number_Of_Static_Instances = 3;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes =
+                1,
+                2,
+                3;
+        Instance_Attributes =
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                13;
+        Class_Services =
+                0x01,
+                0x0E;
+        Instance_Services =
+                0x01,
+                0x0E,
+                0x10;
+
+[Ethernet Link Class]
+        Revision = 4;
+        Object_Name = "Ethernet Link Object";
+        Object_Class_Code = 0xF6;
+        MaxInst = 3;
+        Number_Of_Static_Instances = 3;
+        Max_Number_Of_Dynamic_Instances = 0;
+        Class_Attributes =
+                1,
+                2,
+                3,
+                4,
+                6,
+                7;
+        Instance_Attributes =
+                1,
+                2,
+                3,
+                6,
+                7,
+                8,
+                10,
+                11;
+        Class_Services =
+                0x01,
+                0x0E;
+        Instance_Services =
+                0x01,
+                0x0E;

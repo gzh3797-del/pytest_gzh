@@ -1,0 +1,37 @@
+{
+  "rtu": {
+    "_comment": "电表RTU串口信息",
+    "port": "COM14",
+    "baudrate": 19200,
+    "parity": "N",
+    "slaveid": 1
+  },
+  "tcp": {
+    "ip": "192.168.1.254",
+    "port": 502
+  },
+  "source": {
+    "_comment": "科陆交流源地址",
+    "ip": "192.168.0.50",
+    "port": 10003
+  },
+  "local": {
+    "_comment": "本地PC",
+    "ip": "192.168.0.51",
+    "port": 10005
+  },
+  "reboot": {
+    "_comment": "继电器开关通信参数",
+    "port": "COM15",
+    "baudrate": 9600,
+    "parity": "N",
+    "slaveid": 1
+  },
+  "ssh": {
+    "ip": "192.168.3.222",
+    "port": 22,
+    "username": "root",
+    "password": "power2015"
+  },
+  "conn_mode": "rtu"
+}
