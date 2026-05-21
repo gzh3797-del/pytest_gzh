@@ -1,0 +1,899 @@
+{
+  "_user_info": {
+    "currentUserType": "org",
+    "token": "Bearer f5dbca17-339d-4230-81a0-84d538c4dbdb",
+    "currentFaclity": {
+      "facilityId": 5341,
+      "facilityName": "receiver_20250807",
+      "permission": "EDIT",
+      "organizationId": null,
+      "meterPointIds": null,
+      "location": {
+        "x": -80.998301,
+        "y": 43.682299
+      },
+      "address": "n",
+      "city": "n",
+      "timezone": "Etc/GMT-8",
+      "locationFormat": null
+    },
+    "currentOrg": {
+      "id": 431,
+      "parentId": null,
+      "weight": 0,
+      "name": "AG PROYECTOS Y SERVICIOS, S.A.",
+      "orgId": 431,
+      "role": "SUPER",
+      "isBillingEnable": false,
+      "logo": "",
+      "labels": [],
+      "type": "Reseller",
+      "reseller": null,
+      "enableSmsNotificationsForAlerts": true,
+      "enableFreeLimit": false
+    },
+    "isTenant": false,
+    "userLanguage": "en"
+  },
+  "home": {
+    "url": "/#/home",
+    "buttons": [
+      "Configure Offline Alerts",
+      "Keyboard shortcuts",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "首页：设施地图 + 离线设备告警横幅",
+    "screenshot": "01_home.png"
+  },
+  "dashboards": {
+    "url": "/#/dashboard/list",
+    "buttons": [
+      "Home",
+      "Back"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "仪表盘列表，可创建/查看自定义大屏",
+    "screenshot": "02_dashboards.png"
+  },
+  "inst_facilities": {
+    "url": "/#/installation/devices → tab:Facilities",
+    "buttons": [
+      "+Add Facility",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility",
+      "Type",
+      "Devices",
+      "offline Devices",
+      "Action"
+    ],
+    "screenshot": "03_inst_facilities.png"
+  },
+  "inst_devices": {
+    "url": "/#/installation/devices",
+    "buttons": [
+      "Expand",
+      "+Add Device",
+      "+Add Calculated Meter",
+      "+Add Single Parameter Device",
+      "+Add Manual Metering Device",
+      "+Export CSV",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Device",
+      "Facility",
+      "Type",
+      "Utility Type",
+      "Model",
+      "Serial Number",
+      "Alert Count",
+      "Last Updated",
+      "Status",
+      "Wiring Issue",
+      "Time Zone"
+    ],
+    "screenshot": "04_inst_devices.png"
+  },
+  "inst_meter_points": {
+    "url": "/#/installation/devices → tab:Meter Points",
+    "buttons": [
+      "+Add Meter Point",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Meter Point",
+      "Facility",
+      "Device",
+      "Device Model",
+      "Utility Type",
+      "Number of Channels",
+      "Input Channels",
+      "Subscription Tier"
+    ],
+    "screenshot": "05_inst_meter_points.png"
+  },
+  "inst_alerts": {
+    "url": "/#/installation/devices → tab:Alerts",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [
+      "Alert Event",
+      "Alert Rules"
+    ],
+    "table_headers": [
+      "Alarm ID",
+      "Facilities",
+      "Device Name",
+      "Device Model",
+      "Alarm Type",
+      "Start Time",
+      "Last Sent",
+      "Frequency",
+      "Status",
+      "Action"
+    ],
+    "screenshot": "06_inst_alerts.png"
+  },
+  "inst_portfolio": {
+    "url": "/#/installation/devices → tab:Portfolio",
+    "buttons": [
+      "Download",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility Number",
+      "Device",
+      "Meter Point",
+      "Number/ID",
+      "Rate Configured",
+      "Rate Structure",
+      "Status",
+      "Tenants",
+      "Full Tenant's Billing Address",
+      "Meter Address : Country",
+      "Meter Location : Province",
+      "Meter Location: City"
+    ],
+    "screenshot": "07_inst_portfolio.png"
+  },
+  "billing_accounts": {
+    "url": "/#/billing/accounts",
+    "buttons": [
+      "-",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility",
+      "Meter Point",
+      "Electricity Rate Structure",
+      "Water Rate Structure",
+      "Gas Rate Structure",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "08_billing_accounts.png"
+  },
+  "billing_auto_billing": {
+    "url": "/#/billing/autoBilling",
+    "buttons": [
+      "+Add Auto Billing",
+      "- Electricity",
+      "- Water",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility",
+      "Meter Point",
+      "Recipients",
+      "Billing Period",
+      "Start from",
+      "Send Raw Data",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "09_billing_auto.png"
+  },
+  "billing_manual_billing": {
+    "url": "/#/billing/manualBilling",
+    "buttons": [
+      "Cancel",
+      "Create",
+      "English"
+    ],
+    "tabs": [
+      "Electricity",
+      "Water",
+      "Gas"
+    ],
+    "table_headers": [
+      "Meter Point",
+      "Meter Point Type",
+      "Unit",
+      "Rate Structure",
+      "Meter Number",
+      "Site Code + Candidate",
+      "Tenant",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "10_billing_manual.png"
+  },
+  "billing_previous_bills": {
+    "url": "/#/billing/previousBills",
+    "buttons": [
+      "Download all selected bills in Excel format",
+      "- Electricity",
+      "- Water",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility",
+      "Meter Points",
+      "Utility Type",
+      "Recipients",
+      "Billing Date",
+      "Reading Start Date",
+      "Reading End Date",
+      "Status",
+      "Bill Type",
+      "Send Raw Data",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "11_billing_previous.png"
+  },
+  "billing_billing_analysis": {
+    "url": "/#/billing/billingAnalysis",
+    "buttons": [
+      "update chart",
+      "English"
+    ],
+    "tabs": [
+      "Trend Analysis Tab",
+      "TOU Allocation Analysis",
+      "Submeter Rate Comparison"
+    ],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "12_billing_analysis.png"
+  },
+  "util_utilitybills_account": {
+    "url": "/#/utilityBills/utilityBillsAccount",
+    "buttons": [
+      "+Add Account",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility",
+      "Account",
+      "Meter Number",
+      "Utility Type",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "13_util_account.png"
+  },
+  "util_utilitybills_bills": {
+    "url": "/#/utilityBills/utilityBills",
+    "buttons": [
+      "Home",
+      "Back"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "14_util_bills.png"
+  },
+  "util_utilitybills_analysis": {
+    "url": "/#/utilityBills/utilityBillsAnalysis",
+    "buttons": [
+      "Update Chart",
+      "English"
+    ],
+    "tabs": [
+      "Energy Graph",
+      "Costs Graphs",
+      "Energy Trend (EUI)",
+      "Proportional split"
+    ],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "15_util_analysis.png"
+  },
+  "analysis_energy": {
+    "url": "/#/analysis/energy",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "16_analysis_energy.png"
+  },
+  "analysis_heatmap": {
+    "url": "/#/analysis/energy → tab:Heatmap",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "17_analysis_heatmap.png"
+  },
+  "analysis_schedule": {
+    "url": "/#/analysis/energy → tab:Schedule",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "18_analysis_schedule.png"
+  },
+  "analysis_annot": {
+    "url": "/#/analysis/energy → tab:Annotations",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "19_analysis_annot.png"
+  },
+  "analysis_mv": {
+    "url": "/#/analysis/energy → tab:M&V",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "20_analysis_mv.png"
+  },
+  "power_quality": {
+    "url": "/#/powerQuality",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "21_power_quality.png"
+  },
+  "carbon_analysis": {
+    "url": "/#/carbonModel/carbonAnalysis",
+    "buttons": [
+      "Update Chart",
+      "English"
+    ],
+    "tabs": [
+      "Intensity & Emission",
+      "Facility Emissions"
+    ],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "22_carbon_analysis.png"
+  },
+  "report_configs": {
+    "url": "/#/report/configs/0",
+    "buttons": [
+      "+Add Report Config",
+      "English"
+    ],
+    "tabs": [
+      "Energy Report",
+      "Billing Report",
+      "Portfolio Report",
+      "BETA  Power Quality Report"
+    ],
+    "table_headers": [
+      "Facility",
+      "Energy Type",
+      "Enable",
+      "Reports",
+      "Recipients",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "23_report_configs.png"
+  },
+  "report_generate": {
+    "url": "/#/report → tab:Generate",
+    "buttons": [
+      "Generate Report",
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "24_report_generate.png"
+  },
+  "report_previous": {
+    "url": "/#/report → tab:Previous Reports",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [
+      "Energy Report",
+      "Billing Report",
+      "Portfolio Report",
+      "BETA  Power Quality Report"
+    ],
+    "screenshot": "25_report_previous.png"
+  },
+  "data_data_exports": {
+    "url": "/#/data/dataExports",
+    "buttons": [
+      "+Add Data Export",
+      "-",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Devices",
+      "Requested Time",
+      "From",
+      "To",
+      "Status",
+      "Time Interval",
+      "File Format",
+      "Parameters",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "26_data_exports.png"
+  },
+  "data_data_forwards": {
+    "url": "/#/data/dataForwards",
+    "buttons": [
+      "+Add Data Fowrards",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Server Address",
+      "Devices",
+      "Meter Point",
+      "Interval",
+      "Last Forward",
+      "Last Success",
+      "Next Forward",
+      "Status",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "27_data_forwards.png"
+  },
+  "data_data_import": {
+    "url": "/#/data/dataImport",
+    "buttons": [
+      "+Add Data Import",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Devices",
+      "Status",
+      "Requested Time",
+      "Vee Enable",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "28_data_import.png"
+  },
+  "data_energy_exports": {
+    "url": "/#/data/energyExports",
+    "buttons": [
+      "+Add Energy Export",
+      "-",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Meter Point",
+      "Requested Time",
+      "From",
+      "To",
+      "Status",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "29_data_energy_exports.png"
+  },
+  "data_max_min_export": {
+    "url": "/#/data/maxMinExport",
+    "buttons": [
+      "+Add Max/Min Export",
+      "-",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Meter Point",
+      "Created At",
+      "From",
+      "To",
+      "Status",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "30_data_maxmin.png"
+  },
+  "data_data_edit": {
+    "url": "/#/data/dataEdit",
+    "buttons": [
+      "+Edit All",
+      "+Verify All",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Timestamp",
+      "Parameter",
+      "Value(kWh)",
+      "Version",
+      "Updated",
+      "Status",
+      "Comment",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "31_data_edit.png"
+  },
+  "data_manual_vee": {
+    "url": "/#/data/manualVee",
+    "buttons": [
+      "+Add Manual Vee",
+      "-",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Facility",
+      "Meter Point",
+      "Parameter",
+      "Time Range",
+      "Created At",
+      "TimeZone",
+      "Executed By",
+      "Progress",
+      "Status"
+    ],
+    "notes": "",
+    "screenshot": "32_data_manualvee.png"
+  },
+  "logs": {
+    "url": "/#/log",
+    "buttons": [
+      "Home",
+      "Back"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "33_logs.png"
+  },
+  "admin_users": {
+    "url": "/#/admin/users",
+    "buttons": [
+      "+Add User",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "userName",
+      "Email",
+      "Login Count",
+      "Last Login Time",
+      "Last Time Password Changed",
+      "Two Factor Authentication",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "34_admin_users.png"
+  },
+  "admin_organization": {
+    "url": "/#/admin/organization",
+    "buttons": [
+      "Home",
+      "Back"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "35_admin_org.png"
+  },
+  "admin_tenants": {
+    "url": "/#/admin/tenants",
+    "buttons": [
+      "+Add Tenant",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "userName",
+      "Email",
+      "Login Count",
+      "Last Login Time",
+      "Last Time Password Changed",
+      "Two Factor Authentication",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "36_admin_tenants.png"
+  },
+  "admin_subscription": {
+    "url": "/#/admin/subscription",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Subscription",
+      "User Organization",
+      "Status",
+      "Amount($)",
+      "Meter Point - Datalogger",
+      "Meter Point - Billing",
+      "Meter Point - Power Quality",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "37_admin_subscription.png"
+  },
+  "admin_customization": {
+    "url": "/#/admin/customization",
+    "buttons": [
+      "Select Image",
+      "Submit",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [],
+    "notes": "",
+    "screenshot": "38_admin_custom.png"
+  },
+  "sa_sa_users": {
+    "url": "/#/superAdmin/users",
+    "buttons": [
+      "+Add User",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "User Name",
+      "Email",
+      "Organization",
+      "Login Count",
+      "Last Login Time",
+      "Last Time Password Changed",
+      "Two Factor Authentication",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "39_sa_users.png"
+  },
+  "sa_sa_parameter": {
+    "url": "/#/superAdmin/parameter",
+    "buttons": [
+      "+Add Parameter",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Name",
+      "Description",
+      "Unit",
+      "Min Range",
+      "Max Range",
+      "Parameter Type",
+      "DI or AI",
+      "Energy",
+      "Include in total",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "40_sa_parameter.png"
+  },
+  "sa_sa_devicemodel": {
+    "url": "/#/superAdmin/deviceModel",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Name",
+      "isPqEventSupported",
+      "isPqReportSupported",
+      "phases",
+      "Utility Type",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "41_sa_devicemodel.png"
+  },
+  "sa_sa_organization": {
+    "url": "/#/superAdmin/organization",
+    "buttons": [
+      "+Add Organization",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Name",
+      "Type",
+      "Street address",
+      "Zip code",
+      "City",
+      "Country",
+      "Maximum allowed alerts",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "42_sa_org.png"
+  },
+  "sa_sa_subscription": {
+    "url": "/#/superAdmin/subscription",
+    "buttons": [
+      "+Add Subscription",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Subscription",
+      "Buyer Organization",
+      "User Organization",
+      "Plan Name",
+      "Type",
+      "Plan Code",
+      "Amount($)",
+      "Status",
+      "Zoho Status",
+      "Creation time",
+      "Created by",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "43_sa_subscription.png"
+  },
+  "sa_sa_plan": {
+    "url": "/#/superAdmin/plan",
+    "buttons": [
+      "Plan Details",
+      "+Add Plan",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Plan Code",
+      "Type",
+      "Plan Name",
+      "Bill Every",
+      "Price",
+      "Description",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "44_sa_plan.png"
+  },
+  "sa_sa_releasecenter": {
+    "url": "/#/superAdmin/releaseCenter",
+    "buttons": [
+      "+Add Release",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Version",
+      "Release Time",
+      "Created By",
+      "Created Date",
+      "Notification Start",
+      "Status",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "45_sa_release.png"
+  },
+  "sa_sa_globalemission": {
+    "url": "/#/superAdmin/globalEmissionFactors",
+    "buttons": [
+      "Upload",
+      "+Add",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Year",
+      "Scope Category",
+      "Energy Type",
+      "EF (kgCO₂e/unit)",
+      "Action"
+    ],
+    "notes": "",
+    "screenshot": "46_sa_emission.png"
+  },
+  "sa_sa_globaldevice": {
+    "url": "/#/superAdmin/globalDeviceSearch",
+    "buttons": [
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Device",
+      "Serial Number",
+      "Organization",
+      "Facility",
+      "Type",
+      "Utility Type",
+      "Status"
+    ],
+    "notes": "",
+    "screenshot": "47_sa_globaldev.png"
+  },
+  "sa_sa_wiringcheck": {
+    "url": "/#/superAdmin/wiringCheck",
+    "buttons": [
+      "Export",
+      "Wiring Check",
+      "English"
+    ],
+    "tabs": [],
+    "table_headers": [
+      "Device Name",
+      "Status",
+      "Organization",
+      "Facility",
+      "Meter Point",
+      "Input Channel",
+      "Phase",
+      "Voltage L-N",
+      "Current",
+      "Diagnosis",
+      "Comments",
+      "Last Wiring Check Time"
+    ],
+    "notes": "",
+    "screenshot": "48_sa_wiring.png"
+  },
+  "device_detail": {
+    "url": "device detail page",
+    "buttons": [
+      "Delete",
+      "Edit",
+      "English"
+    ],
+    "tabs": [
+      "OverView",
+      "Latest Readings",
+      "Wiring",
+      "Documents",
+      "Alert",
+      "Photos",
+      "Replacement Records"
+    ],
+    "screenshot": "49_device_detail.png"
+  },
+  "facility_detail": {
+    "url": "facility detail page",
+    "buttons": [
+      "+Add Facility",
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "50_facility_detail.png"
+  },
+  "meterpoint_detail": {
+    "url": "meter point detail page",
+    "buttons": [
+      "+Add Meter Point",
+      "English"
+    ],
+    "tabs": [],
+    "screenshot": "51_meterpoint_detail.png"
+  }
+}

@@ -2,18 +2,18 @@
 
 ## 支持设备列表
 
-| `--device` 参数 | 设备型号 | BACnet 比对 | AcuCloud 比对 | EtherNet/IP 比对 | 备注 |
-|---|---|:---:|:---:|:---:|---|
-| `acurev4100` | AcuRev 4100 | ✅ | ✅ | ✅ | |
-| `acurev2100` | AcuRev 2100 | ✅ | ✅ | — | |
-| `acuvimiiw`  | Acuvim IIW  | ✅ | ✅ | — | |
-| `acuvimiir`  | Acuvim IIR  | ✅ | ✅ | — | Modbus 地址与 IIW 相同 |
-| `acuvim3`    | AcuVIM3     | ✅ | ✅ | — | |
-| `pxm350`     | PXM350      | ✅ | —  | — | |
-| `acuiom01`   | AcuIOM-01   | ✅ | —  | — | 8 AI 通道 |
-| `acuiom02`   | AcuIOM-02   | ✅ | —  | — | 16 AI 通道 |
-| `acuiom03`   | AcuIOM-03   | ⚠️ | —  | — | DI 型号，FC 0x02 暂不支持 |
-| `acuiom04`   | AcuIOM-04   | ⚠️ | —  | — | DI 型号，FC 0x02 暂不支持 |
+| `--device` 参数 | 设备型号 | BACnet | EtherNet/IP | Modbus Mapping | SNMP | MQTT | DataLog | AcuCloud | AWS IoT | Azure IoT | Device Mirror | 备注 |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
+| `acurev4100` | AcuRev 4100 | ✅ | ✅ | — | — | ✅ | ✅ | ✅ | — | — | — | |
+| `acurev2100` | AcuRev 2100 | ✅ | —  | — | — | ✅ | ✅ | ✅ | — | — | — | |
+| `acuvimiiw`  | Acuvim IIW  | ✅ | —  | — | — | ✅ | ✅ | ✅ | — | — | — | |
+| `acuvimiir`  | Acuvim IIR  | ✅ | —  | — | — | ✅ | ✅ | ✅ | — | — | — | Modbus 地址与 IIW 相同 |
+| `acuvim3`    | AcuVIM3     | ✅ | —  | — | — | ✅ | ✅ | ✅ | — | — | — | |
+| `pxm350`     | PXM350      | ✅ | —  | — | — | —  | —  | —  | — | — | — | |
+| `acuiom01`   | AcuIOM-01   | ✅ | ✅ | — | — | —  | —  | —  | — | — | — | 8 AI 通道（原始输入 + 物理量读数各 8 个） |
+| `acuiom02`   | AcuIOM-02   | ✅ | ✅ | — | — | —  | —  | —  | — | — | — | 16 AI 通道（原始输入 + 物理量读数各 16 个） |
+| `acuiom03`   | AcuIOM-03   | ✅ | ✅ | — | — | —  | —  | —  | — | — | — | 14 DI 通道，BACnet BI 对象 |
+| `acuiom04`   | AcuIOM-04   | ✅ | ✅ | — | — | —  | —  | —  | — | — | — | 28 DI 通道，BACnet BI 对象 |
 
 > 运行前请确认 `config.py` 中 `MODBUS_DEVICE_MAP` 内对应设备的 IP / Unit ID 已填写正确。
 
@@ -39,16 +39,21 @@ RTU 模式下 `MODBUS_DEVICE_MAP` 中的 IP/Port 被忽略，仅 Unit ID（slave
 
 ## BACnetIP/comparator.py — BACnet vs 实时 Modbus 比对
 
-**比对流程：**
-1. 从 `Template/` 目录加载设备模板，获取应发布到 BACnet 的参数范围
-2. 向网关发现实际发布的 BACnet AI 对象，与模板范围对比（范围检查）
+**比对流程（六段式）：**
+1. 从 `knowledge/shared/templates/raw/` 加载设备模板，获取应发布到 BACnet 的参数范围
+   - 普通设备：按 `BACnetIP` 列过滤；AcuIOM 设备：按 `range` 列过滤（`BACNET_RANGE_MARKER` 自动切换）
+2. 向网关发现实际发布的 BACnet AI / BI 对象，与模板范围对比（范围检查）
+   - AcuIOM-01/02：AI 对象（模拟量）；AcuIOM-03/04：BI 对象（DI 数字量，present value = 0/1）
 3. 读取每个对象的 `description` / `units` 属性，与模板元数据对比（元数据检查）
 4. 并发读取 BACnet Present Value 与 Modbus 寄存器值，按容差规则判断通过/失败（数值比对）
+5. **Device Object 属性**：读取 Device Object 的 12 项标准必需属性（ANSI/ASHRAE 135 §12.11）：vendorName、modelName、firmwareRevision、protocolVersion/Revision、segmentationSupported 等
+6. **协议合规性**：验证非法对象请求返回错误（§16），以及 AI 必需属性（statusFlags / outOfService / units）均可读
+7. **连接稳定性**：对同一 AI 对象连续读取 5 次，验证成功率与一致性
 
-报告输出到 `reports/compare_<设备名>_<时间戳>.html`，包含三段：范围检查 / 元数据检查 / 数值比对。
+报告输出到 `reports/bacnet_<设备名>_<时间戳>.html`，包含六段。
 
 ```bash
-# 全量比对（默认设备，包含范围检查 + 元数据检查 + 数值比对）
+# 全量比对（默认设备）
 python Protocols/BACnetIP/comparator.py
 
 # 指定设备
@@ -59,8 +64,10 @@ python Protocols/BACnetIP/comparator.py --device acuvimiir
 python Protocols/BACnetIP/comparator.py --device acuvim3
 python Protocols/BACnetIP/comparator.py --device acuiom01
 python Protocols/BACnetIP/comparator.py --device acuiom02
+python Protocols/BACnetIP/comparator.py --device acuiom03
+python Protocols/BACnetIP/comparator.py --device acuiom04
 
-# 快速模式：只比对前 30 个参数（跳过元数据检查）
+# 快速模式：只比对前 30 个参数
 python Protocols/BACnetIP/comparator.py --quick
 python Protocols/BACnetIP/comparator.py --device acurev2100 --quick
 
@@ -68,37 +75,60 @@ python Protocols/BACnetIP/comparator.py --device acurev2100 --quick
 python Protocols/BACnetIP/comparator.py --keys FREQ_Hz VLN_a_V P_kW
 python Protocols/BACnetIP/comparator.py --device acuvimiiw --keys FREQ_Hz I_a_A
 
-# 关闭元数据检查（仅范围 + 数值）
+# 关闭元数据检查（仅范围 + 数值 + 协议测试）
 python Protocols/BACnetIP/comparator.py --no-meta
+
+# 关闭协议规范测试（仅范围 + 元数据 + 数值）
+python Protocols/BACnetIP/comparator.py --no-proto
 ```
 
 ---
 
-## EtherNetIP/enip_comparator.py — EtherNet/IP快照 vs 实时 Modbus 比对
+## EtherNetIP/enip_comparator.py — EtherNet/IP 协议合规性七段式检查
 
-通过 CIP 协议（pycomm3）读取网关 WEB2 上的 EtherNet/IP Assembly Instance 100，
-与设备 Modbus TCP 实时值进行比对。
+通过 CIP 显式消息（TCP 44818）对网关 WEB2 的 EtherNet/IP 实现执行七段式合规性检查。
+EDS 文件从 `config.EDS_DIR` 自动按设备名匹配，无需手动指定路径。
 
-**比对流程：**
-1. 解析 EDS 文件（`/awsdatas/eds/`），获取 Assembly 参数布局
-2. 读取模板 SNMP 列，与 EDS Assembly 参数范围对比（范围检查）
-3. 并发读取 EtherNet/IP Assembly 字节流与 Modbus 寄存器值
-4. 按 CIP 数据类型（float32/float64/UINT 等，小端序）解析 Assembly，逐参数比对
+**检查流程：**
+1. **范围检查**：模板 SNMP 列参数 vs EDS Assembly 参数（缺失 / 多余）
+2. **单位检查**：EDS 各参数 `unit` 字段 vs 模板 `unit` 列
+3. **数值比对**：并发读取 EtherNet/IP Assembly 与 Modbus，按 CIP 数据类型解析后逐参数比对（容差 ±1% / ±0.05）
+4. **Assembly 结构合规性**：EDS 声明总字节数 vs 实际读取字节数，检测越界参数
+5. **CIP Identity Object**：读取 Class=0x01 Instance=0x01 全部标准属性（Vendor ID / Device Type / Product Code / Revision / Status / Serial Number / Product Name）并解码
+6. **CIP 错误响应测试**：发送四条非法请求（不存在的实例、属性、类、Assembly 实例），验证设备正确返回错误而非意外成功
+7. **连接稳定性**：连续 3 次读取 Assembly，全部成功才通过
 
-报告输出到 `reports/enip_compare_<设备名>_<时间戳>.html`，包含两段：范围检查 / 数值比对。
+报告输出到 `reports/enip_compare_<设备名>_<时间戳>.html`，包含七段可折叠区块。
 
 **前提条件：**
-- 网关 WEB2（192.168.2.63:44818）已开启 EtherNet/IP 服务并配置上传目标设备参数
-- 被测设备（如 AcuRev-4100）的 EDS 文件已放置于 `awsdatas/eds/` 目录
+- 网关 WEB2（`config.ENIP_HOST`，端口 44818）已开启 EtherNet/IP 服务
+- 被测设备的 EDS 文件已放置于 `config.EDS_DIR`（`EtherNetIP/eds/`）
+
+**已有 EDS 文件的设备：**
+
+| `--device` 参数 | EDS 文件 | 备注 |
+|---|---|---|
+| `AcuRev4100` | `AcuRev-4100.eds` | |
+| `AcuIOM-01`  | `AcuIOM-01.eds`  | 8 AI 通道 |
+| `AcuIOM-02`  | `AcuIOM-02.eds`  | 16 AI 通道 |
+| `AcuIOM-03`  | `AcuIOM-03.eds`  | 14 DI 通道 |
+| `AcuIOM-04`  | `AcuIOM-04.eds`  | 28 DI 通道 |
 
 ```bash
-# 全量比对（AcuRev-4100，默认配置）
+# 全量检查（默认设备 AcuRev-4100，运行所有七段）
 python Protocols/EtherNetIP/enip_comparator.py
 
-# 快速模式：只比对前 30 个参数
+# 指定设备
+python Protocols/EtherNetIP/enip_comparator.py --device AcuRev4100
+python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-01
+python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-02
+python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-03
+python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-04
+
+# 快速模式：数值比对只跑前 30 个参数（其余六段仍完整执行）
 python Protocols/EtherNetIP/enip_comparator.py --quick
 
-# 只比对指定参数
+# 只比对指定参数（数值比对段）
 python Protocols/EtherNetIP/enip_comparator.py --keys FREQ_Hz VLN_a_V P_kW
 ```
 
@@ -226,9 +256,12 @@ python Protocols/Datalog/datalog_comparator.py --device acurev4100 --keys FREQ_H
 | `MODBUS_DEVICE_MAP` | 各设备 Modbus 连接参数；TCP 模式三项均生效，RTU 模式仅 Unit ID 生效 |
 | `MODBUS_RTU_PORT` | RTU 串口号（Windows: `"COM3"`，Linux: `"/dev/ttyUSB0"`） |
 | `MODBUS_RTU_BAUDRATE` / `MODBUS_RTU_PARITY` / `MODBUS_RTU_STOPBITS` / `MODBUS_RTU_BYTESIZE` | RTU 串口参数（默认 9600/N/1/8） |
-| `TEMPLATE_DIR` | 设备参数模板 xlsx 目录（`template/`） |
+| `TEMPLATE_DIR` | 设备参数模板 xlsx 目录（指向 `knowledge/shared/templates/raw/`） |
+| `BACNET_RANGE_MARKER` | AcuIOM BACnet 参数范围过滤标记；`""` 用 `BACnetIP` 列，`"8"` 用 range 列（IOM-01/02），`"10"` 用 range 列（IOM-03/04）；`--device` 时自动设置，无需手动修改 |
 | `READ_TIMEOUT` / `MAX_RETRIES` / `RETRY_WAIT` | 单次读取超时、重试次数、重试间隔 |
 | `CONNECT_WAIT` | BAC0 启动后等待网关就绪时间（秒） |
+| `ENIP_HOST` / `ENIP_SLOT` | EtherNet/IP 网关 IP 与 CIP slot（默认 `192.168.2.63` / `0`） |
+| `EDS_DIR` | EDS 文件目录（`EtherNetIP/eds/`），enip_comparator 自动按设备名匹配（忽略大小写及连字符） |
 | `TOLERANCE_PERCENT` / `TOLERANCE_ABSOLUTE` | BACnet / EtherNet/IP vs Modbus 数值比对容差 |
 | `CLOUD_TOLERANCE_PERCENT` / `CLOUD_TOLERANCE_ABSOLUTE` | AcuCloud 快照比对容差 |
 | `CLOUD_DATA_DIR` | AcuCloud xlsx 快照文件目录 |
@@ -246,8 +279,10 @@ Protocols/
 │   ├── bacnet_reader.py       # BACnet 读取模块（BAC0）
 │   └── comparator.py          # BACnet vs Modbus 比对主程序
 ├── EtherNetIP/                # EtherNet/IP 协议
-│   ├── enip_reader.py         # EtherNet/IP Assembly 读取模块（pycomm3）
-│   └── enip_comparator.py     # EtherNet/IP vs Modbus 比对主程序
+│   ├── enip_reader.py         # Assembly 读取、CIP 对象查询、合规性检查模块（pycomm3）
+│   ├── enip_comparator.py     # 七段式合规性检查主程序
+│   └── eds/                   # 设备 EDS 文件（按设备名自动匹配）
+│       └── AcuRev-4100.eds    # （示例，需手动放入）
 ├── AcuCloud/                  # AcuCloud 数据
 │   └── cloud_comparator.py    # AcuCloud 快照 vs Modbus 比对主程序
 ├── MQTT/                      # MQTT 数据
@@ -255,19 +290,9 @@ Protocols/
 │   └── <设备名>data.json      # 网关推送的 MQTT JSON 快照（如 4100data.json）
 ├── Datas/                     # 测试数据文件
 │   ├── acuclouddatas/         # AcuCloud 导出 xlsx 快照
-│   └── awsdatas/              # AWS IoT / EDS 相关数据
-│       └── eds/               # 设备 EDS 文件（EtherNet/IP 用）
-│           └── AcuRev-4100.eds
-├── modbusAddress/             # 各设备 Modbus 地址表 xlsx
+│   └── DatalogDatas/          # 网关导出的 Datalog JSON / CSV 文件
+├── modbusAddress/             # Modbus 地址表工具（xlsx 已迁移至 knowledge/shared/modbus_tables/raw/）
 │   └── mapping_compile.py
-├── template/                  # 设备参数模板 xlsx（按设备型号子目录）
-│   ├── AcuRev-4100&PXB/
-│   ├── AcuRev-2100/
-│   ├── AcuvimIIW&PXE2/
-│   ├── AcuvimIIR&PXE1/
-│   ├── Acuvim3/
-│   ├── AcuIOM/
-│   └── AcuRev-1300&PXM350/
 ├── modbus_reader.py           # Modbus TCP 读取模块（共用）
 ├── template_reader.py         # 模板 xlsx 解析模块（共用）
 ├── config.py                  # 全局配置
@@ -280,7 +305,7 @@ Protocols/
 │   ├── pxm350.py
 │   ├── acuiom01.py
 │   ├── acuiom02.py
-│   ├── acuiom03.py            # 占位，DI型号暂不支持
-│   └── acuiom04.py            # 占位，DI型号暂不支持
+│   ├── acuiom03.py            # 14 DI（FC02）+ 脉冲计数（FC03）+ DO/RO（FC01）
+│   └── acuiom04.py            # 28 DI（FC02）+ 脉冲计数（FC03）+ DO/RO（FC01）
 └── reports/                   # HTML 比对报告输出目录
 ```
