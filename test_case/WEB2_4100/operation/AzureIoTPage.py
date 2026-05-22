@@ -42,10 +42,10 @@ class AzureIoTPage(BasePage):
     # Enable SSL 单选（第二组，位于 Interval 之后）
     SSL_ENABLE_RADIO  = (By.XPATH,
         "//div[contains(@class,'el-form-item')][.//label[contains(normalize-space(.),'SSL')]]"
-        "//(label[.//span[normalize-space(.)='Enable']])[1]")
+        "//label[.//span[normalize-space(.)='Enable']][1]")
     SSL_DISABLE_RADIO = (By.XPATH,
         "//div[contains(@class,'el-form-item')][.//label[contains(normalize-space(.),'SSL')]]"
-        "//(label[.//span[normalize-space(.)='Disable']])[1]")
+        "//label[.//span[normalize-space(.)='Disable']][1]")
 
     # 证书文件 input（SSL Enable 后可见）
     CERT_FILE_INPUT = (By.XPATH, "(//input[@type='file'])[1]")
@@ -256,6 +256,14 @@ class AzureIoTPage(BasePage):
                         By.XPATH, ".//button[contains(@class,'el-dialog__headerbtn')]")
                     self.driver.execute_script("arguments[0].click()", close)
                     logging.info("已点击 × 关闭弹窗")
+                    confirmed = True
+                except Exception:
+                    pass
+            if not confirmed:
+                # 最终兜底：按 Escape 关闭弹窗
+                try:
+                    self.driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.ESCAPE)
+                    logging.info("已按 Escape 关闭弹窗")
                 except Exception:
                     logging.warning("无法关闭弹窗，继续执行")
             time.sleep(0.8)
@@ -285,12 +293,14 @@ class AzureIoTPage(BasePage):
             self._configure_parameter_dialog()
 
     def save(self):
-        self.click(self.SAVE_BTN)
-        time.sleep(1)
+        btn = self.find_element(self.SAVE_BTN)
+        self.driver.execute_script("arguments[0].click()", btn)
+        time.sleep(3)
         logging.info("已点击 Save")
 
     def test_connection(self) -> str:
-        self.click(self.TEST_CONNECTION_BTN)
+        btn = self.find_element(self.TEST_CONNECTION_BTN)
+        self.driver.execute_script("arguments[0].click()", btn)
         logging.info("已点击 Test Connection，等待结果…")
         try:
             msg_el = WebDriverWait(self.driver, 30).until(
@@ -353,5 +363,6 @@ class AzureIoTPage(BasePage):
                 self.upload_key_file(key_file)
         self.select_unchecked_devices()
         self.configure_all_devices_parameters()
+        self._dismiss_overlay_dialog()
         self.save()
         return self.test_connection()

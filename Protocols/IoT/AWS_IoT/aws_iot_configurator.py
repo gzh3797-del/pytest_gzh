@@ -13,11 +13,10 @@ import time
 import yaml
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 项目根目录加入 sys.path
+# 项目根目录加入 sys.pat
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.insert(0, PROJECT_ROOT)
 

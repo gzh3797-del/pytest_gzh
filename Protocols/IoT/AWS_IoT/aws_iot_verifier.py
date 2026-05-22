@@ -19,6 +19,7 @@ import logging
 import os
 import sys
 import time
+import queue as _queue
 import threading
 from dataclasses import dataclass
 from datetime import datetime
@@ -396,20 +397,40 @@ async def _compare_all_devices(
     device_values: dict[str, dict[str, Optional[float]]],
     tol_pct: float,
     tol_abs: float,
+    preread_modbus: 'dict | None' = None,
+    preread_errors: 'dict | None' = None,
+    paired_aws:     'dict | None' = None,
 ) -> dict[str, list[ValueCompareResult] | dict]:
+    """比对 AWS IoT 与 Modbus 数值。
+
+    若提供 preread_modbus（消息到达时已同步读取），则优先用配对结果；
+    否则回退为当前时刻读取 Modbus（旧行为）。
+    paired_aws 为消息到达瞬间的 AWS 值快照，与 preread_modbus 时间对齐。
+    """
     results: dict[str, list[ValueCompareResult] | dict] = {}
     for dev_name in sorted(device_values.keys()):
-        val_map = device_values[dev_name]
+        # 优先用配对快照（时间对齐），无则用累积值
+        val_map = (paired_aws or {}).get(dev_name) or device_values[dev_name]
         comparable_keys = [k for k, v in val_map.items() if v is not None]
         if not comparable_keys:
             results[dev_name] = {'skip': '无可比对数值（所有参数缺失 value 字段）'}
             continue
-        logging.info(f"  [Modbus] {dev_name}：读取 {len(comparable_keys)} 个参数…")
-        modbus_map, err = await _read_modbus_for_device(dev_name, comparable_keys)
-        if modbus_map is None:
-            results[dev_name] = {'skip': err}
-            logging.info(f"  [Modbus] {dev_name} 跳过：{err}")
-            continue
+        if preread_modbus is not None and dev_name in preread_modbus:
+            modbus_map = preread_modbus[dev_name]
+            err = (preread_errors or {}).get(dev_name, '')
+            if modbus_map is None:
+                results[dev_name] = {'skip': err or '配对 Modbus 读取失败'}
+                logging.info(f"  [Modbus] {dev_name} 跳过（配对失败）：{err}")
+                continue
+            logging.info(f"  [Modbus] {dev_name}：使用同步配对读取（{len(modbus_map)} 个参数）")
+        else:
+            # 回退：当前时刻读取 Modbus
+            logging.info(f"  [Modbus] {dev_name}：无配对结果，实时读取 {len(comparable_keys)} 个参数…")
+            modbus_map, err = await _read_modbus_for_device(dev_name, comparable_keys)
+            if modbus_map is None:
+                results[dev_name] = {'skip': err}
+                logging.info(f"  [Modbus] {dev_name} 跳过：{err}")
+                continue
         cmp_list = [
             _compare_one_value(k, val_map[k], modbus_map.get(k), tol_pct, tol_abs)
             for k in sorted(comparable_keys)
@@ -845,6 +866,61 @@ def _run_verifier_core(cfg: dict, timeout: int) -> bool:
     done_event = threading.Event()
     grace_timer: list = [None]
 
+    # ── 同步配对读取：消息到达时立刻读 Modbus，解决时序问题 ────────────────
+    subscribe_ts = time.time()
+    FRESH_WINDOW = 120          # 超过此秒数的消息视为缓存旧数据，不触发配对读取
+
+    _paired_aws:    dict[str, dict] = {}   # 触发 Modbus 时的 AWS 值快照
+    _paired_modbus: dict[str, 'dict | None'] = {}
+    _paired_err:    dict[str, str]  = {}
+    _modbus_q:      _queue.Queue    = _queue.Queue()
+    _modbus_lock    = threading.Lock()     # 串行化 Modbus 读取（_pcfg 全局状态）
+    _queued_devices: set            = set()
+
+    def _modbus_worker():
+        """后台线程：串行处理配对 Modbus 读取队列。"""
+        while True:
+            item = _modbus_q.get()
+            if item is None:          # sentinel
+                _modbus_q.task_done()
+                break
+            dev_name, param_keys, aws_snap = item
+            with _modbus_lock:
+                loop = asyncio.new_event_loop()
+                try:
+                    result, err = loop.run_until_complete(
+                        _read_modbus_for_device(dev_name, param_keys)
+                    )
+                    _paired_aws[dev_name]    = aws_snap
+                    _paired_modbus[dev_name] = result
+                    _paired_err[dev_name]    = err
+                    if err:
+                        logging.warning(f"  [同步Modbus] {dev_name} 读取失败：{err}")
+                    else:
+                        logging.info(
+                            f"  [同步Modbus] {dev_name}：读取 {len(result or {})} 个参数"
+                            f"（与消息时间同步）"
+                        )
+                except Exception as exc:
+                    _paired_aws[dev_name]    = aws_snap
+                    _paired_modbus[dev_name] = None
+                    _paired_err[dev_name]    = str(exc)
+                    logging.warning(f"  [同步Modbus] {dev_name} 异常：{exc}")
+                finally:
+                    loop.close()
+            _modbus_q.task_done()
+
+    _worker_thread = threading.Thread(target=_modbus_worker, daemon=True)
+    _worker_thread.start()
+
+    def _is_fresh(payload: dict) -> bool:
+        """消息 timestamp 在订阅时刻之前超过 FRESH_WINDOW 秒则视为缓存旧消息。"""
+        ts = payload.get('timestamp')
+        if ts is None:
+            return True
+        age = subscribe_ts - float(ts)
+        return age <= FRESH_WINDOW
+
     def _schedule_stop():
         def _fire():
             logging.info("宽限期结束，停止收集")
@@ -874,6 +950,11 @@ def _run_verifier_core(cfg: dict, timeout: int) -> bool:
         except json.JSONDecodeError:
             logging.warning("非 JSON 消息，跳过")
             return
+        fresh = _is_fresh(payload)
+        if not fresh:
+            msg_ts = payload.get('timestamp', 0)
+            age = subscribe_ts - float(msg_ts)
+            logging.info(f"  -> 旧缓存消息（{age:.0f}s 前推送），跳过数值配对")
         raw_messages.append(payload)
         for mod in _parse_modules(payload):
             name = mod['name']
@@ -892,6 +973,14 @@ def _run_verifier_core(cfg: dict, timeout: int) -> bool:
                         device_values[name][param] = None
             logging.info(f"  -> 设备：{name}，本块 {len(mod['reading'])} 个参数，"
                          f"累计 {len(device_params[name])} 个")
+            # 新鲜消息：立刻触发该设备的同步 Modbus 读取（每台设备仅触发一次）
+            if fresh and name not in _queued_devices:
+                _queued_devices.add(name)
+                param_keys = [k for k, v in device_values[name].items() if v is not None]
+                if param_keys:
+                    aws_snap = dict(device_values[name])  # 当前消息的值快照
+                    _modbus_q.put((name, param_keys, aws_snap))
+                    logging.info(f"  -> [{name}] 已触发同步 Modbus 读取")
         if expected and device_params.keys() >= expected and grace_timer[0] is None:
             _schedule_stop()
 
@@ -914,6 +1003,12 @@ def _run_verifier_core(cfg: dict, timeout: int) -> bool:
     done_event.wait(timeout=timeout)
     client.loop_stop()
     client.disconnect()
+
+    # 等待后台 Modbus 配对读取全部完成
+    logging.info("等待同步 Modbus 读取完成…")
+    _modbus_q.put(None)   # 发送结束哨兵
+    _modbus_q.join()
+    _worker_thread.join(timeout=30)
 
     if not raw_messages:
         print("\n[FAIL] 超时内未收到任何消息，请检查网络/证书/Topic 配置")
@@ -978,7 +1073,12 @@ def _run_verifier_core(cfg: dict, timeout: int) -> bool:
     tol_abs = _pcfg.MQTT_TOLERANCE_ABSOLUTE
     print(f"\n[4] 数值比对（AWS IoT vs 实时 Modbus，容差 ±{tol_pct}% / ±{tol_abs}）")
 
-    value_results = asyncio.run(_compare_all_devices(device_values, tol_pct, tol_abs))
+    value_results = asyncio.run(_compare_all_devices(
+        device_values, tol_pct, tol_abs,
+        preread_modbus=_paired_modbus,
+        preread_errors=_paired_err,
+        paired_aws=_paired_aws,
+    ))
 
     for dev_name in sorted(value_results.keys()):
         res = value_results[dev_name]

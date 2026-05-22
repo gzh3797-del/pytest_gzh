@@ -124,11 +124,18 @@ class AWSIoTPage(BasePage):
 
     def set_interval(self, interval_text: str):
         """interval_text 为下拉可见文字，如 '30 seconds'"""
-        self.click(self.INTERVAL_DROPDOWN)
+        logging.info(f"设置 Interval：{interval_text}")
+        self.driver.execute_script(
+            "arguments[0].click()",
+            self.find_element(self.INTERVAL_DROPDOWN)
+        )
+        time.sleep(0.4)
         option = (By.XPATH,
                   f"//li[contains(@class,'el-select-dropdown__item') and normalize-space(.)='{interval_text}']")
+        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located(option))
         el = self.find_element(option)
         self.driver.execute_script("arguments[0].click()", el)
+        time.sleep(0.3)
 
     def upload_cert_file(self, file_path: str):
         self.find_element(self.CERT_FILE_INPUT).send_keys(file_path)

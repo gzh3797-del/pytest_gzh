@@ -7,7 +7,7 @@ aws_iot:
   client_id: AHI260110001
   url: apbmxreennh9b-ats.iot.cn-northwest-1.amazonaws.com.cn
   topic: test/topic/aws
-  interval: 30 seconds
+  interval: 1 seconds
   cert_file: Protocols/IoT/AWS_IoT/certs/client.pem
   key_file: Protocols/IoT/AWS_IoT/certs/key.pem
   ca_file: Protocols/IoT/AWS_IoT/certs/AmazonRootCA1.pem
