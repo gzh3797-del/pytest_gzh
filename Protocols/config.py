@@ -40,7 +40,7 @@ REPORT_DIR = _os.path.join(_BASE, "reports")
 # ══════════════════════════════════════════════════════════════════════════════
 
 # 通信方式："tcp" 直连设备 | "rtu" 串口 RS485（设备与电脑不同网段时使用）
-MODBUS_MODE = "rtu"
+MODBUS_MODE = "tcp"
 
 # ── RTU（串口）参数，仅 MODBUS_MODE="rtu" 时生效 ──────────────────────────
 MODBUS_RTU_PORT     = "COM11"   # Windows: "COM3"，Linux: "/dev/ttyUSB0"
@@ -59,6 +59,7 @@ MODBUS_DEVICE_MAP: dict = {
     "AcuvimIIW":  ("192.168.2.27",  502,   2),
     "AcuvimIIR":  ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit
     "AcuVIM3":    ("192.168.2.32",  502,   1),
+    "AcuRev1300": ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit（AcuRev1300/PXM350）
     "AcuIOM01":   ("192.168.2.10",  502,   6),  # ← 请填写实际 IP/Unit
     "AcuIOM02":   ("192.168.2.10",  502,   1),  # ← 请填写实际 IP/Unit
     "AcuIOM03":   ("192.168.2.10",  502,   4),  # ← 请填写实际 IP/Unit
@@ -159,3 +160,36 @@ DATALOG_DATA_DIR = _os.path.join(_BASE, "Datas", "DatalogDatas")
 # 判断逻辑：max(绝对容差, 相对容差)——IEC/ANSI 惯例
 DATALOG_TOLERANCE_PERCENT  = 5.0    # ±5%（相对容差）
 DATALOG_TOLERANCE_ABSOLUTE = 0.05   # ±0.05（绝对容差下限，防止极小值误判）
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 9. Datalog 推送服务器（Post Channel 验证用）
+# ══════════════════════════════════════════════════════════════════════════════
+
+# 本机 IP（网关需能访问此地址）
+DATALOG_SERVER_HOST = "192.168.2.149"
+
+# ── FTP ───────────────────────────────────────────────────────────────────────
+DATALOG_FTP_PORT = 21
+DATALOG_FTP_USER = "datalog"
+DATALOG_FTP_PASS = "datalog123"
+
+# ── SFTP ──────────────────────────────────────────────────────────────────────
+DATALOG_SFTP_PORT = 22
+DATALOG_SFTP_USER = "datalog"
+DATALOG_SFTP_PASS = "datalog123"
+
+# ── HTTP / HTTPS ──────────────────────────────────────────────────────────────
+DATALOG_HTTP_PORT  = 8080
+DATALOG_HTTPS_PORT = 8443
+# HTTPS 自签名证书（留空则使用 HTTP）
+DATALOG_SSL_CERT = ""
+DATALOG_SSL_KEY  = ""
+
+# ── 网关 Web 登录（Selenium 用） ──────────────────────────────────────────────
+GATEWAY_WEB_URL  = "https://192.168.2.9/#/login"
+GATEWAY_WEB_USER = "admin"
+GATEWAY_WEB_PASS = "Admin@110001"
+
+# ── 等待文件推送的超时时间（秒） ──────────────────────────────────────────────
+DATALOG_PUSH_TIMEOUT = 300

@@ -1,0 +1,21 @@
+gateway:
+  url: https://192.168.2.9/#/login
+  username: admin
+  password: Admin@110001
+azure_iot:
+  primary_connection_string: HostName=AccuenergyTest.azure-devices.net;DeviceId=S8P54040023;x509=true
+  secondary_connection_string: HostName=AccuenergyTest.azure-devices.net;DeviceId=S8P54040023;x509=true
+  interval: 30 seconds
+  enable_ssl: true
+  cert_file: Protocols/IoT/Azure_IoT/certs/client 3.pem
+  key_file: Protocols/IoT/Azure_IoT/certs/key 3.pem
+  eventhub_connection_string: Endpoint=sb://ihsuprodblres064dednamespace.servicebus.windows.net/;SharedAccessKeyName=service;SharedAccessKey=kBE6EFMY+p5zjl9cexdnksLJ1+Lgr7tbAAIoTAbVFts=;EntityPath=iothub-ehub-accuenergy-70953761-f2919f1160
+  consumer_group: $Default
+  expected_devices:
+  - 4100test
+  - AcuRev2100
+  - AcuRev4100
+  - Acuvim3
+  - AcuvimIIR
+  - AcuvimIIW
+  - test
