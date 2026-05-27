@@ -42,6 +42,13 @@ Thumbs.db
 *.exe
 *.war
 
+# Datalog runtime cache / test artifacts
+Protocols/Datalog/.datalog_device_cache.json
+Protocols/Datas/DatalogDatas/ftp/
+debug_*.png
+logs/
+test_output.txt
+
 # Large media files
 *.mp4
 *.tiff

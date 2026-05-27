@@ -357,7 +357,8 @@ class ModbusReader:
                     timeout=config.READ_TIMEOUT,
                 )
                 if resp.isError():
-                    raise IOError(f"FC03 错误响应: {resp}")
+                    last_err = f"FC03 错误响应: {resp}"
+                    break  # 设备明确返回异常码，无需重试
                 return resp.registers
             except asyncio.TimeoutError:
                 last_err = f"超时 (地址=0x{address:04X}, count={count})"
@@ -383,7 +384,8 @@ class ModbusReader:
                     timeout=config.READ_TIMEOUT,
                 )
                 if resp.isError():
-                    raise IOError(f"FC01 错误响应: {resp}")
+                    last_err = f"FC01 错误响应: {resp}"
+                    break  # 设备明确返回异常码，无需重试
                 return resp.bits[:count]
             except asyncio.TimeoutError:
                 last_err = f"超时 (线圈=0x{address:04X}, count={count})"
@@ -409,7 +411,8 @@ class ModbusReader:
                     timeout=config.READ_TIMEOUT,
                 )
                 if resp.isError():
-                    raise IOError(f"FC02 错误响应: {resp}")
+                    last_err = f"FC02 错误响应: {resp}"
+                    break  # 设备明确返回异常码，无需重试
                 return resp.bits[:count]
             except asyncio.TimeoutError:
                 last_err = f"超时 (离散输入=0x{address:04X}, count={count})"

@@ -210,6 +210,32 @@ python Protocols/MQTT/mqtt_comparator.py --device acurev4100 --file "Protocols/M
 
 ---
 
+## Datalog/tests/ — Data Logger pytest 自动化测试套件
+
+对 AcuHMI-1-7 的 **Data Logger 1 / 2 / 3** 进行端到端自动化验证，
+全部 **30 条用例**集中在 `test_datalog_logger.py`，分 A/B/C/D/E 五类。
+
+| 标记 | 覆盖用例 | 条数 |
+|------|---------|:----:|
+| `lv1` | A 类（disable）+ B 类（None 通道）+ E 类（联动） | 15 |
+| `lv4` | D 类（超长 Prefix 负向） | 3 |
+| 无 mark | C 类推送验证，用 `-k` 过滤 | 12 |
+
+```bash
+# 功能回归（A + B + E 类）
+pytest Protocols/Datalog/tests/test_datalog_logger.py -m lv1 -v
+
+# C 类冒烟（Logger1 FTP/SFTP/HTTP，约 20 分钟）
+pytest Protocols/Datalog/tests/test_datalog_logger.py -k "case04 or case05 or case06" -v
+
+# 全量（30 条）
+pytest Protocols/Datalog/tests/test_datalog_logger.py -v
+```
+
+> 详细用例说明、配置项及执行规则见 → `Protocols/Datalog/tests/README.md`
+
+---
+
 ## Datalog/datalog_comparator.py — Datalog 快照 vs 实时 Modbus 比对
 
 从 `Datas/DatalogDatas/` 目录读取网关导出的 Datalog 文件，与设备实时 Modbus 寄存器值比对。
@@ -242,6 +268,134 @@ python Protocols/Datalog/datalog_comparator.py --device acurev4100 --row 1
 # 只比对指定参数
 python Protocols/Datalog/datalog_comparator.py --device acurev4100 --keys FREQ_Hz VLN_a_V P_kW
 ```
+
+---
+
+## Datalog/datalog_server_verifier.py — Post Channel 推送端到端验证
+
+本机启动 FTP / SFTP / HTTP / HTTPS 后台服务器（仅启动实际用到的协议），
+自动配置网关 Post Channel 1/2/3 和 Data Logger 1/2/3，
+等待网关将 Datalog 文件推送到各服务器后，对每台设备仅取最新一个文件执行三段式比对，
+生成汇总 HTML 报告（所有协议所有设备合并输出）。
+
+**核心设计：Post Channel 协议自由分配**
+
+Post Channel 1 / 2 / 3 各自可独立选择 FTP / SFTP / HTTP / HTTPS 四种协议之一，
+本机为每种协议维护一个独立服务器实例，只启动 `channel_configs` 中实际用到的协议。
+通过 `channel_to_post_config()` 把协议名翻译成填好本机服务器信息的 `PostChannelConfig`：
+
+```python
+pool = build_protocol_pool()   # 从 config.py 读取四协议服务器参数
+
+# 只用 FTP
+channel_configs = {
+    1: channel_to_post_config("FTP", pool),
+}
+
+# FTP + HTTP 各一
+channel_configs = {
+    1: channel_to_post_config("FTP",  pool),
+    2: channel_to_post_config("HTTP", pool),
+}
+```
+
+修改脚本底部 `_channel_configs` 字典即可更改协议分配，无需动其他代码。
+
+**完整流程（7 步）：**
+1. **清空数据目录**：删除 `ftp/` `sftp/` `http/` `https/` 目录中所有 `.json` / `.csv` 文件，确保本次只分析当前新推送的数据
+2. 按 `channel_configs` 中出现的协议按需启动本地服务器（FTP / SFTP / HTTP / HTTPS）
+3. Selenium 登录网关，配置 Post Channel 1/2/3（每个填入对应协议的本机服务器信息并测试连接）
+4. 配置 Data Logger 1/2/3：推送间隔、文件格式（CSV / JSON）、关联 Post Channel、勾选设备、全选参数，并 **Enable**
+5. 轮询等待文件到达（默认 300 秒超时）
+6. **收到文件后立即 Disable 所有 Data Logger**，防止网关继续推送积累历史文件
+7. 每台设备仅保留**最新一个**文件，执行三段式比对（范围 + 单位 + Modbus 数值），生成汇总报告
+
+> **为什么每次都要清空目录？**
+> 缓存文件的时间戳与当前实时 Modbus 读取值存在时序差，会导致数值比对出现虚假偏差。
+> 清空后仅分析本次运行期间新到达的文件，保证比对结果有效。
+
+**前提条件：**
+- 安装依赖：`pip install pyftpdlib paramiko`
+- 在 `config.py` 中填写 `DATALOG_SERVER_HOST`（本机 IP，网关需能访问此地址）
+- 确认 `GATEWAY_WEB_URL` / `GATEWAY_WEB_USER` / `GATEWAY_WEB_PASS` 填写正确
+
+```bash
+# 完整流程（启服务器 + 配置网关 + 等文件 + 比对 + 报告）
+python Protocols/Datalog/datalog_server_verifier.py
+
+# 仅验证（不启动 WebDriver，假设网关已手动配置好并已推送文件）
+# 注意：--no-webdriver 模式下 Data Logger 不会被自动禁用
+python Protocols/Datalog/datalog_server_verifier.py --no-webdriver
+
+# 不启动本地服务器（使用已有外部服务器）
+python Protocols/Datalog/datalog_server_verifier.py --no-servers
+
+# 调整等待超时（秒）
+python Protocols/Datalog/datalog_server_verifier.py --timeout 600
+
+# 指定默认设备（无法从文件名推断时使用）
+python Protocols/Datalog/datalog_server_verifier.py --device acurev4100
+```
+
+**服务器配置（config.py）：**
+
+| 配置项 | 默认值 | 说明 |
+|---|---|---|
+| `DATALOG_SERVER_HOST` | `192.168.2.149` | 本机 IP（网关须能访问） |
+| `DATALOG_FTP_PORT` | `2121` | FTP 服务器端口 |
+| `DATALOG_FTP_USER` / `DATALOG_FTP_PASS` | `datalog` / `datalog123` | FTP 账号密码 |
+| `DATALOG_SFTP_PORT` | `2222` | SFTP 服务器端口 |
+| `DATALOG_SFTP_USER` / `DATALOG_SFTP_PASS` | `datalog` / `datalog123` | SFTP 账号密码 |
+| `DATALOG_HTTP_PORT` | `8080` | HTTP 服务器端口 |
+| `DATALOG_HTTPS_PORT` | `8443` | HTTPS 服务器端口 |
+| `DATALOG_SSL_CERT` / `DATALOG_SSL_KEY` | 留空 | HTTPS 自签名证书路径，留空则 HTTPS 不可用 |
+| `GATEWAY_WEB_URL` | `https://192.168.2.9/#/login` | 网关 Web UI 地址 |
+| `GATEWAY_WEB_USER` / `GATEWAY_WEB_PASS` | `admin` / `Admin@110001` | 网关登录账号密码 |
+| `DATALOG_PUSH_TIMEOUT` | `300` | 等待文件推送超时（秒） |
+
+**接收文件目录（按协议分目录存放）：**
+
+```
+Protocols/Datas/DatalogDatas/
+├── ftp/    ← FTP 服务器收到的文件
+├── sftp/   ← SFTP 服务器收到的文件
+├── http/   ← HTTP 服务器收到的文件
+└── https/  ← HTTPS 服务器收到的文件
+```
+
+**设备名识别（文件名 → 设备模块）：**
+
+脚本从文件名中提取关键字（大小写不敏感）自动识别设备类型：
+
+| 文件名关键字 | 映射设备 | 使用模块 |
+|---|---|---|
+| `acurev4100` | AcuRev 4100 | `devices/acurev4100.py` |
+| `acurev2100` | AcuRev 2100 | `devices/acurev2100.py` |
+| `acuvimiiw` / `acurev2iw` | Acuvim IIW | `devices/acuvimiiw.py` |
+| `acuvimiir` | Acuvim IIR | `devices/acuvimiir.py` |
+| `acuvim3` | AcuVIM3 | `devices/acuvim3.py` |
+| `acurev1300` / `pxm350` | AcuRev 1300 / PXM350 | `devices/pxm350.py` |
+
+无法识别时使用 `--device` 指定的默认设备（默认 `acurev4100`）。
+
+**Post Channel 字段（按 Post Method 动态显示）：**
+
+| Post Method | 字段 |
+|---|---|
+| FTP | FTP URL（FTP:// + IP）、FTP Port、Enable anonymous mode、FTP User Name、FTP password |
+| SFTP | SFTP URL（SFTP:// + IP）、SFTP Port、SFTP User Name、SFTP password |
+| HTTP/HTTPS | Post Name Fixed（Yes/No）、Post File Name、Authentication Required（Yes/No）、HTTP/HTTPS URL（HTTP:// 或 HTTPS:// + IP）、HTTP/HTTPS Port、HTTP/HTTPS Meter ID、Include Header（Yes/No） |
+
+> HTTP 和 HTTPS 在 UI 中是同一个 Post Method 选项 `HTTP/HTTPS`，通过 URL 前缀下拉（`HTTP://` / `HTTPS://`）区分。
+> 内部协议池仍以 `"HTTP"` / `"HTTPS"` 两个 key 区分，文件分别保存到 `DatalogDatas/http/` 和 `DatalogDatas/https/` 目录。
+
+**XPath 适配说明：**
+`datalog_page.py` 的定位器基于 Element Plus（Vue.js）UI 编写（`el-select`、`el-radio`、`left-nav-item` 等选择器）。若网关版本差异导致 XPath 不匹配，调整 `PostChannelPage` / `DataLoggerPage` 类中对应的 `LOCATOR` 常量即可，无需修改主流程。
+
+**已知行为：**
+- **离线设备缓存**：同一次运行中，连接失败的设备 `(host, port, unit)` 会被缓存，后续文件直接跳过，不重复尝试连接
+- **Modbus ExceptionResponse**：设备明确返回异常码（如 AcuRev2100 部分寄存器块）时立即放弃，不重试；该参数标记为 ERROR 但不影响其他参数比对
+- **AcuRev2100 已知限制**：寄存器地址 0x2000–0x3180 范围对应参数均返回 SlaveFailure，属设备固件限制，非测试框架问题
 
 ---
 
@@ -410,6 +564,15 @@ azure_iot:
 | `CLOUD_DATA_DIR` | AcuCloud xlsx 快照文件目录 |
 | `MQTT_DATA_DIR` | MQTT JSON 快照文件目录（`MQTT/`） |
 | `MQTT_TOLERANCE_PERCENT` / `MQTT_TOLERANCE_ABSOLUTE` | MQTT 快照比对容差 |
+| `DATALOG_DATA_DIR` | Datalog 文件目录（`Datas/DatalogDatas/`） |
+| `DATALOG_TOLERANCE_PERCENT` / `DATALOG_TOLERANCE_ABSOLUTE` | Datalog 快照比对容差（默认 ±5% / ±0.05） |
+| `DATALOG_SERVER_HOST` | 本机 IP，供网关推送 FTP / SFTP / HTTP 数据（默认 `192.168.2.149`） |
+| `DATALOG_FTP_PORT` / `DATALOG_FTP_USER` / `DATALOG_FTP_PASS` | FTP 服务器端口和账号（默认 2121 / datalog / datalog123） |
+| `DATALOG_SFTP_PORT` / `DATALOG_SFTP_USER` / `DATALOG_SFTP_PASS` | SFTP 服务器端口和账号（默认 2222 / datalog / datalog123） |
+| `DATALOG_HTTP_PORT` / `DATALOG_HTTPS_PORT` | HTTP（8080）/ HTTPS（8443）端口 |
+| `DATALOG_SSL_CERT` / `DATALOG_SSL_KEY` | HTTPS 自签名证书路径（留空使用 HTTP） |
+| `GATEWAY_WEB_URL` / `GATEWAY_WEB_USER` / `GATEWAY_WEB_PASS` | 网关 Web UI 地址和登录凭据（Selenium 用） |
+| `DATALOG_PUSH_TIMEOUT` | 等待网关推送文件的超时时间（秒，默认 300） |
 | `REPORT_DIR` | HTML 报告输出目录 |
 
 ---
@@ -431,9 +594,21 @@ Protocols/
 ├── MQTT/                      # MQTT 数据
 │   ├── mqtt_comparator.py     # MQTT 快照 vs Modbus 三段式比对主程序
 │   └── <设备名>data.json      # 网关推送的 MQTT JSON 快照（如 4100data.json）
+├── Datalog/                   # Datalog 数据推送验证
+│   ├── datalog_comparator.py        # 本地文件 vs Modbus 比对（CSV / JSON 两段/三段式）
+│   ├── datalog_page.py              # Selenium 页面：Post Channel + Data Logger 配置自动化
+│   ├── datalog_server_verifier.py   # 主控：启服务器→配网关→等文件→比对→汇总报告
+│   └── servers/                     # 后台服务器实现
+│       ├── ftp_server.py            # FTP 服务器（pyftpdlib）
+│       ├── sftp_server.py           # SFTP 服务器（paramiko）
+│       └── http_server.py           # HTTP / HTTPS 服务器（stdlib）
 ├── Datas/                     # 测试数据文件
 │   ├── acuclouddatas/         # AcuCloud 导出 xlsx 快照
-│   └── DatalogDatas/          # 网关导出的 Datalog JSON / CSV 文件
+│   └── DatalogDatas/          # Datalog 数据文件
+│       ├── *.json / *.csv     # 手动导出的快照（datalog_comparator.py 用）
+│       ├── ftp/               # FTP 服务器收到的推送文件
+│       ├── sftp/              # SFTP 服务器收到的推送文件
+│       └── http/              # HTTP 服务器收到的推送文件
 ├── IoT/                       # IoT 云端上传协议
 │   ├── AWS_IoT/               # AWS IoT
 │   │   ├── aws_iot_configurator.py  # Selenium 自动配置网关 Web UI
