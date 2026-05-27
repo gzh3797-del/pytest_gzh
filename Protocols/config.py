@@ -10,7 +10,8 @@ config.py — 网关协议测试统一配置
   5. EtherNet/IP
   6. AcuCloud
   7. MQTT
-  8. Datalog
+  8. 设备网页自动化（Playwright）
+  9. Datalog
 """
 import os as _os
 _BASE = _os.path.dirname(_os.path.abspath(__file__))
@@ -148,9 +149,44 @@ MQTT_DATA_DIR = _os.path.join(_BASE, "MQTT")
 MQTT_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
 MQTT_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
 
+# ── 设备侧 Broker 地址（填入设备网页的地址，与本机监听地址分开） ─────────────
+# 设备连接的目标 Broker 地址（如 www.accu.com 或本机 IP）
+WEB_MQTT_BROKER_ADDRESS = "www.accu.com"
+WEB_MQTT_BROKER_PORT    = 1883
+
+# MQTT 内嵌 Broker（实时采集模式，--live）
+MQTT_BROKER_HOST     = "0.0.0.0"  # Broker 监听地址（0.0.0.0 允许外部设备连入）
+MQTT_BROKER_PORT     = 1883       # MQTT 端口
+MQTT_COLLECT_TIMEOUT = 60         # 等待设备数据的秒数
+MQTT_TOPIC           = "#"        # 订阅 Topic
+
+# MQTT SSL / mTLS 证书路径（--ssl 模式使用）
+MQTT_SSL_CERT_DIR    = _os.path.join(_BASE, "MQTT", "certs")
+MQTT_SSL_CA_CERT     = _os.path.join(MQTT_SSL_CERT_DIR, "ca.crt")
+MQTT_SSL_SERVER_CERT = _os.path.join(MQTT_SSL_CERT_DIR, "server.crt")
+MQTT_SSL_SERVER_KEY  = _os.path.join(MQTT_SSL_CERT_DIR, "server.key")
+MQTT_SSL_CLIENT_CERT = _os.path.join(MQTT_SSL_CERT_DIR, "client.crt")
+MQTT_SSL_CLIENT_KEY  = _os.path.join(MQTT_SSL_CERT_DIR, "client.key")
+MQTT_SSL_PORT        = 8883
+
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 8. Datalog
+# 8. 设备网页自动化（Playwright）
+# ══════════════════════════════════════════════════════════════════════════════
+
+WEB_URL      = "http://192.168.2.9"   # 设备网页地址
+WEB_USERNAME = "admin"                # 登录用户名
+WEB_PASSWORD = "Admin@110001"         # 登录密码
+
+# 保存配置后等待设备重连的时间（秒）
+WEB_RECONNECT_WAIT = 20
+
+# 是否无头模式运行浏览器（True=后台，False=可见，调试时设 False）
+WEB_HEADLESS = False
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 9. Datalog
 # ══════════════════════════════════════════════════════════════════════════════
 
 # Datalog 快照数据目录
