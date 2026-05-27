@@ -1,13 +1,15 @@
-# hmi1-7 — AcuHMI-1-7 网关自动化测试项目
+# AcuHMI-1-7 — 网关自动化测试项目
 
 ## 项目背景
 
-AcuHMI-1-7 是西安加中准源科技有限公司的工业物联网网关产品。Sprint 3 迭代新增北向协议支持（BACnet/IP、SNMP、MQTT）、云端上传增强（AcuCloud/AWS IoT/Azure IoT）、接线检查（Wiring Check）、模板管理、H-IO 设备支持等功能。
+AcuHMI-1-7 是工业级 HMI 网关一体机（7" 电容触屏）。南向通过 RS485/以太网采集 Accuenergy 系列电表，北向通过 8 种协议推送至上位机/SCADA/云平台。
+当前测试阶段为 **Sprint 3（三期）**；v2.00 综合版需求文档已整合所有 Sprint 需求。
 
 **需求文档：**
-- 主需求规格：`requirements/raw/AcuHMI-1-7 Sprint3 软件需求规格说明书_V1.03_20260423.docx`
-- 变更说明书：`requirements/raw/AcuHMI-1-7 Sprint3 软件需求规格变更说明书_v1.00_20260430.docx`
-- 需求摘要：`requirements/summaries/`
+- 综合版（权威）：`requirements/raw/AcuHMI-1-7_软件需求规格说明书_v2.00_20260519.docx`
+- Sprint 3 规格：`requirements/raw/AcuHMI-1-7 Sprint3 软件需求规格说明书_V1.03_20260423.docx`
+- Sprint 3 变更：`requirements/raw/AcuHMI-1-7 Sprint3 软件需求规格变更说明书_v1.00_20260430.docx`
+- 需求摘要（综合版）：`requirements/summaries/v2.00_20260519.md`
 
 **Bug 追踪：**
 - 精简索引：`bugs/INDEX.md`（A17S-68 ~ A17S-132，共 58 条缺陷）
@@ -24,48 +26,63 @@ AcuHMI-1-7 是西安加中准源科技有限公司的工业物联网网关产品
 | AcuRev-1300 | v2.24 | ✅ | ✅ |
 | Acuvim II（IIW/IIR） | IIV3 v6.36 / LV4 v6.36 | ✅ | ✅ |
 | Acuvim 3 | v1.03p19 | ✅ | ✅ |
-| H-IO | — | — | — |
+| H-IO（8DI+8RO） | — | — | — |
 
 ---
 
-## Sprint 3 主要功能模块
+## 功能模块（v2.00 综合版）
+
+### 南向采集
+- Modbus RTU（RS485 COM1/COM2）+ Modbus TCP（以太网）
+- 物理设备最多 32 台；Poll Interval 1~3600 秒（默认 60）
+- 虚拟设备 32 个（公式四则运算）；Web 设备 100 个（第三方 URL 聚合）
 
 ### 北向协议
-| 协议 | 状态 | 关键点 |
-|------|------|-------|
-| BACnet/IP | 新增 | 端口 47808~49000；Device Instance 0~4194302；COV 支持；支持 Harmonic 参数 |
-| SNMP | 增强 | SNMPv2c + SNMPv3（认证/加密）；端口 16100~16199；Trap 4个目标；MIB 下载 |
-| MQTT | 新增 | General/Credential/SSL-TLS/LWT/Topic 配置；按设备参数发布 |
 
-### 云端上传
-| 服务 | 关键变更 |
-|------|---------|
-| AcuCloud | Advanced URL 模式；Log Interval 固定 5min |
-| AWS IoT | 按设备参数配置；断网缓存 24~72h；URL 格式限制 |
-| Azure IoT | 类 MQTT 设备参数配置方式；SSL 支持 |
-| Remote Access | Advanced URL 编辑 |
+| 协议 | 关键点 |
+|------|-------|
+| Modbus TCP | Parameters Mapping (Slave 100) / Pass Through (101~247) / Device Mirror (2~99)；端口 2000~5999 |
+| BACnet/IP | 端口 47808~49000；Device Instance 0~4194302；COV；Harmonic 参数；EPICS 下载；Foreign Device/BBMD |
+| SNMP | v2c+v3（MD5/SHA，DES/AES）；端口 16100~16199；Trap 4目标；MIB 下载 |
+| MQTT | SSL-TLS/LWT/Topic；JSON Payload；Interval 1~600s(11档) |
+| AWS IoT | 断网缓存 24~72h；URL 格式限制（小写字母+数字+"-.:/")  |
+| Azure IoT | Primary/Secondary Connection String；Device Twin；SSL |
+| AcuCloud | HTTPS；Log Interval **固定 5 分钟**；Advanced URL 模式 |
 
-### 接线检查（Wiring Check）
-- 路径：Diagnosis → Wiring Check
-- 支持接线方式：3E4WY / 1E2W / 2E2WDelta / 2E3WDelta / 3E3WDelta / 3E4WDelta / 2E3W1Phase / 2.5E4WY / 2E3WNetwork
-- 导出：`wiring_check_Reault.csv`
-- Meter Point 命名：多回路表用 `UserChannel N: {Description}`，单回路表用设备名
+### 数据日志
+- 3 个标准 Data Logger + 1 个 Rapid Logger（最小间隔 1 秒）
+- 3 条 Post Channel（FTP/SFTP/HTTP/HTTPS）；单 Logger 设备数 ≤32；单 Channel 设备数 ≤16
+- 板载存储 32 GB；单 Channel 配额 4 GB
 
 ### 告警系统
-- 蜂鸣器：仅在存在未确认告警时发声
-- Alarm Acknowledgement Enable / Unacknowledged Alarms 页面
-- Alarm Logs 新增：Ack Status / Trigger DO/RO Device / DO/RO
+- 参数阈值 + 设备离线告警；Trigger DO/RO 联动 H-IO（RO 1~8）
+- 蜂鸣器：仅有未确认告警时发声，全部确认后自动停止
+- 未确认告警页（Alarm Acknowledgement Enable 时展示）
+- 邮件通知：最多 3 个收件人，Email Interval 1~10 分钟
+
+### 接线检查（Wiring Check）
+- 路径：Diagnosis → Wiring Check（**仅 Web，HMI 不支持**）
+- 支持 8 种接线方式（各型号支持情况见 v2.00 摘要附录）
+- 导出：`wiring_check_Result.csv`
+- Meter Point 命名：多回路表 → "User Channel N: {Description}"；单回路表 → 设备名
 
 ### 模板管理
-- 命名格式：`TemplateName_版本号_Firmware_版本号`（只显大版本如 v1.03p06）
-- 向后兼容；按固件版本自动匹配；DataLog/TrendLog 备份 + Checkpoint
+- 官方（只读）+ 自定义（基于 Typical Energy Meter V2）；.def 加密导入导出
+- 命名规则：`TemplateName_版本号_Firmware_版本号`（大版本如 v1.03）
+- 向后兼容；网关升级后按 Firmware Version 自动匹配模板
 
-### 其他
-- **Add to Logger**：添加设备时直接分配 Data Log 1/2/3 / Rapid Logger
-- **PT1/PT2**：AcuRev-4100 General 新增（PT1: 50~1000000，PT2: 50~830）
-- **H-IO**：自动添加；RO 1~8 告警触发；DI/RO 状态读取
-- **可编辑 User Channel**：AcuRev-4100 Description 列（≤20 ASCII 字符）
-- **虚拟设备**：AcuCloud / Data Log / AWS IoT / Azure IoT 支持虚拟设备
+### 安全合规（出厂默认）
+- SSH / Modbus 北向 / Remote Access / 所有云协议 / Data Logger：全部 **Disable**
+- admin 密码：`Admin@` + SN末6位；首次登录强制修改；EULA 强制接受
+- 禁止固件降级；升级失败 → Emergency Mode 回退
+- IP Allow List；配置文件加密导入导出
+
+---
+
+## 网络配置（默认）
+- Eth1：DHCP 禁用，IP 192.168.8.101/255.255.255.0，GW 192.168.8.1
+- Eth2：DHCP 自动
+- DNS1: 8.8.8.8；DNS2: 8.8.4.4
 
 ---
 
@@ -80,10 +97,9 @@ AcuHMI-1-7 是西安加中准源科技有限公司的工业物联网网关产品
 | A17S-121 | Wiring Check | 配置 Ia/b=1A 时 Ic 缺失，接线检查显示 "-" | CREATED |
 | A17S-119 | PassThrough | Acuview2 工具概率连接失败 | SELF-TESTING |
 | A17S-118 | Modbus | 系统监听两个重复 502 端口 | SELF-TESTING |
-| A17S-117 | Modbus | 关闭 Modbus Config 后 Device Mirror 仍能与 Modbus Poll 通信 | SELF-TESTING |
+| A17S-117 | Modbus | 关闭 Modbus Config 后 Device Mirror 仍能通信 | SELF-TESTING |
 | A17S-116 | BACnet/IP | BACnet 参数单位显示 "Square Meters" | TO BE VERIFIED |
 | A17S-114 | AcuCloud | AcuVIM3 上传有重复参数 | CREATED |
 | A17S-113 | AcuCloud | AcuCloud 显示 SN 异常 | CREATED |
-| A17S-131 | SNMP | MIB 管理端参数值未做系数转换，与 Realtime 不一致 | TO BE VERIFIED |
+| A17S-131 | SNMP | MIB 参数值未做系数转换与 Realtime 不一致 | TO BE VERIFIED |
 | A17S-130 | AWS IoT | AWS 推送 JSON 设备 name/model 字段为空 | TO BE VERIFIED |
-

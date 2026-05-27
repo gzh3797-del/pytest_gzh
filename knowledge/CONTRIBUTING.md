@@ -25,6 +25,7 @@
 | `knowledge/gateway/<项目>/bugs/raw/` | Jira 导出 Excel 原件，只存档不编辑 | 项目负责人 |
 | `knowledge/gateway/<项目>/requirements/raw/` | 需求文档原件（Word/PDF），只存档 | 项目负责人 |
 | `knowledge/gateway/<项目>/requirements/summaries/` | 需求摘要 .md，新需求到来时人工撰写 | 项目负责人 |
+| `knowledge/gateway/<项目>/testcase/` | 测试用例文件（.xlsx）及摘要 .md，内容不上浮至 CLAUDE.md / context.md | 项目负责人 |
 | `knowledge/meters/` | 电表测试项目组，结构与 gateway 相同，内容待填入 | 电表测试负责人 |
 | `knowledge/cloud/` | 云平台测试项目组，结构与 gateway 相同，内容待填入 | 云平台测试负责人 |
 | `knowledge/_template/` | 新项目初始化模板，`/new-project` 技能使用，结构变更时同步更新 | 知识库维护人 |
@@ -36,6 +37,8 @@
 | 新增电表设备 | `knowledge/shared/devices/<name>.md`、`modbus_tables/INDEX.md`、`templates/INDEX.md`、`CLAUDE.md` 设备速查表 |
 | Jira 导出新 bug 单 | `knowledge/<类型>/<项目>/bugs/INDEX.md`（追加精简行）、`bugs/raw/`（存原始 Excel） |
 | 新需求文档到来 | `requirements/raw/`（存原件）、`requirements/summaries/`（写摘要）、对应项目 `context.md`（同步功能模块）、**分析是否需要更新 `CLAUDE.md`**（新项目/新设备/全局约定变更才更新，项目内细节不更新） |
+| 测试用例文件上传 | 存入对应项目 `testcase/` → 在 `testcase/` 内生成摘要 .md → 不上浮至 CLAUDE.md / context.md |
 | 新增项目 | 运行 `/new-project`，然后更新 `CLAUDE.md` 项目一览表 |
 | 重要设计决策 | `knowledge/shared/decisions.md` 追加一条 |
 | 团队约定变更 | `knowledge/shared/conventions.md` 更新对应条目 |
+| 设备代码有新增/变更（新设备文件或协议支持变化） | 扫描 `Protocols/devices/` 所有设备文件 + 各协议 comparator → 重建 `Protocols/README.md` 设备支持表 → 同步 `CLAUDE.md` 支持设备速查表 |

@@ -4,10 +4,10 @@
 测试 AcuRev-4100-WEB2 网关模块（型号 ACM-41-WEB2）的数据采集、协议转换与云端上传功能。
 当前测试阶段为 **Sprint 2（二期）**，在一期基础上新增多项协议与功能，详见下方需求节。
 
-## 被测产品需求（Sprint 2）
+## 被测产品需求
 
-> 来源：《软件需求规格说明书 v1.01》（2026-04-23）+《变更说明书 v1.00》（2026-04-29）
-> 完整汇总见 requirements/summaries/sprint2_requirements.md
+> Sprint 1 汇总 → requirements/summaries/sprint1_requirements.md（V1.0，2026-02-25）
+> Sprint 2 汇总 → requirements/summaries/sprint2_requirements.md（V1.01，2026-04-23）+《变更说明书 v1.00》（2026-04-29）
 
 ### 产品定位
 WEB2 作为 AcuRev-4100 的网络模块，附加在表本体上直接取电。通过高速 USB（Modbus RTU）与表本体通信，通过以太网（Modbus TCP）最多下挂 3 台非本体 4100 和 8 台 AcuIOM；向上提供 BACnet/IP、Modbus TCP、MQTT、SNMP、Ethernet/IP 等协议接口，并支持 AcuCloud、AWS IoT、Azure IoT 数据上传。

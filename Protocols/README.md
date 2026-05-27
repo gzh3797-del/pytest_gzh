@@ -236,6 +236,7 @@ pytest Protocols/Datalog/tests/test_datalog_logger.py -v
 
 ---
 
+
 ## Datalog/datalog_comparator.py — Datalog 快照 vs 实时 Modbus 比对
 
 从 `Datas/DatalogDatas/` 目录读取网关导出的 Datalog 文件，与设备实时 Modbus 寄存器值比对。
@@ -567,8 +568,8 @@ azure_iot:
 | `DATALOG_DATA_DIR` | Datalog 文件目录（`Datas/DatalogDatas/`） |
 | `DATALOG_TOLERANCE_PERCENT` / `DATALOG_TOLERANCE_ABSOLUTE` | Datalog 快照比对容差（默认 ±5% / ±0.05） |
 | `DATALOG_SERVER_HOST` | 本机 IP，供网关推送 FTP / SFTP / HTTP 数据（默认 `192.168.2.149`） |
-| `DATALOG_FTP_PORT` / `DATALOG_FTP_USER` / `DATALOG_FTP_PASS` | FTP 服务器端口和账号（默认 2121 / datalog / datalog123） |
-| `DATALOG_SFTP_PORT` / `DATALOG_SFTP_USER` / `DATALOG_SFTP_PASS` | SFTP 服务器端口和账号（默认 2222 / datalog / datalog123） |
+| `DATALOG_FTP_PORT` / `DATALOG_FTP_USER` / `DATALOG_FTP_PASS` | FTP 服务器端口和账号（默认 21 / datalog / datalog123） |
+| `DATALOG_SFTP_PORT` / `DATALOG_SFTP_USER` / `DATALOG_SFTP_PASS` | SFTP 服务器端口和账号（默认 22 / datalog / datalog123） |
 | `DATALOG_HTTP_PORT` / `DATALOG_HTTPS_PORT` | HTTP（8080）/ HTTPS（8443）端口 |
 | `DATALOG_SSL_CERT` / `DATALOG_SSL_KEY` | HTTPS 自签名证书路径（留空使用 HTTP） |
 | `GATEWAY_WEB_URL` / `GATEWAY_WEB_USER` / `GATEWAY_WEB_PASS` | 网关 Web UI 地址和登录凭据（Selenium 用） |
