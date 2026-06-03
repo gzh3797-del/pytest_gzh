@@ -83,6 +83,7 @@
 
 ---
 
+
 ## [web2] AcuIOM 模板格式不同，范围检查 graceful skip
 **时间：** 2026-05
 **决策：** get_bacnet_params() 在 IOM 模板上会抛 ValueError（无 BACnetIP 列），用 try/except 捕获并 log warning，跳过范围检查继续数值比对。
