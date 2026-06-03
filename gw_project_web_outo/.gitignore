@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+reports/
+screenshots/
+playwright-report/
+test-results/
+~$*
