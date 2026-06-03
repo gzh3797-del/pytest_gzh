@@ -1,0 +1,11 @@
+DEBUG   2026-05-25 10:57:11,716  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 58722)
+DEBUG   2026-05-25 10:57:11,717  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-05-25 10:57:11,717  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:57:11,722  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-05-25 10:57:11,725  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:57:11,726  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-05-25 10:57:11,726  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:57:11,726  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-05-25 10:57:16,994  root:wiring_check_page.py:50 Login successful
+INFO    2026-05-25 10:57:17,722  root:test_3e4wy.py:207 [PASS-ABC] 正常接线 ABC，应全部 Pass
+INFO    2026-05-25 10:57:18,054  root:source_control.py:158 192.168.0.151, 10005

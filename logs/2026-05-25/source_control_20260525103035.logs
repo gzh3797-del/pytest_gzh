@@ -1,0 +1,1569 @@
+DEBUG   2026-05-25 10:30:35,820  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 60393)
+DEBUG   2026-05-25 10:30:35,822  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-05-25 10:30:35,822  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:30:35,827  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-05-25 10:30:35,828  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:30:35,829  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-05-25 10:30:35,829  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:30:35,829  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-05-25 10:30:41,468  root:wiring_check_page.py:50 Login successful
+INFO    2026-05-25 10:30:42,133  root:test_3e4wy.py:207 [PASS-ABC] 正常接线 ABC，应全部 Pass
+DEBUG   2026-05-25 10:30:42,134  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:30:42,135  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:30:42,636  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:30:50,637  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:30:51,335  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:30:51,407  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:30:54,958  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:30:54,998  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:30:56,627  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:30:56,627  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:30:56,627  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:30:56,627  root:test_3e4wy.py:207 [V-01-ABC] 条件1：三相全<0.1*VRATE → Va&Vb&Vc Wiring Missing
+DEBUG   2026-05-25 10:30:56,628  pymodbus.logging:base.py:72 Processing: 0x0 0x5 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:30:56,628  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:30:57,129  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:31:05,136  root:test_3e4wy.py:224   预期: 电压={'A': 'Va & Vb & Vc Wiring Missing', 'B': 'Va & Vb & Vc Wiring Missing', 'C': 'Va & Vb & Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:31:05,815  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:31:05,867  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:31:09,418  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:31:09,474  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:31:11,057  root:test_3e4wy.py:228   实测: 电压={'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing'}  电流[0]={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:31:11,057  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:31:11,057  root:test_3e4wy.py:242   电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:31:11,057  root:test_3e4wy.py:207 [V-02-ABC] 条件2：Vab<0.1*VRATE (ua=ub=230@0°) → Va&Vb Wiring Missing
+DEBUG   2026-05-25 10:31:11,059  pymodbus.logging:base.py:72 Processing: 0x0 0x6 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:31:11,059  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:31:11,560  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:31:19,561  root:test_3e4wy.py:224   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:31:20,246  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:31:20,294  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:31:23,842  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:31:23,875  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:31:25,522  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': 'Ia Polarity Reversed', 'B': '-', 'C': '-'}
+INFO    2026-05-25 10:31:25,522  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:31:25,523  root:test_3e4wy.py:242   电压 Phase A: 预期="Va Wiring Missing"  实际="Pass"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Pass"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:31:25,523  root:test_3e4wy.py:207 [V-03-ABC] 条件3：Vbc<0.1*VRATE (ub=uc=230@240°) → Vb&Vc Wiring Missing
+DEBUG   2026-05-25 10:31:25,524  pymodbus.logging:base.py:72 Processing: 0x0 0x7 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:31:25,524  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:31:26,025  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:31:34,026  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:31:34,704  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:31:34,755  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:31:38,306  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:31:38,333  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:31:39,890  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:31:39,890  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:31:39,890  root:test_3e4wy.py:242   电压 Phase B: 预期="Vb Wiring Missing"  实际="Pass"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Pass"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:31:39,890  root:test_3e4wy.py:207 [V-04-ABC] 条件4：Vca<0.1*VRATE (ua=uc=230@0°) → Va&Vc Wiring Missing
+DEBUG   2026-05-25 10:31:39,892  pymodbus.logging:base.py:72 Processing: 0x0 0x8 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:31:39,892  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:31:40,393  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:31:48,394  root:test_3e4wy.py:224   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:31:49,091  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:31:49,133  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:31:52,680  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:31:52,709  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:31:54,216  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:31:54,216  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:31:54,216  root:test_3e4wy.py:242   电压 Phase A: 预期="Va Wiring Missing"  实际="Pass"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Pass"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:31:54,216  root:test_3e4wy.py:207 [V-05-ABC] 条件5：Van=172V ≤ 0.8*VRATE → Va Wiring Missing
+DEBUG   2026-05-25 10:31:54,217  pymodbus.logging:base.py:72 Processing: 0x0 0x9 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:31:54,217  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:31:54,719  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:32:02,720  root:test_3e4wy.py:224   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:32:03,410  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:32:03,461  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:32:07,008  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:32:07,037  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:32:08,566  root:test_3e4wy.py:228   实测: 电压={'A': 'Va-Vn Reversed', 'B': '-', 'C': '-'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:32:08,566  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:32:08,566  root:test_3e4wy.py:242   电压 Phase A: 预期="Va Wiring Missing"  实际="Va-Vn Reversed"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:32:08,566  root:test_3e4wy.py:207 [V-06-ABC] 条件6：Vbn=172V ≤ 0.8*VRATE → Vb Wiring Missing
+DEBUG   2026-05-25 10:32:08,567  pymodbus.logging:base.py:72 Processing: 0x0 0xa 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:32:08,567  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:32:09,068  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:32:17,069  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:32:17,756  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:32:17,806  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:32:21,346  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:32:21,372  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:32:22,875  root:test_3e4wy.py:228   实测: 电压={'A': '-', 'B': 'Vb-Vn Reversed', 'C': '-'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:32:22,876  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:32:22,876  root:test_3e4wy.py:242   电压 Phase B: 预期="Vb Wiring Missing"  实际="Vb-Vn Reversed"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:32:22,876  root:test_3e4wy.py:207 [V-07-ABC] 条件7：Vcn=172V ≤ 0.8*VRATE → Vc Wiring Missing
+DEBUG   2026-05-25 10:32:22,877  pymodbus.logging:base.py:72 Processing: 0x0 0xb 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:32:22,877  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:32:23,378  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:32:31,379  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:32:32,050  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:32:32,101  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:32:35,648  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:32:35,681  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:32:37,239  root:test_3e4wy.py:228   实测: 电压={'A': '-', 'B': '-', 'C': 'Vc-Vn Reversed'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:32:37,240  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:32:37,240  root:test_3e4wy.py:242   电压 Phase C: 预期="Vc Wiring Missing"  实际="Vc-Vn Reversed"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:32:37,240  root:test_3e4wy.py:207 [V-08-ABC] 条件8：Van=230@0°,Vbn=400@30°,Vcn=400@330° → Va-Vn Reversed
+DEBUG   2026-05-25 10:32:37,241  pymodbus.logging:base.py:72 Processing: 0x0 0xc 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:32:37,241  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:32:37,742  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:32:45,743  root:test_3e4wy.py:224   预期: 电压={'A': 'Va-Vn Reversed', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:32:46,432  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:32:46,480  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:32:50,027  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:32:50,060  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:32:51,566  root:test_3e4wy.py:228   实测: 电压={'A': 'Va-Vn Reversed', 'B': '-', 'C': '-'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:32:51,566  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:32:51,566  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:32:51,566  root:test_3e4wy.py:207 [V-09-ABC] 条件9：Van=400@0°,Vbn=230@30°,Vcn=400@60° → Vb-Vn Reversed
+DEBUG   2026-05-25 10:32:51,567  pymodbus.logging:base.py:72 Processing: 0x0 0xd 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:32:51,567  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:32:52,068  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:33:00,069  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Vb-Vn Reversed', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:33:00,761  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:33:00,811  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:33:04,360  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:33:04,388  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:33:05,895  root:test_3e4wy.py:228   实测: 电压={'A': '-', 'B': 'Vb-Vn Reversed', 'C': '-'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:33:05,895  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:33:05,895  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:33:05,895  root:test_3e4wy.py:207 [V-10-ABC] 条件10：Van=400@0°,Vbn=400@300°,Vcn=230@330° → Vc-Vn Reversed
+DEBUG   2026-05-25 10:33:05,896  pymodbus.logging:base.py:72 Processing: 0x0 0xe 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:33:05,896  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:33:06,397  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:33:14,398  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Vc-Vn Reversed', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:33:15,086  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:33:15,151  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:33:18,694  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:33:18,719  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:33:20,240  root:test_3e4wy.py:228   实测: 电压={'A': '-', 'B': '-', 'C': 'Vc-Vn Reversed'}  电流[0]={'A': 'Ia Polarity Reversed', 'B': '-', 'C': '-'}
+INFO    2026-05-25 10:33:20,241  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:33:20,241  root:test_3e4wy.py:242   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:33:20,241  root:test_3e4wy.py:207 [V-11-ABC] 条件11：∠VB=180° ∉ [220°~260°] → Vb Phase Shift
+DEBUG   2026-05-25 10:33:20,242  pymodbus.logging:base.py:72 Processing: 0x0 0xf 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:33:20,242  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:33:20,743  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:33:28,745  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:33:29,418  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:33:29,474  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:33:33,030  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:33:33,109  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:33:34,724  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': 'Ia Polarity Reversed', 'B': '-', 'C': '-'}
+INFO    2026-05-25 10:33:34,724  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:33:34,725  root:test_3e4wy.py:242   电压 Phase B: 预期="Phase Shift"  实际="Pass"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:33:34,725  root:test_3e4wy.py:207 [V-12-ABC] 条件12：∠VC=60° ∉ [100°~140°] → Vc Phase Shift
+DEBUG   2026-05-25 10:33:34,726  pymodbus.logging:base.py:72 Processing: 0x0 0x10 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:33:34,726  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:33:35,227  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:33:43,229  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:33:43,912  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:33:43,961  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:33:47,507  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:33:47,538  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:33:49,061  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:33:49,061  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:33:49,061  root:test_3e4wy.py:242   电压 Phase C: 预期="Phase Shift"  实际="Pass"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:33:49,061  root:test_3e4wy.py:207 [V-13-ABC] 条件13：ACB电压接入ABC配置 → Phase Order Error（+ Phase Shift B/C）
+DEBUG   2026-05-25 10:33:49,062  pymodbus.logging:base.py:72 Processing: 0x0 0x11 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:33:49,062  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:33:49,562  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:33:57,564  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:33:58,255  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:33:58,308  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:34:01,853  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:34:01,883  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:34:03,402  root:test_3e4wy.py:228   实测: 电压={'A': '-', 'B': 'Vb-Vc Reversed or Phase Order Error (ABC/ACB)', 'C': 'Vb-Vc Reversed or Phase Order Error (ABC/ACB)'}  电流[0]={'A': '-', 'B': '-', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:34:03,402  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:34:03,402  root:test_3e4wy.py:242   电压 Phase B: 预期="Phase Shift"  实际="Vb-Vc Reversed or Phase Order Error (ABC/ACB)"
+  电压 Phase C: 预期="Phase Shift"  实际="Vb-Vc Reversed or Phase Order Error (ABC/ACB)"
+  电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:34:03,403  root:test_3e4wy.py:207 [I-01-ABC] 条件14：Ian<0.1A → Ia Wiring Missing
+DEBUG   2026-05-25 10:34:03,404  pymodbus.logging:base.py:72 Processing: 0x0 0x12 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:34:03,404  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:34:03,905  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:34:11,906  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Wiring Missing', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:34:12,586  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:34:12,635  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:34:16,182  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:34:16,209  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:34:17,707  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:34:17,707  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:34:17,707  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:34:17,707  root:test_3e4wy.py:207 [I-02-ABC] 条件15：Ibn<0.1A → Ib Wiring Missing
+DEBUG   2026-05-25 10:34:17,708  pymodbus.logging:base.py:72 Processing: 0x0 0x13 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:34:17,708  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:34:18,209  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:34:26,211  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Wiring Missing', 'C': 'Pass'}
+INFO    2026-05-25 10:34:26,895  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:34:26,948  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:34:30,498  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:34:30,537  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:34:32,058  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:34:32,058  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:34:32,058  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Wiring Missing"  实际="Ib Polarity Reversed"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:34:32,058  root:test_3e4wy.py:207 [I-03-ABC] 条件16：Icn<0.1A → Ic Wiring Missing
+DEBUG   2026-05-25 10:34:32,059  pymodbus.logging:base.py:72 Processing: 0x0 0x14 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:34:32,059  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:34:32,559  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:34:40,560  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Wiring Missing'}
+INFO    2026-05-25 10:34:41,242  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:34:41,289  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:34:44,834  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:34:44,863  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:34:46,429  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:34:46,429  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:34:46,429  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+INFO    2026-05-25 10:34:46,429  root:test_3e4wy.py:207 [I-04-ABC] 条件17：PF_A=-1（qia=180°）→ Ia Polarity Reversed
+DEBUG   2026-05-25 10:34:46,430  pymodbus.logging:base.py:72 Processing: 0x0 0x15 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:34:46,430  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:34:46,931  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:34:54,932  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Polarity Reversed', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:34:55,605  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:34:55,652  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:34:59,201  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:34:59,232  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:35:00,760  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:35:00,760  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:35:00,760  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:35:00,760  root:test_3e4wy.py:207 [I-05-ABC] 条件18：PF_B=-1（qib=60°）→ Ib Polarity Reversed
+DEBUG   2026-05-25 10:35:00,761  pymodbus.logging:base.py:72 Processing: 0x0 0x16 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:35:00,761  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:35:01,262  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:35:09,263  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Polarity Reversed', 'C': 'Pass'}
+INFO    2026-05-25 10:35:09,948  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:35:10,000  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:35:13,549  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:35:13,588  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:35:15,140  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:35:15,140  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:35:15,140  root:test_3e4wy.py:242   电流 User2 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Polarity Reversed"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:35:15,140  root:test_3e4wy.py:207 [I-06-ABC] 条件19：PF_C=-1（qic=300°）→ Ic Polarity Reversed
+DEBUG   2026-05-25 10:35:15,141  pymodbus.logging:base.py:72 Processing: 0x0 0x17 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:35:15,141  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:35:15,642  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:35:23,643  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Polarity Reversed'}
+INFO    2026-05-25 10:35:24,328  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:35:24,378  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:35:27,922  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:35:27,950  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:35:29,479  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:35:29,479  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:35:29,479  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:35:29,479  root:test_3e4wy.py:207 [I-07-ABC] 条件20：PF_A=0（qia=90°）→ Ia Phase Shift
+DEBUG   2026-05-25 10:35:29,480  pymodbus.logging:base.py:72 Processing: 0x0 0x18 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:35:29,480  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:35:29,981  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:35:37,982  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Phase Shift', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:35:38,671  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:35:38,725  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:35:42,274  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:35:42,306  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:35:43,827  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': 'Ia Polarity Reversed', 'B': '-', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:35:43,827  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:35:43,827  root:test_3e4wy.py:242   电流 User1 Phase A: 预期="Phase Shift"  实际="Ia Polarity Reversed"
+  电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:35:43,827  root:test_3e4wy.py:207 [I-08-ABC] 条件21：PF_B=0（qib=330°）→ Ib Phase Shift
+DEBUG   2026-05-25 10:35:43,828  pymodbus.logging:base.py:72 Processing: 0x0 0x19 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:35:43,828  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:35:44,329  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:35:52,330  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Pass'}
+INFO    2026-05-25 10:35:53,002  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:35:53,051  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:35:56,600  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:35:56,634  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:35:58,156  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:35:58,156  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:35:58,156  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Phase Shift"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Phase Shift"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:35:58,156  root:test_3e4wy.py:207 [I-09-ABC] 条件22：PF_C=0（qic=210°）→ Ic Phase Shift
+DEBUG   2026-05-25 10:35:58,159  pymodbus.logging:base.py:72 Processing: 0x0 0x1a 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:35:58,159  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:35:58,659  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:36:06,660  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Phase Shift'}
+INFO    2026-05-25 10:36:07,364  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:36:07,411  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:36:10,960  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:36:10,993  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:36:12,568  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:36:12,568  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:36:12,568  root:test_3e4wy.py:242   电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:36:12,568  root:test_3e4wy.py:207 [PASS-ACB] 正常接线 ACB，应全部 Pass
+DEBUG   2026-05-25 10:36:12,569  pymodbus.logging:base.py:72 Processing: 0x0 0x1b 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:36:12,570  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:36:13,070  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:36:21,071  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:36:21,757  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:36:21,808  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:36:25,354  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:36:25,385  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:36:26,873  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': '-', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:36:26,873  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:36:26,873  root:test_3e4wy.py:242   电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:36:26,873  root:test_3e4wy.py:207 [V-11-ACB] 条件11 ACB：∠VB=60° ∉ [100°~140°] → Vb Phase Shift
+DEBUG   2026-05-25 10:36:26,874  pymodbus.logging:base.py:72 Processing: 0x0 0x1c 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:36:26,874  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:36:27,375  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:36:35,376  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:36:36,051  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:36:36,102  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:36:39,649  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:36:39,692  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:36:41,220  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': 'Ic Polarity Reversed'}
+INFO    2026-05-25 10:36:41,220  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:36:41,220  root:test_3e4wy.py:242   电压 Phase B: 预期="Phase Shift"  实际="Pass"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:36:41,220  root:test_3e4wy.py:207 [V-12-ACB] 条件12 ACB：∠VC=180° ∉ [220°~260°] → Vc Phase Shift
+DEBUG   2026-05-25 10:36:41,221  pymodbus.logging:base.py:72 Processing: 0x0 0x1d 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:36:41,221  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:36:41,722  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:36:49,723  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:36:50,412  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:36:50,465  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:36:54,011  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:36:54,040  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:36:55,533  root:test_3e4wy.py:228   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}  电流[0]={'A': 'Ia Polarity Reversed', 'B': '-', 'C': '-'}
+INFO    2026-05-25 10:36:55,533  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:36:55,533  root:test_3e4wy.py:242   电压 Phase C: 预期="Phase Shift"  实际="Pass"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:36:55,533  root:test_3e4wy.py:207 [V-13-ACB] 条件13 ACB：ABC电压接入ACB配置 → Phase Order Error
+DEBUG   2026-05-25 10:36:55,534  pymodbus.logging:base.py:72 Processing: 0x0 0x1e 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:36:55,534  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:36:56,035  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:37:04,036  root:test_3e4wy.py:224   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:37:04,727  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:37:04,775  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:37:08,323  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:37:08,349  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:37:09,930  root:test_3e4wy.py:228   实测: 电压={'A': '-', 'B': 'Vb-Vc Reversed or Phase Order Error (ABC/ACB)', 'C': 'Vb-Vc Reversed or Phase Order Error (ABC/ACB)'}  电流[0]={'A': '-', 'B': 'Ib Polarity Reversed', 'C': '-'}
+INFO    2026-05-25 10:37:09,930  root:test_3e4wy.py:240   → FAIL
+WARNING 2026-05-25 10:37:09,930  root:test_3e4wy.py:242   电压 Phase B: 预期="Phase Shift"  实际="Vb-Vc Reversed or Phase Order Error (ABC/ACB)"
+  电压 Phase C: 预期="Phase Shift"  实际="Vb-Vc Reversed or Phase Order Error (ABC/ACB)"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:37:10,353  root:source_control.py:158 192.168.0.151, 10005
+DEBUG   2026-05-25 10:37:18,382  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 64474)
+DEBUG   2026-05-25 10:37:18,383  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-05-25 10:37:18,383  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:37:18,388  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-05-25 10:37:18,388  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:37:18,389  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-05-25 10:37:18,389  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:37:18,389  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-05-25 10:37:24,338  root:wiring_check_page.py:50 Login successful
+INFO    2026-05-25 10:37:24,972  root:test_2e3w_delta.py:96 [PASS-ABC] 正常接线 Delta ABC
+DEBUG   2026-05-25 10:37:24,974  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:37:24,974  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:37:25,474  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:37:33,475  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:37:34,159  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:37:34,202  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:37:37,753  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:37:37,787  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:37:39,358  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:37:39,358  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:37:39,358  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:37:39,359  root:test_2e3w_delta.py:96 [V-01] 条件1：三相线电压全<0.1*VRATE
+DEBUG   2026-05-25 10:37:39,360  pymodbus.logging:base.py:72 Processing: 0x0 0x5 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:37:39,360  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:37:39,860  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:37:47,861  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Va & Vb & Vc Wiring Missing', 'B': 'Va & Vb & Vc Wiring Missing', 'C': 'Va & Vb & Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:37:48,562  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:37:48,611  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:37:52,163  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:37:52,190  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:37:53,727  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Va & Vb & Vc & Vn Wiring Missing', 'B': 'Va & Vb & Vc & Vn Wiring Missing', 'C': 'Va & Vb & Vc & Vn Wiring Missing'}
+INFO    2026-05-25 10:37:53,727  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:37:53,727  root:test_2e3w_delta.py:121   电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:37:53,727  root:test_2e3w_delta.py:96 [V-02] 条件2：Vab<0.1*VRATE (ua=ub同相)
+DEBUG   2026-05-25 10:37:53,728  pymodbus.logging:base.py:72 Processing: 0x0 0x6 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:37:53,728  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:37:54,229  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:38:02,230  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:38:02,923  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:38:02,973  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:38:06,520  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:38:06,555  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:38:08,092  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:38:08,093  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:38:08,093  root:test_2e3w_delta.py:121   电压 Phase A: 预期="Va Wiring Missing"  实际="Pass"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Pass"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:38:08,093  root:test_2e3w_delta.py:96 [V-03] 条件3：Vbc<0.1*VRATE (ub=uc同相)
+DEBUG   2026-05-25 10:38:08,094  pymodbus.logging:base.py:72 Processing: 0x0 0x7 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:38:08,094  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:38:08,595  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:38:16,596  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:38:17,289  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:38:17,334  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:38:20,885  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:38:20,917  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:38:22,491  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:38:22,491  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:38:22,491  root:test_2e3w_delta.py:121   电压 Phase B: 预期="Vb Wiring Missing"  实际="Pass"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Pass"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:38:22,491  root:test_2e3w_delta.py:96 [V-04] 条件4：Vca<0.1*VRATE (uc=ua同相)
+DEBUG   2026-05-25 10:38:22,492  pymodbus.logging:base.py:72 Processing: 0x0 0x8 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:38:22,492  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:38:22,992  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:38:30,994  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:38:31,697  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:38:31,748  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:38:35,297  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:38:35,331  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:38:36,926  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Vc & Va Wiring Missing', 'B': '-', 'C': 'Vc & Va Wiring Missing'}
+INFO    2026-05-25 10:38:36,926  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:38:36,926  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:38:36,927  root:test_2e3w_delta.py:96 [V-05] 条件5：Va缺失 (ua=0, Vbc正常)
+DEBUG   2026-05-25 10:38:36,928  pymodbus.logging:base.py:72 Processing: 0x0 0x9 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:38:36,928  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:38:37,429  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:38:45,429  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:38:46,109  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:38:46,159  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:38:49,708  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:38:49,739  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:38:51,325  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Va & Vn Wiring Missing', 'B': 'Va & Vn Wiring Missing', 'C': '-'}
+INFO    2026-05-25 10:38:51,325  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:38:51,325  root:test_2e3w_delta.py:121   电压 Phase B: 预期="Pass"  实际="Va & Vn Wiring Missing"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:38:51,326  root:test_2e3w_delta.py:96 [V-06] 条件6：Vb缺失 (ub=0, Vca正常)
+DEBUG   2026-05-25 10:38:51,327  pymodbus.logging:base.py:72 Processing: 0x0 0xa 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:38:51,327  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:38:51,827  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:38:59,829  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:39:00,522  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:39:00,573  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:39:04,123  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:39:04,148  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:39:05,732  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:39:05,732  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:39:05,732  root:test_2e3w_delta.py:121   电压 Phase B: 预期="Vb Wiring Missing"  实际="Pass"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:39:05,732  root:test_2e3w_delta.py:96 [V-07] 条件7：Vc缺失 (uc=0, Vab正常)
+DEBUG   2026-05-25 10:39:05,733  pymodbus.logging:base.py:72 Processing: 0x0 0xb 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:39:05,733  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:39:06,235  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:39:14,236  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:39:14,933  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:39:14,982  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:39:18,530  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:39:18,568  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:39:20,199  root:test_2e3w_delta.py:110   实测: 电压={'A': '-', 'B': 'Vc & Vn Wiring Missing', 'C': 'Vc & Vn Wiring Missing'}
+INFO    2026-05-25 10:39:20,199  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:39:20,199  root:test_2e3w_delta.py:121   电压 Phase B: 预期="Pass"  实际="Vc & Vn Wiring Missing"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:39:20,199  root:test_2e3w_delta.py:96 [V-08] 条件8：ABC配置下输入ACB信号 → Phase Order Error
+DEBUG   2026-05-25 10:39:20,200  pymodbus.logging:base.py:72 Processing: 0x0 0xc 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:39:20,200  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:39:20,701  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:39:28,702  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:39:29,377  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:39:29,427  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:39:32,975  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:39:33,006  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:39:34,596  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:39:34,596  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:39:34,596  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:39:34,596  root:test_2e3w_delta.py:96 [I-01] 条件9：Ia<0.1A → Ia Wiring Missing
+DEBUG   2026-05-25 10:39:34,597  pymodbus.logging:base.py:72 Processing: 0x0 0xd 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:39:34,597  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:39:35,097  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:39:43,098  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Wiring Missing', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:39:43,775  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:39:43,824  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:39:47,373  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:39:47,406  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:39:49,015  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:39:49,015  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:39:49,016  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Wiring Missing"  实际="Ia Polarity Reversed"
+  电流 User2 Phase A: 预期="Wiring Missing"  实际="Pass"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:39:49,016  root:test_2e3w_delta.py:96 [I-02] 条件10：Ic<0.1A → Ic Wiring Missing
+DEBUG   2026-05-25 10:39:49,017  pymodbus.logging:base.py:72 Processing: 0x0 0xe 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:39:49,017  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:39:49,518  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:39:57,519  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Wiring Missing'}}
+INFO    2026-05-25 10:39:58,202  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:39:58,251  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:40:01,798  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:40:01,824  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:40:03,402  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:40:03,402  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:40:03,402  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase C: 预期="Wiring Missing"  实际="Pass"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+INFO    2026-05-25 10:40:03,402  root:test_2e3w_delta.py:96 [I-03] 条件11：∠IA=150° → Ia Polarity Reversed
+DEBUG   2026-05-25 10:40:03,403  pymodbus.logging:base.py:72 Processing: 0x0 0xf 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:40:03,403  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:40:03,905  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:40:11,906  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Polarity Reversed', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:40:12,596  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:40:12,648  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:40:16,191  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:40:16,219  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:40:17,784  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:40:17,784  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:40:17,784  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Polarity Reversed"  实际="Pass"
+  电流 User3 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Polarity Reversed"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:40:17,784  root:test_2e3w_delta.py:96 [I-04] 条件12：∠IC=270° → Ic Polarity Reversed
+DEBUG   2026-05-25 10:40:17,785  pymodbus.logging:base.py:72 Processing: 0x0 0x10 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:40:17,785  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:40:18,286  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:40:26,287  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Polarity Reversed'}}
+INFO    2026-05-25 10:40:26,975  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:40:27,025  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:40:30,569  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:40:30,596  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:40:32,196  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:40:32,196  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:40:32,196  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase C: 预期="Polarity Reversed"  实际="Pass"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Polarity Reversed"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:40:32,196  root:test_2e3w_delta.py:96 [I-05] 条件13：∠IA=90° ∉ [330°±20°] → Ia Phase Shift
+DEBUG   2026-05-25 10:40:32,198  pymodbus.logging:base.py:72 Processing: 0x0 0x11 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:40:32,198  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:40:32,699  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:40:40,700  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:40:41,369  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:40:41,423  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:40:44,975  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:40:45,012  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:40:46,630  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:40:46,630  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:40:46,630  root:test_2e3w_delta.py:121   电流 User1 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User3 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Phase Shift"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:40:46,630  root:test_2e3w_delta.py:96 [I-06] 条件14：∠IC=180° ∉ [90°±20°] → Ic Phase Shift
+DEBUG   2026-05-25 10:40:46,631  pymodbus.logging:base.py:72 Processing: 0x0 0x12 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:40:46,632  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:40:47,132  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:40:55,133  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-25 10:40:55,835  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:40:55,883  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:40:59,428  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:40:59,456  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:41:01,072  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:41:01,072  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:41:01,072  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase C: 预期="Phase Shift"  实际="Pass"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Phase Shift"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:41:01,072  root:test_2e3w_delta.py:96 [PASS-ACB] 正常接线 Delta ACB
+DEBUG   2026-05-25 10:41:01,073  pymodbus.logging:base.py:72 Processing: 0x0 0x13 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:41:01,073  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:41:01,574  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:41:09,575  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:41:10,261  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:41:10,310  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:41:13,853  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:41:13,884  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:41:15,480  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:41:15,480  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:41:15,480  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:41:15,480  root:test_2e3w_delta.py:96 [V-08-ACB] 条件8 ACB：ACB配置下输入ABC信号 → Phase Order Error
+DEBUG   2026-05-25 10:41:15,481  pymodbus.logging:base.py:72 Processing: 0x0 0x14 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:41:15,482  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:41:15,982  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:41:23,984  root:test_2e3w_delta.py:107   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-25 10:41:24,671  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:41:24,726  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:41:28,271  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:41:28,300  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:41:29,917  root:test_2e3w_delta.py:110   实测: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-25 10:41:29,917  root:test_2e3w_delta.py:119   → FAIL
+WARNING 2026-05-25 10:41:29,917  root:test_2e3w_delta.py:121   电流 User1 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:41:30,232  root:source_control.py:158 192.168.0.151, 10005
+DEBUG   2026-05-25 10:41:38,234  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 64358)
+DEBUG   2026-05-25 10:41:38,235  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-05-25 10:41:38,235  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:41:38,241  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-05-25 10:41:38,241  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:41:38,242  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0xf5 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-05-25 10:41:38,242  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-25 10:41:38,242  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-05-25 10:41:43,862  root:wiring_check_page.py:50 Login successful
+INFO    2026-05-25 10:41:44,524  root:test_2e3w_network.py:28 [PASS-ABC] 正常接线 ABC，应全部 Pass
+DEBUG   2026-05-25 10:41:44,525  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:41:44,525  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:41:45,026  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:41:53,027  root:test_2e3w_network.py:38   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-05-25 10:41:53,761  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:41:53,812  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:41:57,368  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:41:57,396  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:41:59,017  root:test_2e3w_network.py:48   → FAIL
+WARNING 2026-05-25 10:41:59,017  root:test_2e3w_network.py:49   电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:41:59,018  root:test_2e3w_network.py:28 [V-01-ABC] 条件1：三相全<0.1*VRATE → Va&Vb&Vc Wiring Missing
+DEBUG   2026-05-25 10:41:59,019  pymodbus.logging:base.py:72 Processing: 0x0 0x5 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:41:59,019  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:41:59,519  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:42:07,520  root:test_2e3w_network.py:38   预期: {'voltage': {'A': 'Va & Vb & Vc Wiring Missing', 'B': 'Va & Vb & Vc Wiring Missing', 'C': 'Va & Vb & Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-05-25 10:42:08,244  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:42:08,292  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:42:11,840  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:42:11,875  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:42:13,520  root:test_2e3w_network.py:48   → FAIL
+WARNING 2026-05-25 10:42:13,521  root:test_2e3w_network.py:49   电压 Phase B: 预期="Va & Vb & Vc Wiring Missing"  实际="Not Checked"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:42:13,521  root:test_2e3w_network.py:28 [V-02-ABC] 条件2：Vab<0.1*VRATE (ua=ub=230@0°) → Va&Vb Wiring Missing
+DEBUG   2026-05-25 10:42:13,522  pymodbus.logging:base.py:72 Processing: 0x0 0x6 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:42:13,522  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:42:14,023  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:42:22,025  root:test_2e3w_network.py:38   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-05-25 10:42:22,708  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:42:22,752  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:42:26,301  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:42:26,321  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:42:27,911  root:test_2e3w_network.py:48   → FAIL
+WARNING 2026-05-25 10:42:27,911  root:test_2e3w_network.py:49   电压 Phase A: 预期="Va Wiring Missing"  实际="Pass"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Not Checked"
+  电流 User1 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User2 Phase A: 预期="Pass"  实际="Ia Polarity Reversed"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:42:27,912  root:test_2e3w_network.py:28 [V-03-ABC] 条件3：Vbc<0.1*VRATE (ub=uc=230@240°) → Vb&Vc Wiring Missing
+DEBUG   2026-05-25 10:42:27,913  pymodbus.logging:base.py:72 Processing: 0x0 0x7 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:42:27,913  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:42:28,414  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:42:36,415  root:test_2e3w_network.py:38   预期: {'voltage': {'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-05-25 10:42:37,099  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:42:37,148  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:42:40,693  root:wiring_check_page.py:90 Wiring Check completed
+INFO    2026-05-25 10:42:40,718  root:wiring_check_page.py:172 Current table: 4 page(s)
+INFO    2026-05-25 10:42:42,314  root:test_2e3w_network.py:48   → FAIL
+WARNING 2026-05-25 10:42:42,314  root:test_2e3w_network.py:49   电压 Phase B: 预期="Vb Wiring Missing"  实际="Not Checked"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Pass"
+  电流 User1 Phase B: 预期="Pass"  实际="Ib Polarity Reversed"
+  电流 User2 Phase C: 预期="Pass"  实际="Ic Polarity Reversed"
+  电流 User3 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User3 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User4 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User4 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User5 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User5 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User6 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User6 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User7 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User7 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User8 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User8 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User9 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User9 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User10 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User10 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User11 Phase A: 预期="Pass"  实际="Ia Wiring Missing"
+  电流 User11 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+  电流 User12 Phase B: 预期="Pass"  实际="Ib Wiring Missing"
+  电流 User12 Phase C: 预期="Pass"  实际="Ic Wiring Missing"
+INFO    2026-05-25 10:42:42,314  root:test_2e3w_network.py:28 [V-04-ABC] 条件4：Vca<0.1*VRATE (ua=uc=230@0°) → Va&Vc Wiring Missing
+DEBUG   2026-05-25 10:42:42,315  pymodbus.logging:base.py:72 Processing: 0x0 0x8 0x0 0x0 0x0 0x6 0xf5 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-25 10:42:42,315  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-25 10:42:42,816  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-25 10:42:50,817  root:test_2e3w_network.py:38   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}}
+INFO    2026-05-25 10:42:53,250  root:wiring_check_page.py:70 Selected device: 41002242
+INFO    2026-05-25 10:42:54,983  root:wiring_check_page.py:79 Wiring Check started
+INFO    2026-05-25 10:42:55,730  root:source_control.py:158 192.168.0.151, 10005

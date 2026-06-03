@@ -8,6 +8,8 @@
 
 > Sprint 1 汇总 → requirements/summaries/sprint1_requirements.md（V1.0，2026-02-25）
 > Sprint 2 汇总 → requirements/summaries/sprint2_requirements.md（V1.01，2026-04-23）+《变更说明书 v1.00》（2026-04-29）
+> 接线检查变更 → requirements/summaries/wiring_check_v1.00_20260519.md（v1.00，2026-05-19）
+> 接线检查算法规格 → requirements/summaries/wiring_check_v1.05.md（v1.05，原件 requirements/raw/接线检测总表_ver1.05.xlsx）
 
 ### 产品定位
 WEB2 作为 AcuRev-4100 的网络模块，附加在表本体上直接取电。通过高速 USB（Modbus RTU）与表本体通信，通过以太网（Modbus TCP）最多下挂 3 台非本体 4100 和 8 台 AcuIOM；向上提供 BACnet/IP、Modbus TCP、MQTT、SNMP、Ethernet/IP 等协议接口，并支持 AcuCloud、AWS IoT、Azure IoT 数据上传。
@@ -47,7 +49,7 @@ WEB2 顶层 → Ethernet 2 → 3 台 AcuRev-4100（各自 Eth1 in / Eth2 out）�
 - AcuIOM：全部参数默认选中
 
 #### 系统诊断
-- **Wiring Check**：五种接线方式检查，电压侧/电流侧分开，支持导出 CSV
+- **Wiring Check**：五种接线方式检查（WEB2 范围），算法规格见 v1.05 xlsx（该 xlsx 同时覆盖 HMI1-7 额外 4 种：2.5E4WY、3E3W Delta、3E4W Delta、2E2W Delta），电压侧/电流侧分开，支持导出 CSV
 
 #### 安全
 - 默认密码改为 Admin@AABBCC（AABBCC=SN后六位）
@@ -134,6 +136,57 @@ Protocols/                   ← 代码根目录（已并入主干）
 ├── Datas/acuclouddatas/  ← AcuCloud导出xlsx快照
 └── reports/          ← HTML报告输出（自动创建）
 ```
+
+## 接线检查自动化测试（Wiring Check）
+
+脚本路径：`test_case/ACM_41_WEB2/wiring_check/`
+
+### 目录结构
+```
+wiring_check/
+├── core/                    基础设施
+│   ├── config.py            寄存器地址 + 连接参数（读自 Protocols/config.py）
+│   ├── meter_modbus.py      Modbus TCP 读写（192.168.2.242:502）
+│   ├── signal_driver.py     控源封装（set_ac）
+│   ├── expected_engine.py   5种接线方式算法引擎（推导预期 Wiring Status）
+│   ├── wiring_check_page.py Playwright 页面对象（登录/触发/解析）
+│   └── report.py            Excel 报告生成
+├── conftest.py              pytest session fixtures
+├── test_3e4wy.py            3E4WY（27条）
+├── test_2e3w_delta.py       2E3W Delta（17条）
+├── test_2e3w_network.py     2E3W Network（27条）
+├── test_2e3w_1phase.py      2E3W 1Phase（13条）
+├── test_1e2w.py             1E2W（4条）
+└── reports/                 Excel 报告输出（自动创建）
+```
+
+### 运行方式
+```bash
+# pytest（推荐，全部88条）
+pytest test_case/ACM_41_WEB2/wiring_check/ -v
+pytest test_case/ACM_41_WEB2/wiring_check/ -k "V-"   # 只跑电压
+pytest test_case/ACM_41_WEB2/wiring_check/ -k "I-"   # 只跑电流
+
+# 直接运行（生成 Excel 报告）
+python test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py
+```
+
+### 用例数量
+
+| 接线方式 | 电压 | 电流 | 合计 |
+|---------|------|------|------|
+| 3E4WY | 15 | 12 | 27 |
+| 2E3W Delta | 11 | 6 | 17 |
+| 2E3W Network | 15 | 12 | 27 |
+| 2E3W 1Phase | 7 | 6 | 13 |
+| 1E2W | 2 | 2 | 4 |
+| **合计** | | | **88** |
+
+### 关键配置
+- 设备名：`DEVICE_NAME = '41002242'`（test_3e4wy.py 第36行）
+- Meter 连接：从 `Protocols/config.py` 的 `MODBUS_DEVICE_MAP['AcuRev4100']` 读取
+- WEB2 登录：`core/wiring_check_page.py` 的 `DEFAULT_USER / DEFAULT_PASS`
+- 用例摘要：→ testcase/wiring_check_v1.md
 
 ## 支持设备
 全部10个设备已适配，详见 CLAUDE.md 设备速查表。

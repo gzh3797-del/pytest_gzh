@@ -8,6 +8,7 @@
 | AcuRev-4100 | 电表  | AcuRev-4100 多回路交流电表测试，24路电流输入，12个用户通道，支持 Modbus TCP/RTU + BACnet MS/TP，可搭配 ACM-41-WEB2 扩展北向协议 | knowledge/meters/AcuRev4100/context.md |
 | AcuDC-320   | 电表  | AcuDC-320 直流电能表测试，面向 EV 快充充电桩，支持 OCMF 交易日志与 ECDSA 签名、Echilog 法定计量事件日志，MID + UL 认证，配分立显示模块（AcuDC-RDU），通信仅 RS485 Modbus RTU | knowledge/meters/AcuDC320/context.md   |
 | AcuRev-1320 | 电表  | AcuRev-1320 三相电表测试，支持 Modbus TCP/RTU + BACnet MS/TP/IP，含电压闪变、Independent Input Channel、Dual Source Energy、AcuCloud、Data Post、HTTPs Web 页面等新功能；型号分 1321（精简）和 1322（全功能） | knowledge/meters/AcuRev1320/context.md |
+| RPP         | 电表  | RPP（Remote Power Panel）远程电力面板测量系统，MH 主控通过 AccuBus 连接最多 2 VMM + 4 CMM（96 路电流通道），最多 96（基线）/192（期望）个 Meter Point；北向支持 Modbus TCP/RTU、SNMP、BACnet/IP、MQTT、AcuCloud；兼具 Gateway 功能（≥32台 Modbus 下挂设备） | knowledge/meters/RPP/context.md     |
 | AcuCloud    | 云平台 | AcuCloud 云端能源管理平台（EMS SaaS）测试，支持电力/水/天然气三种能源类型，覆盖 Installation/Dashboard/Analysis/Billing/Power Quality/Carbon Model/Report/Data 全模块，订阅 Plan 分 Free/Lite/AcuBilling/AcuPQ/Plus/AcuEMS 六级 | knowledge/cloud/context.md          |
 
 ## 支持设备速查
@@ -34,12 +35,15 @@
 - 历史决策记录 → knowledge/shared/decisions.md
 
 ## 技能（斜杠命令）
-| 命令           | 用途              |
-|--------------|-----------------|
-| /new-device  | 在当前项目适配新电表设备    |
-| /add-bug     | 将 bug 记录追加到项目索引 |
-| /new-module  | 在当前项目新增功能模块     |
-| /new-project | 初始化新项目目录结构      |
+| 命令                 | 用途                                          |
+|--------------------|---------------------------------------------|
+| /new-device        | 在当前项目适配新电表设备                                |
+| /add-bug           | 将 bug 记录追加到项目索引                             |
+| /new-module        | 在当前项目新增功能模块                                 |
+| /new-project       | 初始化新项目目录结构                                  |
+| /read-modbus-table | 解析 Modbus 地址表 Excel，提取地址、数据类型、功能码、缩放系数      |
+| /strategy-design   | 将功能需求转化为测试策略脑图并导出 XMind 文件（兼容 XMind 26）     |
+| /testcase-design   | 将测试策略/测试点转化为规范的 Excel 测试用例文件（.xlsx）         |
 
 ## 高频约定（完整版见 knowledge/shared/conventions.md）
 1. 新增设备必须同时实现 `build_param_map()` 和 `build_cloud_col_map()`
@@ -49,6 +53,7 @@
 5. 模板参数范围必须按协议列筛选：BACnet→主模板`BACnetIP`列，MQTT→`MQTT`列，SNMP→`SNMP`列，DataLog→`DataLog`列；**AcuCloud 范围禁止用主模板的`AcuCloud`列**，必须用 `get_cloud_acucloud_params()` 读取 `template/AcuCloud 模板适配/` 下各设备文件的 `paramType_AcuCloud` 列（4100 暂无该列，自动回退主模板）；禁止用 `load_template()` 全量加载作为某一协议的范围；**AcuIOM 设备模板无 `BACnetIP` 列**，必须用 `get_bacnet_params_by_range()` 按 `range` 列过滤（IOM-01/02 传 `"8"`，IOM-03/04 传 `"10"`），通过 `config.BACNET_RANGE_MARKER` 和 `comparator.py` 的 `_RANGE_MARKER_MAP` 自动切换
 6. Protocols/ 目录的脚本统一从仓库根目录执行：`python Protocols/BACnetIP/comparator.py`；README 示例命令须包含 `Protocols/` 前缀
 7. 适配新设备前必须先列出 Modbus 地址表 Excel 的**全部 sheet 名称**，逐一确认哪些包含可读寄存器后再写设备文件，禁止仅凭部分 sheet 推断全量参数
+8. 所有 Python 代码须符合 PyCharm 代码规范，不得出现任何告警（含 PEP 8 格式告警、未使用 import/变量、类型注解不一致），零告警是硬性要求
 
 ## 知识库维护快速参考
 

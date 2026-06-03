@@ -114,11 +114,32 @@ TOLERANCE_ABSOLUTE = 0.05   # ±0.05（绝对容差，防止接近零的值误�
 
 ENIP_HOST = "192.168.3.9"                              # EIP 网关 IP（端口固定 44818）
 ENIP_SLOT = 0                                          # CIP slot（通常为 0）
-EDS_DIR   = _os.path.join(_BASE, "EtherNetIP", "eds")  # EDS 文件目录
+EDS_DIR   = _os.path.join(_BASE, "EtherNetIP", "eds")  # EDS 文件目录（单表模式回退查找用）
+
+# EDS 文件路径（网关配置快照，每次测试按实际 EDS 填写）
+# --all 多表模式必须填写；空字符串时回退到 EDS_DIR 按设备名模糊匹配（单表模式兼容）
+ENIP_EDS_PATH: str = _os.path.join(_BASE, "EtherNetIP", "eds", "AcuRev-4100-WEB2.eds")
 
 # EtherNet/IP vs Modbus 数值比对容差（与 BACnet 相同）
 ENIP_TOLERANCE_PERCENT  = 1.0
 ENIP_TOLERANCE_ABSOLUTE = 0.05
+
+
+# ── EtherNet/IP 多表测试（--all 模式） ────────────────────────────────────────
+# 格式：(eds_label, device_name, modbus_host, modbus_port, modbus_unit)
+#   eds_label   — 设备 SN（即 EDS ConnectionN 的 help string，web2 生成 EDS 时固定写入 SN）
+#                 脚本据此在 EDS 中找到该设备对应的所有 Assembly 实例，实现参数隔离
+#   device_name — 设备型号，对应 devices/ 模块与参数模板（如 "AcuRev4100"、"AcuIOM01"）
+#   modbus_host — 各设备自身的 Modbus TCP IP（每台不同）
+#   modbus_port — Modbus TCP 端口（4100 非标准端口为 2000，请按实际填写）
+#   modbus_unit — Modbus Unit ID（从设备网页配置获取）
+# 注：EIP 网关地址统一使用 ENIP_HOST，无需在此重复填写
+ENIP_MULTI_DEVICES: list[tuple] = [
+    # ("41002242", "AcuRev4100", "192.168.2.242", 502, 1),
+    ("4100229",  "AcuRev4100", "192.168.2.29",  502, 202),
+    # ("4100150138", "AcuRev4100", "192.168.150.138", 502, 1),
+]
+
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -148,6 +169,7 @@ MQTT_DATA_DIR = _os.path.join(_BASE, "MQTT")
 # MQTT 快照 vs 实时 Modbus 容差
 MQTT_TOLERANCE_PERCENT  = 5.0   # ±5%（相对容差）
 MQTT_TOLERANCE_ABSOLUTE = 1.0   # ±1.0（绝对容差）
+
 
 # ── 设备侧 Broker 地址（填入设备网页的地址，与本机监听地址分开） ─────────────
 # 设备连接的目标 Broker 地址（如 www.accu.com 或本机 IP）
@@ -199,7 +221,7 @@ DATALOG_TOLERANCE_ABSOLUTE = 0.05   # ±0.05（绝对容差下限，防止极小
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 9. Datalog 推送服务器（Post Channel 验证用）
+# 10. Datalog 推送服务器（Post Channel 验证用）
 # ══════════════════════════════════════════════════════════════════════════════
 
 # 本机 IP（网关需能访问此地址）

@@ -1,0 +1,468 @@
+DEBUG   2026-05-26 15:02:02,372  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 50705)
+DEBUG   2026-05-26 15:02:02,373  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-05-26 15:02:02,373  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-26 15:02:02,373  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0x1 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-05-26 15:02:02,373  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-26 15:02:02,373  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0x1 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-05-26 15:02:02,373  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-26 15:02:02,373  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-05-26 15:02:06,577  root:wiring_check_page.py:51 Login successful
+INFO    2026-05-26 15:02:07,237  root:test_3e4wy.py:208 [PASS-ABC] 正常接线 ABC，应全部 Pass
+DEBUG   2026-05-26 15:02:07,237  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:02:07,237  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:02:07,740  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:02:15,741  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:02:16,424  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:02:16,504  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:02:16,515  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:02:16,821  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:02:19,872  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:02:19,902  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:02:21,423  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:02:21,423  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:02:21,424  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:02:21,424  root:test_3e4wy.py:208 [V-01-ABC] 条件1：三相全<0.1*VRATE → Va&Vb&Vc Wiring Missing
+DEBUG   2026-05-26 15:02:21,425  pymodbus.logging:base.py:72 Processing: 0x0 0x5 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:02:21,425  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:02:21,925  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:02:29,926  root:test_3e4wy.py:226   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:02:30,609  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:02:30,680  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:02:30,687  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:02:31,121  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:02:31,675  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:02:35,216  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:02:35,239  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:02:36,644  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:02:36,644  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:02:36,644  root:test_3e4wy.py:244   电压 Phase A: 预期="Va Wiring Missing"  实际="Not Checked"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Not Checked"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Not Checked"
+INFO    2026-05-26 15:02:36,644  root:test_3e4wy.py:208 [V-02-ABC] 条件2：Vab<0.1*VRATE (ua=ub=230@0°) → Va&Vb Wiring Missing
+DEBUG   2026-05-26 15:02:36,644  pymodbus.logging:base.py:72 Processing: 0x0 0x6 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:02:36,644  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:02:37,153  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:02:45,155  root:test_3e4wy.py:226   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:02:45,841  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:02:45,901  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:02:45,912  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:02:46,332  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:02:46,868  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:02:50,412  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:02:50,442  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:02:51,913  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:02:51,913  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:02:51,913  root:test_3e4wy.py:244   电压 Phase A: 预期="Va Wiring Missing"  实际="Not Checked"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:02:51,913  root:test_3e4wy.py:208 [V-03-ABC] 条件3：Vbc<0.1*VRATE (ub=uc=230@240°) → Vb&Vc Wiring Missing
+DEBUG   2026-05-26 15:02:51,914  pymodbus.logging:base.py:72 Processing: 0x0 0x7 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:02:51,914  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:02:52,415  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:03:00,417  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:03:01,115  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:03:01,189  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:03:01,191  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:03:01,620  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:03:02,185  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:03:05,718  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:03:05,735  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:03:07,167  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:03:07,167  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:03:07,167  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Not Checked"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Not Checked"
+INFO    2026-05-26 15:03:07,167  root:test_3e4wy.py:208 [V-04-ABC] 条件4：Vca<0.1*VRATE (ua=uc=230@0°) → Va&Vc Wiring Missing
+DEBUG   2026-05-26 15:03:07,167  pymodbus.logging:base.py:72 Processing: 0x0 0x8 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:03:07,167  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:03:07,679  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:03:15,680  root:test_3e4wy.py:226   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:03:16,361  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:03:16,431  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:03:16,438  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:03:16,833  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:03:17,404  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:03:20,940  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:03:20,961  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:03:22,396  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:03:22,396  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:03:22,396  root:test_3e4wy.py:244   电压 Phase A: 预期="Va Wiring Missing"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Not Checked"
+INFO    2026-05-26 15:03:22,396  root:test_3e4wy.py:208 [V-05-ABC] 条件5：Van=172V ≤ 0.8*VRATE → Va Wiring Missing
+DEBUG   2026-05-26 15:03:22,396  pymodbus.logging:base.py:72 Processing: 0x0 0x9 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:03:22,396  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:03:22,899  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:03:30,900  root:test_3e4wy.py:226   预期: 电压={'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:03:31,576  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:03:31,634  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:03:31,646  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:03:32,044  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:03:32,606  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:03:35,648  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:03:35,660  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:03:37,124  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:03:37,124  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:03:37,124  root:test_3e4wy.py:244   电压 Phase A: 预期="Va Wiring Missing"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:03:37,124  root:test_3e4wy.py:208 [V-06-ABC] 条件6：Vbn=172V ≤ 0.8*VRATE → Vb Wiring Missing
+DEBUG   2026-05-26 15:03:37,124  pymodbus.logging:base.py:72 Processing: 0x0 0xa 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:03:37,140  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:03:37,640  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:03:45,643  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:03:46,316  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:03:46,370  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:03:46,386  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:03:46,788  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:03:47,338  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:03:50,869  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:03:50,893  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:03:52,333  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:03:52,333  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:03:52,333  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Vb Wiring Missing"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:03:52,333  root:test_3e4wy.py:208 [V-07-ABC] 条件7：Vcn=172V ≤ 0.8*VRATE → Vc Wiring Missing
+DEBUG   2026-05-26 15:03:52,334  pymodbus.logging:base.py:72 Processing: 0x0 0xb 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:03:52,334  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:03:52,836  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:04:00,838  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:04:01,514  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:04:01,557  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:04:01,583  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:04:01,973  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:04:02,530  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:04:06,067  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:04:06,089  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:04:07,547  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:04:07,547  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:04:07,547  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Vc Wiring Missing"  实际="Not Checked"
+INFO    2026-05-26 15:04:07,547  root:test_3e4wy.py:208 [V-08-ABC] 条件8：Van=230@0°,Vbn=400@30°,Vcn=400@330° → Va-Vn Reversed
+DEBUG   2026-05-26 15:04:07,547  pymodbus.logging:base.py:72 Processing: 0x0 0xc 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:04:07,547  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:04:08,049  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:04:16,051  root:test_3e4wy.py:226   预期: 电压={'A': 'Va-Vn Reversed', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:04:16,740  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:04:16,788  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:04:16,816  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:04:17,239  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:04:17,776  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:04:21,343  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:04:21,374  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:04:22,893  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:04:22,893  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:04:22,893  root:test_3e4wy.py:244   电压 Phase A: 预期="Va-Vn Reversed"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:04:22,893  root:test_3e4wy.py:208 [V-09-ABC] 条件9：Van=400@0°,Vbn=230@30°,Vcn=400@60° → Vb-Vn Reversed
+DEBUG   2026-05-26 15:04:22,893  pymodbus.logging:base.py:72 Processing: 0x0 0xd 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:04:22,893  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:04:23,399  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:04:31,401  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Vb-Vn Reversed', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:04:32,083  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:04:32,155  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:04:32,160  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:04:32,559  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:04:33,117  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:04:36,669  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:04:36,684  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:04:38,121  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:04:38,121  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:04:38,121  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Vb-Vn Reversed"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:04:38,121  root:test_3e4wy.py:208 [V-10-ABC] 条件10：Van=400@0°,Vbn=400@300°,Vcn=230@330° → Vc-Vn Reversed
+DEBUG   2026-05-26 15:04:38,121  pymodbus.logging:base.py:72 Processing: 0x0 0xe 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:04:38,121  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:04:38,623  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:04:46,625  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Vc-Vn Reversed', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:04:47,311  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:04:47,377  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:04:47,387  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:04:47,810  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:04:48,374  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:04:51,915  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:04:51,932  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:04:53,381  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:04:53,381  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:04:53,381  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Vc-Vn Reversed"  实际="Not Checked"
+INFO    2026-05-26 15:04:53,381  root:test_3e4wy.py:208 [V-11-ABC] 条件11：∠VB=180° ∉ [220°~260°] → Vb Phase Shift
+DEBUG   2026-05-26 15:04:53,383  pymodbus.logging:base.py:72 Processing: 0x0 0xf 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:04:53,383  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:04:53,884  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:05:01,885  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:05:02,575  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:05:02,637  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:05:02,647  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:05:03,052  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:05:03,591  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:05:07,131  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:05:07,144  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:05:08,721  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:05:08,721  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:05:08,721  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Phase Shift"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:05:08,721  root:test_3e4wy.py:208 [V-12-ABC] 条件12：∠VC=60° ∉ [100°~140°] → Vc Phase Shift
+DEBUG   2026-05-26 15:05:08,722  pymodbus.logging:base.py:72 Processing: 0x0 0x10 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:05:08,722  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:05:09,223  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:05:17,225  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:05:17,906  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:05:17,978  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:05:17,986  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:05:18,408  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:05:18,967  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:05:22,518  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:05:22,534  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:05:24,072  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:05:24,072  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:05:24,072  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Phase Shift"  实际="Not Checked"
+INFO    2026-05-26 15:05:24,072  root:test_3e4wy.py:208 [V-13-ABC] 条件13：ACB电压接入ABC配置 → Phase Order Error（+ Phase Shift B/C）
+DEBUG   2026-05-26 15:05:24,072  pymodbus.logging:base.py:72 Processing: 0x0 0x11 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:05:24,072  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:05:24,581  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:05:32,581  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:05:33,302  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:05:33,373  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:05:33,386  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:05:33,777  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:05:34,335  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:05:37,880  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:05:37,905  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:05:39,416  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:05:39,416  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:05:39,416  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Phase Shift"  实际="Not Checked"
+  电压 Phase C: 预期="Phase Shift"  实际="Not Checked"
+INFO    2026-05-26 15:05:39,416  root:test_3e4wy.py:208 [I-01-ABC] 条件14：Ian<0.1A → Ia Wiring Missing
+DEBUG   2026-05-26 15:05:39,416  pymodbus.logging:base.py:72 Processing: 0x0 0x12 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:05:39,416  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:05:39,920  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:05:47,922  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Wiring Missing', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:05:48,612  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:05:48,707  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:05:48,716  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:05:49,128  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:05:49,699  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:05:52,749  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:05:52,792  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:05:54,317  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:05:54,317  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:05:54,317  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:05:54,317  root:test_3e4wy.py:208 [I-02-ABC] 条件15：Ibn<0.1A → Ib Wiring Missing
+DEBUG   2026-05-26 15:05:54,318  pymodbus.logging:base.py:72 Processing: 0x0 0x13 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:05:54,318  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:05:54,819  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:06:02,820  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Wiring Missing', 'C': 'Pass'}
+INFO    2026-05-26 15:06:03,509  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:06:03,568  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:06:03,581  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:06:03,994  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:06:04,574  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:06:08,106  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:06:08,123  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:06:09,577  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:06:09,577  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:06:09,577  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:06:09,577  root:test_3e4wy.py:208 [I-03-ABC] 条件16：Icn<0.1A → Ic Wiring Missing
+DEBUG   2026-05-26 15:06:09,578  pymodbus.logging:base.py:72 Processing: 0x0 0x14 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:06:09,578  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:06:10,080  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:06:18,080  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Wiring Missing'}
+INFO    2026-05-26 15:06:18,781  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:06:18,833  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:06:18,852  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:06:19,259  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:06:19,795  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:06:23,341  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:06:23,352  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:06:24,770  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:06:24,770  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:06:24,770  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:06:24,770  root:test_3e4wy.py:208 [I-04-ABC] 条件17：PF_A=-1（qia=180°）→ Ia Polarity Reversed
+DEBUG   2026-05-26 15:06:24,775  pymodbus.logging:base.py:72 Processing: 0x0 0x15 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:06:24,775  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:06:25,276  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:06:33,278  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Polarity Reversed', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:06:33,957  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:06:34,009  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:06:34,035  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:06:34,434  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:06:34,974  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:06:38,514  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:06:38,532  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:06:39,912  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:06:39,912  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:06:39,912  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:06:39,912  root:test_3e4wy.py:208 [I-05-ABC] 条件18：PF_B=-1（qib=60°）→ Ib Polarity Reversed
+DEBUG   2026-05-26 15:06:39,912  pymodbus.logging:base.py:72 Processing: 0x0 0x16 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:06:39,912  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:06:40,418  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:06:48,420  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Polarity Reversed', 'C': 'Pass'}
+INFO    2026-05-26 15:06:49,103  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:06:49,158  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:06:49,180  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:06:49,593  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:06:50,135  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:06:53,677  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:06:53,703  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:06:55,119  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:06:55,119  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:06:55,119  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:06:55,119  root:test_3e4wy.py:208 [I-06-ABC] 条件19：PF_C=-1（qic=300°）→ Ic Polarity Reversed
+DEBUG   2026-05-26 15:06:55,120  pymodbus.logging:base.py:72 Processing: 0x0 0x17 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:06:55,121  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:06:55,622  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:07:03,624  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Polarity Reversed'}
+INFO    2026-05-26 15:07:04,297  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:07:04,375  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:07:04,377  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:07:04,807  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:07:05,347  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:07:08,889  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:07:08,908  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:07:10,319  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:07:10,319  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:07:10,319  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:07:10,319  root:test_3e4wy.py:208 [I-07-ABC] 条件20：PF_A=0（qia=90°）→ Ia Phase Shift
+DEBUG   2026-05-26 15:07:10,319  pymodbus.logging:base.py:72 Processing: 0x0 0x18 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:07:10,319  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:07:10,827  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:07:18,828  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Phase Shift', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:07:19,511  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:07:19,561  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:07:19,579  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:07:19,999  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:07:20,525  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:07:24,065  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:07:24,083  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:07:25,480  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:07:25,480  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:07:25,480  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:07:25,480  root:test_3e4wy.py:208 [I-08-ABC] 条件21：PF_B=0（qib=330°）→ Ib Phase Shift
+DEBUG   2026-05-26 15:07:25,480  pymodbus.logging:base.py:72 Processing: 0x0 0x19 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:07:25,480  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:07:25,988  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:07:33,990  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Pass'}
+INFO    2026-05-26 15:07:34,673  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:07:34,724  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:07:34,749  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:07:35,164  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:07:35,702  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:07:39,245  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:07:39,267  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:07:40,675  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:07:40,675  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:07:40,675  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:07:40,675  root:test_3e4wy.py:208 [I-09-ABC] 条件22：PF_C=0（qic=210°）→ Ic Phase Shift
+DEBUG   2026-05-26 15:07:40,675  pymodbus.logging:base.py:72 Processing: 0x0 0x1a 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:07:40,675  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:07:41,182  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:07:49,184  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Phase Shift'}
+INFO    2026-05-26 15:07:49,885  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:07:49,954  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:07:49,964  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:07:50,372  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:07:50,897  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:07:54,443  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:07:54,453  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:07:55,873  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:07:55,873  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:07:55,873  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:07:55,873  root:test_3e4wy.py:208 [PASS-ACB] 正常接线 ACB，应全部 Pass
+DEBUG   2026-05-26 15:07:55,873  pymodbus.logging:base.py:72 Processing: 0x0 0x1b 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:07:55,873  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:07:56,384  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:08:04,387  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:08:05,080  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:08:05,143  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:08:05,153  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:08:05,567  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:08:06,109  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:08:09,151  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:08:09,187  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:08:10,605  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:08:10,605  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:08:10,605  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:08:10,605  root:test_3e4wy.py:208 [V-11-ACB] 条件11 ACB：∠VB=60° ∉ [100°~140°] → Vb Phase Shift
+DEBUG   2026-05-26 15:08:10,606  pymodbus.logging:base.py:72 Processing: 0x0 0x1c 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:08:10,606  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:08:11,107  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:08:19,109  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Pass', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:08:19,791  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:08:19,862  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:08:19,869  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:08:20,278  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:08:20,803  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:08:24,344  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:08:24,364  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:08:25,783  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:08:25,783  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:08:25,783  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Phase Shift"  实际="Not Checked"
+  电压 Phase C: 预期="Pass"  实际="Not Checked"
+INFO    2026-05-26 15:08:25,783  root:test_3e4wy.py:208 [V-12-ACB] 条件12 ACB：∠VC=180° ∉ [220°~260°] → Vc Phase Shift
+DEBUG   2026-05-26 15:08:25,784  pymodbus.logging:base.py:72 Processing: 0x0 0x1d 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:08:25,784  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:08:26,286  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:08:34,287  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Pass', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:08:34,968  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:08:35,024  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:08:35,045  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:08:35,481  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:08:36,000  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:08:39,542  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:08:39,564  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:08:40,988  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:08:40,988  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:08:40,988  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Pass"  实际="Not Checked"
+  电压 Phase C: 预期="Phase Shift"  实际="Not Checked"
+INFO    2026-05-26 15:08:40,988  root:test_3e4wy.py:208 [V-13-ACB] 条件13 ACB：ABC电压接入ACB配置 → Phase Order Error
+DEBUG   2026-05-26 15:08:40,988  pymodbus.logging:base.py:72 Processing: 0x0 0x1e 0x0 0x0 0x0 0x6 0x1 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-26 15:08:40,988  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-26 15:08:41,497  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-26 15:08:49,498  root:test_3e4wy.py:226   预期: 电压={'A': 'Pass', 'B': 'Phase Shift', 'C': 'Phase Shift', 'order': 'Pass'}  电流={'A': 'Pass', 'B': 'Pass', 'C': 'Pass'}
+INFO    2026-05-26 15:08:50,180  root:wiring_check_page.py:71 Selected device: 4100229
+INFO    2026-05-26 15:08:50,235  root:wiring_check_page.py:80 Wiring Check button clicked
+INFO    2026-05-26 15:08:50,256  root:wiring_check_page.py:86 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-26 15:08:50,652  root:wiring_check_page.py:92 Save nominal voltage clicked
+INFO    2026-05-26 15:08:51,177  root:wiring_check_page.py:99 Start Wiring Check clicked
+INFO    2026-05-26 15:08:54,717  root:wiring_check_page.py:110 Wiring Check completed
+INFO    2026-05-26 15:08:54,733  root:wiring_check_page.py:192 Current table: 4 page(s)
+INFO    2026-05-26 15:08:56,133  root:test_3e4wy.py:230   实测: 电压={'A': 'Not Checked', 'B': 'Not Checked', 'C': 'Not Checked'}  电流[0]=[]
+INFO    2026-05-26 15:08:56,133  root:test_3e4wy.py:242   → FAIL
+WARNING 2026-05-26 15:08:56,133  root:test_3e4wy.py:244   电压 Phase A: 预期="Pass"  实际="Not Checked"
+  电压 Phase B: 预期="Phase Shift"  实际="Not Checked"
+  电压 Phase C: 预期="Phase Shift"  实际="Not Checked"
+INFO    2026-05-26 15:08:56,419  root:source_control.py:158 192.168.0.151, 10005

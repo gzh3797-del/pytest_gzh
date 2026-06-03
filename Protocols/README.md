@@ -84,38 +84,53 @@ python Protocols/BACnetIP/comparator.py --no-proto
 
 ---
 
-## EtherNetIP/enip_comparator.py — EtherNet/IP 协议合规性七段式检查
+## EtherNetIP/enip_comparator.py — EtherNet/IP 协议合规性九段式检查
 
-通过 CIP 显式消息（TCP 44818）对网关 WEB2 的 EtherNet/IP 实现执行七段式合规性检查。
-EDS 文件从 `config.EDS_DIR` 自动按设备名匹配，无需手动指定路径。
+通过 CIP 显式消息（TCP 44818）对网关 WEB2 的 EtherNet/IP 实现执行九段式合规性检查。
+EDS 文件路径由 `config.ENIP_EDS_PATH` 显式指定（多表模式）；未设置时回退到 `config.EDS_DIR` 按设备名模糊匹配（单表兼容）。
 
 **检查流程：**
 1. **范围检查**：模板 SNMP 列参数 vs EDS Assembly 参数（缺失 / 多余）
 2. **单位检查**：EDS 各参数 `unit` 字段 vs 模板 `unit` 列
-3. **数值比对**：并发读取 EtherNet/IP Assembly 与 Modbus，按 CIP 数据类型解析后逐参数比对（容差 ±1% / ±0.05）
-4. **Assembly 结构合规性**：EDS 声明总字节数 vs 实际读取字节数，检测越界参数
+3. **数值比对**：通过 **UCMM 显式消息**（Get_Attribute_Single，TCP 44818）逐 Assembly 实例读取原始字节，按 CIP 数据类型（float32 / LREAL / uint16 等）解析后与 Modbus 实时值逐参数比对（容差 ±1% / ±0.05）。多表模式下只读当前设备对应的 Assembly 实例（由 EDS Connection help string/SN 定位），此方式与 Studio 5000 的隐式 I/O 连接独立，互不影响
+4. **Assembly 结构合规性**：EDS 声明总字节数 vs 实际读取字节数，检测越界参数；同时检查 LREAL/DINT/UDINT 类型的字节对齐（Rockwell Logix AOP 要求）
 5. **CIP Identity Object**：读取 Class=0x01 Instance=0x01 全部标准属性（Vendor ID / Device Type / Product Code / Revision / Status / Serial Number / Product Name）并解码
 6. **CIP 错误响应测试**：发送四条非法请求（不存在的实例、属性、类、Assembly 实例），验证设备正确返回错误而非意外成功
 7. **连接稳定性**：连续 3 次读取 Assembly，全部成功才通过
+8. **EDS 文件静态合规性检查（无需 PLC）**：
+   - **Connection Manager**：按 ODVA 规范 15 字段位置逐一验证（含原始字段明细表），对应 EZ-EDS 全部 6 条检查项：T→O Format / Proxy Config Format / Target Config Size 类型 / Target Config Format 引用 / Connection Name / Path
+   - **Assembly 数据类型对齐**：LREAL(8B)、DINT/UDINT(4B) 参数偏移的对齐验证（Rockwell Logix AOP 要求）
+   - **EDS `[File] Revision` vs CIP Identity Revision**：交叉比对一致性
+   - **`[Device]` 段 vs CIP Identity 交叉比对**：VendCode / ProdCode / MajRev / MinRev / ProdName 五项与 Identity Object 实时读取值比对
+   - **Assembly 字节数三路一致性**：`[Assembly]` 头部声明 = `[Params]` 成员大小之和 = Connection1 T→O Size 字段，三者不一致即报告
+   - **孤儿 Param 引用**：`[Assembly]` Assem10 中引用的 ParamN 若在 `[Params]` 未定义，报告孤儿列表（静默 fallback 为 float32 会导致数据误读）
+9. **Forward_Open 隐式连接建立**（Large_Forward_Open 0x5B）：
+   - **仅覆盖握手阶段（TCP）**，不接收后续 UDP I/O 数据流
+   - 脚本模拟 Studio 5000 的行为，手动构造 Large_Forward_Open（0x5B）报文，以 Input-Only 参数（O→T null / T→O P2P **5656B** RPI=500ms，路径 `20 04 24 0C 24 0B 24 0A`）向 Assembly 10 发起连接请求（TCP 44818）
+   - 成功则记录 T→O 实际包间隔（API），随即 **立即 Forward_Close** 断开，不等待也不接收任何 UDP 2222 数据包，**说明 Studio 5000 可正常建立 I/O 扫描连接**
+   - 失败则记录设备返回的 CIP 错误码，**说明 Studio 5000 会在同一步骤失败**——提前暴露固件对隐式连接的支持情况，无需等真机 PLC 联调
 
-报告输出到 `reports/enip_compare_<设备名>_<时间戳>.html`，包含七段可折叠区块。
+> **与 Section 3 的关系**：Section 3（数值比对）走显式消息，Section 9 走隐式 I/O 握手。两条路互相独立——Section 3 全部通过不代表 Studio 5000 能正常接入，必须 Section 9 也通过才能确认隐式连接可用。
+>
+> **握手通过后仍需人工验证**：Forward_Open 成功只代表"门开了"，实际 UDP 2222 数据流（每 500ms 一包，共 5656 字节）需用 Wireshark 抓包或在 Studio 5000 中观察 Controller Tags 刷新来确认。
+>
+> **Section 8 不依赖设备连接**，即使设备离线也可静态分析 EDS 文件。**Section 9 需要设备在线**，是验证固件修复效果的最终动态测试。
+
+报告输出到 `reports/enip_compare_<设备标识>_<时间戳>.html`，包含九段可折叠区块。
 
 **前提条件：**
 - 网关 WEB2（`config.ENIP_HOST`，端口 44818）已开启 EtherNet/IP 服务
-- 被测设备的 EDS 文件已放置于 `config.EDS_DIR`（`EtherNetIP/eds/`）
+- EDS 文件已放入 `EtherNetIP/eds/`，并在 `config.ENIP_EDS_PATH` 中填写路径
 
-**已有 EDS 文件的设备：**
+**EDS 文件说明：**
 
-| `--device` 参数 | EDS 文件 | 备注 |
+| 模式 | EDS 来源 | 说明 |
 |---|---|---|
-| `AcuRev4100` | `AcuRev-4100.eds` | |
-| `AcuIOM-01`  | `AcuIOM-01.eds`  | 8 AI 通道 |
-| `AcuIOM-02`  | `AcuIOM-02.eds`  | 16 AI 通道 |
-| `AcuIOM-03`  | `AcuIOM-03.eds`  | 14 DI 通道 |
-| `AcuIOM-04`  | `AcuIOM-04.eds`  | 28 DI 通道 |
+| 单表（`--device`）| 按设备型号命名（如 `AcuRev-4100.eds`），放入 `eds/`，`ENIP_EDS_PATH` 填路径 | 也可不设 `ENIP_EDS_PATH`，回退到 `EDS_DIR` 按设备名模糊匹配 |
+| 多表（`--all`）| web2 网关导出的配置快照 EDS | 包含所有已选设备的 Connection/Assembly，`ENIP_EDS_PATH` 必填 |
 
 ```bash
-# 全量检查（默认设备 AcuRev-4100，运行所有七段）
+# 全量检查（默认设备 AcuRev-4100，运行所有九段）
 python Protocols/EtherNetIP/enip_comparator.py
 
 # 指定设备
@@ -125,12 +140,46 @@ python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-02
 python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-03
 python Protocols/EtherNetIP/enip_comparator.py --device AcuIOM-04
 
-# 快速模式：数值比对只跑前 30 个参数（其余六段仍完整执行）
+# 快速模式：数值比对只跑前 30 个参数（其余八段仍完整执行）
 python Protocols/EtherNetIP/enip_comparator.py --quick
 
 # 只比对指定参数（数值比对段）
 python Protocols/EtherNetIP/enip_comparator.py --keys FREQ_Hz VLN_a_V P_kW
+
+# 多表批量测试：依次对 config.ENIP_MULTI_DEVICES 中每台设备执行全套九段检查，
+# 每台生成独立 HTML 报告，完成后打印多表汇总
+python Protocols/EtherNetIP/enip_comparator.py --all
+python Protocols/EtherNetIP/enip_comparator.py --all --quick
 ```
+
+**多表配置步骤（`--all` 模式）：**
+
+EDS 文件由网关配置决定，选了哪些设备 EDS 里就有哪些 Connection/Assembly。每次测试前：
+
+**Step 1：** 将网关导出的 EDS 文件放入 `EtherNetIP/eds/`，在 `config.py` 中填写路径：
+
+```python
+# config.py
+ENIP_EDS_PATH = "Protocols/EtherNetIP/eds/AcuRev-4100.eds"  # 按实际文件名填写
+```
+
+**Step 2：** 填写各设备的连接参数（`eds_label` = 设备 SN，web2 生成 EDS 时固定写入各 Connection 的 help string，直接填 SN 即可）：
+
+```python
+# config.py
+ENIP_MULTI_DEVICES = [
+    # (eds_label,   device_name,   modbus_host,      modbus_port, modbus_unit)
+    ("41002242",  "AcuRev4100",  "192.168.2.242",  502,         1),
+    ("4100229",   "AcuRev4100",  "192.168.2.29",   502,         202),
+    # ("AcuIOM01", "AcuIOM01",   "192.168.2.xx",   502,         xxx),
+]
+```
+
+- `eds_label`：设备 SN（即 EDS ConnectionN 的 help string，web2 生成 EDS 时固定写入 SN）
+- `device_name`：设备型号，对应 `devices/` 模块与参数模板
+- `modbus_host`：各设备自身的 Modbus TCP IP（每台不同）
+- EIP 网关地址统一使用 `config.ENIP_HOST`，无需在每条记录中重复填写
+- 每台设备独立生成报告，文件名格式：`enip_compare_<eds_label>_<时间戳>.html`
 
 > **注意：** AcuRev-4100 Modbus TCP 连接数有限，若 WEB2 网关已占用全部连接槽，
 > Modbus 读取将失败。此时可暂停 WEB2 轮询，或通过 RS485 读取数据。
@@ -558,8 +607,10 @@ azure_iot:
 | `BACNET_RANGE_MARKER` | AcuIOM BACnet 参数范围过滤标记；`""` 用 `BACnetIP` 列，`"8"` 用 range 列（IOM-01/02），`"10"` 用 range 列（IOM-03/04）；`--device` 时自动设置，无需手动修改 |
 | `READ_TIMEOUT` / `MAX_RETRIES` / `RETRY_WAIT` | 单次读取超时、重试次数、重试间隔 |
 | `CONNECT_WAIT` | BAC0 启动后等待网关就绪时间（秒） |
-| `ENIP_HOST` / `ENIP_SLOT` | EtherNet/IP 网关 IP 与 CIP slot（默认 `192.168.2.63` / `0`） |
-| `EDS_DIR` | EDS 文件目录（`EtherNetIP/eds/`），enip_comparator 自动按设备名匹配（忽略大小写及连字符） |
+| `ENIP_HOST` / `ENIP_SLOT` | EtherNet/IP 网关 IP 与 CIP slot（默认 `192.168.3.9` / `0`） |
+| `EDS_DIR` | EDS 文件目录（`EtherNetIP/eds/`），单表模式下按设备名模糊匹配 |
+| `ENIP_EDS_PATH` | EDS 文件显式路径（网关配置快照，每次更换 EDS 时更新）；非空时优先使用，覆盖 `EDS_DIR` 匹配；`--all` 多表模式必须填写 |
+| `ENIP_MULTI_DEVICES` | 多表批量测试配置，格式：`(eds_label, device_name, modbus_host, modbus_port, modbus_unit)`；`eds_label` 填设备 SN（web2 生成 EDS 时写入 help string），脚本自动定位该设备的 Assembly 实例 |
 | `TOLERANCE_PERCENT` / `TOLERANCE_ABSOLUTE` | BACnet / EtherNet/IP vs Modbus 数值比对容差 |
 | `CLOUD_TOLERANCE_PERCENT` / `CLOUD_TOLERANCE_ABSOLUTE` | AcuCloud 快照比对容差 |
 | `CLOUD_DATA_DIR` | AcuCloud xlsx 快照文件目录 |
@@ -586,10 +637,10 @@ Protocols/
 │   ├── bacnet_reader.py       # BACnet 读取模块（BAC0）
 │   └── comparator.py          # BACnet vs Modbus 比对主程序
 ├── EtherNetIP/                # EtherNet/IP 协议
-│   ├── enip_reader.py         # Assembly 读取、CIP 对象查询、合规性检查模块（pycomm3）
-│   ├── enip_comparator.py     # 七段式合规性检查主程序
-│   └── eds/                   # 设备 EDS 文件（按设备名自动匹配）
-│       └── AcuRev-4100.eds    # （示例，需手动放入）
+│   ├── enip_reader.py         # Assembly 读取、CIP 对象查询、EDS 静态合规检查模块（pycomm3）
+│   ├── enip_comparator.py     # 九段式合规性检查主程序
+│   └── eds/                   # EDS 文件目录
+│       └── AcuRev-4100-WEB2.eds  # 网关配置快照 EDS（每次测试前放入，ENIP_EDS_PATH 指向此文件）
 ├── AcuCloud/                  # AcuCloud 数据
 │   └── cloud_comparator.py    # AcuCloud 快照 vs Modbus 比对主程序
 ├── MQTT/                      # MQTT 数据

@@ -1,0 +1,348 @@
+DEBUG   2026-05-29 16:06:07,882  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 54136)
+DEBUG   2026-05-29 16:06:07,883  pymodbus.logging:base.py:72 Processing: 0x0 0x1 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0x42 0x0 0x1
+DEBUG   2026-05-29 16:06:07,883  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4162, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-29 16:06:07,883  pymodbus.logging:base.py:72 Processing: 0x0 0x2 0x0 0x0 0x0 0x6 0x66 0x10 0x65 0x1 0x0 0x1
+DEBUG   2026-05-29 16:06:07,883  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25857, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-29 16:06:07,883  pymodbus.logging:base.py:72 Processing: 0x0 0x3 0x0 0x0 0x0 0x6 0x66 0x10 0x65 0x1a 0x0 0x1
+DEBUG   2026-05-29 16:06:07,883  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=25882, count=1, bits=[], registers=[], status=1, retries=0) 
+DEBUG   2026-05-29 16:06:07,883  asyncio:proactor_events.py:634 Using proactor: IocpProactor
+INFO    2026-05-29 16:06:12,522  root:wiring_check_page.py:58 Login successful
+INFO    2026-05-29 16:06:13,283  root:test_2e3w_delta.py:148 [PASS-ABC] 正常接线 Delta ABC
+DEBUG   2026-05-29 16:06:13,283  pymodbus.logging:base.py:72 Processing: 0x0 0x4 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:06:13,283  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:06:13,787  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:06:21,789  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-29 16:06:22,491  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:06:22,564  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:06:22,580  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:06:22,584  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:06:22,904  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:06:26,441  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:06:27,493  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:06:29,346  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:06:29,346  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:06:29,346  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+  电流 User1 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase C: 预期="Pass"  实际="Phase Shift"
+INFO    2026-05-29 16:06:29,346  root:test_2e3w_delta.py:148 [V-01] 条件1：三相线电压全<0.1*VRATE
+DEBUG   2026-05-29 16:06:29,347  pymodbus.logging:base.py:72 Processing: 0x0 0x5 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:06:29,347  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:06:29,848  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:06:37,849  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-29 16:06:38,533  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:06:38,607  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:06:38,617  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:06:39,039  root:wiring_check_page.py:100 Save nominal voltage clicked
+INFO    2026-05-29 16:06:39,585  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:06:43,115  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:06:44,173  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:06:45,997  root:test_2e3w_delta.py:163   实测: 电压={'A': 'Missing', 'B': 'Missing', 'C': 'Missing', 'order': '-'}
+INFO    2026-05-29 16:06:45,997  root:test_2e3w_delta.py:172   → PASS
+INFO    2026-05-29 16:06:45,998  root:test_2e3w_delta.py:148 [V-02] 条件2：Vab<0.1*VRATE (ua=ub同相)
+DEBUG   2026-05-29 16:06:45,999  pymodbus.logging:base.py:72 Processing: 0x0 0x6 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:06:45,999  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:06:46,500  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:06:54,501  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-29 16:06:55,277  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:06:55,332  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:06:55,353  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:06:55,353  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:06:55,777  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:06:59,303  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:07:00,333  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:07:02,016  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:07:02,016  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:07:02,016  root:test_2e3w_delta.py:174   电压 Phase A: 预期="Va Wiring Missing"  实际="-"
+INFO    2026-05-29 16:07:02,016  root:test_2e3w_delta.py:148 [V-03] 条件3：Vbc<0.1*VRATE (ub=uc同相)
+DEBUG   2026-05-29 16:07:02,018  pymodbus.logging:base.py:72 Processing: 0x0 0x7 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:07:02,018  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:07:02,519  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:07:10,519  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-29 16:07:11,210  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:07:11,301  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:07:11,312  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:07:11,313  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:07:11,615  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:07:15,155  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:07:16,193  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:07:18,005  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:07:18,005  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:07:18,005  root:test_2e3w_delta.py:174   电压 Phase C: 预期="Vc Wiring Missing"  实际="-"
+  电流 User1 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase C: 预期="Pass"  实际="Phase Shift"
+INFO    2026-05-29 16:07:18,005  root:test_2e3w_delta.py:148 [V-04] 条件4：Vca<0.1*VRATE (uc=ua同相)
+DEBUG   2026-05-29 16:07:18,006  pymodbus.logging:base.py:72 Processing: 0x0 0x8 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:07:18,007  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:07:18,507  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:07:26,508  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-29 16:07:27,185  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:07:27,251  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:07:27,260  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:07:27,260  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:07:27,697  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:07:31,228  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:07:32,272  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:07:33,887  root:test_2e3w_delta.py:163   实测: 电压={'A': 'Missing', 'B': '-', 'C': 'Missing', 'order': '-'}
+INFO    2026-05-29 16:07:33,888  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:07:33,888  root:test_2e3w_delta.py:174   电流 User1 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase C: 预期="Pass"  实际="Phase Shift"
+INFO    2026-05-29 16:07:33,888  root:test_2e3w_delta.py:148 [V-05] 条件5：Va缺失 (ua=0, Vbc正常)
+DEBUG   2026-05-29 16:07:33,889  pymodbus.logging:base.py:72 Processing: 0x0 0x9 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:07:33,890  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:07:34,390  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:07:42,391  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Va Wiring Missing', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-29 16:07:44,814  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:07:46,561  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:07:46,569  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:07:46,573  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:07:50,615  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:07:54,164  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:07:55,197  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:08:01,259  root:test_2e3w_delta.py:163   实测: 电压={'A': 'Missing', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:08:01,259  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:08:01,259  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+INFO    2026-05-29 16:08:01,259  root:test_2e3w_delta.py:148 [V-06] 条件6：Vb缺失 (ub=0, Vca正常)
+DEBUG   2026-05-29 16:08:01,261  pymodbus.logging:base.py:72 Processing: 0x0 0xa 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:08:01,261  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:08:01,762  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:08:09,763  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Vb Wiring Missing', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-29 16:08:15,151  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:08:16,891  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:08:16,896  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:08:16,899  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:08:20,942  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:08:24,501  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:08:25,537  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:08:31,600  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:08:31,601  root:test_2e3w_delta.py:172   → PASS
+INFO    2026-05-29 16:08:31,601  root:test_2e3w_delta.py:148 [V-07] 条件7：Vc缺失 (uc=0, Vab正常)
+DEBUG   2026-05-29 16:08:31,601  pymodbus.logging:base.py:72 Processing: 0x0 0xb 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:08:31,601  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:08:32,102  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:08:40,103  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Vc Wiring Missing', 'order': 'Pass'}, 'current': {'A': 'Pass', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-29 16:08:42,857  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:08:42,913  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:08:42,930  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:08:42,941  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:08:43,357  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:08:46,892  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:08:47,934  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:08:49,632  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': 'Missing', 'order': '-'}
+INFO    2026-05-29 16:08:49,632  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:08:49,632  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+  电流 User1 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase A: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase C: 预期="Pass"  实际="Phase Shift"
+INFO    2026-05-29 16:08:49,632  root:test_2e3w_delta.py:148 [V-08] 条件8：ABC配置下输入ACB信号 → Phase Order Error
+DEBUG   2026-05-29 16:08:49,633  pymodbus.logging:base.py:72 Processing: 0x0 0xc 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:08:49,634  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:08:50,135  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:08:58,136  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Phase Order Error'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-29 16:08:58,835  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:08:58,901  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:08:58,911  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:08:58,911  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:08:59,325  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:09:02,862  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:09:03,906  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:09:05,590  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:09:05,590  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:09:05,590  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+  电压 Phase order: 预期="Phase Order Error"  实际="-"
+INFO    2026-05-29 16:09:05,590  root:test_2e3w_delta.py:148 [I-01] 条件9：Ia<0.1A → Ia Wiring Missing
+DEBUG   2026-05-29 16:09:05,590  pymodbus.logging:base.py:72 Processing: 0x0 0xd 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:09:05,590  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:09:06,099  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:09:14,100  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Wiring Missing', 'B': 'N/A', 'C': 'Phase Shift'}}
+INFO    2026-05-29 16:09:14,791  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:09:14,833  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:09:14,850  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:09:14,860  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:09:15,268  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:09:18,799  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:09:19,856  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:09:21,467  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:09:21,467  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:09:21,467  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+  电流 User2 Phase A: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User2 Phase C: 预期="Phase Shift"  实际="Missing"
+  电流 User3 Phase A: 预期="Wiring Missing"  实际="Pass"
+  电流 User3 Phase C: 预期="Phase Shift"  实际="Pass"
+  电流 User5 Phase A: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User5 Phase C: 预期="Phase Shift"  实际="Missing"
+  电流 User6 Phase A: 预期="Wiring Missing"  实际="Pass"
+  电流 User6 Phase C: 预期="Phase Shift"  实际="Pass"
+  电流 User8 Phase A: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User8 Phase C: 预期="Phase Shift"  实际="Missing"
+  电流 User9 Phase A: 预期="Wiring Missing"  实际="Pass"
+  电流 User9 Phase C: 预期="Phase Shift"  实际="Pass"
+  电流 User11 Phase A: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User11 Phase C: 预期="Phase Shift"  实际="Missing"
+  电流 User12 Phase A: 预期="Wiring Missing"  实际="Pass"
+  电流 User12 Phase C: 预期="Phase Shift"  实际="Pass"
+INFO    2026-05-29 16:09:21,467  root:test_2e3w_delta.py:148 [I-02] 条件10：Ic<0.1A → Ic Wiring Missing
+DEBUG   2026-05-29 16:09:21,467  pymodbus.logging:base.py:72 Processing: 0x0 0xe 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:09:21,467  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:09:21,971  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:09:29,971  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Phase Shift', 'B': 'N/A', 'C': 'Wiring Missing'}}
+INFO    2026-05-29 16:09:30,656  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:09:30,712  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:09:30,735  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:09:30,740  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:09:31,159  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:09:34,684  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:09:35,729  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:09:37,294  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:09:37,294  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:09:37,294  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+  电流 User1 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User1 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User2 Phase A: 预期="Phase Shift"  实际="Missing"
+  电流 User2 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User4 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User4 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User5 Phase A: 预期="Phase Shift"  实际="Missing"
+  电流 User5 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User6 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User7 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User7 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User8 Phase A: 预期="Phase Shift"  实际="Missing"
+  电流 User8 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User9 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User10 Phase A: 预期="Phase Shift"  实际="Pass"
+  电流 User10 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User11 Phase A: 预期="Phase Shift"  实际="Missing"
+  电流 User11 Phase C: 预期="Wiring Missing"  实际="Phase Shift"
+  电流 User12 Phase A: 预期="Phase Shift"  实际="Pass"
+INFO    2026-05-29 16:09:37,294  root:test_2e3w_delta.py:148 [I-03] 条件11：∠IA_rel=150°（绝对@180°）→ Ia Polarity Reversed
+DEBUG   2026-05-29 16:09:37,295  pymodbus.logging:base.py:72 Processing: 0x0 0xf 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:09:37,295  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:09:37,796  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:09:45,797  root:test_2e3w_delta.py:160   预期: {'voltage': {'A': 'Pass', 'B': 'Pass', 'C': 'Pass', 'order': 'Pass'}, 'current': {'A': 'Polarity Reversed', 'B': 'N/A', 'C': 'Pass'}}
+INFO    2026-05-29 16:09:46,488  root:wiring_check_page.py:78 Selected device: 4100229
+INFO    2026-05-29 16:09:46,575  root:wiring_check_page.py:87 Wiring Check button clicked
+INFO    2026-05-29 16:09:46,577  root:wiring_check_page.py:93 Dialog appeared: "Confirm Nominal Voltage"
+INFO    2026-05-29 16:09:46,586  root:wiring_check_page.py:103 Nominal voltage already saved, skip Save
+INFO    2026-05-29 16:09:46,897  root:wiring_check_page.py:109 Start Wiring Check clicked
+INFO    2026-05-29 16:09:50,428  root:wiring_check_page.py:120 Wiring Check completed
+INFO    2026-05-29 16:09:51,534  root:wiring_check_page.py:217 Current table: 4 page(s)
+INFO    2026-05-29 16:09:53,293  root:test_2e3w_delta.py:163   实测: 电压={'A': '-', 'B': 'Missing', 'C': '-', 'order': '-'}
+INFO    2026-05-29 16:09:53,293  root:test_2e3w_delta.py:172   → FAIL
+WARNING 2026-05-29 16:09:53,293  root:test_2e3w_delta.py:174   电压 Phase B: 预期="Pass"  实际="Missing"
+  电流 User1 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User1 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User2 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User2 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User3 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User3 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User4 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User4 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User5 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User5 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User6 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User6 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User7 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User7 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User8 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User8 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User9 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User9 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User10 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User10 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User11 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User11 Phase C: 预期="Pass"  实际="Phase Shift"
+  电流 User12 Phase A: 预期="Polarity Reversed"  实际="Phase Shift"
+  电流 User12 Phase C: 预期="Pass"  实际="Phase Shift"
+INFO    2026-05-29 16:09:53,293  root:test_2e3w_delta.py:148 [I-04] 条件12：∠IC_rel=270°（绝对@300°）→ Ic Polarity Reversed
+DEBUG   2026-05-29 16:09:53,293  pymodbus.logging:base.py:72 Processing: 0x0 0x10 0x0 0x0 0x0 0x6 0x66 0x10 0x10 0xdc 0x0 0x1
+DEBUG   2026-05-29 16:09:53,293  pymodbus.logging:decoders.py:79 decoded PDU function_code(16 sub -1) -> WriteMultipleRegistersResponse(dev_id=0, transaction_id=0, address=4316, count=1, bits=[], registers=[], status=1, retries=0) 
+INFO    2026-05-29 16:09:53,799  root:source_control.py:158 192.168.0.151, 10005
+INFO    2026-05-29 16:10:02,153  root:source_control.py:158 192.168.0.151, 10005
