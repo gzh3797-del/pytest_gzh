@@ -1,0 +1,23 @@
+[
+  {"row": 670, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1周/TCP_RSP/slaveid:2/fc2），搜索后验证日志字段，点击Reset清除条件；环境准备期已配置Modbus设备生成日志 | 断言方式：断言过滤结果字段正确，Reset后条件清空"},
+  {"row": 671, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1周/TCP_RSP/slaveid:120/fc6）+分页（10条/页，下一页切换）；环境有>10条日志 | 断言方式：断言过滤字段正确，分页显示10条"},
+  {"row": 672, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1月/RTU_REQ/slaveid:119/fc7）+分页（20条/页，末页/上一页）；环境有>20条日志 | 断言方式：断言过滤字段正确，分页切换正常"},
+  {"row": 674, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1季度/RTU_RSP/slaveid:120/fc8）+分页（40条/页，末页/上一页）；环境有>40条日志 | 断言方式：断言过滤字段正确，分页切换正常，每页40条"},
+  {"row": 677, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1天/TCP_REQ/slaveid:1/fc1），验证日志字段，Reset清除条件；环境准备期已配置Modbus设备 | 断言方式：断言搜索结果日志字段正确"},
+  {"row": 678, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1月/RTU_REQ/slaveid:3/fc3），验证日志字段，Reset清除条件；环境准备期已配置Modbus设备 | 断言方式：断言搜索结果日志字段正确"},
+  {"row": 679, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1天/TCP_REQ/slaveid:100/fc5），验证日志字段，Reset清除条件；环境准备期已配置Modbus设备 | 断言方式：断言搜索结果日志字段正确"},
+  {"row": 680, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1周/TCP_RSP/slaveid:246/fc16），验证日志字段，Reset清除条件；环境准备期已配置Modbus设备 | 断言方式：断言搜索结果日志字段正确"},
+  {"row": 681, "color": "006400", "text": "已理解：Modbus Debug Log过滤（slaveid:247，无此从站），预期搜索结果为空/无匹配（根据页面操作结果判断） | 断言方式：断言搜索结果列表为空"},
+  {"row": 683, "color": "006400", "text": "已理解：Modbus Debug Log过滤+点击导出功能，导出调试日志成功；环境准备期已配置Modbus设备 | 断言方式：断言导出操作触发文件下载"},
+  {"row": 684, "color": "006400", "text": "已理解：Network Status页面点击刷新，NTP同步测试显示通过；环境准备期已配置网络环境 | 断言方式：断言刷新后NTP Sync Test结果为Pass"},
+  {"row": 685, "color": "006400", "text": "已理解：Connection Test页面点击Start Test，连接信息显示通过；环境已保证网络正常 | 断言方式：断言Connection Test结果显示Pass/通过"},
+  {"row": 709, "color": "006400", "text": "已理解：SSH端口输入-1（负数），保存配置失败，UI显示错误提示信息 | 断言方式：断言Save时出现端口格式/范围错误提示"},
+  {"row": 710, "color": "006400", "text": "已理解：SSH端口22，启用所有调试诊断，Save成功；下载诊断文件（包含所有调试日志）；Reset系统日志成功 | 断言方式：断言文件下载成功，Reset后日志清空"},
+  {"row": 711, "color": "006400", "text": "已理解：Host Lookup页面输入www.baidu.com，选择nslookup方式，点击查找成功（设备内置DNS功能，无需外部配置） | 断言方式：断言查找结果显示IP地址信息"},
+  {"row": 712, "color": "006400", "text": "已理解：Host Lookup输入www.qq.com，选择ping方式，查找成功；测试环境网络已配置 | 断言方式：断言ping结果显示响应信息"},
+  {"row": 713, "color": "006400", "text": "已理解：Host Lookup输入www.accuenergy.com，选择traceroute方式，查找成功；测试环境网络已配置 | 断言方式：断言traceroute结果显示路由跳数信息"},
+  {"row": 714, "color": "006400", "text": "已理解：Host Lookup输入www.accuenergy.com，分别用ping/nslookup/traceroute三种方式查找，全部成功；测试环境网络已配置 | 断言方式：断言三种方式均返回有效结果"},
+  {"row": 715, "color": "006400", "text": "已理解：Host Lookup输入无效域名www.accu.com，三种方式查找均失败（用例专门测试错误域名场景） | 断言方式：断言查找结果显示失败/错误信息"},
+  {"row": 716, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1月/RTU_REQ/slaveid:246/fc3），验证日志字段；点击清除调试日志，清除成功；环境有Modbus通信日志 | 断言方式：断言清除后日志列表为空"},
+  {"row": 717, "color": "006400", "text": "已理解：Modbus Debug Log过滤（1季度/RTU_RSP/slaveid:99/fc3），验证日志字段，Reset清除条件；环境准备期已配置Modbus设备 | 断言方式：断言搜索结果日志字段正确"}
+]

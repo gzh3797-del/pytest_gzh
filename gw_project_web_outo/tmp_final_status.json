@@ -1,0 +1,178 @@
+[
+  {
+    "module": "接入设备参数设置",
+    "green": 13,
+    "red_with_reply": 0,
+    "red_no_reply": 3,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 16,
+    "pending_reanalyze": 0,
+    "pending_user_input": 3
+  },
+  {
+    "module": "用户管理",
+    "green": 123,
+    "red_with_reply": 3,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 126,
+    "pending_reanalyze": 3,
+    "pending_user_input": 0
+  },
+  {
+    "module": "About",
+    "green": 11,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 11,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "Maintenance",
+    "green": 4,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 4,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "Modbus协议",
+    "green": 6,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 6,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "UI界面测试",
+    "green": 1,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 1,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "Web Devices",
+    "green": 5,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 5,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "安全性测试",
+    "green": 6,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 6,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "兼容性测试",
+    "green": 1,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 1,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "接入设备日志管理",
+    "green": 38,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 27,
+    "no_color": 0,
+    "total_auto": 65,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "模板管理",
+    "green": 21,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 21,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "设备管理",
+    "green": 5,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 5,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "设备数据协议转换",
+    "green": 105,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 1,
+    "no_color": 0,
+    "total_auto": 106,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "系统设置",
+    "green": 59,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 59,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "系统诊断",
+    "green": 26,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 26,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  },
+  {
+    "module": "Virtual Device",
+    "green": 13,
+    "red_with_reply": 0,
+    "red_no_reply": 0,
+    "orange": 0,
+    "no_color": 0,
+    "total_auto": 13,
+    "pending_reanalyze": 0,
+    "pending_user_input": 0
+  }
+]

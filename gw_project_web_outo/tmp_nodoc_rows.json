@@ -1,0 +1,62 @@
+[
+  {
+    "row": 561,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：添加1台设备，数据采集4小时，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 562,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：添加1台设备，数据采集12小时，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 563,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：添加1台设备，数据采集1天，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 564,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：添加1台设备，数据采集2天，数据采集正常--AcuRev2100不支持（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 565,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：添加1台设备，数据采集7天，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 566,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：满配32设备，通过Moubus TCP，数据采集1小时，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 567,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：满配32设备，通过Moubus TCP，数据采集2小时，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 568,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：满配32设备，通过Moubus TCP，数据采集8小时，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 569,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/stability_struct.md 后重新分析。\n当前仅记录测试点：满配32设备，通过Moubus TCP，数据采集24小时，数据采集正常（需硬件设备长时运行，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 719,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/performance_struct.md 后重新分析。\n当前仅记录测试点：添加32个设备，数据采集正常，系统工作正常，资源占用满足要求（需物理设备支持，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 720,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/performance_struct.md 后重新分析。\n当前仅记录测试点：添加多个客户端，数据均采集正常，系统工作正常，资源占用满足要求（需物理设备支持，难以纯UI自动化）",
+    "color": "FF0000"
+  },
+  {
+    "row": 721,
+    "text": "[⚠️ 缺少页面结构文档] 无法判断 UI 定位方式和导航路径。\n请补充 product_structure_testcase_regulation/performance_struct.md 后重新分析。\n当前仅记录测试点：Alarm日志存储到最大，系统工作正常，操作不卡顿（需物理设备支持，难以纯UI自动化）",
+    "color": "FF0000"
+  }
+]

@@ -1,5 +1,5 @@
 import pytest
-from config.settings import BASE_URL
+from config.settings import BASE_URL, DEFAULT_PASSWORD
 from pages.login_page import LoginPage
 
 _ROLE_NAME = "gen01_1role"
@@ -12,7 +12,17 @@ _PERM_LABELS = [
 ]
 
 
+def _dismiss_dialogs(page):
+    """关闭任何阻断操作的 Warning/弹框（session 超时弹框等）。"""
+    try:
+        page.locator(".el-overlay-message-box").get_by_role("button").last.click(timeout=1500)
+        page.wait_for_timeout(300)
+    except Exception:
+        pass
+
+
 def _nav_to_submenu(page, submenu: str):
+    _dismiss_dialogs(page)
     if "/userManagement/" not in page.url:
         page.locator("header span").filter(has_text="AcuHMI").first.click()
         page.wait_for_load_state("networkidle")
@@ -41,12 +51,28 @@ def _restore_session_timeout(page, admin_pwd: str):
         page.get_by_role("textbox", name="Enter Password").fill(admin_pwd)
         page.get_by_role("button", name="Sign In").click()
         page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(500)
+        page.wait_for_timeout(1000)
+        try:
+            page.get_by_role("button", name="Accept").click(timeout=3000)
+            page.wait_for_load_state("networkidle")
+            page.wait_for_timeout(500)
+        except Exception:
+            pass
         try:
             page.get_by_role("button", name="Cancel").click(timeout=2000)
         except Exception:
             pass
-    _set_session_timeout(page, 10)
+    # 先进入 AcuHMI 上下文（System Settings），再导航到 User Management General
+    # 直接访问 /#/userManagement/general 不走 header 点击，需先建立设备上下文
+    page.goto(BASE_URL + "/#/systemSettings/dateTime")
+    page.wait_for_load_state("networkidle")
+    page.wait_for_timeout(500)
+    page.goto(BASE_URL + "/#/userManagement/general")
+    page.wait_for_load_state("networkidle")
+    page.wait_for_timeout(500)
+    page.get_by_placeholder("Enter Session Timeout").fill("10")
+    page.get_by_role("button", name="Save").click()
+    page.wait_for_timeout(1000)
 
 
 def _create_role(page):
@@ -115,7 +141,7 @@ def test_TestCase_AcuHMI_007_01_case01_1(login_page: LoginPage):
     login_page.login()
     page = login_page.page
     browser = page.context.browser
-    admin_pwd = "Admin@110001"
+    admin_pwd = DEFAULT_PASSWORD
 
     _create_role(page)
     _create_user(page)

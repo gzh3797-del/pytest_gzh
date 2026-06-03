@@ -19,7 +19,7 @@ TIMEOUT = int(os.getenv("TIMEOUT", "30000"))  # ms
 
 ############################## Target URL
 # 专门用来存放目标网站的基础网址，后面脚本里所有页面都基于这个地址拼接
-BASE_URL = os.getenv("BASE_URL", "https://192.168.2.199")
+BASE_URL = os.getenv("BASE_URL", "https://192.168.2.8")
 
 ############################### Screenshot / video
 # 项目根路径
@@ -34,4 +34,4 @@ REPORT_DIR.mkdir(exist_ok=True)
 # 默认凭据（可以通过 .env 文件覆盖）
 # 规则：优先读取环境变量，没有就用默认值 "admin"
 DEFAULT_USERNAME = os.getenv("WEB_USERNAME", "admin")
-DEFAULT_PASSWORD = os.getenv("WEB_PASSWORD", "Admin@110001")
+DEFAULT_PASSWORD = os.getenv("WEB_PASSWORD", "Admin@110002")

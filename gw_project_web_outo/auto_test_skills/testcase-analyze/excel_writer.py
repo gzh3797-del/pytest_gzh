@@ -35,6 +35,7 @@ COL_EXPECTED    = "预期结果"
 COL_LEVEL       = "用例级别"
 COL_SEMI_AUTO   = "半自动化"
 COL_AUTO        = "自动化"
+COL_DEBUG_PASS  = "自动化脚本是否调试通过(是/否)"
 COL_CLAUDE_NOTE = "需补充信息(claude识别回填)"
 COL_USER_REPLY  = "用户答复(基于需补充信息,澄清信息)"
 
@@ -187,6 +188,127 @@ def cmd_write(excel_path: str, data_json: str):
     print(json.dumps({"written": written, "file": excel_path}, ensure_ascii=False))
 
 
+def cmd_write_p(excel_path: str, results_json: str):
+    """
+    回填 P 列（自动化脚本是否调试通过）。
+    results_json: '[{"case_id": "TestCase_...", "value": "是"}, ...]'
+    """
+    try:
+        results = json.loads(results_json)
+    except json.JSONDecodeError as e:
+        _exit_error(f"JSON 解析失败: {e}")
+
+    wb = _load(excel_path)
+    ws = wb.active
+    cm = _col_map(ws)
+
+    if COL_CASE_ID not in cm:
+        _exit_error(f"列 '{COL_CASE_ID}' 不存在")
+
+    if COL_DEBUG_PASS not in cm:
+        _exit_error(f"列 '{COL_DEBUG_PASS}' 不存在，请确认 Excel 表头包含该列")
+
+    case_id_col = cm[COL_CASE_ID]
+    p_col       = cm[COL_DEBUG_PASS]
+
+    # 构建 case_id → 行号 的索引（支持同一 case_id 多行）
+    case_row_map: dict[str, list[int]] = {}
+    for row_idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+        cid = _str(row[case_id_col - 1])
+        if cid:
+            case_row_map.setdefault(cid, []).append(row_idx)
+
+    written = 0
+    not_found = []
+
+    for item in results:
+        case_id = item.get("case_id", "").strip()
+        # Accept "value", "p_value", or "result" as the value key for robustness
+        value = item.get("value") or item.get("p_value") or item.get("result") or ""
+
+        if case_id not in case_row_map:
+            not_found.append(case_id)
+            continue
+
+        for row_num in case_row_map[case_id]:
+            cell = ws.cell(row=row_num, column=p_col)
+            cell.value = value
+            written += 1
+
+    buf = io.BytesIO()
+    wb.save(buf)
+    with open(excel_path, "wb") as f:
+        f.write(buf.getvalue())
+
+    print(json.dumps({
+        "written": written,
+        "not_found": not_found,
+        "file": excel_path,
+    }, ensure_ascii=False))
+
+
+def cmd_status(excel_path: str):
+    """统计所有模块中 auto=是 的用例按 Q列字体颜色分布，识别剩余待处理用例"""
+    from collections import defaultdict
+
+    wb = _load(excel_path)
+    ws = wb.active
+    cm = _col_map(ws)
+
+    mod_col   = cm.get(COL_MODULE)
+    auto_col  = cm.get(COL_AUTO)
+    note_col  = cm.get(COL_CLAUDE_NOTE)
+    reply_col = cm.get(COL_USER_REPLY)
+
+    if not all([mod_col, auto_col, note_col, reply_col]):
+        _exit_error("必要列不存在，请先运行 --init")
+
+    stats = defaultdict(lambda: {
+        "green": 0, "red_with_reply": 0,
+        "red_no_reply": 0, "orange": 0, "no_color": 0
+    })
+
+    for row in ws.iter_rows(min_row=2):
+        module = _str(row[mod_col - 1].value)
+        auto   = _str(row[auto_col - 1].value)
+        if not module or auto != "是":
+            continue
+
+        cell_q = row[note_col - 1]
+        reply  = _str(row[reply_col - 1].value)
+
+        color = None
+        if cell_q.font and cell_q.font.color and cell_q.font.color.type == "rgb":
+            color = cell_q.font.color.rgb[-6:]  # 去掉 alpha 前缀
+
+        s = stats[module]
+        if color == COLOR_GREEN:
+            s["green"] += 1
+        elif color == COLOR_RED:
+            if reply:
+                s["red_with_reply"] += 1
+            else:
+                s["red_no_reply"] += 1
+        elif color == COLOR_ORANGE:
+            s["orange"] += 1
+        else:
+            s["no_color"] += 1
+
+    result = []
+    for mod, s in sorted(stats.items(),
+                         key=lambda x: x[1]["red_with_reply"] + x[1]["red_no_reply"],
+                         reverse=True):
+        result.append({
+            "module": mod,
+            **s,
+            "total_auto": sum(s.values()),
+            "pending_reanalyze": s["red_with_reply"],
+            "pending_user_input": s["red_no_reply"],
+        })
+
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 # ── CLI 入口 ─────────────────────────────────────────────────────────────────
 
 def main():
@@ -225,8 +347,30 @@ def main():
         a = p.parse_args(rest)
         cmd_write(a.excel_path, a.data)
 
+    elif cmd == "--status":
+        if not rest:
+            _exit_error("缺少 excel_path 参数")
+        cmd_status(rest[0])
+
+    elif cmd == "--write-p":
+        p = argparse.ArgumentParser()
+        p.add_argument("excel_path")
+        p.add_argument("--results", required=False,
+                       help='JSON 字符串，格式：[{"case_id":"...", "value":"是/否"}, ...]')
+        p.add_argument("--results-file", required=False,
+                       help='JSON 文件路径（推荐，避免 shell 编码问题）')
+        a = p.parse_args(rest)
+        if a.results_file:
+            import pathlib
+            results_json = pathlib.Path(a.results_file).read_text(encoding="utf-8")
+        elif a.results:
+            results_json = a.results
+        else:
+            _exit_error("--results 或 --results-file 必须提供一个")
+        cmd_write_p(a.excel_path, results_json)
+
     else:
-        _exit_error(f"未知命令: {cmd}。支持：--list-modules / --init / --read / --write")
+        _exit_error(f"未知命令: {cmd}。支持：--list-modules / --init / --read / --write / --write-p")
 
 
 if __name__ == "__main__":

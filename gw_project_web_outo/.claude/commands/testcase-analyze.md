@@ -2,12 +2,12 @@
 
 ## 用途
 分析指定模块的手工测试用例，判断每条用例是否可自动化实现，
-将理解程度回填到 Excel「需补充信息(cloude识别回填)」列（第 13 列）：
+将理解程度回填到 Excel「需补充信息(claude识别回填)」列（Q 列，字体颜色标注）：
 - 深绿色：已理解，可直接编写自动化脚本
 - 红色：有疑问，需用户澄清后才能实现
 - 橙色：半自动化用例，部分步骤需人工介入
 
-支持二次运行：用户在「用户答复」列填写澄清后重新调用，Claude 会更新颜色。
+支持二次运行：用户在「用户答复」列（R 列）填写澄清后重新调用，Claude 会更新颜色。
 
 ---
 
@@ -15,6 +15,7 @@
 
 ```
 /testcase-analyze
+/testcase-analyze --status
 /testcase-analyze --module 用户管理
 /testcase-analyze --module 用户管理 系统设置 About
 /testcase-analyze --all
@@ -22,10 +23,15 @@
 ```
 
 参数说明：
-- 无参数：列出所有模块，由用户选择
+- 无参数：运行 `--status` 展示各模块分析状态，由用户选择下一步操作
+- `--status`：快速统计所有模块中 `auto=是` 用例的分析状态（绿/红/橙/未分析），识别剩余待处理用例
 - `--module <名称> [名称...]`：分析一个或多个模块（空格分隔）
-- `--all`：分析 Excel 中所有模块
+- `--all`：分析 Excel 中所有模块（二次运行时处理有用户答复的红色用例）
 - `--file <路径>`：指定 Excel 文件（默认自动在 Manual_testcase/ 下查找含 foAI 的 xlsx）
+
+> **"剩余用例"定义**：L列(`自动化`)="是" 且 Q列字体为红色的用例。
+> - 有 R列答复 → 可立即做「二次分析」，运行 `--all` 或 `--module <名称>` 处理
+> - 无 R列答复 → 需先在 Excel 中填写答复后再次运行
 
 用户传入的参数存于：$ARGUMENTS
 
@@ -57,21 +63,33 @@ python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_
 **情况 B — 包含 `--module` 且后面有值：**
 将 `--module` 后面所有空格分隔的词（直到下一个 `--` 参数或末尾）收集为 `TARGET_MODULES`。
 
-**情况 C — 无 `--module` 且无 `--all`，或 `--module` 后无值：**
+**情况 C — 包含 `--status`，或无 `--module` 且无 `--all`：**
 执行：
 ```bash
-python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_PATH>"
+python auto_test_skills/testcase-analyze/excel_writer.py --status "<EXCEL_PATH>"
 ```
-将结果格式化后展示给用户，例如：
-```
-请指定要分析的模块（使用 /testcase-analyze --module <名称> 或 --all）：
+将结果格式化后展示给用户，显示各模块分析状态总览：
 
-  1. 接入设备日志管理     183 条
-  2. 设备数据协议转换     149 条
-  3. 用户管理             149 条
-  4. 系统设置             100 条
-  ...
 ```
+模块                  auto=是  绿(已理解)  红(待二次)  红(待澄清)  橙(半自动)
+──────────────────────────────────────────────────────────────────
+用户管理               126       88         38          0           0
+接入设备日志管理         65       15         23          0          27
+系统设置                59       37         22          0           0
+系统诊断                26        5         21          0           0
+模板管理                21        5         16          0           0
+接入设备参数设置         16       13          0          3           0
+...
+
+剩余待处理：
+  · XX 条红色用例已有用户答复（R列）→ 运行 /testcase-analyze --all 即可二次分析
+  ·  X 条红色用例等待用户澄清      → 请在 Excel R 列填写答复后再次运行
+
+请选择操作：
+  /testcase-analyze --all              （处理所有待二次分析）
+  /testcase-analyze --module <模块名>  （处理指定模块）
+```
+
 然后停止，等待用户重新调用。
 
 ### Step 3 — 批量检查 struct.md 覆盖情况
@@ -126,7 +144,7 @@ python auto_test_skills/testcase-analyze/excel_writer.py --list-modules "<EXCEL_
 python auto_test_skills/testcase-analyze/excel_writer.py --init "<EXCEL_PATH>"
 ```
 
-确认「需补充信息(cloude识别回填)」（第 13 列）和「用户答复(基于需补充信息,澄清信息)」（第 14 列）两列存在。
+确认「需补充信息(claude识别回填)」（Q 列）和「用户答复(基于需补充信息,澄清信息)」（R 列）两列存在。
 
 ### Step 5 — 快速处理无文档模块（NO_DOC_MODULES）
 
@@ -139,6 +157,7 @@ python auto_test_skills/testcase-analyze/excel_writer.py --read "<EXCEL_PATH>" -
 对读取到的每条用例：
 - `auto` 不是 `"是"` → 跳过
 - `claude_color` 是 `006400` 且 `user_reply` 为空 → 跳过
+- `claude_color` 是 `FF0000` 且 `user_reply` 为空 → 跳过（等待用户填写 R 列）
 - `semi_auto = "是"` → 写入橙色：`[半自动化] 需人工介入步骤：<说明>`，颜色 `FFA500`
 - 其余 → 统一写入红色：
   ```
@@ -162,14 +181,15 @@ python auto_test_skills/testcase-analyze/excel_writer.py --read "<EXCEL_PATH>" -
 
 对读取到的每条用例，按以下优先级判断：
 
-**跳过条件（不写入）：**
+**跳过条件（不写入，按优先级）：**
 1. `auto` 字段不是 `"是"` → 跳过
 2. `claude_color` 是 `006400`（深绿）且 `user_reply` 为空 → 已确认理解，不覆盖
+3. `claude_color` 是 `FF0000`（红色）且 `user_reply` 为空 → 等待用户在 R 列填写澄清，不重复覆写疑问
 
 **半自动化处理（橙色）：**
 - `semi_auto = "是"` → 写入：`[半自动化] 需人工介入步骤：<说明哪些步骤无法自动化及原因>`，颜色 `FFA500`
 
-**二次运行处理（`user_reply` 有内容）：**
+**二次运行处理（`user_reply` 有内容，含红色或绿色用例）：**
 - 结合用户答复重新判断：
   - 若现在理解 → 颜色改为深绿 `006400`，内容更新为理解摘要
   - 若仍有疑问 → 保持红色 `FF0000`，补充追问
@@ -226,7 +246,7 @@ About                   12     10       2       0        0
 合计                   261     92     142       5       22
 ```
 
-**待澄清用例汇总（有文档模块，需用户在「用户答复」列填写后重新调用）：**
+**待澄清用例汇总（有文档模块，需用户在「用户答复」R 列填写后重新调用）：**
 ```
 [用户管理]
 - <case_id>：<核心疑问一句话>
@@ -241,6 +261,7 @@ About                   12     10       2       0        0
 
 - Excel 文件路径若包含中文或空格，用双引号包裹
 - `--write` 的 `--data` 参数若 JSON 过长，先写入临时文件再传路径（由 Claude 判断）
-- 分析过程中不修改用例的任何原始列（Col1-Col12），只写入 Col13（需补充信息）和 Col14（用户答复）
+- 分析过程中不修改用例的任何原始列（A-P），只写入「需补充信息(claude识别回填)」（Q 列）和「用户答复」（R 列）
 - 每个模块写入完成后立即保存，避免中途中断导致数据丢失
 - `--all` 模式下，无 struct.md 的模块会被快速批量标红，有 struct.md 的模块才做逐条精细分析
+- **"剩余用例"定义**：L列(`自动化`)="是" 且 Q列字体为红色（`claude_color="FF0000"`）的用例。用 `--status` 查看各模块分布；有 R列答复的直接运行 `--all` 做二次分析，无答复的需先填写 R 列

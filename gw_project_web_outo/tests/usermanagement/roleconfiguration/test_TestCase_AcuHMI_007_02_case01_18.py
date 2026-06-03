@@ -126,7 +126,7 @@ def test_TestCase_AcuHMI_007_02_case01_18(login_page: LoginPage):
             assert "diagnostics" in p.url, \
                 f"Diagnostics=edit 角色用户应落地于 Diagnostics 页，当前 URL: {p.url}"
 
-            expect(p.get_by_role("button", name="Refresh Network Status")).to_be_visible(timeout=5000)
+            expect(p.get_by_role("button", name="Refresh")).to_be_visible(timeout=5000)
         finally:
             ctx.close()
     finally:

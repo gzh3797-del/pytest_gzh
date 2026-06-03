@@ -1,0 +1,192 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-8.3.3, pluggy-1.5.0
+rootdir: C:\AI¹¤¾ß\autotest\gw_project_web_outo
+configfile: pytest.ini
+plugins: allure-pytest-2.16.0, anyio-4.13.0, base-url-2.1.0, html-4.1.1, metadata-3.1.1, playwright-0.7.2, xdist-3.8.0
+collected 9 items
+
+tests\datalog\general\test_TestCase_AcuHMI_003_07_case01.py F            [ 11%]
+tests\datalog\general\test_TestCase_AcuHMI_003_07_case04.py F            [ 22%]
+tests\datalog\postchannel\test_TestCase_AcuHMI_003_05_case03.py F        [ 33%]
+tests\systemsettings\general\test_TestCase_AcuHMI_005_01_case05_row598.py F [ 44%]
+                                                                         [ 44%]
+tests\systemsettings\general\test_TestCase_AcuRev4100_WEB2_009_006_case03.py F [ 55%]
+                                                                         [ 55%]
+tests\diagnostics\general\test_TestCase_AcuHMI_009_06_case01_21.py F     [ 66%]
+tests\templates\general\test_TestCase_AcuHMI_008_01_case03_3.py F        [ 77%]
+tests\templates\general\test_TestCase_AcuHMI_008_01_case08_8.py F        [ 88%]
+tests\templates\general\test_TestCase_AcuHMI_008_01_case13_13.py F       [100%]
+
+================================== FAILURES ===================================
+________________ test_TestCase_AcuHMI_003_07_case01[chromium] _________________
+tests\datalog\general\test_TestCase_AcuHMI_003_07_case01.py:37: in test_TestCase_AcuHMI_003_07_case01
+    _nav_to_data_log_management(page)
+tests\datalog\general\test_TestCase_AcuHMI_003_07_case01.py:15: in _nav_to_data_log_management
+    page.locator(".left-nav-item").filter(has_text="Data Log").click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator(".left-nav-item").filter(has_text="Data Log")
+________________ test_TestCase_AcuHMI_003_07_case04[chromium] _________________
+tests\datalog\general\test_TestCase_AcuHMI_003_07_case04.py:36: in test_TestCase_AcuHMI_003_07_case04
+    _nav_to_data_log_management(page)
+tests\datalog\general\test_TestCase_AcuHMI_003_07_case04.py:15: in _nav_to_data_log_management
+    page.locator(".left-nav-item").filter(has_text="Data Log").click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator(".left-nav-item").filter(has_text="Data Log")
+________________ test_TestCase_AcuHMI_003_05_case03[chromium] _________________
+tests\datalog\postchannel\test_TestCase_AcuHMI_003_05_case03.py:38: in test_TestCase_AcuHMI_003_05_case03
+    _nav_to_post_channel(page, 1)
+tests\datalog\postchannel\test_TestCase_AcuHMI_003_05_case03.py:18: in _nav_to_post_channel
+    page.locator(".left-nav-item").filter(has_text="Data Log").click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator(".left-nav-item").filter(has_text="Data Log")
+_____________ test_TestCase_AcuHMI_005_01_case05_row598[chromium] _____________
+tests\systemsettings\general\test_TestCase_AcuHMI_005_01_case05_row598.py:33: in test_TestCase_AcuHMI_005_01_case05_row598
+    _nav_to_settings_tab(page, "Date & Time")
+tests\systemsettings\general\test_TestCase_AcuHMI_005_01_case05_row598.py:20: in _nav_to_settings_tab
+    page.locator("header span").filter(has_text="AcuHMI").first.click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("header span").filter(has_text="AcuHMI").first
+___________ test_TestCase_AcuRev4100_WEB2_009_006_case03[chromium] ____________
+tests\systemsettings\general\test_TestCase_AcuRev4100_WEB2_009_006_case03.py:28: in test_TestCase_AcuRev4100_WEB2_009_006_case03
+    _nav_to_settings_tab(page, "Remote Access")
+tests\systemsettings\general\test_TestCase_AcuRev4100_WEB2_009_006_case03.py:8: in _nav_to_settings_tab
+    page.locator("header span").filter(has_text="AcuHMI").first.click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("header span").filter(has_text="AcuHMI").first
+_______________ test_TestCase_AcuHMI_009_06_case01_21[chromium] _______________
+tests\diagnostics\general\test_TestCase_AcuHMI_009_06_case01_21.py:32: in test_TestCase_AcuHMI_009_06_case01_21
+    page.locator("header span").filter(has_text="AcuHMI").first.click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("header span").filter(has_text="AcuHMI").first
+_______________ test_TestCase_AcuHMI_008_01_case03_3[chromium] ________________
+tests\templates\general\test_TestCase_AcuHMI_008_01_case03_3.py:30: in test_TestCase_AcuHMI_008_01_case03_3
+    _nav_to_templates(page, "Template List")
+tests\templates\general\test_TestCase_AcuHMI_008_01_case03_3.py:12: in _nav_to_templates
+    page.locator("header span").filter(has_text="AcuHMI").first.click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("header span").filter(has_text="AcuHMI").first
+_______________ test_TestCase_AcuHMI_008_01_case08_8[chromium] ________________
+tests\templates\general\test_TestCase_AcuHMI_008_01_case08_8.py:30: in test_TestCase_AcuHMI_008_01_case08_8
+    _nav_to_templates(page, "Template List")
+tests\templates\general\test_TestCase_AcuHMI_008_01_case08_8.py:12: in _nav_to_templates
+    page.locator("header span").filter(has_text="AcuHMI").first.click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("header span").filter(has_text="AcuHMI").first
+_______________ test_TestCase_AcuHMI_008_01_case13_13[chromium] _______________
+tests\templates\general\test_TestCase_AcuHMI_008_01_case13_13.py:30: in test_TestCase_AcuHMI_008_01_case13_13
+    _nav_to_templates(page, "Template List")
+tests\templates\general\test_TestCase_AcuHMI_008_01_case13_13.py:12: in _nav_to_templates
+    page.locator("header span").filter(has_text="AcuHMI").first.click()
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\sync_api\_generated.py:16196: in click
+    self._sync(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_locator.py:162: in click
+    return await self._frame._click(self._selector, strict=True, **params)
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+C:\Users\ZanHu\AppData\Local\Programs\Python\Python311\Lib\site-packages\playwright\_impl\_connection.py:559: in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E   playwright._impl._errors.TimeoutError: Locator.click: Timeout 30000ms exceeded.
+E   Call log:
+E     - waiting for locator("header span").filter(has_text="AcuHMI").first
+- Generated html report: file:///C:/AI%E5%B7%A5%E5%85%B7/autotest/gw_project_web_outo/reports/report.html -
+=========================== short test summary info ===========================
+FAILED tests/datalog/general/test_TestCase_AcuHMI_003_07_case01.py::test_TestCase_AcuHMI_003_07_case01[chromium]
+FAILED tests/datalog/general/test_TestCase_AcuHMI_003_07_case04.py::test_TestCase_AcuHMI_003_07_case04[chromium]
+FAILED tests/datalog/postchannel/test_TestCase_AcuHMI_003_05_case03.py::test_TestCase_AcuHMI_003_05_case03[chromium]
+FAILED tests/systemsettings/general/test_TestCase_AcuHMI_005_01_case05_row598.py::test_TestCase_AcuHMI_005_01_case05_row598[chromium]
+FAILED tests/systemsettings/general/test_TestCase_AcuRev4100_WEB2_009_006_case03.py::test_TestCase_AcuRev4100_WEB2_009_006_case03[chromium]
+FAILED tests/diagnostics/general/test_TestCase_AcuHMI_009_06_case01_21.py::test_TestCase_AcuHMI_009_06_case01_21[chromium]
+FAILED tests/templates/general/test_TestCase_AcuHMI_008_01_case03_3.py::test_TestCase_AcuHMI_008_01_case03_3[chromium]
+FAILED tests/templates/general/test_TestCase_AcuHMI_008_01_case08_8.py::test_TestCase_AcuHMI_008_01_case08_8[chromium]
+FAILED tests/templates/general/test_TestCase_AcuHMI_008_01_case13_13.py::test_TestCase_AcuHMI_008_01_case13_13[chromium]
+======================== 9 failed in 319.16s (0:05:19) ========================

@@ -50,3 +50,17 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Claude Code local settings (personal, not shared)
+**/.claude/settings.local.json
+
+# Test case Excel backups (temp files)
+**/Manual_testcase/bk/
+
+# Temporary analysis scripts and JSON
+gw_project_web_outo/scripts/
+

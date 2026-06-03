@@ -1,6 +1,13 @@
+import sys
 import pytest
 from pathlib import Path
 from dotenv import load_dotenv
+
+# 强制标准输出/错误流使用 UTF-8，避免 Windows 控制台中文乱码
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
 
 # 加载项目根目录下的 .env 文件（若存在），使环境变量在 settings.py 中生效
 load_dotenv(Path(__file__).parent / ".env")
