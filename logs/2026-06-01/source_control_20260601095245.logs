@@ -1,0 +1,4 @@
+ERROR   2026-06-01 09:52:49,178  pymodbus.logging:tcp.py:200 Connection to (192.168.2.29, 502) failed: timed out
+ERROR   2026-06-01 09:52:52,193  pymodbus.logging:tcp.py:200 Repeating....
+ERROR   2026-06-01 09:52:55,211  pymodbus.logging:tcp.py:200 Connection to (192.168.2.29, 502) failed: timed out
+INFO    2026-06-01 09:52:55,211  root:source_control.py:158 192.168.0.151, 10005

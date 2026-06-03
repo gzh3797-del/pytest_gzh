@@ -1,0 +1,263 @@
+{
+  "base_url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn",
+  "login_email": "renjie.jiao@accuenergy.com",
+  "page_structure": {
+    "title": "AcuCloud",
+    "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/home",
+    "userInfo": {
+      "currentUserType": "org",
+      "token": "Bearer 11cc2e9d-7145-4ca3-9601-545ecdca10cc",
+      "currentFaclity": {
+        "facilityId": 5341,
+        "facilityName": "receiver_20250807",
+        "permission": "EDIT",
+        "organizationId": null,
+        "meterPointIds": null,
+        "location": {
+          "x": -80.998301,
+          "y": 43.682299
+        },
+        "address": "n",
+        "city": "n",
+        "timezone": "Etc/GMT-8",
+        "locationFormat": null
+      },
+      "currentOrg": {
+        "id": 431,
+        "parentId": null,
+        "weight": 0,
+        "name": "AG PROYECTOS Y SERVICIOS, S.A.",
+        "orgId": 431,
+        "role": "SUPER",
+        "isBillingEnable": false,
+        "logo": "",
+        "labels": [],
+        "type": "Reseller",
+        "reseller": null,
+        "enableSmsNotificationsForAlerts": true,
+        "enableFreeLimit": false
+      },
+      "isTenant": false,
+      "userLanguage": "en"
+    },
+    "menuItems": [
+      "Home",
+      "Dashboards",
+      "Installation",
+      "Billing",
+      "BETA\nUtility Bills",
+      "Analysis",
+      "BETA\nPower Quality",
+      "BETA\nCarbon Model",
+      "Report",
+      "Data",
+      "Logs",
+      "Admin",
+      "Super Admin"
+    ],
+    "mainContent": "AG PROYECTOS Y SERVICIOS, S.A.\nOffline Devices Detected\nThere are 1878 devices currently offline (you can check the details in the Device list), and 1875 of them do not have offline alerts configured:\nDevice: 213214324,18tongdao_receiver,APIU_30MIN,device_water_nenghao10,Device: 2503331_EHM22070027,vm3_0205_908,water_15min_0402,test_flatline02,Device: 2503331_EHM21080585,Device: SN1234567890_567,vee_0427_dian,ttttt,Device: 2503331_EHM21120083,18tongdao_0205,test_French01,Device: 2503331_EHM22030050,device1_5min_20260416,Device: DEVICE2026012317,Device: 2503331_EHM21051220,M1_COPA_HNG_208V,Device: 2503331_EHM21051005,water_billing_vee,water_api_5min_unit,Device: 2503331_EHM21050912,vm3_bug1883,test1,Device: 2503331_EHM22070299,Device: 2503331_EHM21051000,44444444,Device: 2503331_EHM22030195,Device: 2503331_EHM22080119,Device: 2503331_EHM22030151,Device: 2503331_EHM21051365,device_30min,external_water_5min_api_csv,api_30min_9tongdao,Device: 2503331_EHM21050806,Device: 2503331_EHM21051549",
+    "orgInfo": null,
+    "authToken": "present"
+  },
+  "nav_items": [
+    {
+      "text": "Home",
+      "href": null
+    },
+    {
+      "text": "Dashboards",
+      "href": null
+    },
+    {
+      "text": "Installation",
+      "href": null
+    },
+    {
+      "text": "Billing",
+      "href": null
+    },
+    {
+      "text": "BETA\nUtility Bills",
+      "href": null
+    },
+    {
+      "text": "Analysis",
+      "href": null
+    },
+    {
+      "text": "BETA\nPower Quality",
+      "href": null
+    },
+    {
+      "text": "BETA\nCarbon Model",
+      "href": null
+    },
+    {
+      "text": "Report",
+      "href": null
+    },
+    {
+      "text": "Data",
+      "href": null
+    },
+    {
+      "text": "Logs",
+      "href": null
+    },
+    {
+      "text": "Admin",
+      "href": null
+    },
+    {
+      "text": "Super Admin",
+      "href": null
+    },
+    {
+      "text": "Terms",
+      "href": "https://www.google.com/intl/en-US_US/help/terms_maps.html"
+    },
+    {
+      "text": "Report a map error",
+      "href": "https://www.google.com/maps/@-39.2869024,11.9851065,3z/data=!10m1!1e1!12b1?source=apiv3&rapsrc=apiv3"
+    }
+  ],
+  "all_links": [
+    {
+      "text": "Home",
+      "href": ""
+    },
+    {
+      "text": "Dashboards",
+      "href": ""
+    },
+    {
+      "text": "Installation",
+      "href": ""
+    },
+    {
+      "text": "Billing",
+      "href": ""
+    },
+    {
+      "text": "BETA\nUtility Bills",
+      "href": ""
+    },
+    {
+      "text": "Analysis",
+      "href": ""
+    },
+    {
+      "text": "BETA\nPower Quality",
+      "href": ""
+    },
+    {
+      "text": "BETA\nCarbon Model",
+      "href": ""
+    },
+    {
+      "text": "Report",
+      "href": ""
+    },
+    {
+      "text": "Data",
+      "href": ""
+    },
+    {
+      "text": "Logs",
+      "href": ""
+    },
+    {
+      "text": "Admin",
+      "href": ""
+    },
+    {
+      "text": "Super Admin",
+      "href": ""
+    },
+    {
+      "text": "Terms",
+      "href": "https://www.google.com/intl/en-US_US/help/terms_maps.html"
+    },
+    {
+      "text": "Report a map error",
+      "href": "https://www.google.com/maps/@-39.2869024,11.9851065,3z/data=!10m1!1e1!12b1?source=apiv3&rapsrc=apiv3"
+    }
+  ],
+  "explored_pages": {
+    "05_home": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/home",
+      "route": "#/home",
+      "screenshot": "05_home.png",
+      "text_preview": "Home\nEnglish\nHome\nHelp\nOrganization View\nHome\nDashboards\nInstallation\nBilling\nBETA\nUtility Bills\nAnalysis\nBETA\nPower Quality\nBETA\nCarbon Model\nReport\nData\nLogs\nAdmin\nSuper Admin\nAG PROYECTOS Y SERVICIOS, S.A.\nOffline Devices Detected\nThere are 1878 devices currently offline (you can check the details in the Device list), and 1875 of them do not have offline alerts configured:\nDevice: 213214324,18tongdao_receiver,APIU_30MIN,device_water_nenghao10,Device: 2503331_EHM22070027,vm3_0205_908,water_15m"
+    },
+    "06_organization": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/organization",
+      "route": "#/organization",
+      "screenshot": "06_organization.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    },
+    "07_devices": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/devices",
+      "route": "#/devices",
+      "screenshot": "07_devices.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    },
+    "08_reports": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/reports",
+      "route": "#/reports",
+      "screenshot": "08_reports.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    },
+    "09_dashboard": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/dashboard",
+      "route": "#/dashboard",
+      "screenshot": "09_dashboard.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    },
+    "10_settings": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/settings",
+      "route": "#/settings",
+      "screenshot": "10_settings.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    },
+    "11_users": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/users",
+      "route": "#/users",
+      "screenshot": "11_users.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    },
+    "12_alerts": {
+      "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/alerts",
+      "route": "#/alerts",
+      "screenshot": "12_alerts.png",
+      "text_preview": "Page not found Error 404 We're sorry\nHome\nBack"
+    }
+  },
+  "api_data": {
+    "/permission/current": {
+      "data": "The current session is not logged in.",
+      "code": 401,
+      "msg": "The current session is not logged in."
+    },
+    "/system-menu/tree": {
+      "data": "The current session is not logged in.",
+      "code": 401,
+      "msg": "The current session is not logged in."
+    },
+    "/organization/list": {
+      "data": "The current session is not logged in.",
+      "code": 401,
+      "msg": "The current session is not logged in."
+    }
+  },
+  "auth_data": {
+    "allLocalStorage": {
+      "account": "cFiKpTvH7hDviJcAK5+tuGfisFaHsOpVXxIsmdXmNjS9mpahn3qNzrUIzshIYqW0jUSVQ84d5xvhY0NvWwvdpw==",
+      "remember": "false",
+      "AcuLang": "en",
+      "isTenant": "false",
+      "authToken": "OBdYO/G7XW1djirNQDe9M259CXHufISae0yX06E38AN5bUQJ+dew566Sl2iPOtuw"
+    },
+    "allSessionStorage": {}
+  }
+}
