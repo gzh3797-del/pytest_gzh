@@ -1,0 +1,173 @@
+- generic [ref=e41]:
+  - generic [ref=e43]:
+    - generic [ref=e44]: AcuHMI-1-7
+    - generic [ref=e45] [cursor=pointer]:
+      - img [ref=e46]
+      - generic [ref=e50]: Logout
+    - generic [ref=e51]: Monday, June 8, 2026 9:53 AM
+    - generic [ref=e52] [cursor=pointer]:
+      - img [ref=e53]
+      - generic [ref=e57]: About
+    - generic [ref=e58] [cursor=pointer]:
+      - img [ref=e59]
+      - generic [ref=e65]: Devices
+    - generic [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+      - generic [ref=e69]: AcuHMI-1-7
+    - img "Accuenergy Logo" [ref=e70]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - img [ref=e75]
+      - list [ref=e77]:
+        - listitem [ref=e250]: System Settings
+        - listitem [ref=e251]: Templates
+        - listitem [ref=e252] [cursor=pointer]: Protocols
+        - listitem [ref=e253]: Maintenance
+        - listitem [ref=e254]: Diagnostics
+        - listitem [ref=e255]: User Management
+        - listitem [ref=e256]: Firmware Update
+    - main [ref=e84]:
+      - list [ref=e85]:
+        - listitem [ref=e86]:
+          - img [ref=e87]
+          - generic [ref=e89]: Current Position：
+        - listitem [ref=e257]:
+          - generic [ref=e258]: AcuHMI-1-7/
+        - listitem [ref=e687]:
+          - generic [ref=e688]: Protocols/
+        - listitem [ref=e689]:
+          - generic [ref=e690]: Modbus/
+        - listitem [ref=e691]:
+          - generic [ref=e692]: Modbus Config
+      - menubar [ref=e693]:
+        - menuitem "Modbus" [ref=e694]:
+          - generic [ref=e695] [cursor=pointer]:
+            - text: Modbus
+            - img [ref=e697]
+        - menuitem "SNMP" [ref=e699] [cursor=pointer]
+        - menuitem "BACnet/IP" [ref=e700] [cursor=pointer]
+        - menuitem "MQTT" [ref=e701]:
+          - generic [ref=e702] [cursor=pointer]:
+            - text: MQTT
+            - img [ref=e704]
+        - menuitem "AWS IoT" [ref=e706] [cursor=pointer]
+        - menuitem "Azure IoT" [ref=e707] [cursor=pointer]
+      - generic [ref=e708]:
+        - generic [ref=e709]: Modbus Config
+        - generic [ref=e710]:
+          - generic [ref=e713]:
+            - generic [ref=e714]: Modbus Enable*
+            - radiogroup "Modbus Enable*" [ref=e716]:
+              - generic [ref=e717] [cursor=pointer]:
+                - radio "Enable" [checked] [ref=e719]
+                - generic [ref=e721]: Enable
+              - generic [ref=e722] [cursor=pointer]:
+                - radio "Disable" [ref=e724]
+                - generic [ref=e726]: Disable
+          - generic [ref=e727]:
+            - generic [ref=e730]:
+              - generic [ref=e731]: Modbus Port*
+              - generic [ref=e732]:
+                - textbox "Modbus Port*" [ref=e735]:
+                  - /placeholder: Enter Modbus Port
+                  - text: "502"
+                - generic [ref=e736]: "Default: 502, Range: 2000 - 5999"
+            - generic [ref=e737]: Tips
+            - generic [ref=e740]:
+              - table [ref=e742]:
+                - rowgroup [ref=e748]:
+                  - row "Type Register Length Data Length Sequence" [ref=e749]:
+                    - columnheader "Type" [ref=e750]:
+                      - generic [ref=e751]: Type
+                    - columnheader "Register Length" [ref=e752]:
+                      - generic [ref=e753]: Register Length
+                    - columnheader "Data Length" [ref=e754]:
+                      - generic [ref=e755]: Data Length
+                    - columnheader "Sequence" [ref=e756]:
+                      - generic [ref=e757]: Sequence
+              - table [ref=e762]:
+                - rowgroup [ref=e768]:
+                  - row "Bit 1 16 A" [ref=e769]:
+                    - cell "Bit" [ref=e770]:
+                      - generic [ref=e772]: Bit
+                    - cell "1" [ref=e773]:
+                      - generic [ref=e775]: "1"
+                    - cell "16" [ref=e776]:
+                      - generic [ref=e778]: "16"
+                    - cell "A" [ref=e779]:
+                      - generic [ref=e781]: A
+                  - row "Uint16 1 16 AB" [ref=e782]:
+                    - cell "Uint16" [ref=e783]:
+                      - generic [ref=e785]: Uint16
+                    - cell "1" [ref=e786]:
+                      - generic [ref=e788]: "1"
+                    - cell "16" [ref=e789]:
+                      - generic [ref=e791]: "16"
+                    - cell "AB" [ref=e792]:
+                      - generic [ref=e794]: AB
+                  - row "Int32 2 32 ABCD" [ref=e795]:
+                    - cell "Int32" [ref=e796]:
+                      - generic [ref=e798]: Int32
+                    - cell "2" [ref=e799]:
+                      - generic [ref=e801]: "2"
+                    - cell "32" [ref=e802]:
+                      - generic [ref=e804]: "32"
+                    - cell "ABCD" [ref=e805]:
+                      - generic [ref=e807]: ABCD
+                  - row "Uint32 2 32 ABCD" [ref=e808]:
+                    - cell "Uint32" [ref=e809]:
+                      - generic [ref=e811]: Uint32
+                    - cell "2" [ref=e812]:
+                      - generic [ref=e814]: "2"
+                    - cell "32" [ref=e815]:
+                      - generic [ref=e817]: "32"
+                    - cell "ABCD" [ref=e818]:
+                      - generic [ref=e820]: ABCD
+                  - row "Long 2 32 ABCD" [ref=e821]:
+                    - cell "Long" [ref=e822]:
+                      - generic [ref=e824]: Long
+                    - cell "2" [ref=e825]:
+                      - generic [ref=e827]: "2"
+                    - cell "32" [ref=e828]:
+                      - generic [ref=e830]: "32"
+                    - cell "ABCD" [ref=e831]:
+                      - generic [ref=e833]: ABCD
+                  - row "Float 2 32 ABCD" [ref=e834]:
+                    - cell "Float" [ref=e835]:
+                      - generic [ref=e837]: Float
+                    - cell "2" [ref=e838]:
+                      - generic [ref=e840]: "2"
+                    - cell "32" [ref=e841]:
+                      - generic [ref=e843]: "32"
+                    - cell "ABCD" [ref=e844]:
+                      - generic [ref=e846]: ABCD
+                  - row "Double 4 64 ABCDEFGH" [ref=e847]:
+                    - cell "Double" [ref=e848]:
+                      - generic [ref=e850]: Double
+                    - cell "4" [ref=e851]:
+                      - generic [ref=e853]: "4"
+                    - cell "64" [ref=e854]:
+                      - generic [ref=e856]: "64"
+                    - cell "ABCDEFGH" [ref=e857]:
+                      - generic [ref=e859]: ABCDEFGH
+        - button "Save" [ref=e862] [cursor=pointer]:
+          - generic [ref=e863]: Save
+  - generic [ref=e233]:
+    - generic [ref=e234]:
+      - generic [ref=e235]: AcuHMI-1-7
+      - generic [ref=e236]: Accuenergy Inc.
+      - generic [ref=e237]: 440 Comstock Rd
+      - generic [ref=e238]: Scarborough ON M1L 2H6
+    - generic [ref=e239]:
+      - generic [ref=e240]: Support
+      - generic [ref=e241]: Call or email for engineering support
+      - generic [ref=e242]: Phone:1-416-497-4100
+      - generic [ref=e243]:
+        - text: "Email:"
+        - link "support@accuenergy.com" [ref=e244] [cursor=pointer]:
+          - /url: mailto:support@accuenergy.com
+    - generic [ref=e245]:
+      - generic [ref=e246]: Resource
+      - generic [ref=e247]: Online guides, manuals, videos and diagrams
+      - generic [ref=e248]: available online
+      - generic [ref=e249]: www.accuenergy.com

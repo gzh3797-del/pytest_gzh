@@ -1,2 +1,0 @@
-DEBUG   2026-05-29 16:12:35,967  pymodbus.logging:tcp.py:195 Connection to Modbus server established. Socket ('192.168.2.45', 49388)
-INFO    2026-05-29 16:12:35,967  root:source_control.py:158 192.168.0.151, 10005

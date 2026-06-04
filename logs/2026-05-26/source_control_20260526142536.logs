@@ -1,2 +1,0 @@
-ERROR   2026-05-26 14:25:40,161  pymodbus.logging:tcp.py:200 Connection to (192.168.2.242, 502) failed: timed out
-INFO    2026-05-26 14:25:43,175  root:source_control.py:158 192.168.0.151, 10005

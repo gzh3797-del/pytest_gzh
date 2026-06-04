@@ -1,0 +1,114 @@
+- generic [ref=e41]:
+  - generic [ref=e43]:
+    - generic [ref=e44]: AcuHMI-1-7
+    - generic [ref=e45] [cursor=pointer]:
+      - img [ref=e46]
+      - generic [ref=e50]: Logout
+    - generic [ref=e51]: Thursday, June 4, 2026 4:03 PM
+    - generic [ref=e52] [cursor=pointer]:
+      - img [ref=e53]
+      - generic [ref=e57]: About
+    - generic [ref=e58] [cursor=pointer]:
+      - img [ref=e59]
+      - generic [ref=e65]: Devices
+    - generic [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+      - generic [ref=e69]: AcuHMI-1-7
+    - img "Accuenergy Logo" [ref=e70]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - img [ref=e75]
+      - list [ref=e77]:
+        - listitem [ref=e2842]: Dashboard
+        - listitem [ref=e2843]: Physical Devices
+        - listitem [ref=e2844]: Virtual Devices
+        - listitem [ref=e2845]: Web Devices
+        - listitem [ref=e2846]: Alarm
+        - listitem [ref=e2847]: Data Log
+    - main [ref=e84]:
+      - list [ref=e85]:
+        - listitem [ref=e86]:
+          - img [ref=e87]
+          - generic [ref=e89]: Current Position：
+        - listitem [ref=e2848]:
+          - generic [ref=e2849]: Devices/
+        - listitem [ref=e2850]:
+          - generic [ref=e2851]: Dashboard
+      - generic [ref=e2852]:
+        - generic [ref=e2854]: Offline Devices
+        - generic [ref=e2855]:
+          - generic [ref=e2857]:
+            - table [ref=e2859]:
+              - rowgroup [ref=e2865]:
+                - row "Device Name Interface Protocol Serial Number" [ref=e2866]:
+                  - columnheader "Device Name" [ref=e2867] [cursor=pointer]:
+                    - generic [ref=e2868]: Device Name
+                  - columnheader "Interface" [ref=e2872] [cursor=pointer]:
+                    - generic [ref=e2873]: Interface
+                  - columnheader "Protocol" [ref=e2877] [cursor=pointer]:
+                    - generic [ref=e2878]: Protocol
+                  - columnheader "Serial Number" [ref=e2882] [cursor=pointer]:
+                    - generic [ref=e2883]: Serial Number
+            - generic [ref=e2890]:
+              - table:
+                - rowgroup
+              - generic [ref=e2892]: No Data
+          - generic [ref=e2894]:
+            - button "Go to previous page" [disabled] [ref=e2895]:
+              - generic:
+                - img
+            - list [ref=e2896]:
+              - listitem "page 1" [ref=e2897]: "1"
+            - button "Go to next page" [disabled] [ref=e2898]:
+              - generic:
+                - img
+        - generic [ref=e2900]: Alarms
+        - generic [ref=e2901]:
+          - generic [ref=e2903]:
+            - table [ref=e2905]:
+              - rowgroup [ref=e2912]:
+                - row "Device Name Alarms Interface Protocol Serial Number" [ref=e2913]:
+                  - columnheader "Device Name" [ref=e2914] [cursor=pointer]:
+                    - generic [ref=e2915]: Device Name
+                  - columnheader "Alarms" [ref=e2919] [cursor=pointer]:
+                    - generic [ref=e2920]: Alarms
+                  - columnheader "Interface" [ref=e2924] [cursor=pointer]:
+                    - generic [ref=e2925]: Interface
+                  - columnheader "Protocol" [ref=e2929] [cursor=pointer]:
+                    - generic [ref=e2930]: Protocol
+                  - columnheader "Serial Number" [ref=e2934] [cursor=pointer]:
+                    - generic [ref=e2935]: Serial Number
+            - generic [ref=e2942]:
+              - table:
+                - rowgroup
+              - generic [ref=e2944]: No Data
+          - generic [ref=e2946]:
+            - button "Go to previous page" [disabled] [ref=e2947]:
+              - generic:
+                - img
+            - list [ref=e2948]:
+              - listitem "page 1" [ref=e2949]: "1"
+            - button "Go to next page" [disabled] [ref=e2950]:
+              - generic:
+                - img
+        - paragraph [ref=e2951]: Up since Thursday, January 1, 1970 8:00 AM
+        - img [ref=e2954]
+  - generic [ref=e251]:
+    - generic [ref=e252]:
+      - generic [ref=e253]: AcuHMI-1-7
+      - generic [ref=e254]: Accuenergy Inc.
+      - generic [ref=e255]: 440 Comstock Rd
+      - generic [ref=e256]: Scarborough ON M1L 2H6
+    - generic [ref=e257]:
+      - generic [ref=e258]: Support
+      - generic [ref=e259]: Call or email for engineering support
+      - generic [ref=e260]: Phone:1-416-497-4100
+      - generic [ref=e261]:
+        - text: "Email:"
+        - link "support@accuenergy.com" [ref=e262] [cursor=pointer]:
+          - /url: mailto:support@accuenergy.com
+    - generic [ref=e263]:
+      - generic [ref=e264]: Resource
+      - generic [ref=e265]: Online guides, manuals, videos and diagrams
+      - generic [ref=e266]: available online
+      - generic [ref=e267]: www.accuenergy.com

@@ -72,18 +72,16 @@ CHANNEL_PHASES = {
 # 2E3W Network 每个 User Channel 实际分配的相（AB/CA/BC 循环 × 4）
 NETWORK_CHANNEL_PHASE_MAP = (('A', 'B'), ('C', 'A'), ('B', 'C')) * 4
 
-# ── 测试环境参数 ─────────────────────────────────────────────────────────────
-# AcuRev4100 Modbus TCP 连接
-METER_TCP_IP   = '192.168.2.29'   # 4100 电表 IP
-METER_TCP_PORT = 502
-MODBUS_SLAVE   = 102
-
-# HMI 网关 Web 连接
-HMI_IP          = '192.168.2.8'
-HMI_USER        = 'q'
-HMI_PASS        = '1'
-HMI_DEVICE_NAME = 'Acu4100'     # HMI 页面 Device 下拉中显示的设备名，按实际修改
-
-NOMINAL_VOLTAGE = 100    # V，写入设备的额定电压
-NORMAL_CURRENT  = 1.0    # A，电流侧测试时的正常电流幅值
-CHECK_TIMEOUT   = 30     # s，等待检查完成的超时时间
+# ── 测试环境参数（统一维护于 test_case/AcuHMI_1_7/config.py）────────────────
+from test_case.AcuHMI_1_7.config import (  # noqa: E402
+    METER_TCP_IP,
+    METER_TCP_PORT,
+    MODBUS_SLAVE,
+    HMI_IP,
+    HMI_USERNAME as HMI_USER,
+    HMI_PASSWORD as HMI_PASS,
+    HMI_DEVICE_NAME,
+    NOMINAL_VOLTAGE,
+    NORMAL_CURRENT,
+    CHECK_TIMEOUT,
+)

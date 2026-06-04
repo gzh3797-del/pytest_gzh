@@ -1,0 +1,591 @@
+- generic [ref=e1]:
+  - generic [ref=e41]:
+    - generic [ref=e43]:
+      - generic [ref=e44]: AcuHMI-1-7
+      - generic [ref=e45] [cursor=pointer]:
+        - img [ref=e46]
+        - generic [ref=e50]: Logout
+      - generic [ref=e51]: Thursday, June 4, 2026 4:25 PM
+      - generic [ref=e52] [cursor=pointer]:
+        - img [ref=e53]
+        - generic [ref=e57]: About
+      - generic [ref=e58] [cursor=pointer]:
+        - img [ref=e59]
+        - generic [ref=e65]: Devices
+      - generic [ref=e66] [cursor=pointer]:
+        - img [ref=e67]
+        - generic [ref=e69]: AcuHMI-1-7
+      - img "Accuenergy Logo" [ref=e70]
+    - generic [ref=e71]:
+      - generic [ref=e72]:
+        - img [ref=e75]
+        - list [ref=e77]:
+          - listitem [ref=e250]: System Settings
+          - listitem [ref=e251]: Templates
+          - listitem [ref=e252]: Protocols
+          - listitem [ref=e253]: Maintenance
+          - listitem [ref=e254]: Diagnostics
+          - listitem [ref=e255]: User Management
+          - listitem [ref=e256]: Firmware Update
+      - main [ref=e84]:
+        - list [ref=e85]:
+          - listitem [ref=e86]:
+            - img [ref=e87]
+            - generic [ref=e89]: Current Position：
+          - listitem [ref=e257]:
+            - generic [ref=e258]: AcuHMI-1-7/
+          - listitem [ref=e687]:
+            - generic [ref=e688]: Protocols/
+          - listitem [ref=e865]:
+            - generic [ref=e866]: BACnet/IP
+        - menubar [ref=e867]:
+          - menuitem "Modbus" [ref=e868]:
+            - generic [ref=e869] [cursor=pointer]:
+              - text: Modbus
+              - img [ref=e871]
+          - menuitem "SNMP" [ref=e873] [cursor=pointer]
+          - menuitem "BACnet/IP" [ref=e874] [cursor=pointer]
+          - menuitem "MQTT" [ref=e875]:
+            - generic [ref=e876] [cursor=pointer]:
+              - text: MQTT
+              - img [ref=e878]
+          - menuitem "AWS IoT" [ref=e880] [cursor=pointer]
+          - menuitem "Azure IoT" [ref=e881] [cursor=pointer]
+        - generic [ref=e882]:
+          - generic [ref=e883]:
+            - generic [ref=e886]:
+              - generic [ref=e887]: BACnet Enable*
+              - radiogroup "BACnet Enable*" [ref=e889]:
+                - generic [ref=e890] [cursor=pointer]:
+                  - radio "Enable" [checked] [ref=e892]
+                  - generic [ref=e894]: Enable
+                - generic [ref=e895] [cursor=pointer]:
+                  - radio "Disable" [ref=e897]
+                  - generic [ref=e899]: Disable
+            - generic [ref=e900]:
+              - generic [ref=e901]:
+                - generic [ref=e903]:
+                  - generic [ref=e904]: BACnet Port*
+                  - generic [ref=e905]:
+                    - textbox "BACnet Port*" [ref=e908]:
+                      - /placeholder: Enter BACnet Port
+                      - text: "47808"
+                    - generic [ref=e909]: "Default: 47808"
+                    - generic [ref=e910]: "Range: 47808 - 49000"
+                - generic [ref=e912]:
+                  - generic [ref=e913]: Network Number*
+                  - generic [ref=e914]:
+                    - textbox "Network Number*" [ref=e917]:
+                      - /placeholder: Enter Network Number
+                      - text: "1"
+                    - generic [ref=e918]: "Range: 1 - 65534"
+                - generic [ref=e920]:
+                  - generic [ref=e921]: Device Object Name*
+                  - generic [ref=e922]:
+                    - textbox "Device Object Name*" [ref=e925]:
+                      - /placeholder: Enter Device Object Name
+                      - text: accu_XA
+                    - generic [ref=e926]: Maximum 40 characters
+                - generic [ref=e928]:
+                  - generic [ref=e929]: Device Instance*
+                  - generic [ref=e930]:
+                    - textbox "Device Instance*" [ref=e933]:
+                      - /placeholder: Enter Device Instance
+                      - text: "26000"
+                    - generic [ref=e934]: Device Instance must be unique
+                    - generic [ref=e935]: "Range: 0 - 4194302"
+                - generic [ref=e937]:
+                  - generic [ref=e938]: Advertised APDU Timeout*
+                  - generic [ref=e941] [cursor=pointer]:
+                    - generic:
+                      - combobox "Advertised APDU Timeout*" [ref=e943]
+                      - generic [ref=e944]: 60 seconds
+                    - img [ref=e947]
+                - generic [ref=e950]:
+                  - generic [ref=e951]: Advertised APDU Retries*
+                  - generic [ref=e954] [cursor=pointer]:
+                    - generic:
+                      - combobox "Advertised APDU Retries*" [ref=e956]
+                      - generic [ref=e957]: "10"
+                    - img [ref=e960]
+              - generic [ref=e964]:
+                - generic [ref=e965]: Foreign Device Function
+                - radiogroup "Foreign Device Function" [ref=e967]:
+                  - generic [ref=e968] [cursor=pointer]:
+                    - radio "Enable" [checked] [ref=e970]
+                    - generic [ref=e972]: Enable
+                  - generic [ref=e973] [cursor=pointer]:
+                    - radio "Disable" [ref=e975]
+                    - generic [ref=e977]: Disable
+              - generic [ref=e978]:
+                - generic [ref=e980]:
+                  - generic [ref=e981]: BBMD IP*
+                  - generic [ref=e982]:
+                    - textbox "BBMD IP*" [ref=e985]:
+                      - /placeholder: Enter BBMD IP
+                      - text: 192.168.1.100
+                    - generic [ref=e986]: Must be ip address
+                - generic [ref=e988]:
+                  - generic [ref=e989]: BBMD Port*
+                  - generic [ref=e990]:
+                    - textbox "BBMD Port*" [ref=e993]:
+                      - /placeholder: Enter BBMD Port
+                      - text: "47808"
+                    - generic [ref=e994]: "Range: 47808 - 49000"
+                - generic [ref=e996]:
+                  - generic [ref=e997]: Time To Live*
+                  - generic [ref=e998]:
+                    - textbox "Time To Live*" [ref=e1001]:
+                      - /placeholder: Enter Time To Live
+                      - text: "1440"
+                    - generic [ref=e1002]: Enter time in minutes
+              - group "Devices Selection To Mapping*" [ref=e1005]:
+                - generic [ref=e1006]: Devices Selection To Mapping*
+                - generic [ref=e1009]:
+                  - table [ref=e1011]:
+                    - rowgroup [ref=e1019]:
+                      - row "Device Name Serial Number Protocol Online Parameter Selection" [ref=e1020]:
+                        - columnheader [ref=e1021]:
+                          - generic [ref=e1024] [cursor=pointer]:
+                            - checkbox [checked]
+                        - columnheader "Device Name" [ref=e1026]:
+                          - generic [ref=e1027]: Device Name
+                        - columnheader "Serial Number" [ref=e1028]:
+                          - generic [ref=e1029]: Serial Number
+                        - columnheader "Protocol" [ref=e1030]:
+                          - generic [ref=e1031]: Protocol
+                        - columnheader "Online" [ref=e1032]:
+                          - generic [ref=e1033]: Online
+                        - columnheader "Parameter Selection" [ref=e1034]:
+                          - generic [ref=e1035]: Parameter Selection
+                  - table [ref=e1040]:
+                    - rowgroup [ref=e1048]:
+                      - row "AcuRev1300 AcuRev1300update Modbus RTU ON" [ref=e1049]:
+                        - cell [ref=e1050]:
+                          - generic [ref=e1053] [cursor=pointer]:
+                            - checkbox [checked]
+                        - cell "AcuRev1300" [ref=e1055]:
+                          - generic [ref=e1056]: AcuRev1300
+                        - cell "AcuRev1300update" [ref=e1057]:
+                          - generic [ref=e1058]: AcuRev1300update
+                        - cell "Modbus RTU" [ref=e1059]:
+                          - generic [ref=e1060]: Modbus RTU
+                        - cell "ON" [ref=e1061]:
+                          - generic [ref=e1062]: "ON"
+                        - cell [ref=e1064]:
+                          - button [ref=e1066] [cursor=pointer]:
+                            - img [ref=e1069]
+                      - row "AcuvimIIR AcuvimIIRupdate Modbus RTU ON" [ref=e1072]:
+                        - cell [ref=e1073]:
+                          - generic [ref=e1076] [cursor=pointer]:
+                            - checkbox [checked]
+                        - cell "AcuvimIIR" [ref=e1078]:
+                          - generic [ref=e1079]: AcuvimIIR
+                        - cell "AcuvimIIRupdate" [ref=e1080]:
+                          - generic [ref=e1081]: AcuvimIIRupdate
+                        - cell "Modbus RTU" [ref=e1082]:
+                          - generic [ref=e1083]: Modbus RTU
+                        - cell "ON" [ref=e1084]:
+                          - generic [ref=e1085]: "ON"
+                        - cell [ref=e1087]:
+                          - button [ref=e1089] [cursor=pointer]:
+                            - img [ref=e1092]
+                      - row "AcuRev4100 AcuRev41001 Modbus TCP ON" [ref=e1095]:
+                        - cell [ref=e1096]:
+                          - generic [ref=e1099] [cursor=pointer]:
+                            - checkbox [checked]
+                        - cell "AcuRev4100" [ref=e1101]:
+                          - generic [ref=e1102]: AcuRev4100
+                        - cell "AcuRev41001" [ref=e1103]:
+                          - generic [ref=e1104]: AcuRev41001
+                        - cell "Modbus TCP" [ref=e1105]:
+                          - generic [ref=e1106]: Modbus TCP
+                        - cell "ON" [ref=e1107]:
+                          - generic [ref=e1108]: "ON"
+                        - cell [ref=e1110]:
+                          - button [ref=e1112] [cursor=pointer]:
+                            - img [ref=e1115]
+                      - row "AcuRev2100 AcuRev2100upadte Modbus TCP ON" [ref=e1118]:
+                        - cell [ref=e1119]:
+                          - generic [ref=e1122] [cursor=pointer]:
+                            - checkbox [checked]
+                        - cell "AcuRev2100" [ref=e1124]:
+                          - generic [ref=e1125]: AcuRev2100
+                        - cell "AcuRev2100upadte" [ref=e1126]:
+                          - generic [ref=e1127]: AcuRev2100upadte
+                        - cell "Modbus TCP" [ref=e1128]:
+                          - generic [ref=e1129]: Modbus TCP
+                        - cell "ON" [ref=e1130]:
+                          - generic [ref=e1131]: "ON"
+                        - cell [ref=e1133]:
+                          - button [ref=e1135] [cursor=pointer]:
+                            - img [ref=e1138]
+                      - row "Acuvim3 Acuvim3update Modbus TCP ON" [ref=e1141]:
+                        - cell [ref=e1142]:
+                          - generic [ref=e1145] [cursor=pointer]:
+                            - checkbox [checked]
+                        - cell "Acuvim3" [ref=e1147]:
+                          - generic [ref=e1148]: Acuvim3
+                        - cell "Acuvim3update" [ref=e1149]:
+                          - generic [ref=e1150]: Acuvim3update
+                        - cell "Modbus TCP" [ref=e1151]:
+                          - generic [ref=e1152]: Modbus TCP
+                        - cell "ON" [ref=e1153]:
+                          - generic [ref=e1154]: "ON"
+                        - cell [ref=e1156]:
+                          - button [ref=e1158] [cursor=pointer]:
+                            - img [ref=e1161]
+                      - row "AcuvimIIW AcuvimIIWupdate Modbus TCP ON" [ref=e1164]:
+                        - cell [ref=e1165]:
+                          - generic [ref=e1168] [cursor=pointer]:
+                            - checkbox [checked]
+                        - cell "AcuvimIIW" [ref=e1170]:
+                          - generic [ref=e1171]: AcuvimIIW
+                        - cell "AcuvimIIWupdate" [ref=e1172]:
+                          - generic [ref=e1173]: AcuvimIIWupdate
+                        - cell "Modbus TCP" [ref=e1174]:
+                          - generic [ref=e1175]: Modbus TCP
+                        - cell "ON" [ref=e1176]:
+                          - generic [ref=e1177]: "ON"
+                        - cell [ref=e1179]:
+                          - button [ref=e1181] [cursor=pointer]:
+                            - img [ref=e1184]
+              - button "EPICS File Download" [ref=e1188] [cursor=pointer]:
+                - generic [ref=e1189]: EPICS File Download
+          - dialog "Parameter Config" [ref=e1196]:
+            - generic [ref=e1197]:
+              - generic [ref=e1198]:
+                - heading "Parameter Config" [level=2] [ref=e1199]
+                - button "Close this dialog" [ref=e1200] [cursor=pointer]:
+                  - img [ref=e1202]
+              - generic [ref=e1204]:
+                - generic [ref=e1206]:
+                  - generic [ref=e1208]:
+                    - generic [ref=e1209]: Parameter Type*
+                    - generic [ref=e1212] [cursor=pointer]:
+                      - generic:
+                        - combobox "Parameter Type*" [ref=e1214]
+                        - generic [ref=e1215]: Realtime
+                      - img [ref=e1218]
+                  - button "COV Batch Update" [ref=e1220] [cursor=pointer]:
+                    - generic [ref=e1221]: COV Batch Update
+                - generic [ref=e1223]:
+                  - table [ref=e1225]:
+                    - rowgroup [ref=e1231]:
+                      - row "Parameter Polling Enable COV Enable COV Increment" [ref=e1232]:
+                        - columnheader "Parameter" [ref=e1233]:
+                          - generic [ref=e1234]: Parameter
+                        - columnheader "Polling Enable" [ref=e1235]:
+                          - generic [ref=e1237] [cursor=pointer]:
+                            - generic [ref=e1238]:
+                              - checkbox "Polling Enable" [checked]
+                            - generic [ref=e1240]: Polling Enable
+                        - columnheader "COV Enable" [ref=e1241]:
+                          - generic [ref=e1242]: COV Enable
+                        - columnheader "COV Increment" [ref=e1243]:
+                          - generic [ref=e1244]: COV Increment
+                  - table [ref=e1249]:
+                    - rowgroup [ref=e1255]:
+                      - row "System Frequency 0.001" [ref=e1256]:
+                        - cell "System Frequency" [ref=e1257]:
+                          - generic [ref=e1258]: System Frequency
+                        - cell [ref=e1259]:
+                          - generic [ref=e1261]:
+                            - switch [checked]
+                        - cell [ref=e1264]:
+                          - generic [ref=e1266]:
+                            - switch [checked]
+                        - cell "0.001" [ref=e1269]:
+                          - textbox [ref=e1273]: "0.001"
+                      - row "Phase A Line-to-Neutral Voltage 0.001" [ref=e1274]:
+                        - cell "Phase A Line-to-Neutral Voltage" [ref=e1275]:
+                          - generic [ref=e1276]: Phase A Line-to-Neutral Voltage
+                        - cell [ref=e1277]:
+                          - generic [ref=e1279]:
+                            - switch [checked]
+                        - cell [ref=e1282]:
+                          - generic [ref=e1284]:
+                            - switch [checked]
+                        - cell "0.001" [ref=e1287]:
+                          - textbox [ref=e1291]: "0.001"
+                      - row "Phase B Line-to-Neutral Voltage 0.001" [ref=e1292]:
+                        - cell "Phase B Line-to-Neutral Voltage" [ref=e1293]:
+                          - generic [ref=e1294]: Phase B Line-to-Neutral Voltage
+                        - cell [ref=e1295]:
+                          - generic [ref=e1297]:
+                            - switch [checked]
+                        - cell [ref=e1300]:
+                          - generic [ref=e1302]:
+                            - switch [checked]
+                        - cell "0.001" [ref=e1305]:
+                          - textbox [ref=e1309]: "0.001"
+                      - row "Phase C Line-to-Neutral Voltage 0.001" [ref=e1310]:
+                        - cell "Phase C Line-to-Neutral Voltage" [ref=e1311]:
+                          - generic [ref=e1312]: Phase C Line-to-Neutral Voltage
+                        - cell [ref=e1313]:
+                          - generic [ref=e1315]:
+                            - switch [checked]
+                        - cell [ref=e1318]:
+                          - generic [ref=e1320]:
+                            - switch [checked]
+                        - cell "0.001" [ref=e1323]:
+                          - textbox [ref=e1327]: "0.001"
+                      - row "Average Line-to-Neutral Voltage 0.001" [ref=e1328]:
+                        - cell "Average Line-to-Neutral Voltage" [ref=e1329]:
+                          - generic [ref=e1330]: Average Line-to-Neutral Voltage
+                        - cell [ref=e1331]:
+                          - generic [ref=e1333]:
+                            - switch [checked]
+                        - cell [ref=e1336]:
+                          - generic [ref=e1338]:
+                            - switch [checked]
+                        - cell "0.001" [ref=e1341]:
+                          - textbox [ref=e1345]: "0.001"
+                - generic [ref=e1348]:
+                  - button "Go to previous page" [disabled] [ref=e1349]:
+                    - generic:
+                      - img
+                  - list [ref=e1350]:
+                    - listitem "page 1" [ref=e1351]: "1"
+                    - listitem "page 2" [ref=e1352] [cursor=pointer]: "2"
+                    - listitem "page 3" [ref=e1353] [cursor=pointer]: "3"
+                    - listitem "page 4" [ref=e1354] [cursor=pointer]: "4"
+                    - listitem "page 5" [ref=e1355] [cursor=pointer]: "5"
+                    - listitem "page 6" [ref=e1356] [cursor=pointer]: "6"
+                    - listitem "Next 5 pages" [ref=e1357] [cursor=pointer]:
+                      - img
+                    - listitem "page 35" [ref=e1358] [cursor=pointer]: "35"
+                  - button "Go to next page" [ref=e1359] [cursor=pointer]:
+                    - generic:
+                      - img
+              - generic [ref=e1361]:
+                - button "Close" [ref=e1362] [cursor=pointer]:
+                  - generic [ref=e1363]: Close
+                - button "Save" [ref=e1364] [cursor=pointer]:
+                  - generic [ref=e1365]: Save
+          - dialog "Batch Update" [ref=e1367]:
+            - generic [ref=e1368]:
+              - generic [ref=e1369]:
+                - heading "Batch Update" [level=2] [ref=e1370]
+                - button "Close this dialog" [ref=e1371] [cursor=pointer]:
+                  - img [ref=e1373]
+              - generic [ref=e1376]:
+                - generic [ref=e1377]:
+                  - generic [ref=e1378]: "*Parameters"
+                  - generic [ref=e1381]:
+                    - generic [ref=e1382]:
+                      - combobox "*Parameters" [expanded] [active] [ref=e1384]
+                      - generic [ref=e1385]: Select parameters
+                    - img [ref=e1388] [cursor=pointer]
+                - generic [ref=e1390]:
+                  - generic [ref=e1391]: "*COV Increment"
+                  - textbox "*COV Increment" [ref=e1395]:
+                    - /placeholder: e.g. 0.001
+              - generic [ref=e1396]:
+                - button "Cancel" [ref=e1397] [cursor=pointer]:
+                  - generic [ref=e1398]: Cancel
+                - button "Confirm" [ref=e1399] [cursor=pointer]:
+                  - generic [ref=e1400]: Confirm
+          - button "Save" [ref=e1192] [cursor=pointer]:
+            - generic [ref=e1193]: Save
+    - generic [ref=e233]:
+      - generic [ref=e234]:
+        - generic [ref=e235]: AcuHMI-1-7
+        - generic [ref=e236]: Accuenergy Inc.
+        - generic [ref=e237]: 440 Comstock Rd
+        - generic [ref=e238]: Scarborough ON M1L 2H6
+      - generic [ref=e239]:
+        - generic [ref=e240]: Support
+        - generic [ref=e241]: Call or email for engineering support
+        - generic [ref=e242]: Phone:1-416-497-4100
+        - generic [ref=e243]:
+          - text: "Email:"
+          - link "support@accuenergy.com" [ref=e244] [cursor=pointer]:
+            - /url: mailto:support@accuenergy.com
+      - generic [ref=e245]:
+        - generic [ref=e246]: Resource
+        - generic [ref=e247]: Online guides, manuals, videos and diagrams
+        - generic [ref=e248]: available online
+        - generic [ref=e249]: www.accuenergy.com
+  - tooltip "Select All" [ref=e1401]:
+    - generic [ref=e1402]:
+      - generic [ref=e1404] [cursor=pointer]:
+        - generic [ref=e1405]:
+          - checkbox "Select All"
+        - generic [ref=e1407]: Select All
+      - listbox [ref=e1410]:
+        - option "System Frequency" [ref=e1411] [cursor=pointer]
+        - option "Phase A Line-to-Neutral Voltage" [ref=e1412] [cursor=pointer]
+        - option "Phase B Line-to-Neutral Voltage" [ref=e1413] [cursor=pointer]
+        - option "Phase C Line-to-Neutral Voltage" [ref=e1414] [cursor=pointer]
+        - option "Average Line-to-Neutral Voltage" [ref=e1415] [cursor=pointer]
+        - option "Phase A-B Line-to-Line Voltage" [ref=e1416] [cursor=pointer]
+        - option "Phase B-C Line-to-Line Voltage" [ref=e1417] [cursor=pointer]
+        - option "Phase C-A Line-to-Line Voltage" [ref=e1418] [cursor=pointer]
+        - option "Average Line-to-Line Voltage" [ref=e1419] [cursor=pointer]
+        - option "Phase A Line Current" [ref=e1420] [cursor=pointer]
+        - option "Phase B Line Current" [ref=e1421] [cursor=pointer]
+        - option "Phase C Line Current" [ref=e1422] [cursor=pointer]
+        - option "Average Line Current" [ref=e1423] [cursor=pointer]
+        - option "System Active Power" [ref=e1424] [cursor=pointer]
+        - option "System Reactive Power" [ref=e1425] [cursor=pointer]
+        - option "System Apparent Power" [ref=e1426] [cursor=pointer]
+        - option "System Power Factor" [ref=e1427] [cursor=pointer]
+        - option "Phase A Active Power" [ref=e1428] [cursor=pointer]
+        - option "Phase B Active Power" [ref=e1429] [cursor=pointer]
+        - option "Phase C Active Power" [ref=e1430] [cursor=pointer]
+        - option "Phase A Reactive Power" [ref=e1431] [cursor=pointer]
+        - option "Phase B Reactive Power" [ref=e1432] [cursor=pointer]
+        - option "Phase C Reactive Power" [ref=e1433] [cursor=pointer]
+        - option "Phase A Apparent Power" [ref=e1434] [cursor=pointer]
+        - option "Phase B Apparent Power" [ref=e1435] [cursor=pointer]
+        - option "Phase C Apparent Power" [ref=e1436] [cursor=pointer]
+        - option "Phase A Power Factor" [ref=e1437] [cursor=pointer]
+        - option "Phase B Power Factor" [ref=e1438] [cursor=pointer]
+        - option "Phase C Power Factor" [ref=e1439] [cursor=pointer]
+        - option "Input Channel 1 current" [ref=e1440] [cursor=pointer]
+        - option "Input Channel 1 Active Power" [ref=e1441] [cursor=pointer]
+        - option "Input Channel 1 Reactive Power" [ref=e1442] [cursor=pointer]
+        - option "Input Channel 1 Apparent Power" [ref=e1443] [cursor=pointer]
+        - option "Input Channel 1 Power Factor" [ref=e1444] [cursor=pointer]
+        - option "Input Channel 2 current" [ref=e1445] [cursor=pointer]
+        - option "Input Channel 2 Active Power" [ref=e1446] [cursor=pointer]
+        - option "Input Channel 2 Reactive Power" [ref=e1447] [cursor=pointer]
+        - option "Input Channel 2 Apparent Power" [ref=e1448] [cursor=pointer]
+        - option "Input Channel 2 Power Factor" [ref=e1449] [cursor=pointer]
+        - option "Input Channel 3 current" [ref=e1450] [cursor=pointer]
+        - option "Input Channel 3 Active Power" [ref=e1451] [cursor=pointer]
+        - option "Input Channel 3 Reactive Power" [ref=e1452] [cursor=pointer]
+        - option "Input Channel 3 Apparent Power" [ref=e1453] [cursor=pointer]
+        - option "Input Channel 3 Power Factor" [ref=e1454] [cursor=pointer]
+        - option "Input Channel 4 current" [ref=e1455] [cursor=pointer]
+        - option "Input Channel 4 Active Power" [ref=e1456] [cursor=pointer]
+        - option "Input Channel 4 Reactive Power" [ref=e1457] [cursor=pointer]
+        - option "Input Channel 4 Apparent Power" [ref=e1458] [cursor=pointer]
+        - option "Input Channel 4 Power Factor" [ref=e1459] [cursor=pointer]
+        - option "Input Channel 5 current" [ref=e1460] [cursor=pointer]
+        - option "Input Channel 5 Active Power" [ref=e1461] [cursor=pointer]
+        - option "Input Channel 5 Reactive Power" [ref=e1462] [cursor=pointer]
+        - option "Input Channel 5 Apparent Power" [ref=e1463] [cursor=pointer]
+        - option "Input Channel 5 Power Factor" [ref=e1464] [cursor=pointer]
+        - option "Input Channel 6 current" [ref=e1465] [cursor=pointer]
+        - option "Input Channel 6 Active Power" [ref=e1466] [cursor=pointer]
+        - option "Input Channel 6 Reactive Power" [ref=e1467] [cursor=pointer]
+        - option "Input Channel 6 Apparent Power" [ref=e1468] [cursor=pointer]
+        - option "Input Channel 6 Power Factor" [ref=e1469] [cursor=pointer]
+        - option "Input Channel 7 current" [ref=e1470] [cursor=pointer]
+        - option "Input Channel 7 Active Power" [ref=e1471] [cursor=pointer]
+        - option "Input Channel 7 Reactive Power" [ref=e1472] [cursor=pointer]
+        - option "Input Channel 7 Apparent Power" [ref=e1473] [cursor=pointer]
+        - option "Input Channel 7 Power Factor" [ref=e1474] [cursor=pointer]
+        - option "Input Channel 8 current" [ref=e1475] [cursor=pointer]
+        - option "Input Channel 8 Active Power" [ref=e1476] [cursor=pointer]
+        - option "Input Channel 8 Reactive Power" [ref=e1477] [cursor=pointer]
+        - option "Input Channel 8 Apparent Power" [ref=e1478] [cursor=pointer]
+        - option "Input Channel 8 Power Factor" [ref=e1479] [cursor=pointer]
+        - option "Input Channel 9 current" [ref=e1480] [cursor=pointer]
+        - option "Input Channel 9 Active Power" [ref=e1481] [cursor=pointer]
+        - option "Input Channel 9 Reactive Power" [ref=e1482] [cursor=pointer]
+        - option "Input Channel 9 Apparent Power" [ref=e1483] [cursor=pointer]
+        - option "Input Channel 9 Power Factor" [ref=e1484] [cursor=pointer]
+        - option "Input Channel 10 current" [ref=e1485] [cursor=pointer]
+        - option "Input Channel 10 Active Power" [ref=e1486] [cursor=pointer]
+        - option "Input Channel 10 Reactive Power" [ref=e1487] [cursor=pointer]
+        - option "Input Channel 10 Apparent Power" [ref=e1488] [cursor=pointer]
+        - option "Input Channel 10 Power Factor" [ref=e1489] [cursor=pointer]
+        - option "Input Channel 11 current" [ref=e1490] [cursor=pointer]
+        - option "Input Channel 11 Active Power" [ref=e1491] [cursor=pointer]
+        - option "Input Channel 11 Reactive Power" [ref=e1492] [cursor=pointer]
+        - option "Input Channel 11 Apparent Power" [ref=e1493] [cursor=pointer]
+        - option "Input Channel 11 Power Factor" [ref=e1494] [cursor=pointer]
+        - option "Input Channel 12 current" [ref=e1495] [cursor=pointer]
+        - option "Input Channel 12 Active Power" [ref=e1496] [cursor=pointer]
+        - option "Input Channel 12 Reactive Power" [ref=e1497] [cursor=pointer]
+        - option "Input Channel 12 Apparent Power" [ref=e1498] [cursor=pointer]
+        - option "Input Channel 12 Power Factor" [ref=e1499] [cursor=pointer]
+        - option "Input Channel 13 current" [ref=e1500] [cursor=pointer]
+        - option "Input Channel 13 Active Power" [ref=e1501] [cursor=pointer]
+        - option "Input Channel 13 Reactive Power" [ref=e1502] [cursor=pointer]
+        - option "Input Channel 13 Apparent Power" [ref=e1503] [cursor=pointer]
+        - option "Input Channel 13 Power Factor" [ref=e1504] [cursor=pointer]
+        - option "Input Channel 14 current" [ref=e1505] [cursor=pointer]
+        - option "Input Channel 14 Active Power" [ref=e1506] [cursor=pointer]
+        - option "Input Channel 14 Reactive Power" [ref=e1507] [cursor=pointer]
+        - option "Input Channel 14 Apparent Power" [ref=e1508] [cursor=pointer]
+        - option "Input Channel 14 Power Factor" [ref=e1509] [cursor=pointer]
+        - option "Input Channel 15 current" [ref=e1510] [cursor=pointer]
+        - option "Input Channel 15 Active Power" [ref=e1511] [cursor=pointer]
+        - option "Input Channel 15 Reactive Power" [ref=e1512] [cursor=pointer]
+        - option "Input Channel 15 Apparent Power" [ref=e1513] [cursor=pointer]
+        - option "Input Channel 15 Power Factor" [ref=e1514] [cursor=pointer]
+        - option "Input Channel 16 current" [ref=e1515] [cursor=pointer]
+        - option "Input Channel 16 Active Power" [ref=e1516] [cursor=pointer]
+        - option "Input Channel 16 Reactive Power" [ref=e1517] [cursor=pointer]
+        - option "Input Channel 16 Apparent Power" [ref=e1518] [cursor=pointer]
+        - option "Input Channel 16 Power Factor" [ref=e1519] [cursor=pointer]
+        - option "Input Channel 17 current" [ref=e1520] [cursor=pointer]
+        - option "Input Channel 17 Active Power" [ref=e1521] [cursor=pointer]
+        - option "Input Channel 17 Reactive Power" [ref=e1522] [cursor=pointer]
+        - option "Input Channel 17 Apparent Power" [ref=e1523] [cursor=pointer]
+        - option "Input Channel 17 Power Factor" [ref=e1524] [cursor=pointer]
+        - option "Input Channel 18 current" [ref=e1525] [cursor=pointer]
+        - option "Input Channel 18 Active Power" [ref=e1526] [cursor=pointer]
+        - option "Input Channel 18 Reactive Power" [ref=e1527] [cursor=pointer]
+        - option "Input Channel 18 Apparent Power" [ref=e1528] [cursor=pointer]
+        - option "Input Channel 18 Power Factor" [ref=e1529] [cursor=pointer]
+        - option "User Channel 1 Active Power" [ref=e1530] [cursor=pointer]
+        - option "User Channel 1 Reactive Power" [ref=e1531] [cursor=pointer]
+        - option "User Channel 1 Apparent Power" [ref=e1532] [cursor=pointer]
+        - option "User Channel 1 Power Factor" [ref=e1533] [cursor=pointer]
+        - option "User Channel 2 Active Power" [ref=e1534] [cursor=pointer]
+        - option "User Channel 2 Reactive Power" [ref=e1535] [cursor=pointer]
+        - option "User Channel 2 Apparent Power" [ref=e1536] [cursor=pointer]
+        - option "User Channel 2 Power Factor" [ref=e1537] [cursor=pointer]
+        - option "User Channel 3 Active Power" [ref=e1538] [cursor=pointer]
+        - option "User Channel 3 Reactive Power" [ref=e1539] [cursor=pointer]
+        - option "User Channel 3 Apparent Power" [ref=e1540] [cursor=pointer]
+        - option "User Channel 3 Power Factor" [ref=e1541] [cursor=pointer]
+        - option "User Channel 4 Active Power" [ref=e1542] [cursor=pointer]
+        - option "User Channel 4 Reactive Power" [ref=e1543] [cursor=pointer]
+        - option "User Channel 4 Apparent Power" [ref=e1544] [cursor=pointer]
+        - option "User Channel 4 Power Factor" [ref=e1545] [cursor=pointer]
+        - option "User Channel 5 Active Power" [ref=e1546] [cursor=pointer]
+        - option "User Channel 5 Reactive Power" [ref=e1547] [cursor=pointer]
+        - option "User Channel 5 Apparent Power" [ref=e1548] [cursor=pointer]
+        - option "User Channel 5 Power Factor" [ref=e1549] [cursor=pointer]
+        - option "User Channel 6 Active Power" [ref=e1550] [cursor=pointer]
+        - option "User Channel 6 Reactive Power" [ref=e1551] [cursor=pointer]
+        - option "User Channel 6 Apparent Power" [ref=e1552] [cursor=pointer]
+        - option "User Channel 6 Power Factor" [ref=e1553] [cursor=pointer]
+        - option "User Channel 7 Active Power" [ref=e1554] [cursor=pointer]
+        - option "User Channel 7 Reactive Power" [ref=e1555] [cursor=pointer]
+        - option "User Channel 7 Apparent Power" [ref=e1556] [cursor=pointer]
+        - option "User Channel 7 Power Factor" [ref=e1557] [cursor=pointer]
+        - option "User Channel 8 Active Power" [ref=e1558] [cursor=pointer]
+        - option "User Channel 8 Reactive Power" [ref=e1559] [cursor=pointer]
+        - option "User Channel 8 Apparent Power" [ref=e1560] [cursor=pointer]
+        - option "User Channel 8 Power Factor" [ref=e1561] [cursor=pointer]
+        - option "User Channel 9 Active Power" [ref=e1562] [cursor=pointer]
+        - option "User Channel 9 Reactive Power" [ref=e1563] [cursor=pointer]
+        - option "User Channel 9 Apparent Power" [ref=e1564] [cursor=pointer]
+        - option "User Channel 9 Power Factor" [ref=e1565] [cursor=pointer]
+        - option "Phase Angle of V2 to V1" [ref=e1566] [cursor=pointer]
+        - option "Phase Angle of V3 to V1" [ref=e1567] [cursor=pointer]
+        - option "Phase Angle of Load 1 Current to V1" [ref=e1568] [cursor=pointer]
+        - option "Phase Angle of Load 2 Current to V2" [ref=e1569] [cursor=pointer]
+        - option "Phase Angle of Load 3 Current to V3" [ref=e1570] [cursor=pointer]
+        - option "Phase Angle of Load 4 Current to V4" [ref=e1571] [cursor=pointer]
+        - option "Phase Angle of Load 5 Current to V5" [ref=e1572] [cursor=pointer]
+        - option "Phase Angle of Load 6 Current to V6" [ref=e1573] [cursor=pointer]
+        - option "Phase Angle of Load 7 Current to V7" [ref=e1574] [cursor=pointer]
+        - option "Phase Angle of Load 8 Current to V8" [ref=e1575] [cursor=pointer]
+        - option "Phase Angle of Load 9 Current to V9" [ref=e1576] [cursor=pointer]
+        - option "Phase Angle of Load 10 Current to V10" [ref=e1577] [cursor=pointer]
+        - option "Phase Angle of Load 11 Current to V11" [ref=e1578] [cursor=pointer]
+        - option "Phase Angle of Load 12 Current to V12" [ref=e1579] [cursor=pointer]
+        - option "Phase Angle of Load 13 Current to V13" [ref=e1580] [cursor=pointer]
+        - option "Phase Angle of Load 14 Current to V14" [ref=e1581] [cursor=pointer]
+        - option "Phase Angle of Load 15 Current to V15" [ref=e1582] [cursor=pointer]
+        - option "Phase Angle of Load 16 Current to V16" [ref=e1583] [cursor=pointer]
+        - option "Phase Angle of Load 17 Current to V17" [ref=e1584] [cursor=pointer]
+        - option "Phase Angle of Load 18 Current to V18" [ref=e1585] [cursor=pointer]

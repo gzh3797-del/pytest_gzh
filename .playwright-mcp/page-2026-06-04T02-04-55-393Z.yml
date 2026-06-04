@@ -1,0 +1,252 @@
+- generic [ref=e41]:
+  - generic [ref=e43]:
+    - generic [ref=e44]: AcuHMI-1-7
+    - generic [ref=e45] [cursor=pointer]:
+      - img [ref=e46]
+      - generic [ref=e50]: Logout
+    - generic [ref=e51]: Monday, June 8, 2026 9:53 AM
+    - generic [ref=e52] [cursor=pointer]:
+      - img [ref=e53]
+      - generic [ref=e57]: About
+    - generic [ref=e58] [cursor=pointer]:
+      - img [ref=e59]
+      - generic [ref=e65]: Devices
+    - generic [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+      - generic [ref=e69]: AcuHMI-1-7
+    - img "Accuenergy Logo" [ref=e70]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - img [ref=e75]
+      - list [ref=e77]:
+        - listitem [ref=e250]: System Settings
+        - listitem [ref=e251]: Templates
+        - listitem [ref=e252]: Protocols
+        - listitem [ref=e253]: Maintenance
+        - listitem [ref=e254]: Diagnostics
+        - listitem [ref=e255]: User Management
+        - listitem [ref=e256]: Firmware Update
+    - main [ref=e84]:
+      - list [ref=e85]:
+        - listitem [ref=e86]:
+          - img [ref=e87]
+          - generic [ref=e89]: Current Position：
+        - listitem [ref=e257]:
+          - generic [ref=e258]: AcuHMI-1-7/
+        - listitem [ref=e687]:
+          - generic [ref=e688]: Protocols/
+        - listitem [ref=e865]:
+          - generic [ref=e866]: BACnet/IP
+      - menubar [ref=e867]:
+        - menuitem "Modbus" [ref=e868]:
+          - generic [ref=e869] [cursor=pointer]:
+            - text: Modbus
+            - img [ref=e871]
+        - menuitem "SNMP" [ref=e873] [cursor=pointer]
+        - menuitem "BACnet/IP" [ref=e874] [cursor=pointer]
+        - menuitem "MQTT" [ref=e875]:
+          - generic [ref=e876] [cursor=pointer]:
+            - text: MQTT
+            - img [ref=e878]
+        - menuitem "AWS IoT" [ref=e880] [cursor=pointer]
+        - menuitem "Azure IoT" [ref=e881] [cursor=pointer]
+      - generic [ref=e882]:
+        - generic [ref=e883]:
+          - generic [ref=e886]:
+            - generic [ref=e887]: BACnet Enable*
+            - radiogroup "BACnet Enable*" [ref=e889]:
+              - generic [ref=e890] [cursor=pointer]:
+                - radio "Enable" [checked] [ref=e892]
+                - generic [ref=e894]: Enable
+              - generic [ref=e895] [cursor=pointer]:
+                - radio "Disable" [ref=e897]
+                - generic [ref=e899]: Disable
+          - generic [ref=e900]:
+            - generic [ref=e901]:
+              - generic [ref=e903]:
+                - generic [ref=e904]: BACnet Port*
+                - generic [ref=e905]:
+                  - textbox "BACnet Port*" [ref=e908]:
+                    - /placeholder: Enter BACnet Port
+                    - text: "47808"
+                  - generic [ref=e909]: "Default: 47808"
+                  - generic [ref=e910]: "Range: 47808 - 49000"
+              - generic [ref=e912]:
+                - generic [ref=e913]: Network Number*
+                - generic [ref=e914]:
+                  - textbox "Network Number*" [ref=e917]:
+                    - /placeholder: Enter Network Number
+                    - text: "1"
+                  - generic [ref=e918]: "Range: 1 - 65534"
+              - generic [ref=e920]:
+                - generic [ref=e921]: Device Object Name*
+                - generic [ref=e922]:
+                  - textbox "Device Object Name*" [ref=e925]:
+                    - /placeholder: Enter Device Object Name
+                    - text: accu_XA
+                  - generic [ref=e926]: Maximum 40 characters
+              - generic [ref=e928]:
+                - generic [ref=e929]: Device Instance*
+                - generic [ref=e930]:
+                  - textbox "Device Instance*" [ref=e933]:
+                    - /placeholder: Enter Device Instance
+                    - text: "26000"
+                  - generic [ref=e934]: Device Instance must be unique
+                  - generic [ref=e935]: "Range: 0 - 4194302"
+              - generic [ref=e937]:
+                - generic [ref=e938]: Advertised APDU Timeout*
+                - generic [ref=e941] [cursor=pointer]:
+                  - generic:
+                    - combobox "Advertised APDU Timeout*" [ref=e943]
+                    - generic [ref=e944]: 3 seconds
+                  - img [ref=e947]
+              - generic [ref=e950]:
+                - generic [ref=e951]: Advertised APDU Retries*
+                - generic [ref=e954] [cursor=pointer]:
+                  - generic:
+                    - combobox "Advertised APDU Retries*" [ref=e956]
+                    - generic [ref=e957]: "2"
+                  - img [ref=e960]
+            - generic [ref=e964]:
+              - generic [ref=e965]: Foreign Device Function
+              - radiogroup "Foreign Device Function" [ref=e967]:
+                - generic [ref=e968] [cursor=pointer]:
+                  - radio "Enable" [ref=e970]
+                  - generic [ref=e972]: Enable
+                - generic [ref=e973] [cursor=pointer]:
+                  - radio "Disable" [checked] [ref=e975]
+                  - generic [ref=e977]: Disable
+            - group "Devices Selection To Mapping*" [ref=e980]:
+              - generic [ref=e981]: Devices Selection To Mapping*
+              - generic [ref=e984]:
+                - table [ref=e986]:
+                  - rowgroup [ref=e994]:
+                    - row "Device Name Serial Number Protocol Online Parameter Selection" [ref=e995]:
+                      - columnheader [ref=e996]:
+                        - generic [ref=e999] [cursor=pointer]:
+                          - checkbox [checked]
+                      - columnheader "Device Name" [ref=e1001]:
+                        - generic [ref=e1002]: Device Name
+                      - columnheader "Serial Number" [ref=e1003]:
+                        - generic [ref=e1004]: Serial Number
+                      - columnheader "Protocol" [ref=e1005]:
+                        - generic [ref=e1006]: Protocol
+                      - columnheader "Online" [ref=e1007]:
+                        - generic [ref=e1008]: Online
+                      - columnheader "Parameter Selection" [ref=e1009]:
+                        - generic [ref=e1010]: Parameter Selection
+                - table [ref=e1015]:
+                  - rowgroup [ref=e1023]:
+                    - row "AcuRev1300 AcuRev1300update Modbus RTU ON" [ref=e1024]:
+                      - cell [ref=e1025]:
+                        - generic [ref=e1028] [cursor=pointer]:
+                          - checkbox [checked]
+                      - cell "AcuRev1300" [ref=e1030]:
+                        - generic [ref=e1031]: AcuRev1300
+                      - cell "AcuRev1300update" [ref=e1032]:
+                        - generic [ref=e1033]: AcuRev1300update
+                      - cell "Modbus RTU" [ref=e1034]:
+                        - generic [ref=e1035]: Modbus RTU
+                      - cell "ON" [ref=e1036]:
+                        - generic [ref=e1037]: "ON"
+                      - cell [ref=e1039]:
+                        - button [ref=e1041] [cursor=pointer]:
+                          - img [ref=e1044]
+                    - row "AcuvimIIR AcuvimIIRupdate Modbus RTU ON" [ref=e1047]:
+                      - cell [ref=e1048]:
+                        - generic [ref=e1051] [cursor=pointer]:
+                          - checkbox [checked]
+                      - cell "AcuvimIIR" [ref=e1053]:
+                        - generic [ref=e1054]: AcuvimIIR
+                      - cell "AcuvimIIRupdate" [ref=e1055]:
+                        - generic [ref=e1056]: AcuvimIIRupdate
+                      - cell "Modbus RTU" [ref=e1057]:
+                        - generic [ref=e1058]: Modbus RTU
+                      - cell "ON" [ref=e1059]:
+                        - generic [ref=e1060]: "ON"
+                      - cell [ref=e1062]:
+                        - button [ref=e1064] [cursor=pointer]:
+                          - img [ref=e1067]
+                    - row "4100 4100 Modbus TCP ON" [ref=e1070]:
+                      - cell [ref=e1071]:
+                        - generic [ref=e1074] [cursor=pointer]:
+                          - checkbox [checked]
+                      - cell "4100" [ref=e1076]:
+                        - generic [ref=e1077]: "4100"
+                      - cell "4100" [ref=e1078]:
+                        - generic [ref=e1079]: "4100"
+                      - cell "Modbus TCP" [ref=e1080]:
+                        - generic [ref=e1081]: Modbus TCP
+                      - cell "ON" [ref=e1082]:
+                        - generic [ref=e1083]: "ON"
+                      - cell [ref=e1085]:
+                        - button [ref=e1087] [cursor=pointer]:
+                          - img [ref=e1090]
+                    - row "AcuRev2100 AcuRev2100upadte Modbus TCP ON" [ref=e1093]:
+                      - cell [ref=e1094]:
+                        - generic [ref=e1097] [cursor=pointer]:
+                          - checkbox [checked]
+                      - cell "AcuRev2100" [ref=e1099]:
+                        - generic [ref=e1100]: AcuRev2100
+                      - cell "AcuRev2100upadte" [ref=e1101]:
+                        - generic [ref=e1102]: AcuRev2100upadte
+                      - cell "Modbus TCP" [ref=e1103]:
+                        - generic [ref=e1104]: Modbus TCP
+                      - cell "ON" [ref=e1105]:
+                        - generic [ref=e1106]: "ON"
+                      - cell [ref=e1108]:
+                        - button [ref=e1110] [cursor=pointer]:
+                          - img [ref=e1113]
+                    - row "Acuvim3 Acuvim3update Modbus TCP ON" [ref=e1116]:
+                      - cell [ref=e1117]:
+                        - generic [ref=e1120] [cursor=pointer]:
+                          - checkbox [checked]
+                      - cell "Acuvim3" [ref=e1122]:
+                        - generic [ref=e1123]: Acuvim3
+                      - cell "Acuvim3update" [ref=e1124]:
+                        - generic [ref=e1125]: Acuvim3update
+                      - cell "Modbus TCP" [ref=e1126]:
+                        - generic [ref=e1127]: Modbus TCP
+                      - cell "ON" [ref=e1128]:
+                        - generic [ref=e1129]: "ON"
+                      - cell [ref=e1131]:
+                        - button [ref=e1133] [cursor=pointer]:
+                          - img [ref=e1136]
+                    - row "AcuvimIIW AcuvimIIWupdate Modbus TCP ON" [ref=e1139]:
+                      - cell [ref=e1140]:
+                        - generic [ref=e1143] [cursor=pointer]:
+                          - checkbox [checked]
+                      - cell "AcuvimIIW" [ref=e1145]:
+                        - generic [ref=e1146]: AcuvimIIW
+                      - cell "AcuvimIIWupdate" [ref=e1147]:
+                        - generic [ref=e1148]: AcuvimIIWupdate
+                      - cell "Modbus TCP" [ref=e1149]:
+                        - generic [ref=e1150]: Modbus TCP
+                      - cell "ON" [ref=e1151]:
+                        - generic [ref=e1152]: "ON"
+                      - cell [ref=e1154]:
+                        - button [ref=e1156] [cursor=pointer]:
+                          - img [ref=e1159]
+            - button "EPICS File Download" [ref=e1163] [cursor=pointer]:
+              - generic [ref=e1164]: EPICS File Download
+        - button "Save" [ref=e1167] [cursor=pointer]:
+          - generic [ref=e1168]: Save
+  - generic [ref=e233]:
+    - generic [ref=e234]:
+      - generic [ref=e235]: AcuHMI-1-7
+      - generic [ref=e236]: Accuenergy Inc.
+      - generic [ref=e237]: 440 Comstock Rd
+      - generic [ref=e238]: Scarborough ON M1L 2H6
+    - generic [ref=e239]:
+      - generic [ref=e240]: Support
+      - generic [ref=e241]: Call or email for engineering support
+      - generic [ref=e242]: Phone:1-416-497-4100
+      - generic [ref=e243]:
+        - text: "Email:"
+        - link "support@accuenergy.com" [ref=e244] [cursor=pointer]:
+          - /url: mailto:support@accuenergy.com
+    - generic [ref=e245]:
+      - generic [ref=e246]: Resource
+      - generic [ref=e247]: Online guides, manuals, videos and diagrams
+      - generic [ref=e248]: available online
+      - generic [ref=e249]: www.accuenergy.com

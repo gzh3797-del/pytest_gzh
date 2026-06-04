@@ -1,0 +1,13 @@
+- generic [ref=e6]:
+  - generic [ref=e7]: AcuHMI-1-7
+  - generic [ref=e8]: HMI Display and Gateway
+  - generic [ref=e9]:
+    - textbox "Enter User Name" [ref=e14]
+    - textbox "Enter Password" [ref=e19]
+    - button "Sign In" [ref=e22] [cursor=pointer]:
+      - generic [ref=e23]: Sign In
+  - generic [ref=e24]:
+    - generic [ref=e25] [cursor=pointer]:
+      - text: SSL Certificate
+      - img [ref=e27]
+    - generic [ref=e30] [cursor=pointer]: Forgot Password?

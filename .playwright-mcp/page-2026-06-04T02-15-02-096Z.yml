@@ -1,0 +1,119 @@
+- generic [ref=e41]:
+  - generic [ref=e43]:
+    - generic [ref=e44]: AcuHMI-1-7
+    - generic [ref=e45] [cursor=pointer]:
+      - img [ref=e46]
+      - generic [ref=e50]: Logout
+    - generic [ref=e51]: Monday, June 8, 2026 10:03 AM
+    - generic [ref=e52] [cursor=pointer]:
+      - img [ref=e53]
+      - generic [ref=e57]: About
+    - generic [ref=e58] [cursor=pointer]:
+      - img [ref=e59]
+      - generic [ref=e65]: Devices
+    - generic [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+      - generic [ref=e69]: AcuHMI-1-7
+    - img "Accuenergy Logo" [ref=e70]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - img [ref=e75]
+      - list [ref=e77]:
+        - listitem [ref=e1324]: System Settings
+        - listitem [ref=e1325]: Templates
+        - listitem [ref=e1326]: Protocols
+        - listitem [ref=e1327]: Maintenance
+        - listitem [ref=e1328]: Diagnostics
+        - listitem [ref=e1329]: User Management
+        - listitem [ref=e1330]: Firmware Update
+    - main [ref=e84]:
+      - list [ref=e85]:
+        - listitem [ref=e86]:
+          - img [ref=e87]
+          - generic [ref=e89]: Current Position：
+        - listitem [ref=e1331]:
+          - generic [ref=e1332]: AcuHMI-1-7/
+        - listitem [ref=e1333]:
+          - generic [ref=e1334]: System Settings/
+        - listitem [ref=e1335]:
+          - generic [ref=e1336]: Date & Time
+      - menubar [ref=e1337]:
+        - menuitem "Date & Time" [ref=e1338] [cursor=pointer]
+        - menuitem "Network" [ref=e1339] [cursor=pointer]
+        - menuitem "Access Control" [ref=e1340] [cursor=pointer]
+        - menuitem "Email" [ref=e1341] [cursor=pointer]
+        - menuitem "Alarm Notification" [ref=e1342] [cursor=pointer]
+        - menuitem "Certificate Management" [ref=e1343] [cursor=pointer]
+        - menuitem "...More" [ref=e1344]:
+          - generic [ref=e1346] [cursor=pointer]:
+            - img
+            - text: ...More
+      - generic [ref=e1348]:
+        - generic [ref=e1349]:
+          - generic [ref=e1350]:
+            - generic [ref=e1352]:
+              - generic [ref=e1353]: NTP Enable*
+              - radiogroup "NTP Enable*" [ref=e1355]:
+                - generic [ref=e1356] [cursor=pointer]:
+                  - radio "Enable" [checked] [ref=e1358]
+                  - generic [ref=e1360]: Enable
+                - generic [ref=e1361] [cursor=pointer]:
+                  - radio "Disable" [ref=e1363]
+                  - generic [ref=e1365]: Disable
+            - generic [ref=e1367]:
+              - generic [ref=e1368]: Device Clock*
+              - generic [ref=e1369]:
+                - generic [ref=e1370]:
+                  - generic [ref=e1372]:
+                    - img [ref=e1375]
+                    - combobox "Device Clock*" [ref=e1379]: 2026/06/08 10:03 AM
+                  - button "Sync" [ref=e1380] [cursor=pointer]:
+                    - generic [ref=e1381]: Sync
+                - generic [ref=e1382]: Last updated at 2026-05-29 03:39:00 PM
+          - generic [ref=e1383]:
+            - generic [ref=e1385]:
+              - generic [ref=e1386]: NTP Server 1*
+              - generic [ref=e1387]:
+                - textbox "NTP Server 1*" [ref=e1390]:
+                  - /placeholder: NTP Server 1
+                  - text: 0.us.pool.ntp.org
+                - generic [ref=e1391]: Maximum 40 characters
+            - generic [ref=e1393]:
+              - generic [ref=e1394]: NTP Server 2
+              - generic [ref=e1395]:
+                - textbox "NTP Server 2" [ref=e1398]
+                - generic [ref=e1399]: Maximum 40 characters
+            - generic [ref=e1401]:
+              - generic [ref=e1402]: NTP Server 3
+              - generic [ref=e1403]:
+                - textbox "NTP Server 3" [ref=e1406]
+                - generic [ref=e1407]: Maximum 40 characters
+          - generic [ref=e1410]:
+            - generic [ref=e1411]: Time Zone*
+            - generic [ref=e1414]:
+              - generic [ref=e1415]:
+                - combobox "Time Zone*" [ref=e1417]
+                - generic [ref=e1418]: Asia/Shanghai(CST)
+              - img [ref=e1421] [cursor=pointer]
+        - img [ref=e1424]
+        - button "Save" [ref=e1758] [cursor=pointer]:
+          - generic [ref=e1759]: Save
+  - generic [ref=e233]:
+    - generic [ref=e234]:
+      - generic [ref=e235]: AcuHMI-1-7
+      - generic [ref=e236]: Accuenergy Inc.
+      - generic [ref=e237]: 440 Comstock Rd
+      - generic [ref=e238]: Scarborough ON M1L 2H6
+    - generic [ref=e239]:
+      - generic [ref=e240]: Support
+      - generic [ref=e241]: Call or email for engineering support
+      - generic [ref=e242]: Phone:1-416-497-4100
+      - generic [ref=e243]:
+        - text: "Email:"
+        - link "support@accuenergy.com" [ref=e244] [cursor=pointer]:
+          - /url: mailto:support@accuenergy.com
+    - generic [ref=e245]:
+      - generic [ref=e246]: Resource
+      - generic [ref=e247]: Online guides, manuals, videos and diagrams
+      - generic [ref=e248]: available online
+      - generic [ref=e249]: www.accuenergy.com

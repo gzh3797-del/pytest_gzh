@@ -1,0 +1,133 @@
+- generic [ref=e41]:
+  - generic [ref=e43]:
+    - generic [ref=e44]: AcuHMI-1-7
+    - generic [ref=e45] [cursor=pointer]:
+      - img [ref=e46]
+      - generic [ref=e50]: Logout
+    - generic [ref=e51]: Monday, June 8, 2026 9:52 AM
+    - generic [ref=e52] [cursor=pointer]:
+      - img [ref=e53]
+      - generic [ref=e57]: About
+    - generic [ref=e58] [cursor=pointer]:
+      - img [ref=e59]
+      - generic [ref=e65]: Devices
+    - generic [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+      - generic [ref=e69]: AcuHMI-1-7
+    - img "Accuenergy Logo" [ref=e70]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - img [ref=e75]
+      - list [ref=e77]:
+        - listitem [ref=e78]: Dashboard
+        - listitem [ref=e79]: Physical Devices
+        - listitem [ref=e80]: Virtual Devices
+        - listitem [ref=e81]: Web Devices
+        - listitem [ref=e82]: Alarm
+        - listitem [ref=e83]: Data Log
+    - main [ref=e84]:
+      - list [ref=e85]:
+        - listitem [ref=e86]:
+          - img [ref=e87]
+          - generic [ref=e89]: Current Position：
+        - listitem [ref=e90]:
+          - generic [ref=e91]: Devices/
+        - listitem [ref=e92]:
+          - generic [ref=e93]: Dashboard
+      - generic [ref=e95]:
+        - generic [ref=e97]: Offline Devices
+        - generic [ref=e98]:
+          - generic [ref=e100]:
+            - table [ref=e102]:
+              - rowgroup [ref=e108]:
+                - row "Device Name Interface Protocol Serial Number" [ref=e109]:
+                  - columnheader "Device Name" [ref=e110] [cursor=pointer]:
+                    - generic [ref=e111]: Device Name
+                  - columnheader "Interface" [ref=e115] [cursor=pointer]:
+                    - generic [ref=e116]: Interface
+                  - columnheader "Protocol" [ref=e120] [cursor=pointer]:
+                    - generic [ref=e121]: Protocol
+                  - columnheader "Serial Number" [ref=e125] [cursor=pointer]:
+                    - generic [ref=e126]: Serial Number
+            - generic [ref=e133]:
+              - table:
+                - rowgroup
+              - generic [ref=e135]: No Data
+          - generic [ref=e137]:
+            - button "Go to previous page" [disabled] [ref=e138]:
+              - generic:
+                - img
+            - list [ref=e139]:
+              - listitem "page 1" [ref=e140]: "1"
+            - button "Go to next page" [disabled] [ref=e141]:
+              - generic:
+                - img
+        - generic [ref=e143]: Alarms
+        - generic [ref=e144]:
+          - generic [ref=e146]:
+            - table [ref=e148]:
+              - rowgroup [ref=e155]:
+                - row "Device Name Alarms Interface Protocol Serial Number" [ref=e156]:
+                  - columnheader "Device Name" [ref=e157] [cursor=pointer]:
+                    - generic [ref=e158]: Device Name
+                  - columnheader "Alarms" [ref=e162] [cursor=pointer]:
+                    - generic [ref=e163]: Alarms
+                  - columnheader "Interface" [ref=e167] [cursor=pointer]:
+                    - generic [ref=e168]: Interface
+                  - columnheader "Protocol" [ref=e172] [cursor=pointer]:
+                    - generic [ref=e173]: Protocol
+                  - columnheader "Serial Number" [ref=e177] [cursor=pointer]:
+                    - generic [ref=e178]: Serial Number
+            - table [ref=e186]:
+              - rowgroup [ref=e193]:
+                - row "AcuRev2100 1 Ethernet Modbus TCP AcuRev2100upadte" [ref=e194]:
+                  - cell "AcuRev2100" [ref=e195]:
+                    - generic [ref=e197]: AcuRev2100
+                  - cell "1" [ref=e198]:
+                    - generic [ref=e200]: "1"
+                  - cell "Ethernet" [ref=e201]:
+                    - generic [ref=e203]: Ethernet
+                  - cell "Modbus TCP" [ref=e204]:
+                    - generic [ref=e206]: Modbus TCP
+                  - cell "AcuRev2100upadte" [ref=e207]:
+                    - generic [ref=e209]: AcuRev2100upadte
+                - row "Acuvim3 1 Ethernet Modbus TCP Acuvim3update" [ref=e210]:
+                  - cell "Acuvim3" [ref=e211]:
+                    - generic [ref=e213]: Acuvim3
+                  - cell "1" [ref=e214]:
+                    - generic [ref=e216]: "1"
+                  - cell "Ethernet" [ref=e217]:
+                    - generic [ref=e219]: Ethernet
+                  - cell "Modbus TCP" [ref=e220]:
+                    - generic [ref=e222]: Modbus TCP
+                  - cell "Acuvim3update" [ref=e223]:
+                    - generic [ref=e225]: Acuvim3update
+          - generic [ref=e227]:
+            - button "Go to previous page" [disabled] [ref=e228]:
+              - generic:
+                - img
+            - list [ref=e229]:
+              - listitem "page 1" [ref=e230]: "1"
+            - button "Go to next page" [disabled] [ref=e231]:
+              - generic:
+                - img
+        - paragraph [ref=e232]: Up since Tuesday, June 2, 2026 9:51 AM
+  - generic [ref=e233]:
+    - generic [ref=e234]:
+      - generic [ref=e235]: AcuHMI-1-7
+      - generic [ref=e236]: Accuenergy Inc.
+      - generic [ref=e237]: 440 Comstock Rd
+      - generic [ref=e238]: Scarborough ON M1L 2H6
+    - generic [ref=e239]:
+      - generic [ref=e240]: Support
+      - generic [ref=e241]: Call or email for engineering support
+      - generic [ref=e242]: Phone:1-416-497-4100
+      - generic [ref=e243]:
+        - text: "Email:"
+        - link "support@accuenergy.com" [ref=e244] [cursor=pointer]:
+          - /url: mailto:support@accuenergy.com
+    - generic [ref=e245]:
+      - generic [ref=e246]: Resource
+      - generic [ref=e247]: Online guides, manuals, videos and diagrams
+      - generic [ref=e248]: available online
+      - generic [ref=e249]: www.accuenergy.com

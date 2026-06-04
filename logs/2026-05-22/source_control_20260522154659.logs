@@ -1,6 +1,0 @@
-ERROR   2026-05-22 15:46:59,764  pymodbus.logging:serial.py:250 could not open port 'COM14': FileNotFoundError(2, '系统找不到指定的文件。', None, 2)
-INFO    2026-05-22 15:46:59,764  root:modbus_rtu_tcp.py:28 modbus rtu connect no error
-INFO    2026-05-22 15:46:59,764  root:modbus_rtu_tcp.py:30 modbus rtu connect execute completed
-DEBUG   2026-05-22 15:46:59,764  asyncio:proactor_events.py:634 Using proactor: IocpProactor
-INFO    2026-05-22 15:47:03,516  root:wiring_check_page.py:48 Login form detected, filling credentials
-INFO    2026-05-22 15:47:33,938  root:source_control.py:158 192.168.0.151, 10005
