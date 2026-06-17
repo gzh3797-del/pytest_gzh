@@ -1,0 +1,37 @@
+project_name: AcuHMI 1.7
+
+# Web UI
+base_url: https://192.168.3.71
+browser: chromium
+headless: false
+slow_mo: 0
+timeout: 30000
+
+# HMI 设备（hmi_username / hmi_password 走根 .env）
+hmi_url: https://192.168.3.71
+hmi_ip: 192.168.3.71
+hmi_device_name: Acu4100
+
+# BACnet/IP 客户端（BAC0）
+bacnet_port: 47808
+local_ip: 192.168.2.45
+local_port: 47810
+bacnet_connect_wait: 4.0
+bacnet_read_timeout: 20.0
+bacnet_restart_wait: 6.0
+
+# 接线检查 — AcuRev4100 Modbus TCP
+meter_tcp_ip: 192.168.2.242
+meter_tcp_port: 502
+modbus_slave: 1
+
+# 接线检查 — 测试参数
+nominal_voltage: 100
+normal_current: 1.0
+check_timeout: 30
+
+# BACnet vs Modbus 比对容差
+modbus_cmp_tolerance_percent: 1.0
+modbus_cmp_tolerance_absolute: 0.05
+modbus_cmp_timeout: 10.0
+modbus_cmp_max_retries: 2

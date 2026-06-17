@@ -1,0 +1,5313 @@
+{
+    "timestamp": 1778643720,
+    "comm_head": {
+        "name": "",
+        "model": "ACM-41-WEB2",
+        "sn": "AHI251000033"
+    },
+    "modules": [
+        {
+            "name": "4100132",
+            "model": "AcuRev-4110-mA",
+            "sn": "MODTCP9702be8c589e447385cdcac173dbca2f",
+            "online": true,
+            "reading": [
+                {
+                    "param": "FREQ_Hz",
+                    "value": "50.000",
+                    "unit": "Hz"
+                },
+                {
+                    "param": "VLN_a_V",
+                    "value": "99.188",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLN_b_V",
+                    "value": "98.590",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLN_c_V",
+                    "value": "98.276",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLN_avg_V",
+                    "value": "98.685",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLL_ab_V",
+                    "value": "171.262",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLL_bc_V",
+                    "value": "170.524",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLL_ca_V",
+                    "value": "170.995",
+                    "unit": "V"
+                },
+                {
+                    "param": "VLL_avg_V",
+                    "value": "170.928",
+                    "unit": "V"
+                },
+                {
+                    "param": "ANG_VLN_a",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_VLN_b",
+                    "value": "240.022",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_VLN_c",
+                    "value": "119.983",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_a_A",
+                    "value": "98.672",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_a_kW",
+                    "value": "-9.787",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_a_kvar",
+                    "value": "0.025",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_a_kVA",
+                    "value": "9.787",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_a",
+                    "value": "-1.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_b_A",
+                    "value": "49.338",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_b_kW",
+                    "value": "2.435",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_b_kvar",
+                    "value": "4.211",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_b_kVA",
+                    "value": "4.864",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_b",
+                    "value": "0.501",
+                    "unit": ""
+                },
+                {
+                    "param": "I_c_A",
+                    "value": "49.307",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_c_kW",
+                    "value": "-2.411",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_c_kvar",
+                    "value": "4.203",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_c_kVA",
+                    "value": "4.846",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_c",
+                    "value": "-0.498",
+                    "unit": ""
+                },
+                {
+                    "param": "I_avg_A",
+                    "value": "65.772",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_kW",
+                    "value": "-9.764",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_kvar",
+                    "value": "8.439",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_kVA",
+                    "value": "19.497",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF",
+                    "value": "-0.501",
+                    "unit": ""
+                },
+                {
+                    "param": "I_001_A",
+                    "value": "49.479",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_001_kW",
+                    "value": "-4.908",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_001_kvar",
+                    "value": "0.013",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_001_kVA",
+                    "value": "4.908",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_001",
+                    "value": "-1.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_001",
+                    "value": "180.142",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_002_A",
+                    "value": "49.338",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_002_kW",
+                    "value": "2.435",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_002_kvar",
+                    "value": "4.211",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_002_kVA",
+                    "value": "4.864",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_002",
+                    "value": "0.501",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_002",
+                    "value": "180.059",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_003_A",
+                    "value": "49.307",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_003_kW",
+                    "value": "-2.411",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_003_kvar",
+                    "value": "4.203",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_003_kVA",
+                    "value": "4.846",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_003",
+                    "value": "-0.498",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_003",
+                    "value": "0.143",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_004_A",
+                    "value": "49.193",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_004_kW",
+                    "value": "-4.879",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_004_kvar",
+                    "value": "0.012",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_004_kVA",
+                    "value": "4.879",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_004",
+                    "value": "-1.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_004",
+                    "value": "180.135",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_005_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_005_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_005_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_005_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_005",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_005",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_006_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_006_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_006_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_006_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_006",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_006",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_007_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_007_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_007_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_007_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_007",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_007",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_008_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_008_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_008_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_008_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_008",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_008",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_009_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_009_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_009_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_009_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_009",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_009",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_010_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_010_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_010_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_010_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_010",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_010",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_011_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_011_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_011_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_011_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_011",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_011",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_012_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_012_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_012_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_012_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_012",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_012",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_013_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_013_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_013_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_013_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_013",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_013",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_014_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_014_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_014_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_014_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_014",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_014",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_015_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_015_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_015_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_015_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_015",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_015",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_016_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_016_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_016_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_016_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_016",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_016",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_017_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_017_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_017_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_017_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_017",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_017",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_018_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_018_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_018_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_018_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_018",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_018",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_019_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_019_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_019_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_019_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_019",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_019",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_020_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_020_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_020_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_020_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_020",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_020",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_021_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_021_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_021_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_021_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_021",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_021",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_022_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_022_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_022_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_022_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_022",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_022",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_023_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_023_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_023_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_023_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_023",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_023",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_024_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_024_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_024_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_024_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_024",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "ANG_I_024",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "I_s001_A",
+                    "value": "49.375",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s001_kW",
+                    "value": "-4.884",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s001_kvar",
+                    "value": "8.427",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s001_kVA",
+                    "value": "14.618",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s001",
+                    "value": "-0.334",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s002_A",
+                    "value": "16.398",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s002_kW",
+                    "value": "-4.879",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s002_kvar",
+                    "value": "0.012",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s002_kVA",
+                    "value": "4.879",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s002",
+                    "value": "-1.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s003_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s003_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s003_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s003_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s003",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s004_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s004_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s004_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s004_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s004",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s005_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s005_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s005_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s005_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s005",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s006_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s006_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s006_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s006_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s006",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s007_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s007_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s007_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s007_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s007",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s008_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s008_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s008_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s008_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s008",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s009_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s009_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s009_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s009_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s009",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s010_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s010_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s010_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s010_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s010",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s011_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s011_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s011_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s011_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s011",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "I_s012_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "P_s012_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "Q_s012_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "S_s012_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "PF_s012",
+                    "value": "0.000",
+                    "unit": ""
+                },
+                {
+                    "param": "DMD_I_a_A",
+                    "value": "98.671",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_a_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_a_kW",
+                    "value": "9.787",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_a_kvar",
+                    "value": "0.025",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_a_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_a_kVA",
+                    "value": "9.787",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_b_A",
+                    "value": "49.338",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_b_kW",
+                    "value": "2.436",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_b_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_b_kvar",
+                    "value": "4.211",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_b_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_b_kVA",
+                    "value": "4.865",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_c_A",
+                    "value": "49.296",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_c_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_c_kW",
+                    "value": "2.412",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_c_kvar",
+                    "value": "4.203",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_c_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_c_kVA",
+                    "value": "4.846",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_avg_A",
+                    "value": "65.768",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_kW",
+                    "value": "2.436",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_kW",
+                    "value": "12.199",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_kvar",
+                    "value": "8.438",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_kVA",
+                    "value": "19.497",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_001_A",
+                    "value": "49.478",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_001_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_001_kW",
+                    "value": "4.907",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_001_kvar",
+                    "value": "0.013",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_001_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_001_kVA",
+                    "value": "4.907",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_002_A",
+                    "value": "49.338",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_002_kW",
+                    "value": "2.436",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_002_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_002_kvar",
+                    "value": "4.211",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_002_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_002_kVA",
+                    "value": "4.865",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_003_A",
+                    "value": "49.296",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_003_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_003_kW",
+                    "value": "2.412",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_003_kvar",
+                    "value": "4.203",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_003_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_003_kVA",
+                    "value": "4.846",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_004_A",
+                    "value": "49.193",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_004_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_004_kW",
+                    "value": "4.879",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_004_kvar",
+                    "value": "0.012",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_004_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_004_kVA",
+                    "value": "4.879",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_005_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_005_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_005_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_005_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_005_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_005_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_006_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_006_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_006_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_006_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_006_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_006_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_007_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_007_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_007_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_007_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_007_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_007_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_008_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_008_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_008_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_008_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_008_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_008_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_009_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_009_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_009_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_009_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_009_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_009_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_010_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_010_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_010_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_010_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_010_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_010_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_011_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_011_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_011_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_011_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_011_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_011_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_012_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_012_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_012_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_012_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_012_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_012_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_013_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_013_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_013_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_013_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_013_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_013_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_014_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_014_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_014_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_014_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_014_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_014_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_015_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_015_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_015_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_015_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_015_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_015_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_016_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_016_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_016_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_016_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_016_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_016_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_017_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_017_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_017_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_017_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_017_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_017_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_018_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_018_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_018_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_018_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_018_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_018_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_019_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_019_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_019_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_019_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_019_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_019_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_020_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_020_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_020_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_020_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_020_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_020_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_021_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_021_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_021_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_021_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_021_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_021_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_022_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_022_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_022_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_022_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_022_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_022_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_023_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_023_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_023_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_023_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_023_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_023_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_024_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_024_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_024_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_024_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_024_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_024_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s001_A",
+                    "value": "49.370",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s001_kW",
+                    "value": "2.436",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s001_kW",
+                    "value": "7.319",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s001_kvar",
+                    "value": "8.426",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s001_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s001_kVA",
+                    "value": "14.618",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s002_A",
+                    "value": "16.398",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s002_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s002_kW",
+                    "value": "4.879",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s002_kvar",
+                    "value": "0.012",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s002_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s002_kVA",
+                    "value": "4.879",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s003_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s003_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s003_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s003_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s003_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s003_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s004_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s004_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s004_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s004_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s004_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s004_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s005_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s005_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s005_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s005_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s005_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s005_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s006_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s006_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s006_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s006_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s006_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s006_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s007_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s007_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s007_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s007_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s007_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s007_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s008_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s008_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s008_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s008_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s008_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s008_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s009_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s009_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s009_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s009_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s009_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s009_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s010_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s010_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s010_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s010_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s010_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s010_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s011_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s011_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s011_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s011_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s011_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s011_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "DMD_I_s012_A",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "DMD_IMP_P_s012_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_EXP_P_s012_kW",
+                    "value": "0.000",
+                    "unit": "kW"
+                },
+                {
+                    "param": "DMD_IMP_Q_s012_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_EXP_Q_s012_kvar",
+                    "value": "0.000",
+                    "unit": "kvar"
+                },
+                {
+                    "param": "DMD_S_s012_kVA",
+                    "value": "0.000",
+                    "unit": "kVA"
+                },
+                {
+                    "param": "MAG_SEQ_POS_V",
+                    "value": "98.715",
+                    "unit": "V"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_V",
+                    "value": "0.000",
+                    "unit": "V"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_V",
+                    "value": "0.000",
+                    "unit": "V"
+                },
+                {
+                    "param": "ANG_SEQ_POS_V",
+                    "value": "0.066",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_V",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_V",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_V_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_V_a_%",
+                    "value": "0.005",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_V_a_%",
+                    "value": "0.003",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_V_a_%",
+                    "value": "0.004",
+                    "unit": "%"
+                },
+                {
+                    "param": "CF_V_a_%",
+                    "value": "1.414",
+                    "unit": "%"
+                },
+                {
+                    "param": "THFF_V_a_%",
+                    "value": "0.444",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_V_b_%",
+                    "value": "0.014",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_V_b_%",
+                    "value": "0.008",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_V_b_%",
+                    "value": "0.011",
+                    "unit": "%"
+                },
+                {
+                    "param": "CF_V_b_%",
+                    "value": "1.414",
+                    "unit": "%"
+                },
+                {
+                    "param": "THFF_V_b_%",
+                    "value": "0.444",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_V_c_%",
+                    "value": "0.020",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_V_c_%",
+                    "value": "0.013",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_V_c_%",
+                    "value": "0.015",
+                    "unit": "%"
+                },
+                {
+                    "param": "CF_V_c_%",
+                    "value": "1.414",
+                    "unit": "%"
+                },
+                {
+                    "param": "THFF_V_c_%",
+                    "value": "0.444",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_V_avg_%",
+                    "value": "0.013",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_V_avg_%",
+                    "value": "0.008",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_V_avg_%",
+                    "value": "0.010",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_001_%",
+                    "value": "0.043",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_001_%",
+                    "value": "0.038",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_001_%",
+                    "value": "0.019",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_001_%",
+                    "value": "1.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_002_%",
+                    "value": "0.041",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_002_%",
+                    "value": "0.037",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_002_%",
+                    "value": "0.019",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_002_%",
+                    "value": "1.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_003_%",
+                    "value": "0.049",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_003_%",
+                    "value": "0.042",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_003_%",
+                    "value": "0.024",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_003_%",
+                    "value": "1.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_004_%",
+                    "value": "0.047",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_004_%",
+                    "value": "0.044",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_004_%",
+                    "value": "0.017",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_004_%",
+                    "value": "1.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_005_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_005_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_005_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_005_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_006_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_006_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_006_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_006_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_007_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_007_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_007_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_007_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_008_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_008_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_008_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_008_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_009_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_009_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_009_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_009_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_010_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_010_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_010_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_010_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_011_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_011_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_011_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_011_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_012_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_012_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_012_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_012_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_013_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_013_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_013_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_013_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_014_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_014_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_014_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_014_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_015_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_015_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_015_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_015_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_016_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_016_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_016_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_016_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_017_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_017_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_017_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_017_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_018_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_018_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_018_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_018_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_019_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_019_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_019_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_019_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_020_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_020_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_020_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_020_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_021_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_021_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_021_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_021_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_022_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_022_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_022_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_022_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_023_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_023_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_023_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_023_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "THD_I_024_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "OTHD_I_024_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "ETHD_I_024_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "KF_I_024_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s001",
+                    "value": "32.931",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s001",
+                    "value": "16.512",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s001",
+                    "value": "32.892",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s001",
+                    "value": "240.115",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s001",
+                    "value": "180.125",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s001",
+                    "value": "120.258",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s001_%",
+                    "value": "99.880",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s002",
+                    "value": "16.405",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s002",
+                    "value": "16.404",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s002",
+                    "value": "16.404",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s002",
+                    "value": "180.193",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s002",
+                    "value": "180.199",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s002",
+                    "value": "180.202",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s002_%",
+                    "value": "99.995",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s003",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s003",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s003",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s003",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s003",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s003",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s003_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s004",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s004",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s004",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s004",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s004",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s004",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s004_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s005",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s005",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s005",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s005",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s005",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s005",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s005_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s006",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s006",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s006",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s006",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s006",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s006",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s006_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s007",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s007",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s007",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s007",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s007",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s007",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s007_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s008",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s008",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s008",
+                    "value": "0.003",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s008",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s008",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s008",
+                    "value": "33.849",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s008_%",
+                    "value": "150.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s009",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s009",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s009",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s009",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s009",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s009",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s009_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s010",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s010",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s010",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s010",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s010",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s010",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s010_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s011",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s011",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s011",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s011",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s011",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s011",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s011_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "MAG_SEQ_POS_I_s012",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_ZERO_I_s012",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "MAG_SEQ_NEG_I_s012",
+                    "value": "0.000",
+                    "unit": "A"
+                },
+                {
+                    "param": "ANG_SEQ_POS_I_s012",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_ZERO_I_s012",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "ANG_SEQ_NEG_I_s012",
+                    "value": "0.000",
+                    "unit": "°"
+                },
+                {
+                    "param": "UNBL_I_s012_%",
+                    "value": "0.000",
+                    "unit": "%"
+                },
+                {
+                    "param": "EP_IMP_a_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_a_kWh",
+                    "value": "2049.633",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_a_kWh",
+                    "value": "-2049.633",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_a_kWh",
+                    "value": "2049.633",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_a_kvarh",
+                    "value": "5.255",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_a_kvarh",
+                    "value": "0.007",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_a_kvarh",
+                    "value": "5.248",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_a_kvarh",
+                    "value": "5.261",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_a_kVAh",
+                    "value": "2061.112",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_b_kWh",
+                    "value": "516.234",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_b_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_b_kWh",
+                    "value": "516.234",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_b_kWh",
+                    "value": "516.234",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_b_kvarh",
+                    "value": "891.842",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_b_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_b_kvarh",
+                    "value": "891.842",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_b_kvarh",
+                    "value": "891.842",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_b_kVAh",
+                    "value": "1030.475",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_c_kWh",
+                    "value": "0.916",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_c_kWh",
+                    "value": "519.181",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_c_kWh",
+                    "value": "-518.265",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_c_kWh",
+                    "value": "520.096",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_c_kvarh",
+                    "value": "904.681",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_c_kvarh",
+                    "value": "1.592",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_c_kvarh",
+                    "value": "903.089",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_c_kvarh",
+                    "value": "906.274",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_c_kVAh",
+                    "value": "1044.908",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_kWh",
+                    "value": "519.745",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_kWh",
+                    "value": "2568.814",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_kWh",
+                    "value": "-2049.069",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_kWh",
+                    "value": "3088.564",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_kvarh",
+                    "value": "1803.870",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_kvarh",
+                    "value": "1.599",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_kvarh",
+                    "value": "1802.271",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_kvarh",
+                    "value": "1805.469",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_kVAh",
+                    "value": "4145.607",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_001_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_001_kWh",
+                    "value": "1028.708",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_001_kWh",
+                    "value": "-1028.708",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_001_kWh",
+                    "value": "1028.708",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_001_kvarh",
+                    "value": "2.693",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_001_kvarh",
+                    "value": "0.003",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_001_kvarh",
+                    "value": "2.690",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_001_kvarh",
+                    "value": "2.697",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_001_kVAh",
+                    "value": "1028.713",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_002_kWh",
+                    "value": "516.694",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_002_kWh",
+                    "value": "4.812",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_002_kWh",
+                    "value": "511.882",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_002_kWh",
+                    "value": "521.506",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_002_kvarh",
+                    "value": "891.850",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_002_kvarh",
+                    "value": "0.797",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_002_kvarh",
+                    "value": "891.053",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_002_kvarh",
+                    "value": "892.647",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_002_kVAh",
+                    "value": "1036.209",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_003_kWh",
+                    "value": "5.735",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_003_kWh",
+                    "value": "519.182",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_003_kWh",
+                    "value": "-513.447",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_003_kWh",
+                    "value": "524.917",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_003_kvarh",
+                    "value": "904.684",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_003_kvarh",
+                    "value": "0.015",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_003_kvarh",
+                    "value": "904.671",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_003_kvarh",
+                    "value": "904.701",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_003_kVAh",
+                    "value": "1048.812",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_004_kWh",
+                    "value": "0.457",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_004_kWh",
+                    "value": "1021.853",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_004_kWh",
+                    "value": "-1021.396",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_004_kWh",
+                    "value": "1022.309",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_004_kvarh",
+                    "value": "2.569",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_004_kvarh",
+                    "value": "0.799",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_004_kvarh",
+                    "value": "1.771",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_004_kvarh",
+                    "value": "3.368",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_004_kVAh",
+                    "value": "1022.774",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_005_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_006_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_007_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_008_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_009_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_010_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_011_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_012_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_013_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_013_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_013_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_013_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_013_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_013_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_013_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_013_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_013_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_014_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_014_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_014_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_014_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_014_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_014_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_014_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_014_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_014_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_015_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_015_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_015_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_015_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_015_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_015_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_015_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_015_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_015_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_016_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_016_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_016_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_016_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_016_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_016_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_016_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_016_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_016_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_017_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_017_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_017_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_017_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_017_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_017_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_017_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_017_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_017_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_018_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_018_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_018_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_018_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_018_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_018_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_018_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_018_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_018_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_019_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_019_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_019_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_019_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_019_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_019_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_019_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_019_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_019_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_020_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_020_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_020_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_020_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_020_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_020_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_020_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_020_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_020_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_021_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_021_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_021_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_021_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_021_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_021_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_021_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_021_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_021_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_022_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_022_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_022_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_022_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_022_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_022_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_022_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_022_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_022_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_023_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_023_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_023_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_023_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_023_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_023_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_023_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_023_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_023_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_024_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_024_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_024_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_024_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_024_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_024_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_024_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_024_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_024_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s001_kWh",
+                    "value": "516.698",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s001_kWh",
+                    "value": "1094.780",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s001_kWh",
+                    "value": "-578.082",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s001_kWh",
+                    "value": "1611.479",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s001_kvarh",
+                    "value": "1020.109",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s001_kvarh",
+                    "value": "0.800",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s001_kvarh",
+                    "value": "1019.309",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s001_kvarh",
+                    "value": "1020.910",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s001_kVAh",
+                    "value": "2199.613",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s002_kWh",
+                    "value": "5.321",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s002_kWh",
+                    "value": "1466.696",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s002_kWh",
+                    "value": "-1461.375",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s002_kWh",
+                    "value": "1472.017",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s002_kvarh",
+                    "value": "786.032",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s002_kvarh",
+                    "value": "3.070",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s002_kvarh",
+                    "value": "782.962",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s002_kvarh",
+                    "value": "789.103",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s002_kVAh",
+                    "value": "1926.782",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s003_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s003_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s003_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s003_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s003_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s003_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s003_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s003_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s003_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s004_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s004_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s004_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s004_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s004_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s004_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s004_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s004_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s004_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s005_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s005_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s005_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s006_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s006_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s006_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s007_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s007_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s007_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s008_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s008_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s008_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s009_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s009_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s009_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s010_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s010_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s010_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s011_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s011_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s011_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "EP_IMP_s012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_EXP_s012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_NET_s012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EP_TOTAL_s012_kWh",
+                    "value": "0.000",
+                    "unit": "kWh"
+                },
+                {
+                    "param": "EQ_IMP_s012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_EXP_s012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_NET_s012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "EQ_TOTAL_s012_kvarh",
+                    "value": "0.000",
+                    "unit": "kvarh"
+                },
+                {
+                    "param": "ES_s012_kVAh",
+                    "value": "0.000",
+                    "unit": "kVAh"
+                },
+                {
+                    "param": "DI_PC_001",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_PC_002",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_PC_003",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_PC_004",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_ST_001",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_ST_002",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_ST_003",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DI_ST_004",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_001",
+                    "value": "1",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_002",
+                    "value": "1",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_003",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_004",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_005",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_006",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_007",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "DO_ST_008",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "RO_ST_001",
+                    "value": "0",
+                    "unit": ""
+                },
+                {
+                    "param": "RO_ST_002",
+                    "value": "0",
+                    "unit": ""
+                }
+            ]
+        }
+    ]
+}

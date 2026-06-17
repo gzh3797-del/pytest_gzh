@@ -1,0 +1,26 @@
+# 全局默认环境（各项目可在 projects/<项目>/config.yaml 覆盖）
+conn_mode: rtu
+rtu:
+  port: COM14
+  baudrate: 19200
+  parity: N
+  slaveid: 1
+tcp:
+  ip: 192.168.1.254
+  port: 502
+source:        # 科陆交流源
+  ip: 192.168.0.50
+  port: 10003
+local:         # 本地 PC
+  ip: 192.168.0.151
+  port: 10005
+reboot:        # 继电器开关
+  port: COM15
+  baudrate: 9600
+  parity: N
+  slaveid: 1
+ssh:
+  ip: 192.168.3.222
+  port: 22
+  username: root
+  # password 走 .env（见 .env.example）
