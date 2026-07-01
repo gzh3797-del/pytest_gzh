@@ -19,17 +19,21 @@ import base64
 
 
 class AutoHelper:
-    def __init__(self, failsafe=True, confidence=0.8):
+    def __init__(self, failsafe=True, confidence=0.8, click_pause=2.0, image_pause=1.0):
         """
         初始化自动化助手
 
         Args:
             failsafe: 是否启用安全模式（鼠标到角落终止）
             confidence: 图像识别置信度
+            click_pause: 坐标点击后的等待秒数（默认 2.0，保持原行为；调小可加速）
+            image_pause: 图像点击命中后的等待秒数（默认 1.0，保持原行为；调小可加速）
         """
         pyautogui.FAILSAFE = failsafe
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
         self.confidence = confidence
+        self.click_pause = click_pause
+        self.image_pause = image_pause
         self.logger = logging.getLogger('AutoHelper')
         # 获取上一级目录（去掉最后一级）
         current_file = Path(__file__)
@@ -78,8 +82,9 @@ class AutoHelper:
             self.logger.info(f"📱 启动应用: {app_name}")
             self.logger.info(f"📁 进入目录: {app_dir}")
 
-            # 先进入目录，再启动应用
-            process = subprocess.Popen(app_name, cwd=app_dir, shell=True)
+            # 用完整路径 + 列表形式(不经 shell)启动，cwd 设为程序目录供其加载同目录 DLL。
+            # 避免带空格的 exe 名（如 "Acuview 2.exe"）被 shell 按空格拆成 "Acuview" + "2.exe"。
+            process = subprocess.Popen([app_path], cwd=app_dir)
 
             # 等待应用启动
             time.sleep(2)
@@ -206,7 +211,7 @@ class AutoHelper:
 
                         self.logger.info(f"✅ 点击第 {index + 1} 个元素，位置: {center}")
                         pyautogui.click(center)
-                        time.sleep(1)
+                        time.sleep(self.image_pause)
                         return True
                     else:
                         pytest.fail(f"⚠️ 序号 {index} 超出范围，共找到 {len(all_locations)} 个元素")
@@ -342,7 +347,7 @@ class AutoHelper:
         """
         try:
             # 构建完整路径
-            select_image_path = self._get_full_image_path('page_elements\Acuview_public\Add_Connect_page\Select.png')
+            select_image_path = self._get_full_image_path(r'page_elements\Acuview_public\Add_Connect_page\Select.png')
             device_full_path = self._get_full_image_path(device_image_path)
 
             start_time = time.time()
@@ -384,7 +389,7 @@ class AutoHelper:
                         self.wait(1)
 
                         # 点击Connect按钮
-                        if self.click_image('page_elements\Acuview_public\Add_Connect_page\Connect', timeout=5):
+                        if self.click_image(r'page_elements\Acuview_public\Add_Connect_page\Connect', timeout=5):
                             self.logger.info("✅ 设备连接成功")
                             self.wait(3)
                             return True
@@ -520,8 +525,25 @@ class AutoHelper:
 
     def click_pos(self, pos):
         pyautogui.click(pos)
-        self.wait(2)
+        self.wait(self.click_pause)
         self.logger.info(f'点击坐标{pos}')
+
+    def keep_active(self):
+        """轻微移动鼠标以保持会话活跃、防止锁屏/息屏（不点击、不输入，避免误触界面）。"""
+        x, y = pyautogui.position()
+        pyautogui.moveTo(x + 1, y)
+        pyautogui.moveTo(x, y)
+        self.logger.info('🖱️ 保活：轻移鼠标')
+
+    def click_rel(self, anchor_rect, rx: int, ry: int):
+        """相对锚点矩形左上角的偏移点击。
+
+        Args:
+            anchor_rect: 含 .left / .top 属性的矩形(如 pywinauto rectangle())
+            rx: 相对锚点左上角的 X 偏移
+            ry: 相对锚点左上角的 Y 偏移
+        """
+        self.click_pos((anchor_rect.left + int(rx), anchor_rect.top + int(ry)))
 
     def double_click_pos(self, pos):
         pyautogui.click(pos)

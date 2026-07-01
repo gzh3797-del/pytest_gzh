@@ -55,13 +55,14 @@ def _set_device_clock(page, date_str: str, time_str: str):
     page.wait_for_timeout(300)
 
 
-def test_TestCase_AcuHMI_005_01_case02(login_page: LoginPage):
+def test_TestCase_AcuHMI_005_01_case02(login_page: LoginPage, datetime_guard):
     login_page.open()
     login_page.login()
     page = login_page.page
 
     # ── Step 1: 导航到 Date & Time ──────────────────────────────────────────
     _nav_to_datetime(page)
+    datetime_guard.snapshot(page)   # 修改任何设置前记录原状态，用例结束自动恢复（本例会关 NTP+改时间）
 
     # ── Step 2: NTP Enable → Disable ────────────────────────────────────────
     ntp_enable_item = page.locator(".el-form-item").filter(has_text="NTP Enable").first

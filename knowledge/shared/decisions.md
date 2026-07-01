@@ -97,3 +97,22 @@
 **决策：** Claude 在调试/探查过程中创建的任何临时脚本（探查页面的 Playwright 脚本、临时 Python 验证脚本、`_tmp_*` 文件、一次性 JSON/txt 输出等），必须在当前任务结束前**全部删除**，不允许残留在仓库的任何目录中。任务收尾时除 `Glob("_tmp_*")` 外，还应核对本次会话中所有 Write 创建的非交付文件并逐一清理。
 **原因：** 中间调试脚本不是交付物，残留会污染 git 状态、误导后续维护者把调试代码当成正式脚本，且可能被误提交进版本库。本条为最高优先级硬性约束，优先级高于其他清理约定。
 **关联：** 补充并强化 [知识库] 临时文件清理必须用 Glob 全量扫描 一条——Glob 扫描只是手段，"零残留"才是验收标准。
+
+---
+
+## [hmi1-7] 配置保存类 UI 用例必须规避前端"脏检查"，并用真实 toast 文案/类名断言
+
+**时间：** 2026-06
+**决策：** AcuHMI-1-7 Web 页面保存类用例（如 About → Device Information 的 Name/Location/Description）一律遵循三条：
+1. **规避脏检查**：进入页面先读输入框回显值（即设备已保存值），保存时选一个**与之不同**的目标值，确保触发真实保存。单字段用固定值与备用值交替（如 `"a"*40 ↔ "z"*40`），多字段用 A/B 两组值轮换。
+2. **成功断言用真实信号**：成功 toast 真实 class 为 `.el-message--success`、文本为 `"Device info saved"`，用 `expect(page.locator(".el-message--success")).to_contain_text("Device info saved", timeout=8000)`。**禁止**用 `get_by_text("success")`——真实文案不含 "success" 一词，永远匹配不到，是失效断言（负向"无成功提示"判定同理改用 `.el-message--success` count==0）。
+3. **auto-wait 替固定等待**：toast 为瞬时元素（点击后约 62ms 出现、存活约 3.5s 后 DOM 移除），必须用 `expect(...).to_be_visible/to_contain_text` 轮询捕获，禁止 `wait_for_timeout(N)` + 一次性 `is_visible()/count()` 的脆弱写法。
+
+**原因：** 真机观测确认设备前端对配置保存做了脏检查：当提交值与已保存值**完全相同**时，不发 API 请求、直接弹 `el-message--warning`「No change to save」，不出现成功提示。`009_08` 全家用例原先填固定值（如 `"a"*40`），连跑第二遍时该值已是已保存值 → 弹 warning → 断言成功 toast 失败，表现为"第二遍必挂"的抖动；这也是 2026-06-16 整夜连跑中 about case01/02/03 失败的真实根因（最初误判为"断言文案写错"，实为值未变 + 断言写法脆弱）。
+
+**真机 toast 速查（el-message）：**
+- 成功：class `el-message--success`，文本 `Device info saved`，无关闭按钮
+- 无变更：class `el-message--warning is-closable`，文本 `No change to save`
+- 出现时机 ≈ 点击后 62ms；稳定可见 ≈ 2.4s；DOM 完全移除 ≈ 3.5s
+
+**关联：** 与 [调试] 页面读取/元素定位问题优先用 Playwright 脚本直接调试 一条呼应——本结论即由真机 Playwright 探查得出。模式已落地于 `projects/acuhmi_1_7/tests/ui/about/general/test_TestCase_AcuHMI_009_08_case*.py`，其他保存类用例可直接复用。

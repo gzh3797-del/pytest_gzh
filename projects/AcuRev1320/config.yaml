@@ -1,0 +1,19 @@
+# AcuRev-1320 项目配置（覆盖 configs/global.yaml 全局默认；合并由 framework/config/loader.py 完成）
+# 控源（UDP）配置在 configs/global.yaml 的 source/local 段，全项目共享，本文件不重复。
+project_name: AcuRev-1320
+
+# ── 被测表 Modbus 连接：表走 RTU（覆盖 global.yaml 的 conn_mode/rtu）──
+# 说明：comm 层（ModbusRtuOrTcp）默认只读 global.yaml；demand 引擎启动时会把这里的
+# conn_mode/rtu 同步进运行期 modbus_config，使本项目配置对 demand 测试生效。
+conn_mode: rtu
+rtu:
+  port: COM11        # ← 本机实际 COM 口（global 默认 COM14；按台架实际接线修改这一行）
+  baudrate: 19200
+  parity: N
+
+# ── 需量测试（tests/demand）专用 ──
+demand:
+  slave_id: 1              # 电表 Modbus 从站地址（原硬编码在 DemandTest/SlaveId，现抽取至此）
+  test_type: 1             # 选 sheet：0/1=mA(test_case_mA), 2=mV, 3=rct（当前可跑数据仅 test_case_mA）
+  stabilize_seconds: 300   # 需量参数下发后的稳定等待(s)；硬件联调时可调短以加速验证
+  case_file: demand_test_case.xlsx   # 输入用例数据文件名（位于 tests/demand/ 下）

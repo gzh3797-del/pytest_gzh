@@ -45,12 +45,26 @@
 - 背景：2026-06 HMI1-7 bacnet_ui 排查结论，4 个失败根因中 3 个源于绕过 actionability 检查的写法
 - **Playwright 浏览器版本同步**：本机存在多个 venv（如 `PycharmProjects\pythonProject\.venv`、`Desktop\testing-team\.venv`、`Desktop\方案设计\autotest\.venv`），各自的 playwright 包版本可能不同，要求的 Chromium 版本号也不同；浏览器是全局安装到 `%LOCALAPPDATA%\ms-playwright`。因此每次对某个 venv 执行 `pip install -U playwright`（或新建/切换 venv）后，必须在**同一个 venv** 下紧跟一次 `python -m playwright install chromium`，让包与浏览器版本保持一致，否则 UI 用例启动时会报 `Executable doesn't exist at ...chromium-XXXX`。仓库根 `conftest.py` 已加「Playwright 浏览器自检」钩子：收集到 UI 用例（nodeid 含 `/ui/`）时会校验当前解释器期望的 Chromium 是否存在，缺失则 fail fast 并打印含本 venv python 路径的精确安装命令；该自检不替代上述同步动作，只是把晦涩堆栈变成可照抄的命令
 
+## 图像匹配模板命名约定（pyautogui）
+- **文件名及路径必须全为纯 ASCII 字符**，禁止出现中文或任何非 ASCII 字符
+- **根因**：pyautogui `confidence` 匹配底层走 pyscreeze → OpenCV `cv2.imread`；`cv2.imread` 在 Windows 上按系统 ANSI 码页打开文件，无法处理含中文的路径——会将中文字符错码（如 `下拉展开态` → `涓嬫媺灞…`）并返回 `None` 或抛 "file is missing"。该模板随即**永远匹配失败**。`check_image_exists` 等封装通常吞掉异常返回 `False`，导致**静默退化**（等待逻辑形同虚设、点击落空），且 `os.path.exists` 与 PIL 均可正常读取，只有 cv2 读不了，排查时极难发现
+- **命名规范**：用英文单词 + 下划线（`Connect_Disabled.png`、`BaudRate_DropDown.png`），中文语义写在代码注释里，不要进文件名
+- **排查指引**：遇到"图像匹配莫名失败但文件确实存在"，优先检查模板路径是否含非 ASCII 字符
+- **历史案例**：AcuRev1320 固件升级 RTU 用例中，`BaudRate 下拉展开态.png`、`Connect 禁用态.png`、`Select All 禁用态.png` 三个模板因名含中文导致波特率下拉检测持续失败；改为 `BaudRate_DropDown.png`、`Connect_Disabled.png`、`Select_All_Disabled.png` 后修复
+
 ## 文档数字描述维护约定
 - README / 知识文档中凡出现可枚举数字描述（如"N段式"、"N台设备"、"N个检查项"），修改后必须全文搜索旧值，确认出现次数为 0 再提交
 - 同一数字描述通常散落在：**章节标题**、**正文首句**、**目录结构注释**、**代码块注释** 四处，只改其中一处是不够的
 - **同时搜索派生数字**：若总数为 N，文档中可能还存在 N-1 的派生表述（如"其余N-1段仍完整执行"）；更新 N 时必须一并搜索 N-1（旧值）并更新为新的 N-1
 - 适用场景：脚本新增检查段、新增设备、新增协议，凡改了"段数/台数/项数"均触发此规则
 
+
+## pytest 用例命名约定
+- **一函数一用例，函数名必须嵌入对应的用例编号**，确保测试报告中每个函数名能直接回溯到知识库手工用例的具体编号
+- **禁止**用泛化函数名 + `@pytest.mark.parametrize` 把多条不同编号的用例合并进同一个函数——参数化合并后函数名无法对应到具体用例编号，覆盖率回溯和缺陷定位均失效
+- **命名格式**（沿用 AcuRev1320/TOU 既有风格）：`test_<模块号>_<子模块号>_case<编号>`
+  - 示例：`test_013_01_case01`、`test_013_01_case02`
+- 作用域：工程下所有项目，不限某一项目
 
 ## 知识库维护约定
 - 每次 Jira 导出后更新对应项目 bugs/INDEX.md（5分钟内完成）

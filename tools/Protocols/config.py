@@ -84,10 +84,10 @@ BATCH_SIZE    = 20    # 每批读取对象数（影响日志粒度）
 # ══════════════════════════════════════════════════════════════════════════════
 
 # ── 网关（BACnet Server） ─────────────────────────────────────────────────────
-GATEWAY_IP       = "192.168.3.9"    # 网关 IP
+GATEWAY_IP       = "192.168.3.71"    # 网关 IP
 GATEWAY_PORT     = 49000            # 网关 BACnet/IP UDP 端口
-GATEWAY_NAME     = "web2"           # Device Object Name（用于连接验证）
-DEVICE_INSTANCE  = 4194302          # 设备实例号（None = 运行时自动发现）
+GATEWAY_NAME     = "TestGW"           # Device Object Name（用于连接验证）
+DEVICE_INSTANCE  = 26000          # 设备实例号（None = 运行时自动发现）
 
 # ── 本机（BACnet Client） ─────────────────────────────────────────────────────
 LOCAL_IP   = "192.168.2.45"  # 本机网卡 IP（BAC0 监听地址）

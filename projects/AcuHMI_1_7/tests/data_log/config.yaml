@@ -1,0 +1,57 @@
+# DataLog 测试配置
+gateway:
+  url: "https://192.168.3.71"
+  username: "admin"
+  password: "Admin@080066"
+
+modbus:
+  # Modbus TCP 设备：通过以太网连接，每台设备独立配置 ip / port / unit
+  # 键名须与网关 Data Log 文件中的设备 ID 对应（格式：{型号}-{设备ID} 中的设备ID部分）
+  # 同一型号多台设备请各自使用唯一键名区分，例如 AcuRev4100_1 / AcuRev4100_2
+  #
+  # 注意：以下 tcp.devices 静态连接表自 2026-06 起仅作「动态发现失败时的兜底」。
+  # 正常运行时 ip/port/unit 由网关 API 动态发现（见 conftest driver + verify_files）。
+  tcp:
+    devices:
+      AcuRev4100: { ip: "192.168.2.30", port: 502, unit: 102 }
+      AcuRev4100a: { ip: "192.168.2.29", port: 502, unit: 203 }
+      AcuRev4100b: { ip: "192.168.3.44", port: 502, unit: 1 }
+      AcuRev2100: { ip: "192.168.2.64",  port: 502, unit: 101 }
+      AcuvimIIW: { ip: "192.168.2.27",  port: 502, unit: 2 }
+      AcuvimIIR: { ip: "192.168.2.8",  port: 502, unit: 103 }
+      AcuRev1300: { ip: "192.168.2.8",  port: 502, unit: 102 }
+
+  # Modbus RTU 设备：列表形式，每条串口独立配置，挂载各自设备
+  # 每项包含串口参数（port/baudrate/parity/stopbits/bytesize）和该串口下的 devices
+  # 同一串口下同型号多台设备：使用不同 unit 地址区分，键名须唯一
+  rtu:
+    - port:     "COM3"
+      baudrate: 9600
+      parity:   "E"
+      stopbits: 1
+      bytesize: 8
+      devices:
+        AcuvimIIW_RTU: {unit: 1}
+
+datalog:
+  default_device: "AcuRev4100"
+  tolerance_pct: 5.0
+  tolerance_abs: 0.05
+  push_timeout: 300
+
+server:
+  host: "192.168.2.45"
+  ftp:
+    port: 2121
+    user: "datalog"
+    password: "datalog123"
+  sftp:
+    port: 2222
+    user: "datalog"
+    password: "datalog123"
+  http:
+    port: 8080
+  https:
+    port: 8443
+    cert: ""
+    key: ""

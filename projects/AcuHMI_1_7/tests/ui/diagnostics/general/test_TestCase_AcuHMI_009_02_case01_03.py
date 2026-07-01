@@ -56,10 +56,16 @@ def test_TestCase_AcuHMI_009_02_case01_03(login_page: LoginPage):
     for label in ["nslookup", "ping", "traceroute"]:
         _check_checkbox(page, label)
 
-    # 点击 Lookup（等待 traceroute 完成，最长约 25s）
+    # 点击 Lookup，轮询等待三段结果全部渲染（traceroute 段最后出现），而非固定等待。
+    # 固定 wait 会偶发踩到 traceroute 尚未渲染的竞态（实测三段约 5~8s 全部出现）。
     page.get_by_role("button", name="Lookup").click()
     page.wait_for_load_state("networkidle")
-    page.wait_for_timeout(25000)
+    for _ in range(45):  # 最长约 45s，等到结果文本出现 traceroute 段为止
+        joined = "\n".join(p.inner_text() for p in page.locator("pre").all())
+        if "traceroute" in joined.lower():
+            break
+        page.wait_for_timeout(1000)
+    page.wait_for_timeout(500)  # 让最后一段稍作沉淀
 
     # 验证无"请选择"校验错误
     page_text = page.locator("body").inner_text()

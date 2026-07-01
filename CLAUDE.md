@@ -34,6 +34,7 @@
 - 团队编码约定 → knowledge/shared/conventions.md
 - 历史决策记录 → knowledge/shared/decisions.md
 - 测试设计方法学（strategy-design / testcase-design 共用） → knowledge/shared/test_design_methods.md
+- 接线方式参考（各接线实测相/CT 速查，跨项目通用） → knowledge/shared/wiring_reference.md
 
 ## 技能（斜杠命令）
 | 命令                 | 用途                                          |
@@ -46,6 +47,7 @@
 | /strategy-design   | 将功能需求转化为测试策略脑图并导出 XMind 文件（兼容 XMind 26）     |
 | /testcase-design   | 将测试策略/测试点转化为规范的 Excel 测试用例文件（.xlsx）         |
 | /coverage-check    | 对已生成脑图/用例做查漏复核（独立重导+多基准回扫，三档分级，仅对话结论）；由 strategy-design/testcase-design 末尾自动调用，也可单独触发 |
+| /acuview_auto_testcase_generate | 把电表手工用例 xlsx 转成 pytest 自动化用例（驱动 Acuview2 上位机下发/读取 + Modbus 跨传输回读断言）。多项目共享 `comm/ctl_acuview` 引擎（+`comm/templates_acuview`），各项目自带 `data_acuview/`+`config_acuview.yaml`；用例落 `projects/<项目>/tests/acuview_auto/`。详见 skill 目录 README |
 
 ## 高频约定（完整版见 knowledge/shared/conventions.md）
 1. 新增设备必须同时实现 `build_param_map()` 和 `build_cloud_col_map()`
@@ -57,6 +59,7 @@
 7. 适配新设备前必须先列出 Modbus 地址表 Excel 的**全部 sheet 名称**，逐一确认哪些包含可读寄存器后再写设备文件，禁止仅凭部分 sheet 推断全量参数
 8. 所有 Python 代码须符合 PyCharm 代码规范，不得出现任何告警（含 PEP 8 格式告警、未使用 import/变量、类型注解不一致），零告警是硬性要求
 9. Playwright UI 测试交互优先用 `locator` + `expect` 风格（保留 auto-wait 与 actionability 检查）；仅当 Element Plus 拦截事件链（如 el-radio 合成事件）才降级坐标点击，且必须先 `scrollIntoView` 再取坐标；JS 循环点按钮须加 `offsetParent !== null` 可见性过滤；测试体内禁止 `asyncio.run()`（用 `_run_coro` 线程模式）。完整版见 conventions.md「Playwright UI 测试编码约定」
+10. pytest 测试函数名必须嵌入对应用例编号，做到一函数一用例，格式 `test_<模块号>_<子模块号>_case<编号>`（如 `test_013_01_case01`）；禁止用泛化函数名 + parametrize 合并多条不同编号用例。作用域：全工程所有项目
 
 ## 知识库维护快速参考
 

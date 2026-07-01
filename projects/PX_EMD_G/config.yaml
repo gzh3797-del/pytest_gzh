@@ -1,0 +1,73 @@
+project_name: PX-EMD-G
+
+# Web UI
+base_url: https://192.168.2.8
+browser: chromium
+headless: false
+slow_mo: 50
+timeout: 300001
+
+# HMI 设备（hmi_username / hmi_password 走根 .env）
+hmi_url: https://192.168.2.8
+hmi_ip: 192.168.2.8
+hmi_device_name: Acu4100
+
+# BACnet/IP 客户端（BAC0）
+bacnet_port: 49000
+local_ip: 192.168.2.45
+local_port: 47810
+bacnet_connect_wait: 4.0
+bacnet_read_timeout: 20.0
+bacnet_restart_wait: 6.0
+# BACnet vs Modbus 比对容差
+modbus_cmp_tolerance_percent: 1.0
+modbus_cmp_tolerance_absolute: 0.05
+modbus_cmp_timeout: 10.0
+modbus_cmp_max_retries: 2
+
+# ── 被测表（接线检查 + 直连 Modbus 测试共用）──
+# 这里只是"指针"：填 device_modbus 段下的某个设备名，对应 ip/port/unit 由 device_modbus
+# 统一提供，不再单列 meter_tcp_ip/port/modbus_slave。此名同时作为：
+#   1) HMI Wiring Check 页面 Device 下拉中要选的设备名；
+#   2) 从 device_modbus 段取该表 ip/port/unit 的键名。
+# 故此名必须与 device_modbus 段下某设备名、以及 HMI 下拉显示名一致。
+meter_device_name: Acurev1234100
+# 接线检查 — 测试参数
+nominal_voltage: 100
+normal_current: 1.0
+check_timeout: 30
+
+
+
+# MQTT
+mqtt_broker_address: "www.accu.com"
+mqtt_broker_port: 1883
+mqtt_ssl_port: 8883
+mqtt_collect_timeout: 60
+mqtt_url_path: "/#/settings/communications/mqtt"
+mqtt_default_device: "Acurev4100"
+mqtt_tolerance_percent: 1.0
+mqtt_tolerance_absolute: 0.05
+
+# ── 各下挂设备直连 Modbus TCP 参数（BACnet 上传值 vs Modbus 实时值比对专用）──
+# 每台设备的真实 IP/端口/Unit ID，None 表示未接入→段4自动跳过。
+# 格式：ip / port / unit
+device_modbus:
+  Acurev1234100:
+    ip: 192.168.2.29
+    port: 502
+    unit: 103
+  AcuRev2100:
+    ip: 192.168.2.64
+    port: 502
+    unit: 101
+  AcuvimIIW:
+    ip: 192.168.2.27
+    port: 502
+    unit: 2
+  AcuVIM3:
+    ip:
+    port:
+    unit:
+  AcuvimIIR: null
+  AcuRev1300: null

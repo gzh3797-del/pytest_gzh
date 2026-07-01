@@ -11,7 +11,7 @@
   - Pass 基准用例
 
 运行：
-    python test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py
+    python test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py
 """
 import sys
 import os

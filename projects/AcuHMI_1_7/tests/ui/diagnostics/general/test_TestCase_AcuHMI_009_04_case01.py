@@ -1,3 +1,4 @@
+from playwright.sync_api import expect
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 
@@ -37,12 +38,18 @@ def test_TestCase_AcuHMI_009_04_case01(login_page: LoginPage):
     assert "#/diagnostics/ntpSyncTest" in page.url, \
         f"应导航到NTP Sync Test页面，实际URL={page.url}"
 
-    # Refresh triggers ntpd -dgq on the device
-    page.get_by_role("button", name="Refresh").click()
-    page.wait_for_load_state("networkidle")
-    page.wait_for_timeout(8000)
+    # 进入页面会自动触发一次 ntpd，Refresh 按钮一进来就 is-loading/disabled，
+    # 需先等这次自动同步完成（按钮恢复 enabled，实测约 15s）再点，否则点禁用按钮会超时。
+    refresh_btn = page.get_by_role("button", name="Refresh")
+    expect(refresh_btn).to_be_enabled(timeout=45000)
 
-    page_text = page.locator("body").inner_text()
+    # 点 Refresh 触发一次 ntpd -dgq 同步，等本次跑完（按钮再次恢复 enabled）
+    refresh_btn.click()
+    page.wait_for_timeout(1500)  # 让本次同步进入 loading 状态
+    expect(refresh_btn).to_be_enabled(timeout=45000)
+
+    # 从日志容器（pre）读取 ntpd 输出
+    page_text = page.locator("pre.common-card-info").first.inner_text()
 
     # NTP协议合规验证：ntpd进程输出存在
     assert "ntpd" in page_text, \

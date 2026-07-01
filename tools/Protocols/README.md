@@ -62,6 +62,7 @@ python tools/Protocols/BACnetIP/comparator.py --device acurev2100
 python tools/Protocols/BACnetIP/comparator.py --device acuvimiiw
 python tools/Protocols/BACnetIP/comparator.py --device acuvimiir
 python tools/Protocols/BACnetIP/comparator.py --device acuvim3
+python tools/Protocols/BACnetIP/comparator.py --device pxm350   # AcuRev-1300/PXM350，模板 39 参数（realtime 28 + energy 8 + demand 3）
 python tools/Protocols/BACnetIP/comparator.py --device acuiom01
 python tools/Protocols/BACnetIP/comparator.py --device acuiom02
 python tools/Protocols/BACnetIP/comparator.py --device acuiom03

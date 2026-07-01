@@ -2,7 +2,7 @@
 2E3W Network 接线检查自动化测试（算法与 3E4WY 完全相同）
 
 运行：
-    python test_case/ACM_41_WEB2/wiring_check/test_2e3w_network.py
+    python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_network.py
 """
 import sys, os, logging, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))

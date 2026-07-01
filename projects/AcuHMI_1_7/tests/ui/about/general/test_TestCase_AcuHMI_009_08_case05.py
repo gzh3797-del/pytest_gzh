@@ -3,9 +3,9 @@ from playwright.sync_api import expect
 from projects.AcuHMI_1_7.settings import BASE_URL
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
-_VALID_NAME = "TestDevice_01"
-_VALID_LOCATION = "Room 101"
-_VALID_DESCRIPTION = "Test description"
+# 两组有效值：运行时挑与当前已保存值不同的一组，规避前端脏检查（相同值会弹 "No change to save"）
+_VALID_SET_A = ("TestDevice_01", "Room 101", "Test description")
+_VALID_SET_B = ("TestDevice_02", "Room 102", "Test description B")
 
 
 def _nav_to_about(page):
@@ -33,22 +33,27 @@ def test_TestCase_AcuHMI_009_08_case05(login_page: LoginPage):
 
     _nav_to_about(page)
 
+    name_in = page.get_by_placeholder("Enter Name")
+    loc_in = page.get_by_placeholder("Enter Location")
+    desc_in = page.get_by_placeholder("Enter Description")
+
+    # 选取与当前已保存值不同的一组值，确保 Save 触发真实保存（相同值会弹 "No change to save"）
+    current = (name_in.input_value(), loc_in.input_value(), desc_in.input_value())
+    name_v, loc_v, desc_v = _VALID_SET_B if current == _VALID_SET_A else _VALID_SET_A
+
     # 填写有效的Name、Location、Description
-    page.get_by_placeholder("Enter Name").clear()
-    page.get_by_placeholder("Enter Name").fill(_VALID_NAME)
-    page.get_by_placeholder("Enter Location").clear()
-    page.get_by_placeholder("Enter Location").fill(_VALID_LOCATION)
-    page.get_by_placeholder("Enter Description").clear()
-    page.get_by_placeholder("Enter Description").fill(_VALID_DESCRIPTION)
+    name_in.clear()
+    name_in.fill(name_v)
+    loc_in.clear()
+    loc_in.fill(loc_v)
+    desc_in.clear()
+    desc_in.fill(desc_v)
 
     # 点击Save
     page.get_by_role("button", name="Save").click()
-    page.wait_for_timeout(1000)
 
-    # 验证保存成功Toast
-    assert page.get_by_text("success", exact=False).is_visible() or \
-           page.locator(".el-message--success").count() > 0, \
-        "保存后应出现success提示Toast"
+    # 验证保存成功Toast："Device info saved"
+    expect(page.locator(".el-message--success")).to_contain_text("Device info saved", timeout=8000)
 
     # 刷新页面验证数据持久化
     page.reload()
@@ -56,9 +61,9 @@ def test_TestCase_AcuHMI_009_08_case05(login_page: LoginPage):
     page.wait_for_timeout(500)
     _nav_to_about(page)
 
-    assert page.get_by_placeholder("Enter Name").input_value() == _VALID_NAME, \
-        f"刷新后Name字段应显示已保存的值 '{_VALID_NAME}'"
-    assert page.get_by_placeholder("Enter Location").input_value() == _VALID_LOCATION, \
-        f"刷新后Location字段应显示已保存的值 '{_VALID_LOCATION}'"
-    assert page.get_by_placeholder("Enter Description").input_value() == _VALID_DESCRIPTION, \
-        f"刷新后Description字段应显示已保存的值 '{_VALID_DESCRIPTION}'"
+    assert page.get_by_placeholder("Enter Name").input_value() == name_v, \
+        f"刷新后Name字段应显示已保存的值 '{name_v}'"
+    assert page.get_by_placeholder("Enter Location").input_value() == loc_v, \
+        f"刷新后Location字段应显示已保存的值 '{loc_v}'"
+    assert page.get_by_placeholder("Enter Description").input_value() == desc_v, \
+        f"刷新后Description字段应显示已保存的值 '{desc_v}'"

@@ -64,16 +64,16 @@ python DataCollect/metering.py --compare   # 仅比对 → metering_compare.xlsx
 cd C:\JrJ\auto\autotest\Protocols
 
 # ① 运行全部 13 条用例
-python -m pytest DataCollect -v
+pytest DataCollect -v
 
 # ② 生成 HTML 报告（需 pip install pytest-html）
-python -m pytest DataCollect -v --html=reports/metering_report.html --self-contained-html
+pytest DataCollect -v --html=reports/metering_report.html --self-contained-html
 
 # ③ 只跑采集阶段用例
-python -m pytest DataCollect -k "TestCollect" -v
+pytest DataCollect -k "TestCollect" -v
 
 # ④ 只跑比对阶段用例
-python -m pytest DataCollect -k "TestCompare" -v
+pytest DataCollect -k "TestCompare" -v
 ```
 
 ### 1.5 查看报告

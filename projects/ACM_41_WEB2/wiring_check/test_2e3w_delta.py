@@ -2,7 +2,7 @@
 2E3W Delta 接线检查自动化测试（电压侧8条 + 电流侧6条）
 
 运行：
-    python test_case/ACM_41_WEB2/wiring_check/test_2e3w_delta.py
+    python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_delta.py
 """
 import sys, os, logging, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))

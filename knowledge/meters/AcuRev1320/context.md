@@ -55,6 +55,11 @@ AcuRev-1320 是新一代导轨安装三相电表，面向工业/商业分表计�
 
 1E2W / 2E3W 1Phase / 2E3W Network / 2E3W Delta / 3E4W Y / 3E4W Delta
 
+各接线方式实测相/CT 速查 → `knowledge/shared/wiring_reference.md`
+完整接线检测算法规格（缺失/反接/相移判据） → `knowledge/gateway/web2/requirements/summaries/wiring_check_v1.05.md`
+
+> 1320 特殊点：2E3W 1Phase 用 A+C（非 A+B）；2E3W Delta 仅测 Ia/Ic（不含 Ib）。
+
 ---
 
 ## 关联项目

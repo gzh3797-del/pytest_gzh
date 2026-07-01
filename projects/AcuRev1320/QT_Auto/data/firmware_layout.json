@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "desc": "Acuview2 固件升级对话框控件坐标表。x/y = 相对锚点(主窗口/对话框)左上角的偏移(物理像素)。",
+    "baseline": "1920x1080 / 125% 缩放 / 主窗口最大化",
+    "calibrate": "换分辨率/缩放后,用 plan_overlay 核对; AddConn_Close 等未标定项需在真机标定后填 x/y"
+  },
+  "anchors": {
+    "main": { "type": "window", "title_re": ".*Acuview 2.*" },
+    "add_conn": { "type": "dialog", "title": "Add Connection" }
+  },
+  "widgets": {
+    "ScanMode_Toggle":    { "anchor": "main", "x": 609, "y": 282, "note": "RTU: 打开 Scan mode" },
+    "BaudRate_ComboBox":  { "anchor": "main", "x": 1110, "y": 325, "note": "RTU: 波特率下拉框" },
+    "FirstComPort_Row":   { "anchor": "main", "x": 624, "y": 405, "note": "RTU: 选中第一个 COM 口" },
+    "AddConn_Close":      { "anchor": "add_conn", "x": 945, "y": 16, "note": "关闭 Add Connection 窗口的标题栏关闭按钮; 中心相对对话框左上角偏移, 已真机标定(对话框 976x839, 关闭按钮中心 rel=945,16)" }
+  },
+  "baud_options": {
+    "anchor": "main",
+    "note": "波特率下拉展开后各选项的相对坐标",
+    "options": {
+      "115200": { "x": 1077, "y": 416 },
+      "57600":  { "x": 1077, "y": 399 },
+      "38400":  { "x": 1077, "y": 382 },
+      "19200":  { "x": 1077, "y": 365 },
+      "9600":   { "x": 1077, "y": 348 }
+    }
+  },
+  "com_checkboxes": {
+    "anchor": "main",
+    "note": "Meter Update 列表中各 COM 口的 Select 复选框相对坐标; 按 COM 号标定(同列 x 同 FirstComPort_Row, y 按行递增)。x/y 为 null 表示待真机标定。",
+    "options": {
+      "1":  { "x": 624, "y": 405 },
+      "11": { "x": 624, "y": 435 }
+    }
+  }
+}

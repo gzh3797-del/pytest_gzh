@@ -44,30 +44,30 @@ playwright install chromium
 
 ```bash
 # 全部 105 条用例，生成 pytest 标准 HTML 报告
-pytest test_case/ACM_41_WEB2/wiring_check/ -v \
-  --html=test_case/ACM_41_WEB2/wiring_check/reports/pytest_report.html \
+pytest test_case/ACM_41_WEB2/Wiring_check/ -v \
+  --html=test_case/ACM_41_WEB2/Wiring_check/reports/pytest_report.html \
   --self-contained-html
 
 # 单种接线方式
-pytest test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py -v          # 3E4WY
-pytest test_case/ACM_41_WEB2/wiring_check/test_2e3w_delta.py -v     # 2E3W Delta
-pytest test_case/ACM_41_WEB2/wiring_check/test_2e3w_network.py -v   # 2E3W Network
-pytest test_case/ACM_41_WEB2/wiring_check/test_2e3w_1phase.py -v    # 2E3W 1Phase
-pytest test_case/ACM_41_WEB2/wiring_check/test_1e2w.py -v           # 1E2W
+pytest test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py -v          # 3E4WY
+pytest test_case/ACM_41_WEB2/Wiring_check/test_2e3w_delta.py -v     # 2E3W Delta
+pytest test_case/ACM_41_WEB2/Wiring_check/test_2e3w_network.py -v   # 2E3W Network
+pytest test_case/ACM_41_WEB2/Wiring_check/test_2e3w_1phase.py -v    # 2E3W 1Phase
+pytest test_case/ACM_41_WEB2/Wiring_check/test_1e2w.py -v           # 1E2W
 
 # 单条用例（精确 ID）
-pytest test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py -k "V-13-ABC" -v
+pytest test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py -k "V-13-ABC" -v
 
 # 多条（用 or 连接）
-pytest test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py -k "I-04-ABC or I-07-ABC" -v
+pytest test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py -k "I-04-ABC or I-07-ABC" -v
 
 # 按类型过滤
-pytest test_case/ACM_41_WEB2/wiring_check/ -k "V-"    # 只跑电压
-pytest test_case/ACM_41_WEB2/wiring_check/ -k "I-"    # 只跑电流
-pytest test_case/ACM_41_WEB2/wiring_check/ -k "PASS"  # 只跑基准
+pytest test_case/ACM_41_WEB2/Wiring_check/ -k "V-"    # 只跑电压
+pytest test_case/ACM_41_WEB2/Wiring_check/ -k "I-"    # 只跑电流
+pytest test_case/ACM_41_WEB2/Wiring_check/ -k "PASS"  # 只跑基准
 
 # 失败时立即停止
-pytest test_case/ACM_41_WEB2/wiring_check/ -x
+pytest test_case/ACM_41_WEB2/Wiring_check/ -x
 ```
 
 > pytest-html 报告包含每条用例的 PASS/FAIL 和错误信息，适合 CI/持续集成。
@@ -76,19 +76,19 @@ pytest test_case/ACM_41_WEB2/wiring_check/ -x
 
 ```bash
 # 全部接线方式一键运行（逐个执行，每种生成独立报告）
-python test_case/ACM_41_WEB2/wiring_check/run_all.py
+python test_case/ACM_41_WEB2/Wiring_check/run_all.py
 
 # 单种接线方式（全部用例）
-python test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py
-python test_case/ACM_41_WEB2/wiring_check/test_2e3w_delta.py
-python test_case/ACM_41_WEB2/wiring_check/test_2e3w_network.py
-python test_case/ACM_41_WEB2/wiring_check/test_2e3w_1phase.py
-python test_case/ACM_41_WEB2/wiring_check/test_1e2w.py
+python test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py
+python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_delta.py
+python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_network.py
+python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_1phase.py
+python test_case/ACM_41_WEB2/Wiring_check/test_1e2w.py
 
 # 指定单条或多条用例（传 ID 参数，生成自定义 HTML 报告）
-python test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py V-13-ABC
-python test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py I-04-ABC I-07-ABC
-python test_case/ACM_41_WEB2/wiring_check/test_2e3w_delta.py V-05-REG V-06-REG
+python test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py V-13-ABC
+python test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py I-04-ABC I-07-ABC
+python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_delta.py V-05-REG V-06-REG
 ```
 
 > 传入不存在的 ID 时脚本会列出所有可用 ID 并退出。

@@ -29,18 +29,19 @@ def test_TestCase_AcuHMI_009_08_case10(login_page: LoginPage):
 
     _nav_to_about(page)
 
-    # 输入恰好40个字符的Location
+    # 进入页面时输入框回显的是设备已保存值；与之相同会触发脏检查弹 "No change to save"，
+    # 故选取与已保存值不同的等长(40字符)目标值，确保触发真实保存。
     location_field = page.get_by_placeholder("Enter Location")
+    target = _LOCATION_40 if location_field.input_value() != _LOCATION_40 else "z" * 40
+
+    # 输入恰好40个字符的Location
     location_field.clear()
-    location_field.fill(_LOCATION_40)
+    location_field.fill(target)
 
     # 点击Save
     page.get_by_role("button", name="Save").click()
-    page.wait_for_timeout(1000)
 
-    # 验证保存成功：出现success提示，页面无错误提示
-    assert page.get_by_text("success", exact=False).is_visible() or \
-           page.locator(".el-message--success").count() > 0, \
-        "Location输入恰好40字符（上边界值）时应保存成功"
+    # 验证保存成功：出现成功提示 "Device info saved"，页面无错误提示
+    expect(page.locator(".el-message--success")).to_contain_text("Device info saved", timeout=8000)
     assert page.locator(".el-form-item__error").count() == 0, \
         "Location输入恰好40字符时页面不应显示验证错误"

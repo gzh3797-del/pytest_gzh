@@ -3,6 +3,7 @@
 helpers/template_matcher.py — 封装模板参数读取，供 BACnet/IP 参数列表一致性用例使用。
 
 对外接口：
+    get_bacnet_descriptions(template_name)-> set[str]
     get_bacnet_descriptions_4100()        -> set[str]
     get_bacnet_descriptions_2100()        -> set[str]
     get_bacnet_param_keys(template_name)  -> set[str]
@@ -12,6 +13,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import Optional
 
 # 把仓库根目录加入 path，以便 import tools.Protocols 模块
 _REPO_ROOT = str(Path(__file__).parents[3])
@@ -47,24 +49,57 @@ DEVICE_MODBUS_MODULES: dict[str, str] = {
     "AcuRev1300": "devices.pxm350",
 }
 
+# UI deviceModel 字符串 → 内部模板名（归一化后匹配，大小写/连字符不敏感）。
+# 网关 Physical Devices 的 Model 列即此处 key（如 "AcuRev-4110-mA" 是 4100 变体）。
+MODEL_TO_TEMPLATE: dict[str, str] = {
+    "AcuRev-4110-mA": "AcuRev4100",
+    "AcuRev-2100":    "AcuRev2100",
+    "AcuvimIIR":      "AcuvimIIR",
+    "AcuvimIIW":      "AcuvimIIW",
+    "Acuvim3":        "AcuVIM3",
+    "AcuRev-1300":    "AcuRev1300",  # PXM350，型号串待有该设备时实测确认
+}
+
+# 预归一化映射（去连字符/空格、转小写），供大小写/连字符不敏感匹配。
+_NORMALIZED_MODEL_TO_TEMPLATE: dict[str, str] = {
+    model.replace("-", "").replace(" ", "").lower(): tmpl
+    for model, tmpl in MODEL_TO_TEMPLATE.items()
+}
+
+
+def resolve_template_from_model(model: str) -> Optional[str]:
+    """把网关 deviceModel 串解析为内部模板名；未知型号返回 None。"""
+    if not model:
+        return None
+    key = model.replace("-", "").replace(" ", "").lower()
+    return _NORMALIZED_MODEL_TO_TEMPLATE.get(key)
+
 
 def _clean_description(desc: str) -> str:
     """取 description 第一行并去除首尾空白（模板部分单元格含多行副标题）。"""
     return desc.split("\n")[0].strip()
 
 
-def get_bacnet_descriptions_4100() -> set[str]:
-    """返回 AcuRev-4100 BACnet/IP 参数的 description 集合（模板基准）。"""
-    path = find_template_file(TEMPLATE_DIR, "AcuRev4100")
+def get_bacnet_descriptions(template_name: str) -> set[str]:
+    """返回指定设备模板 BACnet/IP 参数的 description 集合（模板基准）。
+
+    description 即 Parameter Config 弹窗中展示的参数名称，用于「页面参数列表 vs 模板」
+    一致性比对。template_name 取 DEVICE_TEMPLATE_NAMES 的值（如 "AcuvimIIR"、"AcuVIM3"、
+    "AcuRev1300"）。模板文件不存在时由 find_template_file 抛 FileNotFoundError，调用方自行处理（skip）。
+    """
+    path = find_template_file(TEMPLATE_DIR, template_name)
     params = get_bacnet_params(path)
     return {_clean_description(p.description) for p in params if p.description}
+
+
+def get_bacnet_descriptions_4100() -> set[str]:
+    """返回 AcuRev-4100 BACnet/IP 参数的 description 集合（模板基准）。"""
+    return get_bacnet_descriptions("AcuRev4100")
 
 
 def get_bacnet_descriptions_2100() -> set[str]:
     """返回 AcuRev-2100 BACnet/IP 参数的 description 集合（模板基准）。"""
-    path = find_template_file(TEMPLATE_DIR, "AcuRev2100")
-    params = get_bacnet_params(path)
-    return {_clean_description(p.description) for p in params if p.description}
+    return get_bacnet_descriptions("AcuRev2100")
 
 
 def get_bacnet_template_map(template_name: str) -> dict[str, TemplateParam]:

@@ -19,7 +19,7 @@ import argparse, csv as _csv, json, pathlib, re, struct, sys, zipfile
 import xml.etree.ElementTree as ET
 import openpyxl
 from openpyxl.styles import PatternFill, Font, Alignment
-from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
+from playwright.sync_api import sync_playwright, Page, TimeoutError as PWTimeout
 from pymodbus.client import ModbusTcpClient
 
 # 让本文件单独运行时也能 import 上级 config.py
@@ -44,6 +44,22 @@ HEADED   = (not getattr(_cfg, "WEB_HEADLESS", True)) if _cfg else True
 TOL_REL  = 0.01   # 相对容差 1%，超过则 FAIL
 TOL_ABS  = 0.05   # 绝对容差，两者满足其一即 PASS
 # ══════════════════════════════════════════════════════════
+
+# 量类型分类（与 Device Mirror / Pass Through 的 quantity_class 保持一致）：
+#   波动量（谐波/THD/相位角/K因子/电流/功率等）在网页采集与 Modbus 直读两次取值之间本身会变化，
+#   差异单独报告、不计入 FAIL；稳定量（电压/频率/电能）与其他量要求一致，超容差即 FAIL。
+_DYNAMIC_KW = ("power", "current", "thd", "crest", "harmonic", "angle",
+               "demand", "flicker", "unbalance", "sequence", "predict", "factor")
+_STABLE_KW = ("frequency", "voltage", "energy")
+
+
+def quantity_class(text):
+    t = (text or "").lower()
+    if any(k in t for k in _DYNAMIC_KW):
+        return "波动量"
+    if any(k in t for k in _STABLE_KW):
+        return "稳定量"
+    return "其他"
 
 TIMEOUT = 45000   # 网关网页有时较慢，给足超时（与 Pass Through/Device Mirror 一致）
 VIEW_CANDIDATES = ["Realtime", "Demand", "Energy", "THD", "Sequence", "Harmonics"]
@@ -455,41 +471,36 @@ def _read_view(page, view, on_table=None):
     return result
 
 
-def collect():
-    """Step 1：登录 AcuHMI，采集 Metering 页面数据。"""
-    log("\n[Step 1] 采集页面数据 ...")
+def _collect_with_page(page: Page) -> dict:
+    """实际采集逻辑，接受已有 page 对象（已完成 set_default_timeout）。"""
     result = {}
-    with sync_playwright() as p:
-        br = p.chromium.launch(headless=not HEADED, args=["--ignore-certificate-errors"])
-        ctx = br.new_context(ignore_https_errors=True)
-        page = ctx.new_page(); page.set_default_timeout(TIMEOUT)
-        _login(page); log("登录成功")
-        devices = _list_modbus_tcp_devices(page)
-        for d in devices:
-            name = d["name"]; log(f"\n===== 设备 {name} =====")
-            try: _open_device(page, name)
-            except Exception as e: log(f"  打开失败: {e}"); continue
-            conn = {}
-            try:
-                conn = _scrape_connection(page)
-                log(f"  Connection: {conn}"); _expand_metering(page)
-            except Exception as e: log(f"  Connection 抓取失败: {e}")
+    _login(page); log("登录成功")
+    devices = _list_modbus_tcp_devices(page)
+    for d in devices:
+        name = d["name"]; log(f"\n===== 设备 {name} =====")
+        try: _open_device(page, name)
+        except Exception as e: log(f"  打开失败: {e}"); continue
+        conn = {}
+        try:
+            conn = _scrape_connection(page)
+            log(f"  Connection: {conn}"); _expand_metering(page)
+        except Exception as e: log(f"  Connection 抓取失败: {e}")
 
-            # 即时 Modbus：按设备加载模板 + 建连，抓完每张表立刻读对应寄存器
-            mb_client = None; on_table = None
-            ip = conn.get("ip", ""); unit = int(conn.get("modbus_id", 1) or 1)
-            port = int(conn.get("port", 502) or 502)
-            if ip:
-                try:
-                    entries = _load_template(_pick_template(name))
-                    mb_client = ModbusTcpClient(ip, port=port, timeout=3)
-                    if mb_client.connect():
-                        on_table = lambda view, opt, rows: _read_modbus_for_rows(mb_client, unit, entries, view, opt, rows)
-                        log(f"  即时 Modbus 已连 {ip}:{port} unit={unit}")
-                    else:
-                        log(f"  即时 Modbus 连接失败 {ip}:{port}"); mb_client.close(); mb_client = None
-                except Exception as e:
-                    log(f"  即时 Modbus 初始化失败: {e}"); mb_client = None
+        # 即时 Modbus：按设备加载模板 + 建连，抓完每张表立刻读对应寄存器
+        mb_client = None; on_table = None
+        ip = conn.get("ip", ""); unit = int(conn.get("modbus_id", 1) or 1)
+        port = int(conn.get("port", 502) or 502)
+        if ip:
+            try:
+                entries = _load_template(_pick_template(name))
+                mb_client = ModbusTcpClient(ip, port=port, timeout=3)
+                if mb_client.connect():
+                    on_table = lambda view, opt, rows: _read_modbus_for_rows(mb_client, unit, entries, view, opt, rows)
+                    log(f"  即时 Modbus 已连 {ip}:{port} unit={unit}")
+                else:
+                    log(f"  即时 Modbus 连接失败 {ip}:{port}"); mb_client.close(); mb_client = None
+            except Exception as e:
+                log(f"  即时 Modbus 初始化失败: {e}"); mb_client = None
 
             views = _available_views(page); log(f"  可用视图: {views}")
             dev_data = {}
@@ -500,7 +511,27 @@ def collect():
             if mb_client is not None:
                 mb_client.close()
             result[name] = {"cells": d["cells"], "connection": conn, "metering": dev_data}
-        ctx.close(); br.close()
+    return result
+
+
+def collect(page: "Page | None" = None):
+    """Step 1：登录 AcuHMI，采集 Metering 页面数据。
+
+    page 参数：
+      - 传入已有 Page 对象（pytest 模式）：复用共享 browser，不启动新 playwright 实例。
+      - 不传（独立运行模式）：自行调用 sync_playwright() 启动浏览器，与独立执行兼容。
+    """
+    log("\n[Step 1] 采集页面数据 ...")
+    if page is not None:
+        page.set_default_timeout(TIMEOUT)
+        result = _collect_with_page(page)
+    else:
+        with sync_playwright() as p:
+            br = p.chromium.launch(headless=not HEADED, args=["--ignore-certificate-errors"])
+            ctx = br.new_context(ignore_https_errors=True)
+            _page = ctx.new_page(); _page.set_default_timeout(TIMEOUT)
+            result = _collect_with_page(_page)
+            ctx.close(); br.close()
     REPORTS.mkdir(parents=True, exist_ok=True)
     JSON.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     total = sum(len(rows) for d in result.values()
@@ -1062,6 +1093,7 @@ def compare(collect_data=None, match_rows=None):
                                 "parameter": param, "column": col, "ui_value": ui_str,
                                 "modbus_value": "", "addr_dec": "", "addr_hex": "",
                                 "dtype": "", "reg_desc": "", "param_id": "",
+                                "qclass": quantity_class(f"{param} {col}"),
                                 "diff": "", "diff_pct": "", "result": "无寄存器"
                             }); continue
                         st = mb_stored.get(col)
@@ -1078,6 +1110,7 @@ def compare(collect_data=None, match_rows=None):
                                     "parameter": param, "column": col, "ui_value": ui_str,
                                     "modbus_value": "", "addr_dec": "", "addr_hex": "",
                                     "dtype": "", "reg_desc": "", "param_id": "",
+                                    "qclass": quantity_class(f"{param} {col}"),
                                     "diff": "", "diff_pct": "", "result": "无寄存器"
                                 }); continue
                             addr=info["addr"]; hexs=info["hex"]; dtype=info["dtype"]
@@ -1117,6 +1150,7 @@ def compare(collect_data=None, match_rows=None):
                             "addr_dec": addr, "addr_hex": hexs,
                             "dtype": dtype, "reg_desc": reg_desc,
                             "param_id": pid,
+                            "qclass": quantity_class(f"{param} {col} {reg_desc}"),
                             "diff": diff, "diff_pct": diff_pct, "result": result
                         })
         if client is not None:
@@ -1128,29 +1162,34 @@ def compare(collect_data=None, match_rows=None):
     total  = len(all_results)
     passed = sum(1 for r in all_results if r["result"] == "PASS")
     failed = sum(1 for r in all_results if r["result"] == "FAIL")
+    # 波动量 FAIL 单独统计（不计入严格失败）；稳定量/其他 FAIL 才是 failed_stable
+    failed_dynamic = sum(1 for r in all_results
+                         if r["result"] == "FAIL" and r.get("qclass") == "波动量")
+    failed_stable = failed - failed_dynamic
     noread = sum(1 for r in all_results if r["result"] == "Modbus读取失败")
     noregs = sum(1 for r in all_results if r["result"] == "无寄存器")
     comparable = total - noread - noregs
     pass_rate = f"{passed/comparable*100:.1f}%" if comparable > 0 else "N/A"
-    for row in [["项目","数量"],["总参数条目",total],["PASS",passed],["FAIL",failed],
+    for row in [["项目","数量"],["总参数条目",total],["PASS",passed],
+                ["FAIL(稳定量/其他)",failed_stable],["FAIL(波动量,仅报告)",failed_dynamic],
                 ["Modbus 读取失败",noread],["无寄存器映射",noregs],["通过率",pass_rate]]:
         ws_sum.append(row)
     ws_sum.column_dimensions["A"].width = 20
     ws_sum.column_dimensions["B"].width = 12
 
     ws = wb.create_sheet("明细")
-    headers = ["设备","视图","通道/选项","参数","列","网页值","Modbus值","差值","差值%",
+    headers = ["设备","视图","通道/选项","参数","列","量类型","网页值","Modbus值","差值","差值%",
                "寄存器地址(Dec)","地址(Hex)","类型","寄存器描述","paramId","结果"]
     ws.append(headers)
     for c, h in enumerate(headers, 1):
         cell = ws.cell(1, c)
         cell.fill = HEADER_FILL; cell.font = HEADER_FONT
         cell.alignment = Alignment(horizontal="center")
-    col_map = ["device","view","dropdown","parameter","column","ui_value","modbus_value",
+    col_map = ["device","view","dropdown","parameter","column","qclass","ui_value","modbus_value",
                "diff","diff_pct","addr_dec","addr_hex","dtype","reg_desc","param_id","result"]
     all_results.sort(key=lambda r: (-float(r["diff_pct"]) if str(r["diff_pct"]).replace('.','',1).isdigit() else 0,))
     for r in all_results:
-        ws.append([r[k] for k in col_map])
+        ws.append([r.get(k, "") for k in col_map])
         ri = ws.max_row; res = r["result"]
         if res == "FAIL":
             for c in range(1, len(headers)+1): ws.cell(ri, c).fill = RED
@@ -1158,7 +1197,7 @@ def compare(collect_data=None, match_rows=None):
             ws.cell(ri, len(headers)).fill = GREEN
         elif res in ("Modbus读取失败", "无寄存器"):
             ws.cell(ri, len(headers)).fill = YELLOW
-    for i, w in enumerate([12,10,22,35,10,12,12,8,8,14,10,8,35,10,8], 1):
+    for i, w in enumerate([12,10,22,35,10,8,12,12,8,8,14,10,8,35,10,8], 1):
         ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = w
     ws.freeze_panes = "A2"
     # ── 用例 Mapping sheet ─────────────────────────────────────────────────
@@ -1173,7 +1212,7 @@ def compare(collect_data=None, match_rows=None):
         ("DC-008", "TestMatch::test_exact_match_ratio",         "匹配", "精确匹配率 ≥ 80%（排除 N/A 条目）"),
         ("DC-009", "TestMatch::test_no_unmatched_excess",       "匹配", "未匹配条目数量 ≤ 20"),
         ("DC-010", "TestCompare::test_xlsx_generated",          "比对", "Step3 比对报告 metering_compare.xlsx 正常生成"),
-        ("DC-011", "TestCompare::test_fail_count_zero",         "比对", "FAIL 条目 = 0（所有网页值与 Modbus 直读值在容差内）"),
+        ("DC-011", "TestCompare::test_fail_count_zero",         "比对", "稳定量/其他 FAIL = 0（波动量差异单独报告，不计入）"),
         ("DC-012", "TestCompare::test_pass_rate",               "比对", "有效比对通过率 ≥ 95%（排除无寄存器映射条目）"),
         ("DC-013", "TestCompare::test_modbus_read_failure_zero","比对", "Modbus 读取失败条目 = 0"),
     ]
@@ -1198,8 +1237,10 @@ def compare(collect_data=None, match_rows=None):
         alt = REPORTS / "数据对比结果_new.xlsx"
         wb.save(alt)
         log(f"[警告] {XLSX.name} 被占用，已改写到 {alt.name}（请关闭 Excel 后重跑覆盖）")
-    log(f"总={total} PASS={passed} FAIL={failed} 读取失败={noread} 无寄存器={noregs}")
+    log(f"总={total} PASS={passed} FAIL(稳定/其他)={failed_stable} "
+        f"FAIL(波动量)={failed_dynamic} 读取失败={noread} 无寄存器={noregs}")
     return {"total": total, "passed": passed, "failed": failed,
+            "failed_stable": failed_stable, "failed_dynamic": failed_dynamic,
             "noread": noread, "noregs": noregs}
 
 

@@ -184,7 +184,7 @@ def get_bacnet_params_by_range(xlsx_path: str, range_marker: str) -> list[Templa
             param_key   = str(key).strip(),
             description = _str(row, ci_desc),
             unit        = _str(row, ci_unit),
-            bacnet_ip   = "bacnet",  # 非空占位，表示属于 BACnet 范围
+            bacnet_ip   = "BacnetIP",  # 非空占位，表示属于 BACnet 范围
             acucloud    = "",
         ))
     return params

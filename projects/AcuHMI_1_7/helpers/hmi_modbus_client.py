@@ -6,9 +6,8 @@ HMI 网关对外提供 Modbus TCP 服务器，下挂设备按 Modbus Unit ID 区
 设备自身 IP**：读「网关 Modbus 地址:端口 + 该设备 Unit ID」即可拿到该设备实时值。
 
 设备 param_key → 寄存器 的映射复用 Protocols/devices/<设备>.py 的 build_param_map()
-（与 BACnet objectName 解析出的 param_key 对齐），本模块只负责按地址表读寄存器、
-解码为浮点值，**不复用 Protocols.modbus_reader 的全局缓存/全局 config**，避免一个
-进程内连续测多台设备时串味。
+（与 BACnet objectName 解析出的 param_key 对齐）。解码逻辑直接复用
+tools/Protocols/modbus_reader._decode_registers（单一事实源），不维护并行实现。
 
 典型用法：
     from projects.AcuHMI_1_7.helpers.hmi_modbus_client import read_modbus_values
@@ -21,7 +20,6 @@ from __future__ import annotations
 import asyncio
 import importlib
 import logging
-import struct
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -29,10 +27,16 @@ from typing import Any, Coroutine, Optional, Sequence, TypeVar
 
 from pymodbus.client import AsyncModbusTcpClient
 
-# Protocols 目录入 path：设备模块内部以 `from modbus_reader import ...` 形式自引用
-_PROTOCOLS_DIR = str(Path(__file__).parents[3] / "Protocols")
+# tools/Protocols 目录入 path（仅需插入一次）：
+#   1. 设备模块（devices/acurev2100.py 等）内部以 `from modbus_reader import ...` 自引用。
+#   2. 本模块直接 import modbus_reader._decode_registers（单一解码事实源）。
+# 路径：hmi_modbus_client.py -> helpers -> AcuHMI_1_7 -> projects -> autotest(仓库根)
+_PROTOCOLS_DIR = str(Path(__file__).parents[3] / "tools" / "Protocols")
 if _PROTOCOLS_DIR not in sys.path:
     sys.path.insert(0, _PROTOCOLS_DIR)
+
+# 直接复用协议侧解码函数（单一事实源），避免与 modbus_reader 漂移。
+from modbus_reader import _decode_registers as _decode  # noqa: E402
 
 log = logging.getLogger(__name__)
 
@@ -40,6 +44,13 @@ _T = TypeVar("_T")
 
 # 单次 FC03 请求最多读取的寄存器数量（Modbus 协议上限 125）
 _MAX_REGS_PER_REQUEST = 120
+
+# 建链重试：部分下挂表 Modbus TCP 连接槽极少（≈1 个）且 TCP 释放慢，
+# 槽位被占用（如网关正轮询该表）或刚断开未释放时，connect() 会瞬时拒连
+# （client.connected 为 False）。不重试则一次瞬时拒连导致整批参数全判失败，
+# 故对建链单独做带退避的重试，每次用全新 client，给表留出释放/腾出连接的时间。
+_CONNECT_MAX_RETRIES = 4      # 建链最多额外重试次数（总尝试 = 1 + 该值）
+_CONNECT_BACKOFF_STEP = 0.8   # 退避步长（秒），第 n 次重试前等待 n * step
 
 
 def _run_coro(coro: Coroutine[Any, Any, _T]) -> _T:
@@ -58,6 +69,32 @@ def build_device_param_map(modbus_module: str) -> dict[str, Any]:
     return module.build_param_map()
 
 
+async def _connect_with_retry(
+    host: str,
+    port: int,
+    max_retries: int = _CONNECT_MAX_RETRIES,
+) -> Optional[AsyncModbusTcpClient]:
+    """带退避重试地建立 Modbus TCP 连接，成功返回已连接的 client，全部失败返回 None。
+
+    每次尝试都新建 client（避免在失败 client 上复用残留状态），失败后递增退避，
+    给连接槽极少、TCP 释放慢的下挂表留出腾出连接的时间。返回的 client 由调用方负责 close。
+    """
+    for attempt in range(max_retries + 1):
+        client = AsyncModbusTcpClient(host=host, port=port)
+        try:
+            await client.connect()
+        except Exception as exc:  # noqa: BLE001 - 建链异常统一按未连接处理后重试
+            log.debug("Modbus 建链异常 [%s:%d] 第%d次: %s", host, port, attempt + 1, exc)
+        if client.connected:
+            if attempt > 0:
+                log.info("Modbus 建链成功 [%s:%d]（第%d次尝试）", host, port, attempt + 1)
+            return client
+        client.close()
+        if attempt < max_retries:
+            await asyncio.sleep(_CONNECT_BACKOFF_STEP * (attempt + 1))
+    return None
+
+
 def _reg_count(reg: Any) -> int:
     """寄存器占用的寄存器/线圈数量（duck-type，兼容 Protocols.ModbusRegister.count）。"""
     count = getattr(reg, "count", None)
@@ -68,23 +105,6 @@ def _reg_count(reg: Any) -> int:
     if reg.dtype in ("bit", "uint16", "int16"):
         return 1
     return 2
-
-
-def _decode(registers: Sequence[int], dtype: str) -> float:
-    """将 Modbus 寄存器列表解码为浮点值（big-endian，高字优先）。"""
-    if dtype == "float32":
-        return struct.unpack(">f", struct.pack(">HH", registers[0], registers[1]))[0]
-    if dtype == "float64":
-        return struct.unpack(">d", struct.pack(">HHHH", *registers[:4]))[0]
-    if dtype == "uint32":
-        return float(struct.unpack(">I", struct.pack(">HH", registers[0], registers[1]))[0])
-    if dtype == "uint16":
-        return float(registers[0])
-    if dtype == "int16":
-        return float(struct.unpack(">h", struct.pack(">H", registers[0]))[0])
-    if dtype == "int32":
-        return float(struct.unpack(">i", struct.pack(">HH", registers[0], registers[1]))[0])
-    raise ValueError(f"未知数据类型: {dtype}")
 
 
 async def _fc03_read(
@@ -175,14 +195,12 @@ async def _async_read_values(
         else:
             fc3_regs.append(reg)
 
-    client = AsyncModbusTcpClient(host=host, port=port)
+    client = await _connect_with_retry(host, port)
+    if client is None:
+        for key in param_keys:
+            results.setdefault(key, (None, f"Modbus 连接失败 {host}:{port}"))
+        return results
     try:
-        await client.connect()
-        if not client.connected:
-            for key in param_keys:
-                results.setdefault(key, (None, f"Modbus 连接失败 {host}:{port}"))
-            return results
-
         # FC03：按地址排序，连续段合并批量读
         fc3_sorted = sorted(fc3_regs, key=lambda r: r.address)
         batch: list[Any] = []

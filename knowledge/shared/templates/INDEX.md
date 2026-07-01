@@ -20,9 +20,9 @@
 |------|------------|----------|-------------------|
 | AcuRev4100 | AcuRev-4100_v1.01_20260427.xlsx | 1869 | 1059 |
 | AcuRev2100 | AcuRev-2100_v1.01_20260416.xlsx | 1225 | 595 |
-| AcuRev1300 | AcuRev-1300_v1.01_20260416.xlsx | — | — |
-| AcuvimIIW | AcuvimIIW_v1.01_20260509.xlsx | 476 | 105 |
-| AcuvimIIR | AcuvimIIR_v1.01_20260509.xlsx | 476 | 105 |
+| AcuRev1300 | AcuRev-1300_v1.01_20260416.xlsx | 39 | 39 |
+| AcuvimIIW | AcuvimIIW_v1.01_20260509.xlsx | 478 | 106 |
+| AcuvimIIR | AcuvimIIR_v1.01_20260509.xlsx | 478 | 106 |
 | AcuVIM3 | Acuvim3_v1.01_20260416.xlsx | — | — |
 | AcuIOM-01 | AcuIOM-01_v1.01_20250205.xlsx | ⚠️ 无标准列 | — |
 | AcuIOM-02 | AcuIOM-02_v1.01_20250205.xlsx | ⚠️ 无标准列 | — |

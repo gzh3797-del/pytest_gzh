@@ -1,6 +1,5 @@
 import pytest
 from playwright.sync_api import expect
-from projects.AcuHMI_1_7.settings import BASE_URL
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 
@@ -25,12 +24,35 @@ def _nav_device_mirror(page):
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(500)
 
-    # 点击 Enable radio 使功能开启
-    enable_radio = page.locator(".el-radio").filter(has_text="Enable")
-    if enable_radio.count() > 0:
-        enable_radio.first.click()
+    _ensure_enabled_and_rows(page)
+
+
+def _ensure_enabled_and_rows(page):
+    """收起导航遗留的 hover 菜单 popper，确保 Device Mirror 已启用，并等待设备行出现。
+
+    Device Mirror 的设备行表格受 Enable 门控（v-if）：点 Enable 单选即响应式渲染，无需
+    Save；行来自已配置的下挂 Modbus 设备（含网关本体那行）。导航点完子菜单后 hover 菜单
+    popper 仍悬在表单上方会拦截 Enable 单选点击，故先收起再点。
+    """
+    # 收起 hover 菜单 popper（否则拦截 Enable 单选点击）
+    page.keyboard.press("Escape")
+    page.mouse.move(640, 500)
+    page.wait_for_timeout(300)
+
+    # 未启用则点 Enable（响应式渲染表格，无需 Save）
+    enabled = page.locator(".el-radio.is-checked").filter(has_text="Enable").count() > 0
+    if not enabled:
+        page.locator(".el-radio").filter(has_text="Enable").first.click()
         page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(500)
+
+    # 轮询等待设备行出现（行来自下挂设备，需等后端列表渲染）
+    rows = page.locator("tbody tr")
+    for _ in range(15):
+        if rows.count() > 0:
+            break
+        page.wait_for_timeout(200)
+    assert rows.count() > 0, \
+        "启用 Device Mirror 后设备行表格仍为空（0 行）——请确认设备已配置下挂 Modbus 设备"
 
 
 def _find_editable_row(page):

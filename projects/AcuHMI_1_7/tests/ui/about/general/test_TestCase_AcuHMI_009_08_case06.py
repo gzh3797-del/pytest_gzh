@@ -3,9 +3,9 @@ from playwright.sync_api import expect
 from projects.AcuHMI_1_7.settings import BASE_URL
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
-_SAVED_NAME = "PersistDevice_06"
-_SAVED_LOCATION = "Lab 06"
-_SAVED_DESCRIPTION = "Persist test desc"
+# 两组有效值：运行时挑与当前已保存值不同的一组，规避前端脏检查（相同值会弹 "No change to save"）
+_SAVED_SET_A = ("PersistDevice_06", "Lab 06", "Persist test desc")
+_SAVED_SET_B = ("PersistDevice_06B", "Lab 06B", "Persist test desc B")
 
 
 def _nav_to_about(page):
@@ -33,20 +33,25 @@ def test_TestCase_AcuHMI_009_08_case06(login_page: LoginPage):
 
     _nav_to_about(page)
 
-    # 保存一组有效数据
-    page.get_by_placeholder("Enter Name").clear()
-    page.get_by_placeholder("Enter Name").fill(_SAVED_NAME)
-    page.get_by_placeholder("Enter Location").clear()
-    page.get_by_placeholder("Enter Location").fill(_SAVED_LOCATION)
-    page.get_by_placeholder("Enter Description").clear()
-    page.get_by_placeholder("Enter Description").fill(_SAVED_DESCRIPTION)
-    page.get_by_role("button", name="Save").click()
-    page.wait_for_timeout(1000)
+    name_in = page.get_by_placeholder("Enter Name")
+    loc_in = page.get_by_placeholder("Enter Location")
+    desc_in = page.get_by_placeholder("Enter Description")
 
-    # 确认保存成功
-    assert page.get_by_text("success", exact=False).is_visible() or \
-           page.locator(".el-message--success").count() > 0, \
-        "保存后应出现success提示"
+    # 选取与当前已保存值不同的一组值，确保 Save 触发真实保存（相同值会弹 "No change to save"）
+    current = (name_in.input_value(), loc_in.input_value(), desc_in.input_value())
+    name_v, loc_v, desc_v = _SAVED_SET_B if current == _SAVED_SET_A else _SAVED_SET_A
+
+    # 保存一组有效数据
+    name_in.clear()
+    name_in.fill(name_v)
+    loc_in.clear()
+    loc_in.fill(loc_v)
+    desc_in.clear()
+    desc_in.fill(desc_v)
+    page.get_by_role("button", name="Save").click()
+
+    # 确认保存成功："Device info saved"
+    expect(page.locator(".el-message--success")).to_contain_text("Device info saved", timeout=8000)
 
     # 刷新页面（模拟F5）
     page.reload()
@@ -57,9 +62,9 @@ def test_TestCase_AcuHMI_009_08_case06(login_page: LoginPage):
     _nav_to_about(page)
 
     # 验证字段值持久化
-    assert page.get_by_placeholder("Enter Name").input_value() == _SAVED_NAME, \
-        f"刷新后Name字段应持久化显示 '{_SAVED_NAME}'"
-    assert page.get_by_placeholder("Enter Location").input_value() == _SAVED_LOCATION, \
-        f"刷新后Location字段应持久化显示 '{_SAVED_LOCATION}'"
-    assert page.get_by_placeholder("Enter Description").input_value() == _SAVED_DESCRIPTION, \
-        f"刷新后Description字段应持久化显示 '{_SAVED_DESCRIPTION}'"
+    assert page.get_by_placeholder("Enter Name").input_value() == name_v, \
+        f"刷新后Name字段应持久化显示 '{name_v}'"
+    assert page.get_by_placeholder("Enter Location").input_value() == loc_v, \
+        f"刷新后Location字段应持久化显示 '{loc_v}'"
+    assert page.get_by_placeholder("Enter Description").input_value() == desc_v, \
+        f"刷新后Description字段应持久化显示 '{desc_v}'"

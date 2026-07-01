@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 # 用例编号：TestCase_AcuHMI_005_01_case03_01
@@ -62,27 +62,6 @@ def _set_device_clock(page, date_str: str, time_str: str):
     page.wait_for_timeout(300)
 
 
-def _get_tz_offset(page):
-    tz_fi = page.locator(".el-form-item").filter(has_text="Time Zone").first
-    if tz_fi.count() == 0:
-        return timedelta(hours=-4)
-    tz_text = tz_fi.inner_text()
-    if "Toronto" in tz_text or "Eastern" in tz_text or "New_York" in tz_text:
-        return timedelta(hours=-4)
-    tz_map = {
-        "EST": timedelta(hours=-5), "EDT": timedelta(hours=-4),
-        "CST": timedelta(hours=-6), "CDT": timedelta(hours=-5),
-        "MST": timedelta(hours=-7), "MDT": timedelta(hours=-6),
-        "PST": timedelta(hours=-8), "PDT": timedelta(hours=-7),
-        "UTC": timedelta(hours=0),  "GMT": timedelta(hours=0),
-        "CET": timedelta(hours=1),  "CEST": timedelta(hours=2),
-    }
-    for abbr, offset in tz_map.items():
-        if abbr in tz_text:
-            return offset
-    return timedelta(hours=-4)
-
-
 def _read_device_clock(page):
     clock_input = page.get_by_placeholder("--Select Device Clock--").first
     assert clock_input.count() > 0, "未找到 Device Clock 输入框"
@@ -104,8 +83,8 @@ def _fill_ntp_servers(page, srv1, srv2, srv3):
         page.wait_for_timeout(100)
 
 
-def _sync_and_verify(page, tz_offset, label):
-    """设置错误时间 → Save → Sync → 等待 Synced. → 读取 Device Clock 验证"""
+def _sync_and_verify(page, label):
+    """设置错误时间 → Save → Sync → 等待 Synced. → 读取 Device Clock 验证（本机本地时间对比）"""
     _set_device_clock(page, WRONG_DATE, WRONG_TIME)
 
     page.get_by_role("button", name="Save").click()
@@ -120,7 +99,7 @@ def _sync_and_verify(page, tz_offset, label):
     sync_btn = page.get_by_role("button", name="Sync")
     assert sync_btn.count() > 0, "未找到 Sync 按钮"
 
-    ref_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+    ref_local = datetime.now()
     sync_btn.click()
     try:
         page.wait_for_selector("text=Synced", timeout=90000)
@@ -130,24 +109,23 @@ def _sync_and_verify(page, tz_offset, label):
 
     _nav_to_datetime(page)
     device_dt, clock_str = _read_device_clock(page)
-    device_utc = device_dt - tz_offset
-    diff = abs((device_utc - ref_utc).total_seconds())
+    diff = abs((device_dt - ref_local).total_seconds())
     assert diff <= 120, (
-        f"{label} Sync 后 Device Clock 与 NTP 时间不一致：\n"
-        f"  Device Clock（本地）= {clock_str}\n"
-        f"  Device Clock（UTC）= {device_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"  参考 UTC = {ref_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"{label} Sync 后 Device Clock 与本机时间不一致：\n"
+        f"  Device Clock = {clock_str}\n"
+        f"  本机参考时间 = {ref_local.strftime('%Y/%m/%d %I:%M:%S %p')}\n"
         f"  差值 = {diff:.0f} 秒（允许 ≤ 120 秒）"
     )
 
 
-def test_TestCase_AcuHMI_005_01_case03_01(login_page: LoginPage):
+def test_TestCase_AcuHMI_005_01_case03_01(login_page: LoginPage, datetime_guard):
     login_page.open()
     login_page.login()
     page = login_page.page
 
     # ── 初始化：启用 NTP，配置 Server1=不可用，Server2/3=可用 ──────────────
     _nav_to_datetime(page)
+    datetime_guard.snapshot(page)   # 修改任何设置前记录原状态，用例结束自动恢复
 
     ntp_enable_item = page.locator(".el-form-item").filter(has_text="NTP Enable").first
     assert ntp_enable_item.count() > 0, "未找到 NTP Enable 字段"
@@ -156,17 +134,14 @@ def test_TestCase_AcuHMI_005_01_case03_01(login_page: LoginPage):
         ntp_enable_item.locator(".el-radio__label").filter(has_text="Enable").click()
         page.wait_for_timeout(600)
 
-    tz_offset = _get_tz_offset(page)
-
     # Server1=不可达，Server2=time.nist.gov，Server3=time.apple.com
     _fill_ntp_servers(page, NTP_UNAVAIL_1, NTP_VALID_2, NTP_VALID_3)
 
     # ── Step 1&2：设错误时间 → Save → Sync（Server1不可用，Server2/3可用）─
-    _sync_and_verify(page, tz_offset, "Step2（Server1不可用/Server2&3可用）")
+    _sync_and_verify(page, "Step2（Server1不可用/Server2&3可用）")
 
     # ── Step 3：改 Server1&2 不可用，Server3=可用 → Sync ────────────────────
     _nav_to_datetime(page)
-    tz_offset = _get_tz_offset(page)
     _fill_ntp_servers(page, NTP_UNAVAIL_1, NTP_UNAVAIL_2, NTP_VALID_3B)
 
-    _sync_and_verify(page, tz_offset, "Step3（Server1&2不可用/Server3可用）")
+    _sync_and_verify(page, "Step3（Server1&2不可用/Server3可用）")

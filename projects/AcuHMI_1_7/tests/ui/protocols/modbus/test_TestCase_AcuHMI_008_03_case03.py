@@ -1,6 +1,4 @@
-import pytest
 from playwright.sync_api import expect
-from projects.AcuHMI_1_7.settings import BASE_URL
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 
@@ -32,29 +30,31 @@ def _nav_pass_through(page):
 
 
 def _ensure_enabled(page):
-    """确保 Pass Through 页面处于 Enable 状态。"""
-    # 尝试 radio 形式的 Enable
-    enable_radio = page.locator(".el-radio").filter(has_text="Enable")
-    if enable_radio.count() > 0:
-        enable_radio.first.click()
-        page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(500)
-        return
+    """收起导航遗留的 hover 菜单 popper，确保 Pass Through 已启用，并等待设备行出现。
 
-    # 尝试 button 形式的 Enable
-    enable_btn = page.get_by_role("button", name="Enable")
-    if enable_btn.count() > 0:
-        enable_btn.first.click()
-        page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(500)
-        return
+    Pass Through 的设备行表格受 Enable 门控（v-if）：点 Enable 单选即响应式渲染，无需
+    Save；行来自已配置的下挂 Modbus 设备。导航点完子菜单后 hover 菜单 popper 仍悬在表单
+    上方会拦截 Enable 单选点击（原写法因此点不上 Enable，表格 0 行而失败），故先收起再点。
+    """
+    # 收起 hover 菜单 popper（否则拦截 Enable 单选点击）
+    page.keyboard.press("Escape")
+    page.mouse.move(640, 500)
+    page.wait_for_timeout(300)
 
-    # 尝试 el-switch（未激活时点击）
-    switch = page.locator(".el-switch:not(.is-checked)")
-    if switch.count() > 0:
-        switch.first.click()
+    # 未启用则点 Enable（响应式渲染表格，无需 Save）
+    enabled = page.locator(".el-radio.is-checked").filter(has_text="Enable").count() > 0
+    if not enabled:
+        page.locator(".el-radio").filter(has_text="Enable").first.click()
         page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(500)
+
+    # 轮询等待设备行出现（行来自下挂设备，需等后端列表渲染）
+    rows = page.locator("tbody tr")
+    for _ in range(15):
+        if rows.count() > 0:
+            break
+        page.wait_for_timeout(200)
+    assert rows.count() > 0, \
+        "启用 Pass Through 后设备行表格仍为空（0 行）——请确认设备已配置下挂 Modbus 设备"
 
 
 def _set_first_row_slave_id(page, slave_id: int):

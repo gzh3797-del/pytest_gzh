@@ -47,6 +47,6 @@ def test_TestCase_AcuHMI_009_08_case08(login_page: LoginPage):
            page.locator(".el-message--error").count() > 0, \
         f"Name含非法字符'{_INVALID_NAME}'时应显示格式错误提示，保存不成功"
 
-    # 确认没有出现success提示
-    assert not page.get_by_text("success", exact=False).is_visible(), \
-        "Name含非法字符时不应出现success提示"
+    # 确认没有出现保存成功提示（成功 toast 类名 el-message--success，文本 "Device info saved"）
+    assert page.locator(".el-message--success").count() == 0, \
+        "Name含非法字符时不应出现保存成功提示"

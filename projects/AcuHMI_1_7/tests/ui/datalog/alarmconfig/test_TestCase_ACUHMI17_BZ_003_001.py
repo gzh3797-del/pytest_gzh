@@ -1,6 +1,4 @@
-import pytest
 from playwright.sync_api import expect
-from projects.AcuHMI_1_7.settings import BASE_URL
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 
@@ -23,7 +21,10 @@ from projects.AcuHMI_1_7.pages.login_page import LoginPage
 #   3. Ack Status对应为Unacknowledge
 #   5. Ack Status对应为Acknowledge
 
-_DEVICE_NAME = "Acu4100"
+# 目标设备按 Physical Devices 的 Model 列匹配（前缀 AcuRev-4110*），而非设备别名，
+# 这样设备改名不影响用例。该型号文本仅出现在 Model 列，设备名/序列号为 Acurev4100xxx
+# （4100、无连字符），不含 'AcuRev-4110' 子串，不会误命中。
+_DEVICE_MODEL = "AcuRev-4110"
 _ALARM_LABEL = "alarm_4100"
 _ALARM_PARAM = "System Frequency"
 _ALARM_MIN = "70"
@@ -44,9 +45,16 @@ def _nav_to_physical_devices(page):
         page.wait_for_timeout(500)
 
 
-def _open_device(page, device_name: str):
+def _open_device(page, model: str):
+    """打开 Physical Devices 中 Model 列匹配 `model`（前缀）的第一台设备。
+
+    按 Model 匹配而非 Device Name：Model 列文本（如 AcuRev-4110-mA）唯一标识该型号，
+    设备别名/序列号变化不影响定位，避免改名导致用例失效。
+    """
     _nav_to_physical_devices(page)
-    page.locator("tr.el-table__row").filter(has_text=device_name).first.locator("td").first.click()
+    row = page.locator("tr.el-table__row").filter(has_text=model).first
+    row.wait_for(timeout=10000)
+    row.locator("td").first.click()
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(600)
 
@@ -87,13 +95,26 @@ def _get_ack_status_in_row(row) -> str:
     return ""
 
 
+def _count_unack_rows(page, label: str) -> int:
+    """统计 Alarm Logs 中 label 对应、且 Ack Status 为 Unacknowledge 的行数。
+
+    告警日志跨轮次累积，历史 label 记录多为已确认；本轮新触发的记录才是 Unacknowledge，
+    因此判定"出现本轮新告警"必须按未确认状态计数，不能只看 label 是否存在。
+    """
+    rows = page.locator("tr.el-table__row").filter(has_text=label)
+    return sum(
+        1 for i in range(rows.count())
+        if "unacknowl" in _get_ack_status_in_row(rows.nth(i)).lower()
+    )
+
+
 def test_TestCase_ACUHMI17_BZ_003_001(login_page: LoginPage):
     login_page.open()
     login_page.login()
     page = login_page.page
 
-    # ── Step 1: Navigate to Acu4100 > Alarm Config ────────────────────────────
-    _open_device(page, _DEVICE_NAME)
+    # ── Step 1: Navigate to AcuRev-4110* device > Alarm Config ────────────────
+    _open_device(page, _DEVICE_MODEL)
     _nav_device_submenu(page, "Alarm Config")
 
     # Cleanup: delete alarm_4100 if already exists
@@ -141,27 +162,24 @@ def test_TestCase_ACUHMI17_BZ_003_001(login_page: LoginPage):
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(800)
 
-    # Wait for alarm_4100 to appear in global Alarm Logs (device polls every ~60s)
+    # 等待本轮新触发的 Unacknowledge 记录出现（设备约 60s 轮询一次）。
+    # 注意：不能只等"出现 alarm_4100 行"——历史轮次累积的记录多为已确认，会立即命中
+    # 导致误判，必须等到状态为 Unacknowledge 的新记录。
     for _ in range(9):
-        if page.locator("tr.el-table__row").filter(has_text=_ALARM_LABEL).count() > 0:
+        if _count_unack_rows(page, _ALARM_LABEL) > 0:
             break
         page.wait_for_timeout(10000)
         page.reload()
         page.wait_for_load_state("networkidle")
         page.wait_for_timeout(1000)
 
-    assert page.locator("tr.el-table__row").filter(has_text=_ALARM_LABEL).count() > 0, (
-        f"全局Alarm Logs中应出现'{_ALARM_LABEL}'的记录（System Frequency触发UNDERFLOW，已等待90秒）"
-    )
-
     # Verify Ack Status column is visible in global Alarm Logs
     expect(page.locator("th").filter(has_text="Ack Status")).to_be_visible(timeout=5000)
 
-    # Most recent alarm_4100 row should show Unacknowledge
-    first_alarm_row = page.locator("tr.el-table__row").filter(has_text=_ALARM_LABEL).first
-    ack_status_before = _get_ack_status_in_row(first_alarm_row)
-    assert "unacknowl" in ack_status_before.lower(), (
-        f"alarm_4100最新记录的Ack Status应为'Unacknowledge'，实际为'{ack_status_before}'"
+    # 本轮新告警应有至少一条 Unacknowledge 记录
+    assert _count_unack_rows(page, _ALARM_LABEL) > 0, (
+        f"全局Alarm Logs中应出现状态为'Unacknowledge'的'{_ALARM_LABEL}'记录"
+        f"（System Frequency触发UNDERFLOW，已等待90秒）"
     )
 
     # ── Step 4: Global Alarm → Unacknowledged Alarms → Acknowledge ───────────
@@ -189,8 +207,8 @@ def test_TestCase_ACUHMI17_BZ_003_001(login_page: LoginPage):
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(800)
 
-    # ── Step 5: Back to Acu4100 Alarm Logs → check Ack Status = Acknowledged ─
-    _open_device(page, _DEVICE_NAME)
+    # ── Step 5: Back to AcuRev-4110* device Alarm Logs → check Ack Status = Acknowledged ─
+    _open_device(page, _DEVICE_MODEL)
     _nav_device_submenu(page, "Alarm Logs")
     page.wait_for_timeout(1000)
 

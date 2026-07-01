@@ -2,9 +2,11 @@ import base64
 import sys
 from pathlib import Path
 
+import allure
 import pytest
+from playwright.sync_api import sync_playwright, Browser
 
-from projects.AcuHMI_1_7.settings import BROWSER, HEADLESS, SLOW_MO, BASE_URL
+from projects.AcuHMI_1_7.settings import HEADLESS, SLOW_MO, BASE_URL
 
 # 强制标准输出/错误流使用 UTF-8，避免 Windows 控制台中文乱码
 if hasattr(sys.stdout, "reconfigure"):
@@ -15,27 +17,40 @@ if hasattr(sys.stderr, "reconfigure"):
 # 注：.env 已由 projects.AcuHMI_1_7.settings 适配层加载，无需在此重复 load_dotenv。
 
 
-# ── 浏览器级 fixture ────────────────────────────────────────────────────────
-# pytest-playwright 会自动识别以下两个固定名称的 fixture，并用它们覆盖插件默认值。
-# 测试函数只需声明 `page` 参数，插件会按照下面的配置自动创建 browser → context → page，
-# 无需在每个测试中手动调用 sync_playwright() / launch() / new_context() / new_page()。
+# ── 全项目唯一 Playwright 实例 ─────────────────────────────────────────────
+# 在项目级集中管理 playwright + browser，覆盖 pytest-playwright 内置 fixture，让所有
+# 子模块（BacnetIP / parameter_settings / ui / SNMP 等）共享同一实例，避免多处调用
+# sync_playwright() 在同一线程内竞争事件循环。
+#
+# ⚠️ 覆盖的实例 fixture 必须叫 `playwright`：pytest-playwright ≥0.5 已把内置实例
+# fixture 由旧名 `playwright_instance` 改名为 `playwright`。若仍用旧名覆盖，新版插件
+# 根本不会用到它——覆盖失效，反而额外起了一个独立的 sync_playwright，与插件自带的
+# `playwright` 同时存在两个实例；先建立者在主线程留下正在运行的事件循环，插件随后
+# sync_playwright().start() 撞上它，抛 "Playwright Sync API inside the asyncio loop"。
+#
+# 注：browser 故意不依赖插件的 `browser_name` fixture，从而不会触发 pytest-playwright
+# 的 [chromium] 参数化，保持各子模块用例 nodeid 与历史一致。
 
 @pytest.fixture(scope="session")
-def browser_type_launch_args():
-    # 控制浏览器的启动参数，scope="session" 表示整个测试会话只创建一次浏览器进程
-    # headless=False 表示显示浏览器窗口（方便调试）；slow_mo 为每步操作增加毫秒延迟
-    return {"headless": HEADLESS, "slow_mo": SLOW_MO}
+def playwright():
+    with sync_playwright() as pw:
+        yield pw
+
+
+@pytest.fixture(scope="session")
+def browser(playwright) -> Browser:
+    br = playwright.chromium.launch(headless=HEADLESS, slow_mo=SLOW_MO)
+    yield br
+    br.close()
 
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args):
-    # 控制浏览器上下文（相当于一个独立的"浏览器标签组"）的创建参数
-    # **browser_context_args 保留插件自身传入的默认参数，再用下面的键值覆盖或追加
     return {
         **browser_context_args,
-        "base_url": BASE_URL,           # 设置基础 URL，page.goto("/path") 会自动拼接
-        "ignore_https_errors": True,    # 忽略自签名证书错误，适用于内网设备（如 192.168.x.x）
-        "viewport": {"width": 1280, "height": 720},  # 统一窗口分辨率，保证截图/元素定位一致
+        "base_url": BASE_URL,
+        "ignore_https_errors": True,
+        "viewport": {"width": 1280, "height": 720},
     }
 
 
@@ -52,9 +67,13 @@ def login_page(page):
 # ── 把 page 暴露给报告钩子（供失败时截图）──────────────────────────────────
 
 @pytest.fixture(autouse=True)
-def _expose_page_for_report(request, page):
+def _expose_page_for_report(request):
     # autouse=True：对所有用例生效，让 pytest_runtest_makereport 能在用例失败时取到 page 截图。
-    request.node.funcargs_page = page
+    # 仅当用例已通过其他 fixture 持有 page 时才暴露，不主动创建新 context（避免产生额外浏览器窗口）。
+    # 各模块可在自己的 conftest 中覆盖此 fixture，提供对应的 page 对象。
+    if "app_page" in request.fixturenames:
+        request.node.funcargs_page = request.getfixturevalue("app_page")
+    # 其他模块（BACnet/DataCollect/Device Mirror/Pass Through）在各自 conftest 覆盖本 fixture
     yield
 
 
@@ -134,3 +153,74 @@ def pytest_runtest_makereport(item, call):
                 pass  # 截图失败不应影响报告生成
 
     rep.extras = extras
+
+
+# ── Allure 标签（parameter_settings 子设备） ────────────────────────────────
+# 各设备的 feature/story 映射，key = 测试函数名（originalname）
+_ALLURE_LABELS: dict[str, dict[str, tuple[str, str]]] = {
+    "acurev4100": {
+        "test_password":               ("基本配置",    "Password"),
+        "test_backlight":              ("基本配置",    "Backlight"),
+        "test_nominal_frequency":      ("基本配置",    "Nominal Frequency"),
+        "test_pt_ratio":               ("基本配置",    "PT1 / PT2 Ratio"),
+        "test_nominal_current":        ("基本配置",    "Nominal Current"),
+        "test_phase_order":            ("基本配置",    "Phase Order"),
+        "test_energy_reading_format":  ("能量设置",    "Energy Reading Format"),
+        "test_energy_pulse_constant":  ("能量设置",    "Energy Pulse Constant"),
+        "test_demand_method":          ("需量设置",    "Demand Method"),
+        "test_demand_interval":        ("需量设置",    "Demand Interval"),
+        "test_demand_update_rate":     ("需量设置",    "Demand Update Rate"),
+        "test_var_pf":                 ("电能质量",    "VAR/PF Convention"),
+        "test_reactive_method":        ("电能质量",    "Reactive Power Method"),
+        "test_led_pulse_width":        ("LED 脉冲",   "LED Pulse Width"),
+        "test_led_pulse_parameter":    ("LED 脉冲",   "LED Pulse Parameter"),
+        "test_md_clear_mode":          ("最大需量复位", "Clear Mode"),
+        "test_md_auto_reset_date":     ("最大需量复位", "Auto Reset Date"),
+        "test_volt_sag_threshold":     ("电压跌落",    "Threshold"),
+        "test_volt_sag_hysteresis":    ("电压跌落",    "Hysteresis"),
+        "test_volt_sag_do_output":     ("电压跌落",    "DO Output"),
+        "test_volt_sag_ro_output":     ("电压跌落",    "RO Output"),
+        "test_volt_swell_threshold":   ("电压突升",    "Threshold"),
+        "test_volt_swell_hysteresis":  ("电压突升",    "Hysteresis"),
+        "test_volt_intr_threshold":    ("电压中断",    "Threshold"),
+        "test_volt_intr_hysteresis":   ("电压中断",    "Hysteresis"),
+        "test_curr_swell_threshold":   ("电流突升",    "Threshold"),
+        "test_curr_swell_hysteresis":  ("电流突升",    "Hysteresis"),
+        "test_waveform_sampling_rate": ("波形录制",    "Sample Rate"),
+        "test_waveform_pre_cycles":    ("波形录制",    "Num of Cycles Before"),
+        "test_waveform_post_cycles":   ("波形录制",    "Num of Cycles After"),
+        "test_waveform_di1_trigger":   ("波形录制",    "DI1 Trigger"),
+        "test_waveform_di2_trigger":   ("波形录制",    "DI2 Trigger"),
+        "test_waveform_di3_trigger":   ("波形录制",    "DI3 Trigger"),
+        "test_waveform_di4_trigger":   ("波形录制",    "DI4 Trigger"),
+        "test_waveform_manual_trigger":("波形录制",    "Manually Trigger"),
+    },
+    "acuvim_iiw": {
+        "test_nominal_frequency":    ("基本配置", "Nominal Frequency"),
+        "test_password":             ("基本配置", "Password"),
+        "test_pt_ratio":             ("基本配置", "PT1 / PT2 Ratio"),
+        "test_ct1":                  ("基本配置", "CT1"),
+        "test_backlight":            ("基本配置", "LCD Backlight"),
+        "test_demand_interval":      ("需量设置", "Demand Interval"),
+        "test_demand_method":        ("需量设置", "Demand Method"),
+        "test_var_pf":               ("电能质量", "VAR/PF Convention"),
+        "test_energy_calc_method":   ("电能质量", "Energy Calculation Method"),
+        "test_reactive_method":      ("电能质量", "Reactive Power Method"),
+        "test_kwh_pulse_constant":   ("脉冲设置", "kWh Pulse Constant"),
+        "test_kvarh_pulse_constant": ("脉冲设置", "kvarh Pulse Constant"),
+    },
+}
+
+
+@pytest.fixture(autouse=True)
+def allure_labels(request):
+    # 根据测试文件所在的设备子目录名选择对应的标签表
+    test_path = Path(request.node.fspath)
+    device_dir = test_path.parent.name          # e.g. "acurev4100"
+    labels = _ALLURE_LABELS.get(device_dir, {})
+    func = request.node.originalname
+    feature, story = labels.get(func, (device_dir, func))
+    allure.dynamic.feature(feature)
+    allure.dynamic.story(story)
+    allure.dynamic.title(request.node.name)
+    yield
