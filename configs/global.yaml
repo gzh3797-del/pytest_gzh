@@ -1,7 +1,7 @@
 # 全局默认环境（各项目可在 projects/<项目>/config.yaml 覆盖）
 conn_mode: rtu
 rtu:
-  port: COM14
+  port: COM11
   baudrate: 19200
   parity: N
   slaveid: 1
@@ -24,3 +24,14 @@ ssh:
   port: 22
   username: root
   # password 走 .env（见 .env.example）
+
+# ── AcuRev-1320 上位机固件升级自动化（projects/AcuRev1320/QT_Auto）专用 ──
+QT_path: 'C:\Users\ZihanGao\Acuview2\Acuview 2.exe'   # TODO: 改成本机 Acuview 2.exe 的实际绝对路径
+device_image_path: 'page_elements\AucRev1320\1320 TCP'  # 设备连接截图元素（不带 .png）
+QT_tcp:
+  host: 192.168.2.31   # TODO: 改成 Acuview 连接电表的 TCP IP
+  port: 502
+  timeout: 10
+  slave_id: 1
+QT_rtu:
+  com_port: 11   # RTU 升级时设备所在 COM 口（Meter Update 列表里的 "Com 11"）；复选框坐标在 firmware_layout.json 的 com_checkboxes 按此号标定

@@ -8,7 +8,7 @@ from pathlib import Path
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_REPORTS_ROOT = _REPO_ROOT / "reports"
 
-# 从测试路径参数中识别 tests/ 下一级模块目录名（如 projects/AcuHMI_1_7/tests/bacnet → bacnet）。
+# 从测试路径参数中识别 tests/ 下一级模块目录名（如 projects/AcuHMI_1_7/tests/BacnetIP → BacnetIP）。
 _MODULE_PATH_RE = re.compile(r"[\\/]tests[\\/]([^\\/]+)")
 
 

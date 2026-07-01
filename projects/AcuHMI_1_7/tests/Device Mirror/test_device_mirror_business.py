@@ -8,7 +8,9 @@
 
 仅比对 Interface=Ethernet（Modbus TCP）设备。B 路 IP/Unit 一律以网页抓取为准（不用 config 的设备表）。
 网关地址来自上级 config.py 的 GATEWAY_IP；容差用 TOLERANCE_*。
-运行：  cd C:\\JrJ\\auto\\autotest\\Protocols ;  python -m pytest "Device Mirror"
+运行（仓库根目录下，任意人 clone 后均可）：
+  pytest "projects/AcuHMI_1_7/tests/Device Mirror" -v
+也可直接运行本文件： python "projects/AcuHMI_1_7/tests/Device Mirror/test_device_mirror_business.py" -v
 """
 from __future__ import annotations
 
@@ -22,13 +24,37 @@ import time
 from dataclasses import dataclass
 
 import pytest
-from playwright.sync_api import sync_playwright, Page, Locator, TimeoutError as PWTimeout
+from playwright.sync_api import Browser, Page, Locator, TimeoutError as PWTimeout
 
 # ── 让本文件可独立 import 上级目录的 config.py ────────────────────────────────
 _ROOT = pathlib.Path(__file__).resolve().parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
-import config  # Protocols/config.py（取 GATEWAY_IP / TOLERANCE_*）
+# 配置来源：优先本地 tests/config.py（开发机覆盖，gitignored）；别人 clone 没有它时，
+# 回退到框架配置（configs/.env + config.yaml），保证从仓库根直接 pytest 也能开箱即跑。
+import importlib.util as _ilu, types as _types
+
+def _load_local_config():
+    _cfg_path = pathlib.Path(__file__).resolve().parent.parent / "config.py"
+    if _cfg_path.exists():
+        _spec = _ilu.spec_from_file_location("_tests_config", _cfg_path)
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        return _mod
+    _RR = pathlib.Path(__file__).resolve().parents[4]
+    if str(_RR) not in sys.path:
+        sys.path.insert(0, str(_RR))
+    from projects.AcuHMI_1_7 import settings as _s
+    return _types.SimpleNamespace(
+        HMI_URL=_s.HMI_URL, GATEWAY_IP=_s.HMI_IP, MODBUS_PORT=_s.METER_TCP_PORT,
+        HMI_USERNAME=_s.HMI_USERNAME, HMI_PASSWORD=_s.HMI_PASSWORD,
+        TOLERANCE_PERCENT=_s.MODBUS_CMP_TOLERANCE_PERCENT,
+        TOLERANCE_ABSOLUTE=_s.MODBUS_CMP_TOLERANCE_ABSOLUTE,
+        WEB_HEADLESS=_s.HEADLESS,
+        MODBUS_DEVICE_MAP=getattr(_s, "DEVICE_MODBUS_MAP", {}),
+    )
+
+config = _load_local_config()
 
 # ── 由 config 派生的配置（只改 config.py 即可）────────────────────────────────
 BASE_URL     = os.getenv("DM_BASE_URL", config.HMI_URL).rstrip("/")
@@ -653,29 +679,27 @@ class MirrorPage:
 # Fixtures
 # ═══════════════════════════════════════════════════════════════════════════
 @pytest.fixture(scope="module")
-def page_factory():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=not HEADED, args=["--ignore-certificate-errors"])
-        ctx0 = browser.new_context(ignore_https_errors=True, accept_downloads=True)
-        pg = ctx0.new_page(); pg.set_default_timeout(TIMEOUT)
-        _login(pg)
-        storage = pg.evaluate("JSON.stringify(window.sessionStorage)")
-        ctx0.close()
-        contexts = []
+def page_factory(browser: Browser):
+    """复用项目级共享 browser，不启动新 playwright 实例。"""
+    ctx0 = browser.new_context(ignore_https_errors=True, accept_downloads=True)
+    pg = ctx0.new_page(); pg.set_default_timeout(TIMEOUT)
+    _login(pg)
+    storage = pg.evaluate("JSON.stringify(window.sessionStorage)")
+    ctx0.close()
+    contexts = []
 
-        def make():
-            ctx = browser.new_context(ignore_https_errors=True, accept_downloads=True)
-            ctx.add_init_script(
-                "(() => { const d = %s; for (const k in d){try{sessionStorage.setItem(k,d[k]);}catch(e){}} })();"
-                % storage)
-            page = ctx.new_page(); page.set_default_timeout(TIMEOUT)
-            contexts.append(ctx)
-            return page
+    def make():
+        ctx = browser.new_context(ignore_https_errors=True, accept_downloads=True)
+        ctx.add_init_script(
+            "(() => { const d = %s; for (const k in d){try{sessionStorage.setItem(k,d[k]);}catch(e){}} })();"
+            % storage)
+        page = ctx.new_page(); page.set_default_timeout(TIMEOUT)
+        contexts.append(ctx)
+        return page
 
-        yield make
-        for c in contexts:
-            c.close()
-        browser.close()
+    yield make
+    for c in contexts:
+        c.close()
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -841,22 +865,37 @@ def test_dm_002_modbus_read(exported_csv):
 
 
 def test_dm_003_mirror_matches_direct(comparison):
-    """镜像(A) 与 直读真实电表(B) 数值测量量整体一致率达标；明细见 reports/。"""
+    """镜像(A) 与 直读真实电表(B)：稳定量逐寄存器必须一致；波动量单独报告，不计入失败。
+
+    镜像通路是否正确以"稳定量"（电压/频率/电能等非波动量）为准——这些量两次读取应
+    完全相同（容差内），任一不一致即判失败。波动量（谐波/THD/相位角/K因子/电流等）在
+    A、B 两次先后读取之间本身会变化（低电流时更接近噪声），单独以 warning 列出供参考，
+    不计入通过/失败。逐寄存器明细见本目录「数据对比结果.xlsx」。
+    """
     if not comparison:
         pytest.skip("无可比对设备（网页 Connection 未抓到真实 IP/ModbusID，或设备不在线）")
-    measured, bad = [], []
+    stable_n, stable_bad, dynamic_bad = 0, [], []
     for dev, rows in comparison.items():
         for r in rows:
             if r.kind == "string":
                 continue
-            measured.append(r)
+            line = f"{dev}/{r.parameter}: 镜像(A)={r.a_val} 直读(B)={r.b_val}"
+            if quantity_class(r.parameter) == "波动量":
+                if not r.matched:
+                    dynamic_bad.append(line)
+                continue
+            stable_n += 1
             if not r.matched:
-                bad.append(f"{dev}/{r.parameter}: 镜像={r.a_val} 直读={r.b_val}")
-    assert measured, "无数值型可比对项"
-    rate = sum(1 for r in measured if r.matched) / len(measured)
-    assert rate >= MIN_RATE, (
-        f"镜像↔直读一致率过低 {rate:.0%}（{len(bad)}/{len(measured)} 不一致），低于 {MIN_RATE:.0%}。"
-        f"前若干：\n" + "\n".join(bad[:30]))
+                stable_bad.append(line)
+    assert stable_n, "无稳定量可比对项"
+    if dynamic_bad:
+        import warnings
+        warnings.warn(
+            f"波动量 A/B 差异 {len(dynamic_bad)} 项（不计入失败，信号在两次读取间波动）：\n"
+            + "\n".join(dynamic_bad))
+    assert not stable_bad, (
+        f"稳定量存在镜像↔直读不一致 {len(stable_bad)}/{stable_n}（稳定量要求每个寄存器都一致）：\n"
+        + "\n".join(stable_bad))
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1049,3 +1088,13 @@ def test_dm_case08_concurrent_masters(exported_csv):
         if ok == 0 or rate < 0.8:
             bad.append(f"SlaveID {s}: ok={ok} err={err} 成功率={rate:.0%}（单独可读，并发下失败）")
     assert not bad, "并发读取存在异常（疑似串扰/网关并发限制）：\n" + "\n".join(bad)
+
+
+if __name__ == "__main__":
+    # 直接运行：python "Device Mirror/test_device_mirror_business.py" [额外 pytest 参数]
+    # 用 --confcutdir 限制 pytest 只从本套件目录起加载 conftest，绕开重组后因目录大小写
+    # （磁盘 acuhmi_1_7 vs 代码引用 AcuHMI_1_7）而 import 失败的上级 conftest。
+    # 本套件不依赖上级 conftest 的 fixture（自带 page_factory + 本目录 conftest）。
+    _f = str(pathlib.Path(__file__).resolve())
+    _here = str(pathlib.Path(__file__).resolve().parent)
+    raise SystemExit(pytest.main([_f, "--confcutdir", _here, *sys.argv[1:]]))

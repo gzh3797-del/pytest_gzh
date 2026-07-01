@@ -2,7 +2,7 @@
 2E3W 1Phase 接线检查自动化测试（电压侧6条 + 电流侧6条，A/C两相）
 
 运行：
-    python test_case/ACM_41_WEB2/wiring_check/test_2e3w_1phase.py
+    python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_1phase.py
 """
 import sys, os, logging, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))

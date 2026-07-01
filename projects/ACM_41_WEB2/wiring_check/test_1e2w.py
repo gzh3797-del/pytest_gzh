@@ -2,7 +2,7 @@
 1E2W 接线检查自动化测试（电压1条 + 电流2条）
 
 运行：
-    python test_case/ACM_41_WEB2/wiring_check/test_1e2w.py
+    python test_case/ACM_41_WEB2/Wiring_check/test_1e2w.py
 """
 import sys, os, logging, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))

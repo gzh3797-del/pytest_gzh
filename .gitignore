@@ -89,14 +89,40 @@ docs/superpowers/specs/
 .env
 # configs/.env 改为入库（含当前目标台架账号），故对其取消忽略；其余 .env 仍忽略
 !configs/.env
-
-# 敏感凭据：AWS IoT 设备私钥/证书、含凭据的截图——不入库
-tools/Protocols/IoT/AWS_IoT/certs/
-knowledge/cloud/requirements/raw/screenshots/02_credentials_filled.png
-
+configs/env
+# 本地账号密码适配层（IP 走 config.yaml，账号密码走 configs/env），不入库
+projects/AcuHMI_1_7/tests/config.py
+# AcuHMI 协议套件（DataCollect / Device Mirror / Pass Through）测试运行产物：
+# 每个套件只产出一个 用例执行结果.html + 一个 数据对比结果.xlsx，均随运行重新生成，不入库。
+projects/AcuHMI_1_7/tests/report.html
+projects/AcuHMI_1_7/tests/**/用例执行结果.html
+projects/AcuHMI_1_7/tests/**/数据对比结果.xlsx
+projects/AcuHMI_1_7/tests/**/数据对比结果_new.xlsx
+projects/AcuHMI_1_7/tests/**/不一致参数核查.xlsx
+projects/AcuHMI_1_7/tests/**/~$*.xlsx
+projects/AcuHMI_1_7/tests/DataCollect/metering_collect.json
+projects/AcuHMI_1_7/tests/DataCollect/metering_register_match.csv
+projects/AcuHMI_1_7/tests/Device Mirror/downloads/
 __pycache__/
 *.pyc
 .pytest_cache/
 
 # Claude Code runtime lock
 .claude/scheduled_tasks.lock
+
+# SNMP 运行时产物（每次测试自动生成，不入库）
+projects/AcuHMI_1_7/tests/SNMP/mib_mapping.json
+
+# SNMP walk 工具二进制（例外：*.exe 规则不应排除此文件）
+!projects/AcuHMI_1_7/tests/SNMP/SnmpWalk/SnmpWalk.exe
+
+# SNMP MIB 文件（每次测试从设备下载解压，不入库）
+projects/AcuHMI_1_7/tests/SNMP/mib/
+
+# acuview_auto_testcase_generate: 各项目生成模型与运行产物（由 data_acuview 重建，不入库）
+projects/*/spec_acuview/
+projects/*/reports_acuview/
+
+# MQTT mTLS 证书（含本机 IP，各自本地生成，不入库）
+projects/AcuHMI_1_7/tests/mqtt/certs/
+projects/AcuHMI_1_7/tests/mqtt/screenshots/

@@ -36,7 +36,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
 from bacnet_reader import (BACnetReader, AIObject, ReadResult,
-                            DeviceInfoResult, ProtocolErrorTestResult, StabilityResult)
+                            DeviceInfoResult, ProtocolErrorTestResult, StabilityResult,
+                            units_equivalent)
 from modbus_reader import ModbusReader, ModbusResult, get_reader
 from template_reader import TemplateParam, find_template_file, get_bacnet_params, get_bacnet_params_by_range, natural_sort_key
 
@@ -62,11 +63,18 @@ class ScopeReport:
 
 @dataclass
 class MetaCheckResult:
-    """单个参数的单位模板 vs BACnet 比对结果。"""
+    """单个参数的单位模板 vs BACnet 比对结果。
+
+    unit_ok:          True = 单位匹配（或模板无单位已跳过、或 units 读取失败不判错）。
+    unit_skipped:     True = 模板单位为空，跳过本项单位比对（不计入 FAIL）。
+    unit_read_failed: True = units 读取失败（超时/异常）未拿到值，不据此判错。
+    """
     param_key:   str
     tmpl_unit:   str   # 模板 unit 列
     bacnet_unit: str   # BACnet units 属性
     unit_ok:     bool
+    unit_skipped:     bool = False
+    unit_read_failed: bool = False
 
     @property
     def ok(self) -> bool:
@@ -244,15 +252,22 @@ async def run_comparison(
         if check_meta and bacnet_objects:
             log.info("读取 BACnet 元数据（description / units）…")
             meta_raw = await bacnet.read_metadata_batch(bacnet_objects)
-            for obj, bacnet_desc, bacnet_unit in meta_raw:
+            for obj, _bacnet_desc, bacnet_unit, unit_read_failed in meta_raw:
                 tmpl = tmpl_map.get(obj.param_key)
                 if tmpl is None:
                     continue
+                tmpl_unit = (tmpl.unit or "").strip()
+                # 模板无单位跳过、units 读取失败不判错；仅对成功读到单位的项做等价比对。
+                unit_skipped = tmpl_unit == ""
+                unit_ok = (unit_skipped or unit_read_failed
+                           or units_equivalent(tmpl_unit, bacnet_unit))
                 meta_results.append(MetaCheckResult(
-                    param_key   = obj.param_key,
-                    tmpl_unit   = tmpl.unit,
-                    bacnet_unit = bacnet_unit,
-                    unit_ok     = tmpl.unit == bacnet_unit,
+                    param_key        = obj.param_key,
+                    tmpl_unit        = tmpl_unit,
+                    bacnet_unit      = bacnet_unit,
+                    unit_ok          = unit_ok,
+                    unit_skipped     = unit_skipped,
+                    unit_read_failed = unit_read_failed,
                 ))
 
         # ── 读取数值 ──────────────────────────────────────────────────────────
@@ -335,8 +350,17 @@ def print_summary(
     if scope.extra_in_gw:
         print(f"  多余参数（前10）: {scope.extra_in_gw[:10]}")
     if meta:
-        meta_fail = [m for m in meta if not m.ok]
-        print(f"  【单位检查】共 {len(meta)} 项  通过={len(meta)-len(meta_fail)}  "
+        meta_read_failed = [m for m in meta if getattr(m, "unit_read_failed", False)]
+        meta_skipped = [m for m in meta
+                        if getattr(m, "unit_skipped", False)
+                        and not getattr(m, "unit_read_failed", False)]
+        meta_fail = [m for m in meta
+                     if not m.unit_ok and not getattr(m, "unit_skipped", False)
+                     and not getattr(m, "unit_read_failed", False)]
+        meta_pass = (len(meta) - len(meta_fail)
+                     - len(meta_skipped) - len(meta_read_failed))
+        print(f"  【单位检查】共 {len(meta)} 项  通过={meta_pass}  "
+              f"跳过={len(meta_skipped)}  读取失败={len(meta_read_failed)}  "
               f"失败={len(meta_fail)}")
     s = summary(results)
     print(f"  【数值比对】总={s['total']}  PASS={s['pass']} ({s['pass_rate']})  "
@@ -459,22 +483,60 @@ def generate_html_report(
 
     # ── Section 2: 元数据检查 HTML ────────────────────────────────────────────
     if meta:
-        meta_fail = [m for m in meta if not m.ok]
-        meta_pass = len(meta) - len(meta_fail)
+        meta_read_failed = [m for m in meta if getattr(m, "unit_read_failed", False)]
+        meta_skipped = [m for m in meta
+                        if getattr(m, "unit_skipped", False)
+                        and not getattr(m, "unit_read_failed", False)]
+        meta_fail = [m for m in meta
+                     if not m.unit_ok and not getattr(m, "unit_skipped", False)
+                     and not getattr(m, "unit_read_failed", False)]
+        meta_pass = (len(meta) - len(meta_fail)
+                     - len(meta_skipped) - len(meta_read_failed))
         meta_rows = []
         for i, m in enumerate(meta):
-            bg_u = "#d4edda" if m.unit_ok else "#f8d7da"
+            disp_unit = html.escape(m.bacnet_unit)
+            if getattr(m, "unit_read_failed", False):
+                bg_u = "#fff3cd"
+                flag = "读取失败"
+                disp_unit = "<em style='color:#856404'>读取失败</em>"
+            elif getattr(m, "unit_skipped", False):
+                bg_u = "#e2e3e5"
+                flag = "跳过"
+            elif m.unit_ok:
+                bg_u = "#d4edda"
+                flag = "✓"
+            elif m.bacnet_unit == "":
+                # 读取成功但网关返回 no-units（空单位），而模板要求有单位：网关缺单位
+                bg_u = "#f8d7da"
+                flag = "网关无单位"
+                disp_unit = "<em style='color:#721c24'>no-units</em>"
+            else:
+                bg_u = "#f8d7da"
+                flag = "✗"
             meta_rows.append(f"""
         <tr>
           <td class="num">{i+1}</td>
           <td class="key">{html.escape(m.param_key)}</td>
           <td>{html.escape(m.tmpl_unit)}</td>
-          <td style="background:{bg_u}">{html.escape(m.bacnet_unit)}</td>
-          <td style="background:{bg_u};text-align:center">{'✓' if m.unit_ok else '✗'}</td>
+          <td style="background:{bg_u}">{disp_unit}</td>
+          <td style="background:{bg_u};text-align:center">{flag}</td>
         </tr>""")
-        meta_badge = (f'<span class="badge err-badge">失败 {len(meta_fail)}</span>'
-                      if meta_fail else
-                      '<span class="badge ok-badge">全部通过</span>')
+        meta_badge = (
+            (f'<span class="badge err-badge">失败 {len(meta_fail)}</span>'
+             if meta_fail else "")
+            + (f'<span class="badge warn-badge">读取失败 {len(meta_read_failed)}</span>'
+               if meta_read_failed else "")
+            + ('<span class="badge ok-badge">全部通过</span>'
+               if not meta_fail and not meta_read_failed else "")
+        )
+        rf_card = (
+            f'<div class="card"><div class="num" style="color:#856404">{len(meta_read_failed)}</div>'
+            f'<div class="lbl">读取失败(未拿到单位)</div></div>'
+        ) if meta_read_failed else ""
+        skip_card = (
+            f'<div class="card"><div class="num" style="color:#6c757d">{len(meta_skipped)}</div>'
+            f'<div class="lbl">跳过(模板无单位)</div></div>'
+        ) if meta_skipped else ""
         meta_html = f"""
 <details open class="section">
 <summary>二、单位检查（BACnet units 属性 vs 模板）
@@ -486,6 +548,7 @@ def generate_html_report(
   <div class="card total"><div class="num">{len(meta)}</div><div class="lbl">检查总数</div></div>
   <div class="card pass"> <div class="num">{meta_pass}</div><div class="lbl">通过</div></div>
   <div class="card fail"> <div class="num">{len(meta_fail)}</div><div class="lbl">失败</div></div>
+  {rf_card}{skip_card}
 </div>
 <table>
 <colgroup>
@@ -834,7 +897,7 @@ _DEVICE_MAP: dict[str, tuple[str, str]] = {
     "acuvimiiw":   ("AcuvimIIW",   "devices.acuvimiiw"),
     "acuvimiir":   ("AcuvimIIR",   "devices.acuvimiir"),
     "acuvim3":     ("AcuVIM3",     "devices.acuvim3"),
-    "pxm350":      ("PXM350",      "devices.pxm350"),
+    "pxm350":      ("AcuRev1300",  "devices.pxm350"),
     "acuiom01":    ("AcuIOM01",    "devices.acuiom01"),
     "acuiom02":    ("AcuIOM02",    "devices.acuiom02"),
     "acuiom03":    ("AcuIOM03",    "devices.acuiom03"),

@@ -1,0 +1,53 @@
+# Azure IoT 测试配置
+# primary_conn_str / secondary_conn_str：网关 Web UI 填写的设备连接串
+# eventhub_conn_str：本地验证脚本用于从 Azure IoT Hub 接收消息的 Event Hub 兼容端点连接串
+#
+# primary_conn_str 格式示例：
+#   HostName=your-hub.azure-devices.net;DeviceId=your-device-id;SharedAccessKey=base64key==
+#
+# eventhub_conn_str 格式示例（iothubowner 策略）：
+#   Endpoint=sb://iothub-ns-xxx.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=base64key=;EntityPath=xxx
+
+gateway:
+  url: "https://192.168.2.8"
+  username: "admin"
+  password: "Admin@110002"
+
+azure_iot:
+  # 网关连接凭据（填写后在 Web UI 中使用）
+  primary_conn_str: "HostName=<your-hub>.azure-devices.net;DeviceId=<device-id>;SharedAccessKey=<key>"
+  secondary_conn_str: ""
+
+  interval: "30 seconds"
+
+  # 本地验证脚本连接串（从 Azure Portal → IoT Hub → 内置终结点 获取）
+  eventhub_conn_str: "Endpoint=sb://<namespace>.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=<key>;EntityPath=<hub-name>"
+
+  # 期望上报的设备名列表
+  expected_devices:
+    - AcuRev1300
+    - AcuvimIIR
+    - AcuRev4100
+    - AcuRev2100
+    - Acuvim3
+    - AcuvimIIW
+    - test_virtual01
+
+  # 用于 Interval 间隔测试时指定单设备（留空则自动随机选取）
+  interval_test_device: ""
+
+  # 用于虚拟设备数据比对测试
+  virtual_device: "test_virtual01"
+
+  # 数值比对容差
+  tolerance_pct: 5.0
+  tolerance_abs: 1.0
+
+modbus:
+  # 格式: 设备规范名称: [IP, 端口, Unit ID]
+  devices:
+    AcuRev4100:  ["192.168.2.30", 502, 102]
+    AcuRev4100a: ["192.168.2.29", 502, 203]
+    AcuvimIIW:   ["192.168.2.27", 502, 2  ]
+    AcuvimIIR:   ["192.168.2.8",  502, 103]
+    AcuRev1300:  ["192.168.2.8",  502, 102]

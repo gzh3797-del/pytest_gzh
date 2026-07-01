@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 # 用例编号：TestCase_AcuHMI_005_01_case03_03
@@ -21,27 +21,6 @@ def _nav_to_datetime(page):
     page.goto(base + "#/systemSettings/dateTime")
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(800)
-
-
-def _get_tz_offset(page):
-    tz_fi = page.locator(".el-form-item").filter(has_text="Time Zone").first
-    if tz_fi.count() == 0:
-        return timedelta(hours=-4)
-    tz_text = tz_fi.inner_text()
-    if "Toronto" in tz_text or "Eastern" in tz_text or "New_York" in tz_text:
-        return timedelta(hours=-4)
-    tz_map = {
-        "EST": timedelta(hours=-5), "EDT": timedelta(hours=-4),
-        "CST": timedelta(hours=-6), "CDT": timedelta(hours=-5),
-        "MST": timedelta(hours=-7), "MDT": timedelta(hours=-6),
-        "PST": timedelta(hours=-8), "PDT": timedelta(hours=-7),
-        "UTC": timedelta(hours=0),  "GMT": timedelta(hours=0),
-        "CET": timedelta(hours=1),  "CEST": timedelta(hours=2),
-    }
-    for abbr, offset in tz_map.items():
-        if abbr in tz_text:
-            return offset
-    return timedelta(hours=-4)
 
 
 def _read_device_clock(page):
@@ -97,8 +76,8 @@ def _fill_ntp_servers(page, servers):
         page.wait_for_timeout(100)
 
 
-def _one_round(page, label, tz_offset):
-    """设错误时间 → 配置 Server1/2/3 → Save → Sync → 验证"""
+def _one_round(page, label):
+    """设错误时间 → 配置 Server1/2/3 → Save → Sync → 验证（本机本地时间对比）"""
     _set_device_clock(page, WRONG_DATE, WRONG_TIME)
     _fill_ntp_servers(page, NTP_SERVERS)
 
@@ -114,7 +93,7 @@ def _one_round(page, label, tz_offset):
     sync_btn = page.get_by_role("button", name="Sync")
     assert sync_btn.count() > 0, "未找到 Sync 按钮"
 
-    ref_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+    ref_local = datetime.now()
     sync_btn.click()
     try:
         page.wait_for_selector("text=Synced", timeout=90000)
@@ -124,24 +103,23 @@ def _one_round(page, label, tz_offset):
 
     _nav_to_datetime(page)
     device_dt, clock_str = _read_device_clock(page)
-    device_utc = device_dt - tz_offset
-    diff = abs((device_utc - ref_utc).total_seconds())
+    diff = abs((device_dt - ref_local).total_seconds())
     assert diff <= 120, (
-        f"{label} Sync 后 Device Clock 与 NTP 时间不一致：\n"
-        f"  Device Clock（本地）= {clock_str}\n"
-        f"  Device Clock（UTC）= {device_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"  参考 UTC = {ref_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"{label} Sync 后 Device Clock 与本机时间不一致：\n"
+        f"  Device Clock = {clock_str}\n"
+        f"  本机参考时间 = {ref_local.strftime('%Y/%m/%d %I:%M:%S %p')}\n"
         f"  差值 = {diff:.0f} 秒（允许 ≤ 120 秒）"
     )
 
 
-def test_TestCase_AcuHMI_005_01_case03_03(login_page: LoginPage):
+def test_TestCase_AcuHMI_005_01_case03_03(login_page: LoginPage, datetime_guard):
     login_page.open()
     login_page.login()
     page = login_page.page
 
     # 启用 NTP
     _nav_to_datetime(page)
+    datetime_guard.snapshot(page)   # 修改任何设置前记录原状态，用例结束自动恢复
     ntp_enable_item = page.locator(".el-form-item").filter(has_text="NTP Enable").first
     assert ntp_enable_item.count() > 0, "未找到 NTP Enable 字段"
     enable_radio = ntp_enable_item.locator(".el-radio").filter(has_text="Enable")
@@ -149,17 +127,13 @@ def test_TestCase_AcuHMI_005_01_case03_03(login_page: LoginPage):
         ntp_enable_item.locator(".el-radio__label").filter(has_text="Enable").click()
         page.wait_for_timeout(600)
 
-    tz_offset = _get_tz_offset(page)
-
     # 第1轮
-    _one_round(page, "第1轮", tz_offset)
+    _one_round(page, "第1轮")
 
     # 第2轮
     _nav_to_datetime(page)
-    tz_offset = _get_tz_offset(page)
-    _one_round(page, "第2轮", tz_offset)
+    _one_round(page, "第2轮")
 
     # 第3轮
     _nav_to_datetime(page)
-    tz_offset = _get_tz_offset(page)
-    _one_round(page, "第3轮", tz_offset)
+    _one_round(page, "第3轮")

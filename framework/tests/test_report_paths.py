@@ -15,15 +15,15 @@ def test_make_report_dir_creates_subdirs(tmp_path: Path):
 
 def test_make_report_dir_inserts_module_level(tmp_path: Path):
     dirs = make_report_dir("AcuHMI_1_7", "20260610_153000",
-                           module="bacnet", reports_root=tmp_path)
-    assert dirs.root == tmp_path / "AcuHMI_1_7" / "bacnet" / "20260610_153000"
+                           module="BacnetIP", reports_root=tmp_path)
+    assert dirs.root == tmp_path / "AcuHMI_1_7" / "BacnetIP" / "20260610_153000"
     assert (dirs.root).is_dir()
     assert (dirs.screenshots).is_dir()
 
 
 def test_detect_module_single_module():
-    args = ["projects/AcuHMI_1_7/tests/bacnet/test_x.py::TestC::test_m"]
-    assert detect_module(args) == "bacnet"
+    args = ["projects/AcuHMI_1_7/tests/BacnetIP/test_x.py::TestC::test_m"]
+    assert detect_module(args) == "BacnetIP"
 
 
 def test_detect_module_nested_returns_top_level():
@@ -33,11 +33,11 @@ def test_detect_module_nested_returns_top_level():
 
 def test_detect_module_windows_separators():
     args = [r"projects\acuhmi_1_7\tests\wiring_check\test_x.py"]
-    assert detect_module(args) == "wiring_check"
+    assert detect_module(args) == "Wiring_check"
 
 
 def test_detect_module_ambiguous_returns_none():
-    args = ["projects/AcuHMI_1_7/tests/bacnet", "projects/AcuHMI_1_7/tests/ui"]
+    args = ["projects/AcuHMI_1_7/tests/BacnetIP", "projects/AcuHMI_1_7/tests/ui"]
     assert detect_module(args) is None
 
 

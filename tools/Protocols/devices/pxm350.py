@@ -65,7 +65,10 @@ def build_param_map() -> dict[str, ModbusRegister]:
     add('EP_IMP_b_kWh', 0x2052, U32)   # Phase B Import
     add('EP_IMP_c_kWh', 0x2054, U32)   # Phase C Import
 
-    # ── 需量（地址需从 Excel 精确确认，暂不映射） ─────────────────────────────
-    # DMD_P_kW, DMD_Q_kvar, DMD_S_kVA 待补充
+    # ── 需量（0x1208, float32） ───────────────────────────────────────────────
+    # 地址来源：AcuRev-1300_v1.01_20260416.xlsx blockParams，paramId 3-1/3-2/3-3
+    add('DMD_P_kW',   0x1208)
+    add('DMD_Q_kvar', 0x120A)
+    add('DMD_S_kVA',  0x120C)
 
     return regs

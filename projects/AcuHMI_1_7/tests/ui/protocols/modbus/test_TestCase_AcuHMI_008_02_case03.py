@@ -1,6 +1,3 @@
-import pytest
-from playwright.sync_api import expect
-from projects.AcuHMI_1_7.settings import BASE_URL
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 
@@ -25,6 +22,27 @@ def _nav_modbus_config(page):
     page.wait_for_timeout(500)
 
 
+def _ensure_modbus_enabled_port_input(page):
+    """确保 Modbus 已启用，返回 Modbus Port 输入框 locator。
+
+    Modbus Port 字段在 v-if 区块内，仅当 Modbus Enable 选中时才渲染进 DOM；实测点
+    Enable 单选即响应式渲染该字段，无需 Save。原写法点 Enable 后只固定等 300ms 且吞掉
+    点击异常，Modbus 处于关闭态时 Port 不在 DOM，导致后续 fill 30s 超时。这里改为：
+    未启用则点 Enable，再显式等待 Port 输入框可见（用 placeholder 精确定位）。
+    """
+    # 导航用的 Modbus 下拉菜单是 hover 触发，点完子项后菜单 popper 仍悬在表单上方，
+    # 会拦截 Enable 单选点击；先按 Esc 并把鼠标移开，让菜单 popper 收起。
+    page.keyboard.press("Escape")
+    page.mouse.move(640, 500)
+    page.wait_for_timeout(300)
+    enabled = page.locator(".el-radio.is-checked").filter(has_text="Enable").count() > 0
+    if not enabled:
+        page.locator(".el-radio").filter(has_text="Enable").first.click()
+    port_input = page.locator('input[placeholder="Enter Modbus Port"]')
+    port_input.wait_for(state="visible", timeout=10000)
+    return port_input
+
+
 def _check_invalid_port(page, port: int):
     """
     填入越界端口，校验：
@@ -34,17 +52,8 @@ def _check_invalid_port(page, port: int):
     """
     _nav_modbus_config(page)
 
-    # 确保 Modbus 已启用
-    enable_radio = page.locator(".el-radio").filter(has_text="Enable")
-    if enable_radio.count() > 0:
-        try:
-            enable_radio.first.click()
-            page.wait_for_timeout(300)
-        except Exception:
-            pass
-
-    # 填入越界端口值
-    port_input = page.locator(".el-form-item").filter(has_text="Port").locator("input").first
+    # 确保 Modbus 已启用并取 Modbus Port 输入框
+    port_input = _ensure_modbus_enabled_port_input(page)
     port_input.fill(str(port))
     page.wait_for_timeout(200)
 

@@ -140,13 +140,35 @@ _BACNET_UNIT_MAP: dict[str, str] = {
     "kilovolt-ampere-hours": "kVAh",
     "kilovolt-ampere-hours-reactive": "kvarh",
     "degrees-angular": "°",
+    "degrees-phase": "°",   # BACnet 相位角单位，等价于 °
     "no-units": "",
 }
+
+# 单位等价对（两两互等，°/deg、大小写等常见等价写法）。
+_UNIT_EQUIV_PAIRS: list[tuple[str, str]] = [
+    ("°", "deg"),
+    ("°", "degrees"),
+    ("kvar", "kVAr"),
+    ("kvarh", "kVArh"),
+    ("kVAh", "kVAH"),
+]
 
 
 def _bacnet_unit_to_str(raw: str) -> str:
     """将 BAC0 返回的 BACnet 单位枚举名转换为模板中使用的单位字符串。"""
     return _BACNET_UNIT_MAP.get(raw.lower().strip(), raw)
+
+
+def units_equivalent(a: str, b: str) -> bool:
+    """判断两个单位字符串是否等价（完全相等 + 等价对 + 大小写不敏感）。"""
+    if a == b:
+        return True
+    if a.lower() == b.lower():
+        return True
+    for x, y in _UNIT_EQUIV_PAIRS:
+        if (a == x and b == y) or (a == y and b == x):
+            return True
+    return False
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -443,28 +465,62 @@ class BACnetReader:
     async def read_metadata_batch(
         self,
         objects: list[AIObject],
-    ) -> list[tuple[AIObject, str, str]]:
+    ) -> list[tuple[AIObject, str, str, bool]]:
         """
         批量读取每个 AI 对象的 BACnet description 和 units 属性。
 
+        units 读取失败时重试 config.MAX_RETRIES 次（与 presentValue 读取一致），并区分
+        "读取失败(超时/异常)"与"网关返回 no-units(空单位)"——前者未拿到值，不能据此
+        判定单位与模板不符。读取成功但映射为空（如 no-units）而模板要求有单位时，记录
+        原始值到日志，便于定位是网关确无单位还是枚举未覆盖。
+
         Returns:
-            list of (AIObject, bacnet_description, bacnet_unit_str)
+            list of (AIObject, bacnet_description, bacnet_unit_str, units_read_failed)
+            units_read_failed=True 表示 units 重试用尽仍未读到（未拿到值）。
         """
-        results: list[tuple[AIObject, str, str]] = []
+        results: list[tuple[AIObject, str, str, bool]] = []
         total = len(objects)
+
+        async def _read_attr_retry(request: str) -> tuple[object, bool]:
+            """读取单个属性，失败重试 config.MAX_RETRIES 次。返回 (value, read_failed)。"""
+            last_exc: Optional[Exception] = None
+            for attempt in range(config.MAX_RETRIES + 1):
+                try:
+                    value = await asyncio.wait_for(
+                        self._bacnet.read(request), timeout=config.READ_TIMEOUT
+                    )
+                    return value, False
+                except Exception as exc:
+                    last_exc = exc
+                    if attempt < config.MAX_RETRIES:
+                        await asyncio.sleep(config.RETRY_WAIT)
+            log.debug("属性读取失败 [%s]（已重试 %d 次）: %s",
+                      request, config.MAX_RETRIES, last_exc)
+            return None, True
 
         for batch_start in range(0, total, config.BATCH_SIZE):
             batch = objects[batch_start: batch_start + config.BATCH_SIZE]
 
             async def _read_one(obj: AIObject):
                 obj_type_str = obj.obj_type
-                desc_raw, units_raw = await asyncio.gather(
-                    self._read_raw(f"{self._gw} {obj_type_str} {obj.instance} description"),
-                    self._read_raw(f"{self._gw} {obj_type_str} {obj.instance} units"),
+                desc_raw, _ = await _read_attr_retry(
+                    f"{self._gw} {obj_type_str} {obj.instance} description"
+                )
+                units_raw, units_failed = await _read_attr_retry(
+                    f"{self._gw} {obj_type_str} {obj.instance} units"
                 )
                 desc = str(desc_raw).strip() if desc_raw is not None else ""
                 unit = _bacnet_unit_to_str(str(units_raw)) if units_raw is not None else ""
-                return obj, desc, unit
+                # 诊断：units 读取成功但映射为空（如网关返回 no-units），而模板要求有单位，
+                # 记录原始值，便于区分"读取超时""网关确无单位""枚举未覆盖"三种情况。
+                if (not units_failed and units_raw is not None
+                        and unit == "" and obj.unit):
+                    log.warning(
+                        "[元数据] units 读到但映射为空 [%s %d] param=%s "
+                        "模板单位=%r 网关units原始值=%r",
+                        obj_type_str, obj.instance, obj.param_key, obj.unit, units_raw,
+                    )
+                return obj, desc, unit, units_failed
 
             batch_results = await asyncio.gather(*[_read_one(o) for o in batch])
             results.extend(batch_results)

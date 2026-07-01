@@ -1,0 +1,72 @@
+# ============================================================================
+# ACmeter —— Acuview2 自动化用例配置（acuview_auto_testcase_generate skill 专用）
+# 由 comm/ctl_acuview 引擎读取：用例里 config_path 指向本文件，CLI 用 --config 指向本文件。
+# 相对路径以本文件所在目录(= projects/ACmeter/)为锚（见 comm/ctl_acuview/config.py:resolve）。
+# 跨 PC 免改：app.exe_path 留空自动发现 Acuview2；只需按现场改 IP/COM。
+# ============================================================================
+
+# 上位机程序
+app:
+  exe_path: ''                       # 留空=自动发现(见 comm/ctl_acuview/app_locator.py)
+  window_title_re: '.*Acuview 2.*'
+  launch_wait_s: 12
+  # Add Connection 列表里 ACmeter 这条连接所在行号(从 0 起)；按测试机实际改。
+  connection_row: 0
+
+# Modbus 传输通道 —— GUI 走 TCP, 校验走 RTU, 跨传输互不争用(TCP 单客户端)。
+transport:
+  gui: tcp          # Acuview 2 连 ACmeter 的方式
+  verify: rtu       # 校验脚本连 ACmeter 的方式 (必须与 gui 错开)
+
+  tcp:
+    host: '192.168.1.254'   # TODO: 改为 ACmeter 测试环境 IP
+    port: 502
+    slave_id: 1
+    timeout_s: 3
+
+  rtu:
+    port: 'COM9'            # TODO: 改为 ACmeter 测试串口
+    baudrate: 19200
+    parity: 'N'
+    bytesize: 8
+    stopbits: 1
+    slave_id: 1
+    timeout_s: 3
+
+# 素材文件 —— 相对本文件目录(projects/ACmeter/)。把 ACmeter 的地址表 xlsx 与控件 JSON
+# 放入 data_acuview/，并把下面文件名改成实际文件名，然后跑：
+#   python -m comm.ctl_acuview.spec_loader --build --config projects/ACmeter/config_acuview.yaml
+spec:
+  # 当前=1320 冒烟样例(保留, 不删)；接 ACmeter 真机时改成 ACmeter 实际地址表/控件 JSON 文件名
+  excel: 'data_acuview/AcuRev-1320 Modbus Address Table v1.01 20260429.xlsx'
+  json: 'data_acuview/Default_1.01 1.json'
+  out_dir: 'spec_acuview'
+
+# GUI 后端能力表 (1920x1080 / 125% / 最大化 基线)
+gui_backend:
+  default: coord
+  by_widget_type:
+    spinBox: uia
+    comboBox: uia
+    lineEdit: uia
+    ipEdit: coord
+    switchButton: coord
+    valueLabel: coord
+  content_origin:                 # JSON 逻辑坐标→屏幕的标定原点；换分辨率/缩放需重标
+    method: fixed                 #   重标: python -m comm.ctl_acuview.calibrate --config projects/ACmeter/config_acuview.yaml --page <页> --ox <> --oy <>
+    fixed_x: 294
+    fixed_y: 144
+  field_inset_x: 40
+  tesseract_cmd: ''               # 仅 read_compare(读 GUI 显示值比对) 需要 Tesseract
+
+# 写操作安全护栏 (禁写通信链路寄存器，改了会断链)
+# 注意: forbid_write_addr 须按 ACmeter 寄存器表复核填写；name 子串护栏通用。
+safety:
+  forbid_write_addr: []          # TODO: 按 ACmeter 通信寄存器地址填写
+  forbid_write_name_substr: ['SLAVE_ID', 'BAUD', 'IP', 'GATEWAY', 'SUBNET',
+                             'DNS', 'PASSWORD', 'PARITY', 'ETHERNET']
+
+run:
+  report_dir: 'reports_acuview'    # 相对 projects/ACmeter/，落 projects/ACmeter/reports_acuview/
+  screenshot_on_step: true
+  value_tolerance: 0.01

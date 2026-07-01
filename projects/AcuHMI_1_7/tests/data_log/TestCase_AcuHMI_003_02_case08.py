@@ -1,0 +1,56 @@
+# -*- coding: utf-8 -*-
+"""
+用例 ID：TestCase_AcuHMI_003_02_case08
+类别：C — 正向推送验证
+功能：Logger2 通过 FTP 推送 JSON 文件，验证文件到达及格式正确性
+
+【预置条件】
+  1. setup_env.py 已在后台运行：FTP 服务器（端口 2121）已启动，
+     Post Channel 1=FTP 已配置并 Enabled
+  2. conftest.py driver fixture 已完成网关 Web 登录
+  3. conftest.py clear_dirs fixture 已清空 FTP 接收目录
+
+【测试步骤】
+  1. 进入 Data Loggers 页面，对 Logger2 进行如下配置并保存：
+       Enable               = True
+       Post Channel         = 1（FTP）
+       Log File Format      = JSON
+       Log File Length      = 1 minute
+       Timestamp Format     = UTC Seconds
+       Log File Name Format = UTC Timestamp
+       Log File Name Prefix = meter0_Logger2
+       Log Interval         = 1 minute
+  2. 等待最长 120 秒，轮询 FTP 接收目录直至出现 .json 文件
+  3. 验证文件扩展名为 .json
+  4. 验证文件名格式：meter0_Logger2 + 14 位时间戳（UTC Timestamp）
+  5. 验证文件内容中 time/timestamp 字段为 UTC 秒数（10~13 位纯数字）
+  6. 验证相邻记录时间戳间隔约为 1 minute（±10%）
+  7. 验证文件数据覆盖时长约为 1 minute（±10%）
+  8. 将 Logger2 设为 Disable
+
+【预期结果】
+  - FTP 接收目录内收到至少一个 .json 文件
+  - 文件名符合格式：meter0_Logger2<YYYYMMDDHHmmss>.json
+  - 所有记录时间戳为 UTC 秒数格式
+  - 相邻记录间隔与 Log Interval（1 minute）一致
+  - 文件数据覆盖时长与 Log File Length（1 minute）一致
+"""
+from helpers import run_push_case
+
+CASE_ID      = "TestCase_AcuHMI_003_02_case08"
+LOGGER_N     = 2
+PROTOCOL     = "FTP"
+FILE_FORMAT  = "json"
+FILE_LENGTH  = "1 minute"
+TS_FMT       = "UTC Seconds"
+NAME_FMT     = "UTC Timestamp"
+PREFIX       = "meter0_Logger2"
+INTERVAL     = "1 minute"
+
+
+def test_case(pool, driver):
+    run_push_case(
+        CASE_ID, LOGGER_N, PROTOCOL, FILE_FORMAT,
+        FILE_LENGTH, TS_FMT, NAME_FMT, PREFIX, INTERVAL,
+        pool, driver,
+    )

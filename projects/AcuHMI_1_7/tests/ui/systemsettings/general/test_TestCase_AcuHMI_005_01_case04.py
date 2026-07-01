@@ -219,7 +219,7 @@ def _set_device_clock(page, date_str: str, time_str: str):
     page.wait_for_timeout(300)
 
 
-def test_TestCase_AcuHMI_005_01_case04(login_page: LoginPage):
+def test_TestCase_AcuHMI_005_01_case04(login_page: LoginPage, datetime_guard):
     login_page.open()
     login_page.login()
     page = login_page.page
@@ -229,6 +229,8 @@ def test_TestCase_AcuHMI_005_01_case04(login_page: LoginPage):
     page.goto(base + "#/systemSettings/dateTime")
     page.wait_for_load_state("networkidle")
     page.wait_for_timeout(800)
+
+    datetime_guard.snapshot(page)   # 修改任何设置前记录原状态，用例结束自动恢复（本例会遍历时区+关NTP+改时间）
 
     tz_fi = page.locator(".el-form-item").filter(has_text="Time Zone").first
     assert tz_fi.count() > 0, "未找到 Time Zone 字段"

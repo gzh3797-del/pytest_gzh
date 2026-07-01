@@ -1,5 +1,4 @@
-import pytest
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from projects.AcuHMI_1_7.pages.login_page import LoginPage
 
 # 用例编号：TestCase_AcuHMI_005_01_case03_04
@@ -43,35 +42,14 @@ def _read_device_clock(page):
     raise AssertionError(f"Device Clock 格式无法解析：'{clock_str}'")
 
 
-def _get_device_timezone_offset(page):
-    """Return UTC offset for device timezone as timedelta."""
-    tz_fi = page.locator(".el-form-item").filter(has_text="Time Zone").first
-    if tz_fi.count() == 0:
-        return timedelta(hours=-4)
-    tz_text = tz_fi.inner_text()
-    if "Toronto" in tz_text or "Eastern" in tz_text or "New_York" in tz_text:
-        return timedelta(hours=-4)  # 5月夏令时 EDT = UTC-4
-    tz_map = {
-        "EST": timedelta(hours=-5), "EDT": timedelta(hours=-4),
-        "CST": timedelta(hours=-6), "CDT": timedelta(hours=-5),
-        "MST": timedelta(hours=-7), "MDT": timedelta(hours=-6),
-        "PST": timedelta(hours=-8), "PDT": timedelta(hours=-7),
-        "UTC": timedelta(hours=0),  "GMT": timedelta(hours=0),
-        "CET": timedelta(hours=1),  "CEST": timedelta(hours=2),
-    }
-    for abbr, offset in tz_map.items():
-        if abbr in tz_text:
-            return offset
-    return timedelta(hours=-4)
-
-
-def test_TestCase_AcuHMI_005_01_case03_04(login_page: LoginPage):
+def test_TestCase_AcuHMI_005_01_case03_04(login_page: LoginPage, datetime_guard):
     login_page.open()
     login_page.login()
     page = login_page.page
 
     # Step 1: 导航到 Date & Time 页面
     _nav_to_datetime(page)
+    datetime_guard.snapshot(page)   # 修改任何设置前记录原状态，用例结束自动恢复
 
     # Step 2: 启用 NTP Enable
     ntp_enable_item = page.locator(".el-form-item").filter(has_text="NTP Enable").first
@@ -89,9 +67,6 @@ def test_TestCase_AcuHMI_005_01_case03_04(login_page: LoginPage):
         inp.fill(ntp_server)
         page.wait_for_timeout(200)
 
-    # 读取时区偏移
-    tz_offset = _get_device_timezone_offset(page)
-
     # Step 4: Save
     page.get_by_role("button", name="Save").click()
     page.wait_for_load_state("networkidle")
@@ -106,7 +81,7 @@ def test_TestCase_AcuHMI_005_01_case03_04(login_page: LoginPage):
     sync_btn = page.get_by_role("button", name="Sync")
     assert sync_btn.count() > 0, "未找到 Sync 按钮"
 
-    ref_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+    ref_local = datetime.now()
     sync_btn.click()
 
     # 等待 "Synced." 提示出现，最多等 60 秒
@@ -122,17 +97,13 @@ def test_TestCase_AcuHMI_005_01_case03_04(login_page: LoginPage):
     # 重新导航刷新，确保 Device Clock 显示最新值
     _nav_to_datetime(page)
 
-    # Step 6: 读取 Device Clock，与参考 UTC 对比
+    # Step 6: 读取 Device Clock，与本机本地时间对比（设备与测试机同时区，免 UTC 换算）
     device_dt, clock_str = _read_device_clock(page)
-
-    # Device Clock 为设备本地时间，换算为 UTC
-    device_utc = device_dt - tz_offset
-    diff_seconds = abs((device_utc - ref_utc).total_seconds())
+    diff_seconds = abs((device_dt - ref_local).total_seconds())
 
     assert diff_seconds <= 120, (
-        f"Sync 后 Device Clock 与 NTP Server1 时间不一致：\n"
-        f"  Device Clock（本地）= {clock_str}\n"
-        f"  Device Clock（换算 UTC）= {device_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"  参考 UTC（Sync 时刻）= {ref_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"Sync 后 Device Clock 与本机时间不一致：\n"
+        f"  Device Clock = {clock_str}\n"
+        f"  本机参考时间（Sync 时刻）= {ref_local.strftime('%Y/%m/%d %I:%M:%S %p')}\n"
         f"  差值 = {diff_seconds:.0f} 秒（允许 ≤ 120 秒）"
     )

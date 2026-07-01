@@ -29,4 +29,4 @@ class LoginPage(BasePage):
 
     def is_logged_in(self) -> bool:
         # AcuHMI 导航菜单出现即表示登录成功
-        return self.page.locator("header span").filter(has_text="AcuHMI").is_visible()
+        return self.page.locator("header span").filter(has_text="AcuHMI").first.is_visible()

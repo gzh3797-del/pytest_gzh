@@ -208,8 +208,8 @@ def build_param_map() -> dict[str, ModbusRegister]:
         add_pq(f'HAR{k}_V_b_%', 0x3223 + (k - 2))
         add_pq(f'HAR{k}_V_c_%', 0x3241 + (k - 2))
 
-    # 电流不平衡
-    add_pq('UNBL_I_%',    0x325F, S_PCT1)
+    # 电流不平衡（0.01% 精度，与 UNBL_V 不同；勿误用 S_PCT1，否则读数偏大 10 倍）
+    add_pq('UNBL_I_%',    0x325F, S_PCT)
     # 电压 Odd/Even THD + Crest Factor + THF（每相 4 寄存器，连续）
     for i, ph in enumerate(['a', 'b', 'c']):
         base = 0x3260 + i * 4

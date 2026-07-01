@@ -41,23 +41,23 @@ HMI_PASSWORD = "Admin@110001"         # 网页登录密码
 cd C:\JrJ\auto\autotest\Protocols
 
 # ① 运行全部 9 条 Pass Through 用例
-python -m pytest "Pass Through" -v
+pytest "Pass Through" -v
 
 # ② 生成 HTML 报告（需 pip install pytest-html）
-python -m pytest "Pass Through" -v --html=reports/pass_through_report.html --self-contained-html
+pytest "Pass Through" -v --html=reports/pass_through_report.html --self-contained-html
 
 # ③ 有头模式——浏览器可见，方便调试
-$env:HEADED="1"; python -m pytest "Pass Through" -v; Remove-Item Env:HEADED
+$env:HEADED="1"; pytest "Pass Through" -v; Remove-Item Env:HEADED
 
 # ④ 只跑某条用例
-python -m pytest "Pass Through" -k "case01" -v
+pytest "Pass Through" -k "case01" -v
 
 # ⑤ 仅跑数据正确性用例
-python -m pytest "Pass Through" -k "pt_001 or pt_002 or pt_003" -v
+pytest "Pass Through" -k "pt_001 or pt_002 or pt_003" -v
 
 # ⑥ 调整并发时长 / 透传就绪等待
 $env:CONCURRENT_SECONDS="60"; $env:PT_SETTLE_MS="5000"
-python -m pytest "Pass Through" -v
+pytest "Pass Through" -v
 ```
 
 ### 1.4 查看报告

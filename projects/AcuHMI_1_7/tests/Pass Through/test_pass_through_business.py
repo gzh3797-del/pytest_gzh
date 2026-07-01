@@ -9,7 +9,9 @@
 读哪些寄存器由「AcuCloud 模板 xlsx」决定：Protocols/template/AcuCloud 模板适配/<Model>.xlsx
 （D 列=起始地址，E 列=参数描述，H 列=数据类型；功能码固定 FC=3 保持寄存器；缺表的型号自动跳过并提示）。
 B 路 IP/Unit 一律以网页抓取为准（不用 config 的设备表）。网关地址来自上级 config.py 的 GATEWAY_IP；容差用 TOLERANCE_*。
-运行：  cd C:\\JrJ\\auto\\autotest\\Protocols ;  python -m pytest "Pass Through"
+运行（仓库根目录下，任意人 clone 后均可）：
+  pytest "projects/AcuHMI_1_7/tests/Pass Through" -v
+也可直接运行本文件： python "projects/AcuHMI_1_7/tests/Pass Through/test_pass_through_business.py" -v
 """
 from __future__ import annotations
 
@@ -26,13 +28,37 @@ import time
 from dataclasses import dataclass
 
 import pytest
-from playwright.sync_api import sync_playwright, Page, Locator, TimeoutError as PWTimeout
+from playwright.sync_api import Browser, Page, Locator, TimeoutError as PWTimeout
 
 # ── 让本文件可独立 import 上级目录的 config.py ────────────────────────────────
 _ROOT = pathlib.Path(__file__).resolve().parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
-import config  # Protocols/config.py（取 GATEWAY_IP / TOLERANCE_*）
+# 配置来源：优先本地 tests/config.py（开发机覆盖，gitignored）；别人 clone 没有它时，
+# 回退到框架配置（configs/.env + config.yaml），保证从仓库根直接 pytest 也能开箱即跑。
+import importlib.util as _ilu, types as _types
+
+def _load_local_config():
+    _cfg_path = pathlib.Path(__file__).resolve().parent.parent / "config.py"
+    if _cfg_path.exists():
+        _spec = _ilu.spec_from_file_location("_tests_config", _cfg_path)
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        return _mod
+    _RR = pathlib.Path(__file__).resolve().parents[4]
+    if str(_RR) not in sys.path:
+        sys.path.insert(0, str(_RR))
+    from projects.AcuHMI_1_7 import settings as _s
+    return _types.SimpleNamespace(
+        HMI_URL=_s.HMI_URL, GATEWAY_IP=_s.HMI_IP, MODBUS_PORT=_s.METER_TCP_PORT,
+        HMI_USERNAME=_s.HMI_USERNAME, HMI_PASSWORD=_s.HMI_PASSWORD,
+        TOLERANCE_PERCENT=_s.MODBUS_CMP_TOLERANCE_PERCENT,
+        TOLERANCE_ABSOLUTE=_s.MODBUS_CMP_TOLERANCE_ABSOLUTE,
+        WEB_HEADLESS=_s.HEADLESS,
+        MODBUS_DEVICE_MAP=getattr(_s, "DEVICE_MODBUS_MAP", {}),
+    )
+
+config = _load_local_config()
 
 # ── 由 config 派生的配置（只改 config.py 即可）────────────────────────────────
 BASE_URL     = os.getenv("DM_BASE_URL", config.HMI_URL).rstrip("/")
@@ -790,29 +816,27 @@ class GatewayPage:
 # Fixtures
 # ═══════════════════════════════════════════════════════════════════════════
 @pytest.fixture(scope="module")
-def page_factory():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=not HEADED, args=["--ignore-certificate-errors"])
-        ctx0 = browser.new_context(ignore_https_errors=True, accept_downloads=True)
-        pg = ctx0.new_page(); pg.set_default_timeout(TIMEOUT)
-        _login(pg)
-        storage = pg.evaluate("JSON.stringify(window.sessionStorage)")
-        ctx0.close()
-        contexts = []
+def page_factory(browser: Browser):
+    """复用项目级共享 browser，不启动新 playwright 实例。"""
+    ctx0 = browser.new_context(ignore_https_errors=True, accept_downloads=True)
+    pg = ctx0.new_page(); pg.set_default_timeout(TIMEOUT)
+    _login(pg)
+    storage = pg.evaluate("JSON.stringify(window.sessionStorage)")
+    ctx0.close()
+    contexts = []
 
-        def make():
-            ctx = browser.new_context(ignore_https_errors=True, accept_downloads=True)
-            ctx.add_init_script(
-                "(() => { const d = %s; for (const k in d){try{sessionStorage.setItem(k,d[k]);}catch(e){}} })();"
-                % storage)
-            page = ctx.new_page(); page.set_default_timeout(TIMEOUT)
-            contexts.append(ctx)
-            return page
+    def make():
+        ctx = browser.new_context(ignore_https_errors=True, accept_downloads=True)
+        ctx.add_init_script(
+            "(() => { const d = %s; for (const k in d){try{sessionStorage.setItem(k,d[k]);}catch(e){}} })();"
+            % storage)
+        page = ctx.new_page(); page.set_default_timeout(TIMEOUT)
+        contexts.append(ctx)
+        return page
 
-        yield make
-        for c in contexts:
-            c.close()
-        browser.close()
+    yield make
+    for c in contexts:
+        c.close()
 
 
 def _pt(page):
@@ -975,16 +999,20 @@ def test_pt_002_data_collected(pt_comparison):
 
 
 def test_pt_003_passthrough_matches_direct(pt_comparison):
-    """透传(A) 与 直读真实电表(B) 数值测量量整体一致率达标；明细见 reports/。
-    若设备未接电源（A 路读值全为 0），则视为 0=0 比对通过，不计入失败。"""
+    """透传(A) 与 直读真实电表(B)：稳定量逐寄存器必须一致；波动量单独报告，不计入失败。
+
+    透传通路是否正确以"稳定量"（电压/频率/电能等非波动量）为准——任一不一致即判失败。
+    波动量（谐波/THD/相位角/K因子/电流等）在 A、B 两次先后读取之间本身会变化（低电流时
+    更接近噪声），单独以 warning 列出供参考，不计入通过/失败。
+    若设备未接电源（A 路读值全为 0），则该设备 0=0 视为通过，不计入统计。"""
     if not pt_comparison["result"] or _total(pt_comparison) == 0:
         pytest.skip("透传未返回可比对数据（见 002 诊断）")
-    measured, bad = [], []
+    stable_n, stable_bad, dynamic_bad = 0, [], []
     for dev, rows in pt_comparison["result"].items():
         num_rows = [r for r in rows if r.kind != "string"]
         if not num_rows:
             continue
-        # 若该设备 A 路读值全为 0（未接电源），则 0=0 视为全部通过，跳过一致率计算
+        # 若该设备 A 路读值全为 0（未接电源），则 0=0 视为全部通过，跳过一致性计算
         all_a_zero = all(
             isinstance(r.a_val, (int, float)) and abs(r.a_val) <= ABS_FLOOR
             for r in num_rows
@@ -992,15 +1020,24 @@ def test_pt_003_passthrough_matches_direct(pt_comparison):
         if all_a_zero:
             continue  # 无源设备：0=0 通过，不计入统计
         for r in num_rows:
-            measured.append(r)
+            line = f"{dev}/{r.parameter}: 透传(A)={r.a_val} 直读(B)={r.b_val}"
+            if quantity_class(r.parameter) == "波动量":
+                if not r.matched:
+                    dynamic_bad.append(line)
+                continue
+            stable_n += 1
             if not r.matched:
-                bad.append(f"{dev}/{r.parameter}: 透传={r.a_val} 直读={r.b_val}")
-    if not measured:
-        pytest.skip("所有设备均无电源接入（A路全零），0=0 视为通过")
-    rate = sum(1 for r in measured if r.matched) / len(measured)
-    assert rate >= MIN_RATE, (
-        f"透传↔直读一致率过低 {rate:.0%}（{len(bad)}/{len(measured)} 不一致），低于 {MIN_RATE:.0%}。"
-        f"前若干：\n" + "\n".join(bad[:30]))
+                stable_bad.append(line)
+    if not stable_n:
+        pytest.skip("无稳定量可比对项（设备均无源或无稳定量寄存器）")
+    if dynamic_bad:
+        import warnings
+        warnings.warn(
+            f"波动量 A/B 差异 {len(dynamic_bad)} 项（不计入失败，信号在两次读取间波动）：\n"
+            + "\n".join(dynamic_bad))
+    assert not stable_bad, (
+        f"稳定量存在透传↔直读不一致 {len(stable_bad)}/{stable_n}（稳定量要求每个寄存器都一致）：\n"
+        + "\n".join(stable_bad))
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1203,5 +1240,15 @@ def test_pt_case06_disabled_blocks_access(page_factory):
     assert succ and disabled_persisted, f"关闭 Pass Through 应保存并持久化（succ={succ}, 提示={msg!r}）"
     assert not can_read, f"Pass Through 关闭后 {PT_DISABLE_SETTLE:.0f}s 内仍能经透传读到数据（预期应无法访问）"
     assert system_alive, "AcuHMI 系统应仍正常运行"
+
+
+if __name__ == "__main__":
+    # 直接运行：python "Pass Through/test_pass_through_business.py" [额外 pytest 参数]
+    # 用 --confcutdir 限制 pytest 只从本套件目录起加载 conftest，绕开重组后因目录大小写
+    # （磁盘 acuhmi_1_7 vs 代码引用 AcuHMI_1_7）而 import 失败的上级 conftest。
+    # 本套件不依赖上级 conftest 的 fixture（自带 page_factory + 本目录 conftest）。
+    _f = str(pathlib.Path(__file__).resolve())
+    _here = str(pathlib.Path(__file__).resolve().parent)
+    raise SystemExit(pytest.main([_f, "--confcutdir", _here, *sys.argv[1:]]))
 
 

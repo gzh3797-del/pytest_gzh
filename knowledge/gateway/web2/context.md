@@ -163,12 +163,12 @@ wiring_check/
 ### 运行方式
 ```bash
 # pytest（推荐，全部88条）
-pytest test_case/ACM_41_WEB2/wiring_check/ -v
-pytest test_case/ACM_41_WEB2/wiring_check/ -k "V-"   # 只跑电压
-pytest test_case/ACM_41_WEB2/wiring_check/ -k "I-"   # 只跑电流
+pytest test_case/ACM_41_WEB2/Wiring_check/ -v
+pytest test_case/ACM_41_WEB2/Wiring_check/ -k "V-"   # 只跑电压
+pytest test_case/ACM_41_WEB2/Wiring_check/ -k "I-"   # 只跑电流
 
 # 直接运行（生成 Excel 报告）
-python test_case/ACM_41_WEB2/wiring_check/test_3e4wy.py
+python test_case/ACM_41_WEB2/Wiring_check/test_3e4wy.py
 ```
 
 ### 用例数量

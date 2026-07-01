@@ -15,6 +15,34 @@ Claude 参考本文件了解各设备寄存器范围，无需读原始 Excel。
 | AcuIOM-02 | 同上 | FC03 | Float32 | |
 | AcuIOM-03 | 同上 | FC02 | Bit | DI型号，框架暂不支持 |
 | AcuIOM-04 | 同上 | FC02 | Bit | DI型号，框架暂不支持 |
+| RPP (MH主控) | RPP Modbus Address Table v1.00 20260617.xlsx | FC03 | 混合（float / uint16 / uint32 / uint64 / double） | v1.00 / 2026-06-17；地址范围 0x1000~0x9730；含 Settings（R/W）和大量只读测量 Sheet；详见下方 Sheet 清单 |
+
+## RPP Modbus Address Table — Sheet 清单（v1.00）
+
+> 原件：`raw/RPP Modbus Address Table v1.00 20260617.xlsx`，共 18 个 Sheet。
+
+| Sheet 名称 | 类型 | 地址范围（十六进制） | 说明 |
+|-----------|------|------------------|------|
+| Version history | 元数据 | — | 版本变更记录，无寄存器 |
+| Overview | 索引 | — | 各 Block 地址分布总览，无实测寄存器行 |
+| Basic Settings | 可读写 | 0x1000 ~ 0x10A0 | 通讯/时间等系统设置，FC03 读、FC10 写 |
+| Wring Check | 可读写 | 0x1300 ~ 0x1300+ | 接线检查触发与状态 |
+| HS(Half Cycle) | 只读 | 0x2000 起 | 半周波 RMS 测量参数（电压/电流/功率等） |
+| Energy（1s） | 只读 | 0x2500 起 | 1 秒聚合电能（VMM/Channel，active/reactive） |
+| Demand | 只读 | 0x2700 起 | 需量（电流/有功/无功需量） |
+| 10\|12 Cycle | 只读 | 0x2900 起 | 10/12 周波 RMS 测量参数 |
+| 150\|180 Cycle | 只读 | 0x4000 起 | 150/180 周波 RMS 测量参数 |
+| 10 Min | 只读 | 0x5710 起 | 10 分钟 RMS 测量参数（IEC 61000-4-30 Class A） |
+| 2 Hr | 只读 | 0x6E20 起 | 2 小时 RMS 测量参数 |
+| 10S Freq | 只读 | 0x8530 起 | 10 秒频率测量（VMM1/VMM2） |
+| MaxMin | 只读 | 0x8550 起 | 极值记录（最大值/最小值 + 时间戳） |
+| Max Demand | 只读 | 0x9270 起 | 最大需量记录（电流/功率 + 时间戳） |
+| Waveform\|PQ Event | 可读写 | 0x9290 起 | PQ 事件配置（标称电压、电压骤降/骤升使能等）及波形相关 |
+| Information | 只读 | 0x9650 起 | 设备信息（设备类型、序列号等） |
+| DeviceStatus | 只读 | 0x9720 起 | 设备运行状态（运行模式） |
+| AlarmStatus | 空 Sheet | — | 当前无内容 |
+
+**可读寄存器 Sheet（16 个）：** Basic Settings、Wring Check、HS(Half Cycle)、Energy（1s）、Demand、10\|12 Cycle、150\|180 Cycle、10 Min、2 Hr、10S Freq、MaxMin、Max Demand、Waveform\|PQ Event、Information、DeviceStatus（均 FC03 读）。Version history、Overview 为元数据/索引，AlarmStatus 为空，共 3 个 Sheet 不含可读寄存器。
 
 ## 更新说明
 新增设备后在本表追加一行，并将原始 Excel 放入 raw/ 目录。

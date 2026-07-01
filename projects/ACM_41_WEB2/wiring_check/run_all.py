@@ -2,7 +2,7 @@
 一键运行所有接线方式的接线检查测试，逐个生成 HTML 报告。
 
 运行：
-    python test_case/ACM_41_WEB2/wiring_check/run_all.py
+    python test_case/ACM_41_WEB2/Wiring_check/run_all.py
 
 可选参数（直接修改下方 WIRING_TYPES 列表来跳过某种接线方式）
 """
@@ -64,4 +64,4 @@ if __name__ == '__main__':
     print('-'*65)
     print(f'  {"合计":<18} 总计:{total_all:>3}  PASS:{passed_all}  FAIL:{failed_all}  总耗时:{grand_elapsed}s')
     print('='*65)
-    print(f'报告已输出至：test_case/ACM_41_WEB2/wiring_check/reports/')
+    print(f'报告已输出至：test_case/ACM_41_WEB2/Wiring_check/reports/')

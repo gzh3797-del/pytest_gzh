@@ -1,6 +1,4 @@
-import re
-from datetime import datetime, timezone, timedelta
-from zoneinfo import ZoneInfo
+from datetime import datetime
 
 import pytest
 
@@ -49,41 +47,6 @@ def _read_device_clock(page):
         except ValueError:
             continue
     raise AssertionError(f"Device Clock 格式无法解析：'{clock_str}'")
-
-
-def _get_tz_offset(page):
-    """读取页面当前 Time Zone，优先用 IANA 名 + zoneinfo 计算真实 UTC 偏移（自动含夏令时，
-    覆盖全部时区）。设备被留在任意时区都能正确换算，不依赖写死的小映射表。
-    无法解析 IANA 名时回退到缩写映射，最终回退 -4。"""
-    tz_fi = page.locator(".el-form-item").filter(has_text="Time Zone").first
-    if tz_fi.count() == 0:
-        return timedelta(hours=-4)
-    tz_text = tz_fi.inner_text()
-
-    # 优先：从形如 "America/Metlakatla(AKST)" 中提取 IANA 名，按当前时刻取真实偏移
-    match = re.search(r"[A-Za-z]+/[A-Za-z0-9_+\-/]+", tz_text)
-    if match:
-        try:
-            zone = ZoneInfo(match.group(0))
-            offset = datetime.now(timezone.utc).astimezone(zone).utcoffset()
-            if offset is not None:
-                return offset
-        except Exception:
-            pass
-
-    # 回退：按时区缩写映射（仅在 IANA 名解析失败时使用）
-    tz_map = {
-        "EST": timedelta(hours=-5), "EDT": timedelta(hours=-4),
-        "CST": timedelta(hours=-6), "CDT": timedelta(hours=-5),
-        "MST": timedelta(hours=-7), "MDT": timedelta(hours=-6),
-        "PST": timedelta(hours=-8), "PDT": timedelta(hours=-7),
-        "UTC": timedelta(hours=0),  "GMT": timedelta(hours=0),
-        "CET": timedelta(hours=1),  "CEST": timedelta(hours=2),
-    }
-    for abbr, offset in tz_map.items():
-        if abbr in tz_text:
-            return offset
-    return timedelta(hours=-4)
 
 
 def _set_device_clock(page, date_str: str, time_str: str):
@@ -147,13 +110,14 @@ def _reboot_device(page):
 
 
 @pytest.mark.destructive
-def test_TestCase_AcuHMI_005_01_case01(login_page: LoginPage):
+def test_TestCase_AcuHMI_005_01_case01(login_page: LoginPage, datetime_guard):
     login_page.open()
     login_page.login()
     page = login_page.page
 
     # ── Step 1: 导航到 Date & Time，NTP 保持 Enable，改 Device Clock 为错误时间 ─
     _nav_to_datetime(page)
+    datetime_guard.snapshot(page)   # 修改任何设置前记录原状态，用例结束自动恢复（含时区）
 
     ntp_enable_item = page.locator(".el-form-item").filter(has_text="NTP Enable").first
     assert ntp_enable_item.count() > 0, "未找到 NTP Enable 字段"
@@ -164,8 +128,6 @@ def test_TestCase_AcuHMI_005_01_case01(login_page: LoginPage):
 
     # 错误时间：2026/01/08 02:37 AM（月/日/时/分均与当前不同，非整点，同年保证NTP可达）
     _set_device_clock(page, WRONG_DATE, WRONG_TIME)
-
-    tz_offset = _get_tz_offset(page)
 
     # ── Step 2 & 3: 选择默认 NTP Server 1，Save ──────────────────────────────
     ntp_inp = page.get_by_placeholder("NTP Server 1").first
@@ -186,7 +148,7 @@ def test_TestCase_AcuHMI_005_01_case01(login_page: LoginPage):
     sync_btn = page.get_by_role("button", name="Sync")
     assert sync_btn.count() > 0, "未找到 Sync 按钮"
 
-    ref_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+    ref_local = datetime.now()
     sync_btn.click()
     try:
         page.wait_for_selector("text=Synced", timeout=60000)
@@ -196,13 +158,11 @@ def test_TestCase_AcuHMI_005_01_case01(login_page: LoginPage):
 
     _nav_to_datetime(page)
     device_dt, clock_str = _read_device_clock(page)
-    device_utc = device_dt - tz_offset
-    diff_seconds = abs((device_utc - ref_utc).total_seconds())
+    diff_seconds = abs((device_dt - ref_local).total_seconds())
     assert diff_seconds <= 120, (
-        f"Step4 Sync 后 Device Clock 与 NTP 时间不一致：\n"
-        f"  Device Clock（本地）= {clock_str}\n"
-        f"  Device Clock（UTC）= {device_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"  参考 UTC = {ref_utc.strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"Step4 Sync 后 Device Clock 与本机时间不一致：\n"
+        f"  Device Clock = {clock_str}\n"
+        f"  本机参考时间 = {ref_local.strftime('%Y/%m/%d %I:%M:%S %p')}\n"
         f"  差值 = {diff_seconds:.0f} 秒（允许 ≤ 120 秒）"
     )
 
