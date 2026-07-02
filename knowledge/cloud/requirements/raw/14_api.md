@@ -170,7 +170,7 @@ Accept-Language: en
 ```bash
 curl -X GET \
   "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/permission/current" \
-  -H "Authorization: Bearer 97d1b30a-8d31-46a6-8a57-58f82870fda1" \
+  -H "Authorization: Bearer <REDACTED>" \
   -H "Content-Type: application/json" \
   -H "Orgid: 431"
 ```
@@ -200,7 +200,7 @@ curl -X GET \
 ```bash
 curl -X POST \
   "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/api/v1/organization/current/list" \
-  -H "Authorization: Bearer 97d1b30a-8d31-46a6-8a57-58f82870fda1" \
+  -H "Authorization: Bearer <REDACTED>" \
   -H "Content-Type: application/json" \
   -H "Orgid: 431" \
   -d '{}'

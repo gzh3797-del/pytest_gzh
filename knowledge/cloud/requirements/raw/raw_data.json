@@ -6,7 +6,7 @@
     "url": "http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn/#/home",
     "userInfo": {
       "currentUserType": "org",
-      "token": "Bearer 11cc2e9d-7145-4ca3-9601-545ecdca10cc",
+      "token": "Bearer <REDACTED>",
       "currentFaclity": {
         "facilityId": 5341,
         "facilityName": "receiver_20250807",
