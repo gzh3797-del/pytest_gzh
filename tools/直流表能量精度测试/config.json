@@ -1,0 +1,33 @@
+{
+  "_说明": "本文件是运行配置。带下划线前缀的 _注释 字段仅供阅读，程序会忽略。",
+
+  "conn_mode": "rtu",
+  "_注释_conn_mode": "连接方式：'rtu'=串口(用下面的 rtu 段) | 'tcp'=网口(用下面的 tcp 段)",
+
+  "rtu": { "port": "COM4", "baudrate": 19200, "parity": "N", "slaveid": 1 },
+  "_注释_rtu": "串口参数：port=表所在的串口号；slaveid=表的 Modbus 从站地址",
+
+  "tcp": { "ip": "192.168.1.254", "port": 502, "slaveid": 1 },
+  "_注释_tcp": "网口参数：ip/port=表的网关地址；slaveid=从站地址",
+
+  "device_model": "320",
+  "_注释_device_model": "设备型号：'320' 或 '300' = 单路 | '260' = 双路(两路电流)。双路改成 \"260\" 即可，寄存器映射/复位地址/报告列会自动切换",
+
+  "word_order": "big",
+  "_注释_word_order": "浮点/双精度寄存器字序：'big'=高字在前(默认，Acuenergy 常用)。若读数明显异常(数值离谱)，改成 'little' 试试",
+
+  "settle_s": 5,
+  "_注释_settle_s": "控源输出后等待源稳定再开始记录的秒数，默认 5",
+
+  "read_retries": 3,
+  "_注释_read_retries": "单次寄存器读取失败时的重试次数，默认 3；重试仍失败则该被测项标 Failed(不丢整条用例)",
+
+  "source_module": "source_control",
+  "_注释_source_module": "控源实现的模块名(不带.py)，默认 source_control(科陆)。换源时改成你的模块名即可，需提供 sour_output(voltage,current)/sour_stop()",
+
+  "input_xlsx": "./test_data/input.xlsx",
+  "_注释_input_xlsx": "测试用例表路径(相对运行目录)",
+
+  "result_dir": "./result",
+  "_注释_result_dir": "报告输出目录(自动创建)"
+}

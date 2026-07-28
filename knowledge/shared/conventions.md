@@ -43,6 +43,12 @@
 - `page.evaluate` 内的原生 `document.querySelector` 不支持 Playwright 专有伪类（如 `:has-text`），混用会 SyntaxError 炸掉整个 evaluate
 - 测试体内禁止直接 `asyncio.run()`（Playwright sync API 主线程持有运行中事件循环），同步包装协程用 `_run_coro` 独立线程模式（参考 `test_case/acuhmi_1_7/bacnet_ui/helpers/hmi_bacnet_client.py`）
 - 背景：2026-06 HMI1-7 bacnet_ui 排查结论，4 个失败根因中 3 个源于绕过 actionability 检查的写法
+- **选择器沉淀复用（防止重复现场探查）**：某页面的选择器/交互一旦探明，固化到「选择器沉淀文档」；后续写/调试同页 UI 用例前必须先查、命中即复用。
+  - 沉淀文档目录（通用，跨项目）：`<项目知识库根>/requirements/context/`
+    - `<项目知识库根>` = CLAUDE.md「项目一览」中该项目 `context.md` 所在目录（如 AcuHMI-1-7→`knowledge/gateway/AcuHMI17/`、AcuRev-4100-WEB2→`knowledge/gateway/AcuRev4100WEB2/`、AcuRev1320→`knowledge/meters/AcuRev1320/`）
+  - **定位规则（先查索引，不再按测试目录名直接拼文件名）**：沉淀文档以**被测页面的 Web 导航菜单路径**命名并按可路由子页拆分（PascalCase，如 `Devices_DataLog_DataLogger_context.md`、`SystemSettings_Network_context.md`、`Protocols_MQTT_SSL_TLS_context.md`），一子页一份，与 `projects/<项目>/tests/ui/` 的一级目录名（小写，如 `datalog`）是多对多关系。因此**必须先读该目录下的 `_INDEX_context.md`**（Web 菜单路径 → 子页文档的全量清单），据此找到被测页面对应的 `<Prefix_SubPage>_context.md`，禁止用测试目录名直接拼文件名。若项目暂无 `_INDEX_context.md`，回退到「按被测页面菜单名在该目录内检索匹配文件」。
+  - **编排约定（谁调 UI 探查 agent 谁负责）**：派 `ui-test-engineer` 做现场探查前，主 AI 必须先查上述文档；命中则把路径/内容随 prompt 传给 agent 并要求优先复用，仅缺失部分才现场探查。agent 探明的新选择器由**主 AI（或知识库维护）沉淀回** `requirements/context/`——`ui-test-engineer` 自身不写 `knowledge/`（职责分离）。
+  - 新增沉淀文档后，在该项目 `context.md` 就近加一行指针，便于发现。
 - **Playwright 浏览器版本同步**：本机存在多个 venv（如 `PycharmProjects\pythonProject\.venv`、`Desktop\testing-team\.venv`、`Desktop\方案设计\autotest\.venv`），各自的 playwright 包版本可能不同，要求的 Chromium 版本号也不同；浏览器是全局安装到 `%LOCALAPPDATA%\ms-playwright`。因此每次对某个 venv 执行 `pip install -U playwright`（或新建/切换 venv）后，必须在**同一个 venv** 下紧跟一次 `python -m playwright install chromium`，让包与浏览器版本保持一致，否则 UI 用例启动时会报 `Executable doesn't exist at ...chromium-XXXX`。仓库根 `conftest.py` 已加「Playwright 浏览器自检」钩子：收集到 UI 用例（nodeid 含 `/ui/`）时会校验当前解释器期望的 Chromium 是否存在，缺失则 fail fast 并打印含本 venv python 路径的精确安装命令；该自检不替代上述同步动作，只是把晦涩堆栈变成可照抄的命令
 
 ## 图像匹配模板命名约定（pyautogui）
@@ -64,6 +70,17 @@
 - **禁止**用泛化函数名 + `@pytest.mark.parametrize` 把多条不同编号的用例合并进同一个函数——参数化合并后函数名无法对应到具体用例编号，覆盖率回溯和缺陷定位均失效
 - **命名格式**（沿用 AcuRev1320/TOU 既有风格）：`test_<模块号>_<子模块号>_case<编号>`
   - 示例：`test_013_01_case01`、`test_013_01_case02`
+- 作用域：工程下所有项目，不限某一项目
+
+## 用例编号一一对应约定
+- 测试代码/报告中出现的用例编号（pytest 参数化 ID、测试文件名、类名中的 `TestCase_xxx` / `Testcase_xxx`）必须与测试用例 Excel「用例编号」列**逐字符严格一致**，一编号一用例
+- 不允许的差异类型（2026-07 AcuHMI-1-7 回填时实际发现）：
+  - 项目前缀不一致（代码 `TestCase_WEB2_AWS_*` vs 用例表 `TestCase_AcuHMI-1-7_AWS_*`；`ACUREV4100WEB2_VD_*` vs `AcuHMI_VD_*`）
+  - 编号与名称顺序颠倒（代码 `AcuvimIIW_CT41_043`（名称_编号）vs 用例表 `AcuvimIIW_005_CT41`（编号_名称））
+  - FTS 段编号不一致（代码 `008_05_caseNN` vs 用例表 `008_03_caseNN`）
+  - 分隔符不一致（`ARM_XXL` vs `ARM-XXL`）、冗余后缀（`_row598`、`_v2`）
+- 回填测试报告结果到用例表时，只写结果相关列，**禁止改动用例表「用例编号」列**
+- 发现编号不匹配：整理清单（报告编号 ↔ 用例表编号 ↔ 差异类型 ↔ 处理建议）交相关负责人，统一修改**代码侧** ID 向用例表对齐；用例表中无对应行的测试由负责人决定补建用例行或清理测试
 - 作用域：工程下所有项目，不限某一项目
 
 ## 知识库维护约定

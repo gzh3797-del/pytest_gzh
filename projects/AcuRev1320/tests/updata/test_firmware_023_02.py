@@ -68,7 +68,7 @@ class TestFirmware02302(FirmwareTestBase):
                     return
                 try:
                     while not stop.is_set():
-                        client.read_holding_registers(address=0, count=2, slave=unit)
+                        client.read_holding_registers(address=0, count=2, device_id=unit)
                         time.sleep(0.5)
                 finally:
                     client.close()

@@ -30,3 +30,18 @@ def pytest_configure(config):
 # 关闭 pymodbus 冗长 DEBUG 日志（大幅减少输出/上下文）
 import logging as _logging
 _logging.getLogger("pymodbus").setLevel(_logging.WARNING)
+
+
+# ── HTML 报告：把用例编号并入用例标识（Test 列显示为 函数名[用例编号]，与其他套件参数化风格一致）──
+# 编号取自测试模块的 CASE_ID_MAP（函数名 → 用例编号），便于按编号检索对应用例。
+def _case_id_of(item):
+    cmap = getattr(getattr(item, "module", None), "CASE_ID_MAP", {}) or {}
+    name = getattr(item, "originalname", None) or item.name.split("[")[0]
+    return cmap.get(name, "")
+
+
+def pytest_collection_modifyitems(items):
+    for it in items:
+        cid = _case_id_of(it)
+        if cid and f"[{cid}]" not in it.nodeid:
+            it._nodeid = f"{it._nodeid}[{cid}]"

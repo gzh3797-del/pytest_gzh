@@ -174,17 +174,18 @@ test_pass_through_business.py
 
 | 用例ID | 用例函数名 | 测试类型 | 验证点 | 关联TC |
 |---|---|---|---|---|
-| PT-001 | test_pt_001_config | 功能 | 启用Pass Through，Ethernet设备SlaveID在101–247 | TestCase_AcuHMI_008_05_config |
-| PT-002 | test_pt_002_data_collected | 功能 | 按型号寄存器表透传读到可比对数据 | TestCase_AcuHMI_008_05_data |
-| PT-003 | test_pt_003_passthrough_matches_direct | 数据正确性 | 透传(A) ↔ 直连电表(B) 逐寄存器一致率达标 | TestCase_AcuHMI_008_05_case05 |
-| PT-004 | test_pt_case01_enable_disable_toggle | 功能 | Disable后透传读取失败；Enable后恢复 | TestCase_AcuHMI_008_05_case01 |
-| PT-005 | test_pt_case07_concurrent_masters | 并发 | 多主站并发读不同SlaveID无串扰 | TestCase_AcuHMI_008_05_case07 |
-| PT-006 | test_pt_case02_valid_slaveid_save | 边界 | 有效SlaveID(101–247)保存成功且持久化 | TestCase_AcuHMI_008_05_case02 |
-| PT-007 | test_pt_case03_slaveid_boundary | 边界 | 越界(100/248)被拒；边界(101/247)通过 | TestCase_AcuHMI_008_05_case03 |
-| PT-008 | test_pt_case04_duplicate_slaveid | 异常 | 重复SlaveID被拒或不同时生效 | TestCase_AcuHMI_008_05_case04 |
-| PT-009 | test_pt_case06_disabled_blocks_access | 功能 | 禁用后无法经透传SlaveID访问下游 | TestCase_AcuHMI_008_05_case06 |
+| PT-001 | test_pt_001_config | 功能 | 启用Pass Through，Ethernet设备SlaveID在101–247 | （前置检查，无对应手工用例） |
+| PT-002 | test_pt_002_data_collected | 功能 | 按型号寄存器表透传读到可比对数据 | （前置检查，无对应手工用例） |
+| PT-003 | test_pt_003_passthrough_matches_direct | 数据正确性 | 透传(A) ↔ 直连电表(B) 逐寄存器一致率达标 | TestCase_AcuHMI_008_03_case05 |
+| PT-004 | test_pt_case01_enable_disable_toggle | 功能 | Disable后透传读取失败；Enable后恢复 | TestCase_AcuHMI_008_03_case01 |
+| PT-005 | test_pt_case07_concurrent_masters | 并发 | 多主站并发读不同SlaveID无串扰 | TestCase_AcuHMI_008_03_case07 |
+| PT-006 | test_pt_case02_valid_slaveid_save | 边界 | 有效SlaveID(101–247)保存成功且持久化 | TestCase_AcuHMI_008_03_case02 |
+| PT-007 | test_pt_case03_slaveid_boundary | 边界 | 越界(100/248)被拒；边界(101/247)通过 | TestCase_AcuHMI_008_03_case03 |
+| PT-008 | test_pt_case04_duplicate_slaveid | 异常 | 重复SlaveID被拒或不同时生效 | TestCase_AcuHMI_008_03_case04 |
+| PT-009 | test_pt_case06_disabled_blocks_access | 功能 | 禁用后无法经透传SlaveID访问下游 | TestCase_AcuHMI_008_03_case06 |
 
 > 用例Mapping 同步写入 `pass_through_compare.xlsx` 的「用例Mapping」Sheet。
+> PT-001/PT-002 为前置检查（配置生效、透传取到数），无对应手工用例编号；HTML 报告中通过/跳过时不展示这两条，失败时仍会展示以便排查。
 
 ---
 

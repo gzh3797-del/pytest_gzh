@@ -15,7 +15,7 @@ mes = ModbusRtuOrTcp(conn_mode=modbus_config['conn_mode'])
 def read_vol(standard_value, times=1):
     vol_list = []
     for v in range(times):
-        voltages = mes.read_measurement(address=12288, count=2, slave=1)
+        voltages = mes.read_measurement(address=12288, count=2, device_id=1)
         logging.info('voltage ret is:{}'.format(voltages))
         reg = hex(voltages[0]).replace('0x', '').zfill(4) + hex(voltages[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -31,7 +31,7 @@ def read_vol(standard_value, times=1):
 def read_cur(standard_value, times=1):
     vol_list = []
     for v in range(times):
-        voltages = mes.read_measurement(address=12290, count=2, slave=1)
+        voltages = mes.read_measurement(address=12290, count=2, device_id=1)
         logging.info('voltage ret is:{}'.format(voltages))
         reg = hex(voltages[0]).replace('0x', '').zfill(4) + hex(voltages[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -47,7 +47,7 @@ def read_cur(standard_value, times=1):
 def read_pow(standard_value, times=1):
     vol_list = []
     for v in range(times):
-        voltages = mes.read_measurement(address=12292, count=2, slave=1)
+        voltages = mes.read_measurement(address=12292, count=2, device_id=1)
         logging.info('voltage ret is:{}'.format(voltages))
         reg = hex(voltages[0]).replace('0x', '').zfill(4) + hex(voltages[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -61,7 +61,7 @@ def read_pow(standard_value, times=1):
 
 
 def read_energy_charge():
-    energy_charge: list = mes.read_measurement(address=16384, count=32, slave=1)
+    energy_charge: list = mes.read_measurement(address=16384, count=32, device_id=1)
     import_energy = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(energy_charge[1]).replace('0x', '').zfill(
         4) + hex(energy_charge[2]).replace('0x', '').zfill(4) + hex(energy_charge[3]).replace('0x', '').zfill(4)
     integer_num = int(import_energy, 16)
@@ -103,39 +103,39 @@ def read_energy_charge():
 
 
 def clear_energy():
-    ret = mes.write_registers(address=8192, values=[1], slave=1)
+    ret = mes.write_registers(address=8192, values=[1], device_id=1)
     if '(8192,1)' not in str(ret):
         logging.error('clear energy fail, ret is:{}'.format(ret))
         return False
-    ret = mes.read_measurement(address=8192, count=1, slave=1)
+    ret = mes.read_measurement(address=8192, count=1, device_id=1)
     if ret[0] == 0:
         return True
     return False
 
 
 def clear_charge():
-    ret = mes.write_registers(address=8193, values=[1], slave=1)
+    ret = mes.write_registers(address=8193, values=[1], device_id=1)
     if '(8193,1)' not in str(ret):
         logging.error('clear charge fail, ret is:{}'.format(ret))
         return False
-    ret = mes.read_measurement(address=8193, count=1, slave=1)
+    ret = mes.read_measurement(address=8193, count=1, device_id=1)
     if ret[0] == 0:
         return True
     return False
 
 
 def get_enable_cable_loss_compensation():
-    ret = mes.read_measurement(address=4130, count=1, slave=1)
+    ret = mes.read_measurement(address=4130, count=1, device_id=1)
     return ret[0]
 
 
 def get_cable_resistance():
-    ret = mes.read_measurement(address=4131, count=1, slave=1)
+    ret = mes.read_measurement(address=4131, count=1, device_id=1)
     return ret[0]
 
 
 def set_cable_loss_compensation_enable(value):
-    ret = mes.write_registers(address=4130, values=[value], slave=1)
+    ret = mes.write_registers(address=4130, values=[value], device_id=1)
     if '(4130,1)' not in str(ret):
         logging.error('set cable loss compensation enable ret is:{}'.format(ret))
         return False
@@ -148,7 +148,7 @@ def set_cable_loss_compensation_enable(value):
 
 def set_cable_resistance(value):
     value *= 10000
-    ret = mes.write_registers(address=4131, values=[int(value)], slave=1)
+    ret = mes.write_registers(address=4131, values=[int(value)], device_id=1)
     if '(4131,1)' not in str(ret):
         logging.error('set cable resistance ret is:{}'.format(ret))
         return False

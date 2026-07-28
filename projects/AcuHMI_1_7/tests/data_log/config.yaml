@@ -13,13 +13,17 @@ modbus:
   # 正常运行时 ip/port/unit 由网关 API 动态发现（见 conftest driver + verify_files）。
   tcp:
     devices:
-      AcuRev4100: { ip: "192.168.2.30", port: 502, unit: 102 }
-      AcuRev4100a: { ip: "192.168.2.29", port: 502, unit: 203 }
-      AcuRev4100b: { ip: "192.168.3.44", port: 502, unit: 1 }
+      # 值为 2026-07-02 网关 /api/device/config 实测：
+      #   AcuRev4100   ← Acurev1234100（192.168.2.29，在线）
+      #   AcuRev4100_2 ← Acurev4100242（192.168.2.242，在线；verifier 的 _DEVICE_MODBUS_KEY
+      #                  将 acurev4100 文件映射到第二台，键名须为 AcuRev4100_2）
+      #   Acuvim3      ← Acucim3（192.168.2.32，当前离线）
+      # AcuvimIIR：当前网关下无该型号设备；AcuRev1300（pxm350）为网关侧 RTU 无法直连，均已移除
+      AcuRev4100: { ip: "192.168.2.29", port: 502, unit: 103 }
+      AcuRev4100_2: { ip: "192.168.2.242", port: 502, unit: 23 }
       AcuRev2100: { ip: "192.168.2.64",  port: 502, unit: 101 }
       AcuvimIIW: { ip: "192.168.2.27",  port: 502, unit: 2 }
-      AcuvimIIR: { ip: "192.168.2.8",  port: 502, unit: 103 }
-      AcuRev1300: { ip: "192.168.2.8",  port: 502, unit: 102 }
+      Acuvim3: { ip: "192.168.2.32",  port: 502, unit: 1 }
 
   # Modbus RTU 设备：列表形式，每条串口独立配置，挂载各自设备
   # 每项包含串口参数（port/baudrate/parity/stopbits/bytesize）和该串口下的 devices

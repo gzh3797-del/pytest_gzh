@@ -21,11 +21,11 @@ def clear_energy():
     清理能量
     :return: True表示清理成功，False表示清理失败
     """
-    ret = client.write_registers(address=0x1016, values=[1], slave=1)
+    ret = client.write_registers(address=0x1016, values=[1], device_id=1)
     if '(4118,1)' not in str(ret):
         logging.error('clear energy fail, ret is:{}'.format(ret))
         return False
-    ret = client.read_measurement(address=0x1016, count=1, slave=1)
+    ret = client.read_measurement(address=0x1016, count=1, device_id=1)
     client.close()
     if ret[0] == 0:
         return True
@@ -37,7 +37,7 @@ def get_energy():
     energy_value_list = []
     ret = {}
 
-    energy: list = client.read_measurement(address=0x4048, count=18, slave=1)
+    energy: list = client.read_measurement(address=0x4048, count=18, device_id=1)
 
     for index in range(0, len(energy) - 1, 2):
         reg = hex(energy[index]).replace('0x', '').zfill(4) + hex(energy[index + 1]).replace('0x', '').zfill(4)
@@ -53,7 +53,7 @@ def get_energy_continue():
                        'Eqb_imp', 'Eqb_exp', 'Eqc_imp', 'Eqc_exp', 'Esa', 'Esb', 'Esc']
     energy_value_list = []
     ret = {}
-    energy: list = client.read_measurement(address=0x4620, count=30, slave=1)
+    energy: list = client.read_measurement(address=0x4620, count=30, device_id=1)
     for index in range(0, len(energy) - 1, 2):
         reg = hex(energy[index]).replace('0x', '').zfill(4) + hex(energy[index + 1]).replace('0x', '').zfill(4)
         integer_num = int(reg, 16)
@@ -67,7 +67,7 @@ def get_apparent_energy():
     energy_key_list = ['Es_imp ', 'Esa_imp', 'Esb_imp', 'Esc_imp', 'Es_exp', 'Esa_exp', 'Esb_exp', 'Esc_exp']
     energy_value_list = []
     ret = {}
-    energy: list = client.read_measurement(address=0x4900, count=16, slave=1)
+    energy: list = client.read_measurement(address=0x4900, count=16, device_id=1)
     for index in range(0, len(energy) - 1, 2):
         reg = hex(energy[index]).replace('0x', '').zfill(4) + hex(energy[index + 1]).replace('0x', '').zfill(4)
         integer_num = int(reg, 16)
@@ -85,7 +85,7 @@ def get_realtime_basicpara():
                        "AI3 value， fast read", "AI4 value， fast read"]
     energy_value_list = []
     ret = {}
-    energy: list = client.read_measurement(address=0x3000, count=68, slave=1)
+    energy: list = client.read_measurement(address=0x3000, count=68, device_id=1)
     for index in range(0, len(energy) - 1, 2):
         reg = hex(energy[index]).replace('0x', '').zfill(4) + hex(energy[index + 1]).replace('0x', '').zfill(4)
         integer_num = int(reg, 16)
@@ -100,7 +100,7 @@ def get_phase_angle():
                        'Ic_phase_angle']
     energy_value_list = [0.0]
     ret = {}
-    energy: list = client.read_measurement(address=0x42A0, count=5, slave=1)
+    energy: list = client.read_measurement(address=0x42A0, count=5, device_id=1)
     for index in range(0, len(energy)):
         energy_value_list.append(energy[index] / 10)
     for key, value in zip(energy_key_list, energy_value_list):
@@ -112,7 +112,7 @@ def get_float_attr(address, standard_value):
     ret_list = []
     for v in range(5):
         time.sleep(0.1)
-        ret = client.read_measurement(address=address, count=2, slave=1)
+        ret = client.read_measurement(address=address, count=2, device_id=1)
         reg = hex(ret[0]).replace('0x', '').zfill(4) + hex(ret[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
         integer_num = int(hex_num, 16)
@@ -130,7 +130,7 @@ def get_word_attr(address, standard_value):
     ret_list = []
     for v in range(5):
         time.sleep(0.1)
-        ret = client.read_measurement(address=address, count=1, slave=1)
+        ret = client.read_measurement(address=address, count=1, device_id=1)
         ret_list.append(ret[0] / 10)
     ret_list.sort()
     mean = np.mean(ret_list)

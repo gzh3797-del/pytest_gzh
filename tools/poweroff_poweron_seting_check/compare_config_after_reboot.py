@@ -420,7 +420,7 @@ class CompareConfig:
         return: False/ True
         """
         try:
-            client.client.read_holding_registers(0, 1, slave=slave_id)
+            client.client.read_holding_registers(0, 1, device_id=slave_id)
             return True
         except Exception:
             return False

@@ -225,15 +225,20 @@ DATALOG_TOLERANCE_ABSOLUTE = 0.05   # ±0.05（绝对容差下限，防止极小
 # ══════════════════════════════════════════════════════════════════════════════
 
 # 本机 IP（网关需能访问此地址）
-DATALOG_SERVER_HOST = "192.168.2.149"
+# ⚠️ 与 projects/AcuHMI_1_7/tests/data_log/config.yaml 的 server 段保持一致：
+# 全量套件运行时 BacnetIP/mqtt 先把 tools/Protocols 放进 sys.path 并占用顶层模块名
+# `config`，data_log 的 `import config` 会命中本文件而非其自己的 config.py——
+# 两处不一致会导致 data_log 服务器绑错 IP/端口（历史值 192.168.2.149:21 即此因）。
+DATALOG_SERVER_HOST = "192.168.2.45"
 
 # ── FTP ───────────────────────────────────────────────────────────────────────
-DATALOG_FTP_PORT = 21
+# 不用 21：本机 freeFTPd 服务占用 21 且被杀后会自动重启
+DATALOG_FTP_PORT = 2121
 DATALOG_FTP_USER = "datalog"
 DATALOG_FTP_PASS = "datalog123"
 
 # ── SFTP ──────────────────────────────────────────────────────────────────────
-DATALOG_SFTP_PORT = 22
+DATALOG_SFTP_PORT = 2222
 DATALOG_SFTP_USER = "datalog"
 DATALOG_SFTP_PASS = "datalog123"
 

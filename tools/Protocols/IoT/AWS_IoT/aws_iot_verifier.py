@@ -57,10 +57,15 @@ from modbus_reader import ModbusResult
 
 def _patch_pymodbus_device_id() -> None:
     """modbus_reader.py passes device_id= (maps to Modbus unit ID).
-    pymodbus 3.6.x silently drops it via **kwargs and defaults slave=0.
-    This patch maps device_id → slave so the correct unit ID is forwarded."""
+    pymodbus <=3.8 only accepts slave= and silently drops device_id via **kwargs.
+    This patch maps device_id → slave on those old versions; pymodbus >=3.9
+    natively accepts device_id, so the patch is skipped there."""
     try:
+        import inspect
         from pymodbus.client.mixin import ModbusClientMixin
+
+        if 'device_id' in inspect.signature(ModbusClientMixin.read_holding_registers).parameters:
+            return
 
         def _make_patched(orig):
             import functools

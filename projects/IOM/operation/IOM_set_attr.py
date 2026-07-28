@@ -93,11 +93,11 @@ def set_ai_param(client: ModbusRtuOrTcp, ai_num, type_line_value, parameter_valu
     print(
         f"'top_limit', 'bot_limit', 'X1', 'Y1', 'X2', 'Y2', 'X3', 'Y3', 'X4', 'Y4'参数为：{parameter_values}")
     for addr, value in zip(type_line_address, type_line_value):
-        response = client.write_registers(addr + 22 * (ai_num - 1), [value], slave=slave_id)
+        response = client.write_registers(addr + 22 * (ai_num - 1), [value], device_id=slave_id)
         res_is_error(response, addr + 22 * (ai_num - 1))
     # 修改所有配套参数
     for address, convert_value in zip(parameter_address, convert_values):
-        response = client.write_registers(address + 22 * (ai_num - 1), convert_value, slave=slave_id)
+        response = client.write_registers(address + 22 * (ai_num - 1), convert_value, device_id=slave_id)
         res_is_error(response, address + 22 * (ai_num - 1))
     logging.info(f"AI{ai_num} 修改完成！")
     client.close()
@@ -128,12 +128,12 @@ def set_all_ai_param(client: ModbusRtuOrTcp, type_line_value, parameter_values, 
         start, end = ai_ao_number[0], ai_ao_number[1] + 1
     for n in range(start, end):
         for addr, value in zip(type_line_address, type_line_value):
-            response = client.write_registers(addr + 22 * (n-1), [value], slave=slave_id)
+            response = client.write_registers(addr + 22 * (n-1), [value], device_id=slave_id)
             # 检查是否写入成功（pymodbus通常用isError()方法检查）
             res_is_error(response, addr + 22 * (n - 1))
         # 修改所有配套参数
         for address, convert_value in zip(parameter_address, convert_values):
-            response = client.write_registers(address + 22 * (n - 1), convert_value, slave=slave_id)
+            response = client.write_registers(address + 22 * (n - 1), convert_value, device_id=slave_id)
             res_is_error(response, address + 22 * (n - 1))
         logging.info(f"AI{n} 修改完成！")
         print(f"AI{n} 修改完成！")
@@ -164,11 +164,11 @@ def set_ao_param(client: ModbusRtuOrTcp, ao_num, type_line_value, parameter_valu
     logging.info(
         f"'top_limit', 'bot_limit', 'X1', 'Y1', 'X2', 'Y2', 'X3', 'Y3', 'X4', 'Y4'参数为：{parameter_values}")
     for addr, value in zip(type_line_address, type_line_value):
-        response = client.write_registers(addr + 22 * (ao_num - 1), [value], slave=slave_id)
+        response = client.write_registers(addr + 22 * (ao_num - 1), [value], device_id=slave_id)
         res_is_error(response, addr + 22 * (ao_num - 1))
     # 修改所有配套参数
     for address, convert_value in zip(parameter_address, convert_values):
-        response = client.write_registers(address + 22 * (ao_num - 1), convert_value, slave=slave_id)
+        response = client.write_registers(address + 22 * (ao_num - 1), convert_value, device_id=slave_id)
         res_is_error(response, address + 22 * (ao_num - 1))
     logging.info(f"AO{ao_num} 修改完成！")
     client.close()
@@ -197,11 +197,11 @@ def set_all_ao_param(client: ModbusRtuOrTcp, type_line_value, parameter_values, 
         start, end = ai_ao_number[0], ai_ao_number[1] + 1
     for n in range(start, end):
         for addr, value in zip(type_line_address, type_line_value):
-            response = client.write_registers(addr + 22 * (n - 1), [value], slave=slave_id)
+            response = client.write_registers(addr + 22 * (n - 1), [value], device_id=slave_id)
             res_is_error(response, addr + 22 * (n - 1))
         # 修改所有配套参数
         for address, convert_value in zip(parameter_address, convert_values):
-            response = client.write_registers(address + 22 * (n - 1), convert_value, slave=slave_id)
+            response = client.write_registers(address + 22 * (n - 1), convert_value, device_id=slave_id)
             res_is_error(response, address + 22 * (n - 1))
         logging.info(f"AO{n} 修改完成！")
     client.close()
@@ -217,7 +217,7 @@ def set_ao_pmi(client: ModbusRtuOrTcp, ao_num, value, slave_id=modbus_config['rt
     """
     address = 0x3950 + 2 * (ao_num - 1)
     rel_value = float_to_uint32t_4bytes(value)
-    response = client.write_registers(address, rel_value, slave=slave_id)
+    response = client.write_registers(address, rel_value, device_id=slave_id)
     res_is_error(response, address)
     client.close()
 
@@ -234,11 +234,11 @@ def set_all_ai_unit(client: ModbusRtuOrTcp, unit, slave_id=modbus_config['rtu'][
     for n in range(20):
         if n <= 15:
             address = 0x3200 + 2 * n
-            response = client.write_registers(address, value, slave=slave_id)
+            response = client.write_registers(address, value, device_id=slave_id)
             res_is_error(response, address)
         else:
             address = 0x34A0 + 2 * (n-16)
-            response = client.write_registers(address, value, slave=slave_id)
+            response = client.write_registers(address, value, device_id=slave_id)
             res_is_error(response, address)
     client.close()
 
@@ -363,7 +363,7 @@ def set_all_di_unit(client: ModbusRtuOrTcp, unit, slave_id=modbus_config['rtu'][
     value = string_to_uint8t_4bytes(unit)
     for n in range(28):
         address = 0x2100 + 2 * n
-        response = client.write_registers(address, value, slave=slave_id)
+        response = client.write_registers(address, value, device_id=slave_id)
         res_is_error(response, address)
     client.close()
 
@@ -379,7 +379,7 @@ def set_all_di_pulse_constant(client: ModbusRtuOrTcp, value, slave_id=modbus_con
     rel_value = float_to_uint32t_4bytes(value)
     for n in range(28):
         address = 0x2001 + 3 * n
-        response = client.write_registers(address, rel_value, slave=slave_id)
+        response = client.write_registers(address, rel_value, device_id=slave_id)
         res_is_error(response, address)
     print(f"所有DI已脉冲常量配置为：{value}")
     client.close()
@@ -396,7 +396,7 @@ def set_all_di_pulse_count(client: ModbusRtuOrTcp, value, slave_id=modbus_config
     rel_value = float_to_uint32t_4bytes(value,scaling_factor = 1)
     for n in range(28):
         address = 0x2200 + 2 * n
-        response = client.write_registers(address, rel_value, slave=slave_id)
+        response = client.write_registers(address, rel_value, device_id=slave_id)
         res_is_error(response, address)
     print(f"所有DI已脉冲常量配置为：{value}")
     client.close()

@@ -85,6 +85,20 @@ INTERFACE_ETHERNET = "Ethernet"
 TMPL_DIR     = _ROOT.parents[2] / "knowledge" / "shared" / "templates" / "raw"  # 仓库根 knowledge/：原始版本号模板
 REPORT       = pathlib.Path(__file__).resolve().parent   # 报告输出到本协议自身目录
 
+# 用例函数名 → 关联TC编号（供本地 conftest 并入 Test 列显示；与 xlsx 用例Mapping 的「关联TC编号」列一致）
+CASE_ID_MAP = {
+    "test_pt_003_passthrough_matches_direct": "TestCase_AcuHMI_008_03_case05",
+    "test_pt_case01_enable_disable_toggle":   "TestCase_AcuHMI_008_03_case01",
+    "test_pt_case07_concurrent_masters":      "TestCase_AcuHMI_008_03_case07",
+    "test_pt_case02_valid_slaveid_save":      "TestCase_AcuHMI_008_03_case02",
+    "test_pt_case03_slaveid_boundary":        "TestCase_AcuHMI_008_03_case03",
+    "test_pt_case04_duplicate_slaveid":       "TestCase_AcuHMI_008_03_case04",
+    "test_pt_case06_disabled_blocks_access":  "TestCase_AcuHMI_008_03_case06",
+}
+
+# 前置检查用例（配置/取数），无对应手工用例编号；通过/跳过时不在 HTML 结果表展示（见本目录 conftest）。
+PRECHECK_CASES = {"test_pt_001_config", "test_pt_002_data_collected"}
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Modbus TCP 读取 + 解码
@@ -128,17 +142,17 @@ class Modbus:
 
     def _read_regs(self, fc, address, count, slave):
         if fc == 3:
-            rr = self.client.read_holding_registers(address, count=count, slave=slave)
+            rr = self.client.read_holding_registers(address, count=count, device_id=slave)
         elif fc == 4:
-            rr = self.client.read_input_registers(address, count=count, slave=slave)
+            rr = self.client.read_input_registers(address, count=count, device_id=slave)
         elif fc == 1:
-            rr = self.client.read_coils(address, count=count, slave=slave)
+            rr = self.client.read_coils(address, count=count, device_id=slave)
         elif fc == 2:
-            rr = self.client.read_discrete_inputs(address, count=count, slave=slave)
+            rr = self.client.read_discrete_inputs(address, count=count, device_id=slave)
         else:
             raise IOError(f"不支持的功能码 {fc}")
         if rr.isError():
-            raise IOError(f"slave={slave} fc={fc} addr={address} -> {rr}")
+            raise IOError(f"device_id={slave} fc={fc} addr={address} -> {rr}")
         return list(rr.bits)[:count] if fc in (1, 2) else list(rr.registers)
 
     def read(self, rec, unit=None, retries=2):
@@ -475,15 +489,15 @@ def write_xlsx(result, conn, path):
 
     # ── 用例 Mapping sheet ─────────────────────────────────────────────────
     MAPPING = [
-        ("PT-001", "test_pt_001_config",                     "功能",    "启用Pass Through，Ethernet设备SlaveID均在101–247范围内",                              "TestCase_AcuHMI_008_05_config"),
-        ("PT-002", "test_pt_002_data_collected",             "功能",    "按型号寄存器表经透传读到可比对数据；缺表/无响应则skip并诊断",                         "TestCase_AcuHMI_008_05_data"),
-        ("PT-003", "test_pt_003_passthrough_matches_direct", "数据正确性","透传路径(A) ↔ 直连真实电表(B) 逐寄存器数值一致率达标",                              "TestCase_AcuHMI_008_05_case05"),
-        ("PT-004", "test_pt_case01_enable_disable_toggle",   "功能",    "Disable+Save后透传读取失败；Enable+Save后恢复读取",                                    "TestCase_AcuHMI_008_05_case01"),
-        ("PT-005", "test_pt_case07_concurrent_masters",      "并发",    "多Modbus主站并发以不同SlaveID经透传读取，各自正常、无串扰",                            "TestCase_AcuHMI_008_05_case07"),
-        ("PT-006", "test_pt_case02_valid_slaveid_save",      "边界",    "有效SlaveID(101–247)保存成功且持久化生效",                                             "TestCase_AcuHMI_008_05_case02"),
-        ("PT-007", "test_pt_case03_slaveid_boundary",        "边界",    "越界SlaveID(100/248)被拒；边界值(101/247)保存成功",                                    "TestCase_AcuHMI_008_05_case03"),
-        ("PT-008", "test_pt_case04_duplicate_slaveid",       "异常",    "两设备配置相同SlaveID应被拒绝或不同时生效",                                            "TestCase_AcuHMI_008_05_case04"),
-        ("PT-009", "test_pt_case06_disabled_blocks_access",  "功能",    "Pass Through关闭后无法经透传SlaveID访问下游设备，系统其余功能正常",                    "TestCase_AcuHMI_008_05_case06"),
+        ("PT-001", "test_pt_001_config",                     "功能",    "启用Pass Through，Ethernet设备SlaveID均在101–247范围内",                              "（前置检查，无对应手工用例）"),
+        ("PT-002", "test_pt_002_data_collected",             "功能",    "按型号寄存器表经透传读到可比对数据；缺表/无响应则skip并诊断",                         "（前置检查，无对应手工用例）"),
+        ("PT-003", "test_pt_003_passthrough_matches_direct", "数据正确性","透传路径(A) ↔ 直连真实电表(B) 逐寄存器数值一致率达标",                              "TestCase_AcuHMI_008_03_case05"),
+        ("PT-004", "test_pt_case01_enable_disable_toggle",   "功能",    "Disable+Save后透传读取失败；Enable+Save后恢复读取",                                    "TestCase_AcuHMI_008_03_case01"),
+        ("PT-005", "test_pt_case07_concurrent_masters",      "并发",    "多Modbus主站并发以不同SlaveID经透传读取，各自正常、无串扰",                            "TestCase_AcuHMI_008_03_case07"),
+        ("PT-006", "test_pt_case02_valid_slaveid_save",      "边界",    "有效SlaveID(101–247)保存成功且持久化生效",                                             "TestCase_AcuHMI_008_03_case02"),
+        ("PT-007", "test_pt_case03_slaveid_boundary",        "边界",    "越界SlaveID(100/248)被拒；边界值(101/247)保存成功",                                    "TestCase_AcuHMI_008_03_case03"),
+        ("PT-008", "test_pt_case04_duplicate_slaveid",       "异常",    "两设备配置相同SlaveID应被拒绝或不同时生效",                                            "TestCase_AcuHMI_008_03_case04"),
+        ("PT-009", "test_pt_case06_disabled_blocks_access",  "功能",    "Pass Through关闭后无法经透传SlaveID访问下游设备，系统其余功能正常",                    "TestCase_AcuHMI_008_03_case06"),
     ]
     wm = wb.create_sheet("用例Mapping")
     MH = ["用例ID", "用例函数名", "测试类型", "验证点", "关联TC编号"]
@@ -1179,19 +1193,29 @@ def test_pt_case03_slaveid_boundary(page_factory):
     eths = [n for n in pt.ethernet_device_names() if n != SELF_DEVICE]
     assert eths, "需至少一台非本机 Ethernet 设备"
     dev = eths[0]
+    # 先把“只勾选目标设备”单独保存一次，再进边界循环。固件按上一次已生效的配置校验
+    # SlaveID 重复：同一次保存里“取消勾选占用 101/247 的行 + 目标设备改用该值”会被
+    # 整体拒绝（passThroughItemConfig Config Invalid）；已保存为未勾选的行不参与校验。
+    for _ in range(2):
+        for n in eths:
+            pt.set_checked(n, n == dev)
+        pt.save(); pt.has_message()
+        pt.goto(); pt.ensure_enabled()
+        if all(pt.is_checked(n) == (n == dev) for n in eths):
+            break
+    else:
+        pytest.fail(f"前置失败：无法保存为仅勾选 {dev}")
     fails = []
     for val, should_accept in [("100", False), ("248", False), ("101", True), ("247", True)]:
         pt.goto(); pt.ensure_enabled()
-        # 只勾选目标设备，避免 101/247 与其它设备重复（隔离“范围校验”）
         for n in eths:
             pt.set_checked(n, n == dev)
         pt.set_slaveid(dev, val)
         succ, msg, errs = pt.save_and_result()
         pt.goto(); pt.ensure_enabled()
         persisted = pt.get_slaveid(dev)
-        # "No change to save" 说明值未变化仍持久化有效，按持久化结果判定是否接受
-        no_change = "no change" in msg.lower()
-        accepted = (bool(succ) or no_change) and persisted == val
+        # 提示弹窗偶有延迟/与实际结果不符，是否接受一律以持久化结果判定
+        accepted = persisted == val
         if should_accept and not accepted:
             fails.append(f"{val} 应被接受，但未生效(succ={succ},persist={persisted!r},msg={msg!r},err={errs})")
         if (not should_accept) and accepted:

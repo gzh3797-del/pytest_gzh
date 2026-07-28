@@ -88,7 +88,7 @@ class Alarm_parameter():
             start = channel_1_start + (alarm_channel-1)*self.alarm_config_length
             target_value = row[value_name]
             value = analysis_value_to_bytelist(target_value, datatype)
-            ret = self.client.write_registers(address=start, values=value, slave=1)
+            ret = self.client.write_registers(address=start, values=value, device_id=1)
             ret_right = f"({start},{reg})"
             if ret_right not in str(ret):
                 logging.error('set channel {} {} fail, ret is:{}'.format(alarm_channel, value_name, ret))
@@ -110,7 +110,7 @@ class Alarm_parameter():
 
             tartget_value = (channel_logic << 6) + (parameter2_logic << 3) + parameter1_logic
 
-            ret = self.client.write_registers(address=start, values=tartget_value, slave=1)
+            ret = self.client.write_registers(address=start, values=tartget_value, device_id=1)
             ret_right = f'({start},{reg})'
             if ret_right not in str(ret):
                 logging.error('set channel {} logic fail, ret is:{}'.format(alarm_channel, ret))
@@ -137,7 +137,7 @@ class Alarm_parameter():
 
         value = analysis_value_to_bytelist(target_value, datatype)
 
-        ret = self.client.write_registers(address=start, values=value, slave=1)
+        ret = self.client.write_registers(address=start, values=value, device_id=1)
         ret_right = f'({start},{reg})'
         if ret_right not in str(ret):
             logging.error('set enable fail, ret is:{}'.format(ret))

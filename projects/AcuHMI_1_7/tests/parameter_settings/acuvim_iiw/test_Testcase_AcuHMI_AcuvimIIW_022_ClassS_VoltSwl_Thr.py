@@ -1,0 +1,35 @@
+"""
+Testcase_AcuHMI_AcuvimIIW_022_ClassS_VoltSwl_Thr
+VoltSwl Thr
+"""
+import sys, os
+sys.path.insert(0, os.path.dirname(__file__))
+from helpers_iiw import *  # noqa: F401, F403
+
+
+# ── 测试数据 ──────────────────────────────────────────────────────────
+_CASES = [
+    (110, True),
+    (130, True),
+    (150, True),
+    (109, False),
+    (151, False),
+]
+
+
+def test_Testcase_AcuHMI_AcuvimIIW_022_ClassS_VoltSwl_Thr(app_page):
+    """
+    Testcase_AcuHMI_AcuvimIIW_022_ClassS_VoltSwl_Thr
+    参数: value, ok
+    """
+    for value, ok in _CASES:
+        _log.info("[TC] VoltSwl Thr=%s ok=%s", value, ok)
+        nav_to_class_s_event(app_page)
+        set_event_thr(app_page, 1, value)
+        saved = save_and_check(app_page)
+        if ok:
+            assert saved, f"VoltSwl Threshold={value}: save failed"
+            cs_verify(cs_reg("VoltSwl", CS_OFFSET_THR), value,
+                      label=f"VoltSwl_Thr({value})")
+        else:
+            assert not saved, f"VoltSwl Threshold={value}: expected validation failure"

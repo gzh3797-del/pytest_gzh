@@ -33,7 +33,7 @@ def read_frequency(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['System Frequency']['Start(Dec)'],
-                                              count=real_time_addr['System Frequency']['Reg'], slave=1)
+                                              count=real_time_addr['System Frequency']['Reg'], device_id=1)
         logging.info('frequency ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -53,7 +53,7 @@ def read_phase_a_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Line-to-Neutral Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Line-to-Neutral Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Line-to-Neutral Voltage']['Reg'], device_id=1)
         logging.info('Phase_A_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -73,7 +73,7 @@ def read_phase_b_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase B Line-to-Neutral Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase B Line-to-Neutral Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase B Line-to-Neutral Voltage']['Reg'], device_id=1)
         logging.info('Phase_B_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -93,7 +93,7 @@ def read_phase_c_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase C Line-to-Neutral Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase C Line-to-Neutral Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase C Line-to-Neutral Voltage']['Reg'], device_id=1)
         logging.info('Phase_C_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -113,7 +113,7 @@ def read_average_ln_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Average Line-to-Neutral Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Average Line-to-Neutral Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Average Line-to-Neutral Voltage']['Reg'], device_id=1)
         logging.info('Average_ln_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -133,7 +133,7 @@ def read_phase_ab_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase AB Line-to-Line Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase AB Line-to-Line Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase AB Line-to-Line Voltage']['Reg'], device_id=1)
         logging.info('Phase_AB_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -153,7 +153,7 @@ def read_phase_bc_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase BC Line-to-Line Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase BC Line-to-Line Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase BC Line-to-Line Voltage']['Reg'], device_id=1)
         logging.info('Phase_BC_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -173,7 +173,7 @@ def read_phase_ca_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase CA Line-to-Line Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase CA Line-to-Line Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase CA Line-to-Line Voltage']['Reg'], device_id=1)
         logging.info('Phase_CA_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -193,7 +193,7 @@ def read_average_ll_voltage(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Average Line-to-Line Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Average Line-to-Line Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Average Line-to-Line Voltage']['Reg'], device_id=1)
         logging.info('Average_ll_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -217,7 +217,7 @@ def read_phase_a_voltage_angle(standard_value, times=1):
             'Start(Dec)'],
                                               count=real_time_addr[
                                                   'Phase A Line-to-Neutral Voltage Phase Angle(1E_2W、2E_3W_1P、3E_4W_Y、2E_3W_Network)  /\nPhase AB Line-to-Linel Voltage Phase Angle (2E_3W_Delta、 3E_3W_Delta)'][
-                                                  'Reg'], slave=1)
+                                                  'Reg'], device_id=1)
         logging.info('Phase_A_Voltage_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -241,7 +241,7 @@ def read_phase_b_voltage_angle(standard_value, times=1):
             'Start(Dec)'],
                                               count=real_time_addr[
                                                   'Phase B Line-to-Neutral Voltage Phase Angle(1E_2W、2E_3W_1P、3E_4W_Y、2E_3W_Network)  /\nPhase BC Line-to-Linel Voltage Phase Angle (2E_3W_Delta、 3E_3W_Delta)'][
-                                                  'Reg'], slave=1)
+                                                  'Reg'], device_id=1)
         logging.info('Phase_B_Voltage_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -265,7 +265,7 @@ def read_phase_c_voltage_angle(standard_value, times=1):
             'Start(Dec)'],
                                               count=real_time_addr[
                                                   'Phase C Line-to-Neutral Voltage Phase Angle(1E_2W、2E_3W_1P、3E_4W_Y、2E_3W_Network)  /\nPhase CA Line-to-Linel Voltage Phase Angle (2E_3W_Delta、 3E_3W_Delta)'][
-                                                  'Reg'], slave=1)
+                                                  'Reg'], device_id=1)
         logging.info('Phase_C_Voltage_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -285,7 +285,7 @@ def read_phase_a_current(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Current']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Current']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Current']['Reg'], device_id=1)
         logging.info('Phase_A_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -304,7 +304,7 @@ def read_phase_a_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=8218, count=10, slave=1)
+        value = ModbusClient.read_measurement(address=8218, count=10, device_id=1)
         logging.info('Phase_A_Power ret is:{}'.format(value))
         read_list = []
         for i in range(5):
@@ -333,7 +333,7 @@ def read_phase_a_active_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Active Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Active Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Active Power']['Reg'], device_id=1)
         logging.info('Phase_A_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -353,7 +353,7 @@ def read_phase_a_reactive_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Reactive Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Reactive Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Reactive Power']['Reg'], device_id=1)
         logging.info('Phase_A_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -373,7 +373,7 @@ def read_phase_a_apparent_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Apparent Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Apparent Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Apparent Power']['Reg'], device_id=1)
         logging.info('Phase_A_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -390,7 +390,7 @@ def read_phase_a_apparent_power(standard_value, times=1):
 def read_phase_a_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     value = ModbusClient.read_measurement(address=real_time_addr['Phase A Load Nature']['Start(Dec)'],
-                                          count=real_time_addr['Phase A Load Nature']['Reg'], slave=1)
+                                          count=real_time_addr['Phase A Load Nature']['Reg'], device_id=1)
     logging.info('Phase_A_Load_Nature ret is:{}'.format(value))
     load_nature = ''
     if value[1] == 0:
@@ -408,7 +408,7 @@ def read_phase_a_power_factor(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Power Factor']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Power Factor']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Power Factor']['Reg'], device_id=1)
         logging.info('Phase_A_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -428,7 +428,7 @@ def read_phase_b_current(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase B Current']['Start(Dec)'],
-                                              count=real_time_addr['Phase B Current']['Reg'], slave=1)
+                                              count=real_time_addr['Phase B Current']['Reg'], device_id=1)
         logging.info('Phase_B_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -448,7 +448,7 @@ def read_phase_b_active_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase B Active Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase B Active Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase B Active Power']['Reg'], device_id=1)
         logging.info('Phase_B_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -468,7 +468,7 @@ def read_phase_b_reactive_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase B Reactive Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase B Reactive Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase B Reactive Power']['Reg'], device_id=1)
         logging.info('Phase_B_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -488,7 +488,7 @@ def read_phase_b_apparent_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase B Apparent Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase B Apparent Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase B Apparent Power']['Reg'], device_id=1)
         logging.info('Phase_B_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -505,7 +505,7 @@ def read_phase_b_apparent_power(standard_value, times=1):
 def read_phase_b_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     value = ModbusClient.read_measurement(address=real_time_addr['Phase B Load Nature']['Start(Dec)'],
-                                          count=real_time_addr['Phase B Load Nature']['Reg'], slave=1)
+                                          count=real_time_addr['Phase B Load Nature']['Reg'], device_id=1)
     logging.info('Phase_B_Load_Nature ret is:{}'.format(value))
     load_nature = ''
     if value[1] == 0:
@@ -523,7 +523,7 @@ def read_phase_b_power_factor(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase B Power Factor']['Start(Dec)'],
-                                              count=real_time_addr['Phase B Power Factor']['Reg'], slave=1)
+                                              count=real_time_addr['Phase B Power Factor']['Reg'], device_id=1)
         logging.info('Phase_B_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -543,7 +543,7 @@ def read_phase_c_current(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase C Current']['Start(Dec)'],
-                                              count=real_time_addr['Phase C Current']['Reg'], slave=1)
+                                              count=real_time_addr['Phase C Current']['Reg'], device_id=1)
         logging.info('Phase_C_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -563,7 +563,7 @@ def read_phase_c_active_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase C Active Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase C Active Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase C Active Power']['Reg'], device_id=1)
         logging.info('Phase_C_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -583,7 +583,7 @@ def read_phase_c_reactive_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase C Reactive Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase C Reactive Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase C Reactive Power']['Reg'], device_id=1)
         logging.info('Phase_C_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -603,7 +603,7 @@ def read_phase_c_apparent_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase C Apparent Power']['Start(Dec)'],
-                                              count=real_time_addr['Phase C Apparent Power']['Reg'], slave=1)
+                                              count=real_time_addr['Phase C Apparent Power']['Reg'], device_id=1)
         logging.info('Phase_C_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -620,7 +620,7 @@ def read_phase_c_apparent_power(standard_value, times=1):
 def read_phase_c_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     value = ModbusClient.read_measurement(address=real_time_addr['Phase C Load Nature']['Start(Dec)'],
-                                          count=real_time_addr['Phase C Load Nature']['Reg'], slave=1)
+                                          count=real_time_addr['Phase C Load Nature']['Reg'], device_id=1)
     logging.info('Phase_C_Load_Nature ret is:{}'.format(value))
     load_nature = ''
     if value[1] == 0:
@@ -638,7 +638,7 @@ def read_phase_c_power_factor(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase C Power Factor']['Start(Dec)'],
-                                              count=real_time_addr['Phase C Power Factor']['Reg'], slave=1)
+                                              count=real_time_addr['Phase C Power Factor']['Reg'], device_id=1)
         logging.info('Phase_C_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -658,7 +658,7 @@ def read_system_average_current(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['System Average Current']['Start(Dec)'],
-                                              count=real_time_addr['System Average Current']['Reg'], slave=1)
+                                              count=real_time_addr['System Average Current']['Reg'], device_id=1)
         logging.info('System_Average_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -678,7 +678,7 @@ def read_system_active_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['System Active Power']['Start(Dec)'],
-                                              count=real_time_addr['System Active Power']['Reg'], slave=1)
+                                              count=real_time_addr['System Active Power']['Reg'], device_id=1)
         logging.info('System_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -698,7 +698,7 @@ def read_system_reactive_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['System Reactive Power']['Start(Dec)'],
-                                              count=real_time_addr['System Reactive Power']['Reg'], slave=1)
+                                              count=real_time_addr['System Reactive Power']['Reg'], device_id=1)
         logging.info('System_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -718,7 +718,7 @@ def read_system_apparent_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['System Apparent Power']['Start(Dec)'],
-                                              count=real_time_addr['System Apparent Power']['Reg'], slave=1)
+                                              count=real_time_addr['System Apparent Power']['Reg'], device_id=1)
         logging.info('System_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -735,7 +735,7 @@ def read_system_apparent_power(standard_value, times=1):
 def read_system_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     value = ModbusClient.read_measurement(address=real_time_addr['System Load Nature']['Start(Dec)'],
-                                          count=real_time_addr['System Load Nature']['Reg'], slave=1)
+                                          count=real_time_addr['System Load Nature']['Reg'], device_id=1)
     logging.info('System_Load_Nature ret is:{}'.format(value))
     load_nature = ''
     if value[1] == 0:
@@ -753,7 +753,7 @@ def read_system_power_factor(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['System Power Factor']['Start(Dec)'],
-                                              count=real_time_addr['System Power Factor']['Reg'], slave=1)
+                                              count=real_time_addr['System Power Factor']['Reg'], device_id=1)
         logging.info('System_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -773,7 +773,7 @@ def read_input_channel_1_current(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Input Channel 1 Current']['Start(Dec)'],
-                                              count=real_time_addr['Input Channel 1 Current']['Reg'], slave=1)
+                                              count=real_time_addr['Input Channel 1 Current']['Reg'], device_id=1)
         logging.info('Input_Channel_1_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -793,7 +793,7 @@ def read_input_channel_1_active_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Input Channel 1 Active Power']['Start(Dec)'],
-                                              count=real_time_addr['Input Channel 1 Active Power']['Reg'], slave=1)
+                                              count=real_time_addr['Input Channel 1 Active Power']['Reg'], device_id=1)
         logging.info('Channel_1_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -813,7 +813,7 @@ def read_input_channel_1_reactive_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Input Channel 1 Reactive Power']['Start(Dec)'],
-                                              count=real_time_addr['Input Channel 1 Reactive Power']['Reg'], slave=1)
+                                              count=real_time_addr['Input Channel 1 Reactive Power']['Reg'], device_id=1)
         logging.info('Input_Channel_1_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -833,7 +833,7 @@ def read_input_channel_1_apparent_power(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Input Channel 1 Apparent Power']['Start(Dec)'],
-                                              count=real_time_addr['Input Channel 1 Apparent Power']['Reg'], slave=1)
+                                              count=real_time_addr['Input Channel 1 Apparent Power']['Reg'], device_id=1)
         logging.info('Input_Channel_1_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -850,7 +850,7 @@ def read_input_channel_1_apparent_power(standard_value, times=1):
 def read_input_channel_1_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     value = ModbusClient.read_measurement(address=real_time_addr['Input Channel 1 Load Nature']['Start(Dec)'],
-                                          count=real_time_addr['Input Channel 1 Load Nature']['Reg'], slave=1)
+                                          count=real_time_addr['Input Channel 1 Load Nature']['Reg'], device_id=1)
     logging.info('Input_Channel_1_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
     load_nature = ''
@@ -869,7 +869,7 @@ def read_input_channel_1_power_factor(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Input Channel 1 Power Factor']['Start(Dec)'],
-                                              count=real_time_addr['Input Channel 1 Power Factor']['Reg'], slave=1)
+                                              count=real_time_addr['Input Channel 1 Power Factor']['Reg'], device_id=1)
         logging.info('Input_Channel_1_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -890,7 +890,7 @@ def read_input_channel_1_current_phase_angle(standard_value, times=1):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(
             address=real_time_addr['Input Channel 1 Current Phase Angle']['Start(Dec)'],
-            count=real_time_addr['Input Channel 1 Current Phase Angle']['Reg'], slave=1)
+            count=real_time_addr['Input Channel 1 Current Phase Angle']['Reg'], device_id=1)
         logging.info('Input_Channel_1_Current_Phase_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -911,7 +911,7 @@ def read_input_channel_2_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_2_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -932,7 +932,7 @@ def read_input_channel_2_active_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Channel_2_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -953,7 +953,7 @@ def read_input_channel_2_reactive_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_2_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -974,7 +974,7 @@ def read_input_channel_2_apparent_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_2_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -992,7 +992,7 @@ def read_input_channel_2_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     address = real_time_addr['Input Channel 1 Load Nature']['Start(Dec)'] + 14
     count = real_time_addr['Input Channel 1 Load Nature']['Reg']
-    value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     logging.info('Input_Channel_2_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
     load_nature = ''
@@ -1012,7 +1012,7 @@ def read_input_channel_2_power_factor(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_2_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1033,7 +1033,7 @@ def read_input_channel_2_current_phase_angle(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_2_Current_Phase_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1054,7 +1054,7 @@ def read_input_channel_3_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_3_Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1075,7 +1075,7 @@ def read_input_channel_3_active_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Channel_3_Active_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1096,7 +1096,7 @@ def read_input_channel_3_reactive_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_3_Reactive_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1117,7 +1117,7 @@ def read_input_channel_3_apparent_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_3_Apparent_Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1135,7 +1135,7 @@ def read_input_channel_3_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     address = real_time_addr['Input Channel 1 Load Nature']['Start(Dec)'] + 28
     count = real_time_addr['Input Channel 1 Load Nature']['Reg']
-    value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     logging.info('Input_Channel_3_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
     load_nature = ''
@@ -1155,7 +1155,7 @@ def read_input_channel_3_power_factor(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_3_Power_Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1176,7 +1176,7 @@ def read_input_channel_3_current_phase_angle(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input_Channel_3_Current_Phase_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1197,7 +1197,7 @@ def read_user_channel_1_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1218,7 +1218,7 @@ def read_user_channel_1_active_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Active Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1239,7 +1239,7 @@ def read_user_channel_1_reactive_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Reactive Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1260,7 +1260,7 @@ def read_user_channel_1_apparent_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Apparent Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1278,7 +1278,7 @@ def read_user_channel_1_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     address = real_time_addr['User Channel 1 Load Nature']['Start(Dec)']
     count = real_time_addr['User Channel 1 Load Nature']['Reg']
-    value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     logging.info('Input_Channel_3_Load_Nature ret is:{}'.format(value))
     # ModbusClient.close()
     load_nature = ''
@@ -1298,7 +1298,7 @@ def read_user_channel_1_power_factor(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Power Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1319,7 +1319,7 @@ def read_user_channel_2_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 2 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1340,7 +1340,7 @@ def read_user_channel_2_active_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 2 Active Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1361,7 +1361,7 @@ def read_user_channel_2_reactive_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 2 Reactive Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1382,7 +1382,7 @@ def read_user_channel_2_apparent_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 2 Apparent Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1400,7 +1400,7 @@ def read_user_channel_2_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     address = real_time_addr['User Channel 1 Load Nature']['Start(Dec)'] + 12
     count = real_time_addr['User Channel 1 Load Nature']['Reg']
-    value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     logging.info('User Channel 2 Load Nature ret is:{}'.format(value))
     # ModbusClient.close()
     load_nature = ''
@@ -1420,7 +1420,7 @@ def read_user_channel_2_power_factor(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 2 Power Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1441,7 +1441,7 @@ def read_user_channel_3_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 3 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1462,7 +1462,7 @@ def read_user_channel_3_active_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 3 Active Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1483,7 +1483,7 @@ def read_user_channel_3_reactive_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 3 Reactive Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1504,7 +1504,7 @@ def read_user_channel_3_apparent_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 3 Apparent Power ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -1522,7 +1522,7 @@ def read_user_channel_3_load_nature():
     # ModbusClient = modbusrtuortcp(conn_mode=modbus_config['conn_mode'])
     address = real_time_addr['User Channel 1 Load Nature']['Start(Dec)'] + 24
     count = real_time_addr['User Channel 1 Load Nature']['Reg']
-    value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     logging.info('User Channel 3 Load Nature ret is:{}'.format(value))
     # ModbusClient.close()
     load_nature = ''
@@ -1542,7 +1542,7 @@ def read_user_channel_3_power_factor(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 3 Power Factor ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -2210,11 +2210,11 @@ def set_reactive_power_calculation_method(value):
     """
     address = basic_setting['Reactive Power Calculation Method']['Start(Dec)']
     count = basic_setting['Reactive Power Calculation Method']['Reg']
-    ret = ModbusClient.write_registers(address=address, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=address, values=value, device_id=1)
     if '(4315,1)' not in str(ret):
         logging.error('set_reactive_power_calculation_methodme fail, ret is:{}'.format(ret))
         return False
-    ret = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    ret = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     if ret[0] == value:
         return True
     return False
@@ -2233,11 +2233,11 @@ def set_service_configuration(value):
     """
     address = basic_setting['Service Configuration']['Start(Dec)']
     count = basic_setting['Service Configuration']['Reg']
-    ret = ModbusClient.write_registers(address=address, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=address, values=value, device_id=1)
     if '(4162,1)' not in str(ret):
         logging.error('set_service_configuration fail, ret is:{}'.format(ret))
         return False
-    ret = ModbusClient.read_measurement(address=address, count=count, slave=1)
+    ret = ModbusClient.read_measurement(address=address, count=count, device_id=1)
     if ret[0] == value:
         return True
     return False
@@ -2250,7 +2250,7 @@ def set_clear_energy(value):
     '''
     address = basic_setting['Clear energy']['Start(Dec)']
     count = basic_setting['Clear energy']['Reg']
-    ret = ModbusClient.write_registers(address=address, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=address, values=value, device_id=1)
     if '(4400,1)' not in str(ret):
         logging.error('set_clear_energy fail, ret is:{}'.format(ret))
         return False
@@ -2264,7 +2264,7 @@ def set_device_reboot(value):
     '''
     address = basic_setting['Device Reboot']['Start(Dec)']
     count = basic_setting['Device Reboot']['Reg']
-    ret = ModbusClient.write_registers(address=address, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=address, values=value, device_id=1)
     if '(4420,1)' not in str(ret):
         logging.error('set_device_reboot fail, ret is:{}'.format(ret))
         return False
@@ -2277,7 +2277,7 @@ def set_channle2_voltage_assignment(value):
     :return:
     '''
 
-    ret = ModbusClient.write_registers(address=4175, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=4175, values=value, device_id=1)
     if '(4175,1)' not in str(ret):
         logging.error('Set_Channle2_voltage_assignment fail, ret is:{}'.format(ret))
         return False
@@ -2289,7 +2289,7 @@ def set_channle3_voltage_assignment(value):
     :param value: 1: Vb 2: Vc
     :return:
     '''
-    ret = ModbusClient.write_registers(address=4180, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=4180, values=value, device_id=1)
     if '(4180,1)' not in str(ret):
         logging.error('set_channle3_voltage_assignment fail, ret is:{}'.format(ret))
         return False
@@ -2303,7 +2303,7 @@ def set_phase_order(value):
     '''
     address = basic_setting['Phase Order']['Start(Dec)']
     count = basic_setting['Phase Order']['Reg']
-    ret = ModbusClient.write_registers(address=address, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=address, values=value, device_id=1)
     if '(4316,1)' not in str(ret):
         logging.error('set_phase_order fail, ret is:{}'.format(ret))
         return False
@@ -2314,9 +2314,9 @@ def read_phase_a_energy():
     address = energy['Phase A active energy import']['Start(Dec)']
     count_reg = energy['Phase A active energy import']['Reg']
     Phase_A_Energy_list = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     if energy_charge == "resp is error":
-        energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+        energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     Phase_A_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(energy_charge[1]).replace(
         '0x', '').zfill(
         4) + hex(energy_charge[2]).replace('0x', '').zfill(4) + hex(energy_charge[3]).replace('0x', '').zfill(4)
@@ -2387,7 +2387,7 @@ def read_phase_b_energy():
     address = energy['Phase B active energy import']['Start(Dec)']
     count_reg = energy['Phase B active energy import']['Reg']
     Phase_B_Energy_list = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     Phase_B_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(energy_charge[1]).replace(
         '0x', '').zfill(
         4) + hex(energy_charge[2]).replace('0x', '').zfill(4) + hex(energy_charge[3]).replace('0x', '').zfill(4)
@@ -2451,7 +2451,7 @@ def read_phase_c_energy():
     address = energy['Phase C active energy import']['Start(Dec)']
     count_reg = energy['Phase C active energy import']['Reg']
     Phase_C_Energy_list = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     Phase_C_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(energy_charge[1]).replace(
         '0x', '').zfill(
         4) + hex(energy_charge[2]).replace('0x', '').zfill(4) + hex(energy_charge[3]).replace('0x', '').zfill(4)
@@ -2515,7 +2515,7 @@ def read_system_energy():
     address = energy['System active energy import']['Start(Dec)']
     count_reg = energy['System active energy import']['Reg']
     System_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     System_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(energy_charge[1]).replace('0x',
                                                                                                                    '').zfill(
         4) + hex(energy_charge[2]).replace('0x', '').zfill(4) + hex(energy_charge[3]).replace('0x', '').zfill(4)
@@ -2578,7 +2578,7 @@ def read_input_channel_1_energy():
     address = energy['Input Channel 1 active energy import']['Start(Dec)']
     count_reg = energy['Input Channel 1 active energy import']['Reg']
     Input_Channel_1_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     Input_Channel_1_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(
         energy_charge[1]).replace('0x',
                                   '').zfill(
@@ -2654,7 +2654,7 @@ def read_input_channel_2_energy():
     address = energy['Input Channel 1 active energy import']['Start(Dec)'] + 36
     count_reg = energy['Input Channel 1 active energy import']['Reg']
     Input_Channel_2_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     Input_Channel_2_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(
         energy_charge[1]).replace('0x',
                                   '').zfill(
@@ -2730,7 +2730,7 @@ def read_input_channel_3_energy():
     address = energy['Input Channel 1 active energy import']['Start(Dec)'] + 72
     count_reg = energy['Input Channel 1 active energy import']['Reg']
     Input_Channel_3_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     Input_Channel_3_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(
         energy_charge[1]).replace('0x',
                                   '').zfill(
@@ -2806,7 +2806,7 @@ def read_user_channel_1_energy():
     address = energy['User Channel 1 active energy import']['Start(Dec)']
     count_reg = energy['User Channel 1 active energy import']['Reg']
     User_Channel_1_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     User_Channel_1_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(
         energy_charge[1]).replace('0x',
                                   '').zfill(
@@ -2880,7 +2880,7 @@ def read_user_channel_2_energy():
     address = energy['User Channel 1 active energy import']['Start(Dec)'] + 36
     count_reg = energy['User Channel 1 active energy import']['Reg']
     User_Channel_2_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     User_Channel_2_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(
         energy_charge[1]).replace('0x',
                                   '').zfill(
@@ -2954,7 +2954,7 @@ def read_user_channel_3_energy():
     address = energy['User Channel 1 active energy import']['Start(Dec)'] + 72
     count_reg = energy['User Channel 1 active energy import']['Reg']
     User_Channel_3_Energy = []
-    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, slave=1)
+    energy_charge: list = ModbusClient.read_measurement(address=address, count=36, device_id=1)
     User_Channel_3_active_energy_import = hex(energy_charge[0]).replace('0x', '').zfill(4) + hex(
         energy_charge[1]).replace('0x',
                                   '').zfill(
@@ -3294,7 +3294,7 @@ def read_voltage_positive_sequence_magnitude(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Positive Sequence Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3315,7 +3315,7 @@ def read_voltage_zero_sequence_magnitude(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Zero Sequence Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3336,7 +3336,7 @@ def read_voltage_negative_sequence_magnitude(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Negative Sequence Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3357,7 +3357,7 @@ def read_voltage_positive_sequence_angle(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Positive Sequence Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3378,7 +3378,7 @@ def read_voltage_zero_sequence_angle(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Zero Sequence Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3399,7 +3399,7 @@ def read_voltage_negative_sequence_angle(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Negative Sequence Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3420,7 +3420,7 @@ def read_voltage_unbalance_factor_magnitude(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Voltage Unbalance Factor Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3441,7 +3441,7 @@ def read_user_channel_1_current_positive_sequence_magnitude(standard_value, time
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Positive Sequence Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3462,7 +3462,7 @@ def read_user_channel_1_current_zero_sequence_magnitude(standard_value, times=1)
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Zero Sequence Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3483,7 +3483,7 @@ def read_user_channel_1_current_negative_sequence_magnitude(standard_value, time
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Negative Sequence Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3504,7 +3504,7 @@ def read_user_channel_1_current_positive_sequence_angle(standard_value, times=1)
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Positive Sequence Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3525,7 +3525,7 @@ def read_user_channel_1_current_zero_sequence_angle(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Zero Sequence Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3546,7 +3546,7 @@ def read_user_channel_1_current_negative_sequence_angle(standard_value, times=1)
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Negative Sequence Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3567,7 +3567,7 @@ def read_user_channel_1_current_unbalance_factor_magnitude(standard_value, times
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('User Channel 1 Current Unbalance Factor Magnitude ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3588,7 +3588,7 @@ def read_input_channel_4_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 4 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3609,7 +3609,7 @@ def read_input_channel_5_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 5 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3630,7 +3630,7 @@ def read_input_channel_6_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 6 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3651,7 +3651,7 @@ def read_input_channel_7_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 7 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3672,7 +3672,7 @@ def read_input_channel_8_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 8 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3693,7 +3693,7 @@ def read_input_channel_9_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 9 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3715,7 +3715,7 @@ def read_input_channel_10_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 10 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3737,7 +3737,7 @@ def read_input_channel_11_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 11 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3759,7 +3759,7 @@ def read_input_channel_12_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 12 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3781,7 +3781,7 @@ def read_input_channel_13_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 13 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3803,7 +3803,7 @@ def read_input_channel_14_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 14 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3825,7 +3825,7 @@ def read_input_channel_15_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 15 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3847,7 +3847,7 @@ def read_input_channel_16_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 16 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3869,7 +3869,7 @@ def read_input_channel_17_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 17 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3891,7 +3891,7 @@ def read_input_channel_18_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 18 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3913,7 +3913,7 @@ def read_input_channel_19_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 19 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3935,7 +3935,7 @@ def read_input_channel_20_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 20 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3957,7 +3957,7 @@ def read_input_channel_21_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 21 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -3979,7 +3979,7 @@ def read_input_channel_22_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 22 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -4001,7 +4001,7 @@ def read_input_channel_23_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 23 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -4023,7 +4023,7 @@ def read_input_channel_24_current(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Input Channel 24 Current ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -4044,7 +4044,7 @@ def read_phase_sys_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=48, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=48, device_id=1)
         logging.info('Phase_A_Power ret is:{}'.format(value))
         value = [value[i] for i in range(len(value)) if
                  i not in {0, 1, 8, 9, 12, 13, 20, 21, 24, 25, 32, 33, 36, 37, 44, 45}]
@@ -4074,7 +4074,7 @@ def read_phase_input_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=42, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=42, device_id=1)
         logging.info('Input Channel 1 Current ret is:{}'.format(value))
         value = [value[i] for i in range(len(value)) if
                  i not in {0, 1, 8, 9, 12, 13, 14, 15, 22, 23, 26, 27, 28, 29, 36, 37, 40, 41}]
@@ -4104,7 +4104,7 @@ def read_user_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=8600, count=36, slave=1)
+        value = ModbusClient.read_measurement(address=8600, count=36, device_id=1)
         logging.info('User Channel 1 Current ret is:{}'.format(value))
         value = [value[i] for i in range(len(value)) if
                  i not in {0, 1, 8, 9, 12, 13, 20, 21, 24, 25, 32, 33}]
@@ -5183,7 +5183,7 @@ def hold_rs485_connect(hold_time):
     for i in range(t):
         time.sleep(180)  # 3 分钟
         value = ModbusClient.read_measurement(address=real_time_addr['System Frequency']['Start(Dec)'],
-                                              count=real_time_addr['System Frequency']['Reg'], slave=1)
+                                              count=real_time_addr['System Frequency']['Reg'], device_id=1)
         logging.info(f"第 {i + 1} 次读取数据: {value},RS485 连接正常")
 
 
@@ -5819,7 +5819,7 @@ def read_phase_a_voltage_new(standard_value, times=1):
     for v in range(times):
         time.sleep(0.2)
         value = ModbusClient.read_measurement(address=real_time_addr['Phase A Line-to-Neutral Voltage']['Start(Dec)'],
-                                              count=real_time_addr['Phase A Line-to-Neutral Voltage']['Reg'], slave=1)
+                                              count=real_time_addr['Phase A Line-to-Neutral Voltage']['Reg'], device_id=1)
         logging.info('Phase_A_Voltage ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -5845,7 +5845,7 @@ def read_phase_a_voltage_angle_new(standard_value, times=1):
             'Start(Dec)'],
                                               count=real_time_addr[
                                                   'Phase A Line-to-Neutral Voltage Phase Angle(1E_2W、2E_3W_1P、3E_4W_Y、2E_3W_Network)  /\nPhase AB Line-to-Linel Voltage Phase Angle (2E_3W_Delta、 3E_3W_Delta)'][
-                                                  'Reg'], slave=1)
+                                                  'Reg'], device_id=1)
         logging.info('Phase_A_Voltage_Angle ret is:{}'.format(value))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -5867,7 +5867,7 @@ def read_input_current(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Input_Channel_{input_ch}_Current ret is:{value}')
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -5897,7 +5897,7 @@ def read_input_active_power(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Channel_{input_ch}_Active_Power ret is:{value}')
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -5927,7 +5927,7 @@ def read_input_channel_reactive_power_new(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Input_Channel_{input_ch}_Reactive_Power ret is:{value}')
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -5957,7 +5957,7 @@ def read_input_channel_apparent_power(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Input_Channel_{input_ch}_Apparent_Power ret is:{value}')
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -5987,7 +5987,7 @@ def read_input_channel_current_angle_new(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Input_Channel_{input_ch}_Current_Phase_Angle ret is:{value}')
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -6016,7 +6016,7 @@ def read_phase_l_n_voltage(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('read_phase_l_n_voltage ret is:{}'.format(value))
         read_list = []
         for i in range(3):
@@ -6059,7 +6059,7 @@ def read_phase_angle_voltage(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('read_phase_l_n_voltage ret is:{}'.format(value))
         read_list = []
         for i in range(3):
@@ -6102,7 +6102,7 @@ def read_system_power(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('System P/Q/S Power ret is:{}'.format(value))
         read_list = []
         for i in range(3):
@@ -6142,7 +6142,7 @@ def read_input_power(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Input Channel {input_ch} Current/P/Q/S ret is:{value}')
         read_list = []
         for i in range(4):
@@ -6182,7 +6182,7 @@ def read_user_power_nwe(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 12 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'User Channel {input_ch} P/Q/S Power ret is:{value}')
         read_list = []
         for i in range(3):
@@ -6222,7 +6222,7 @@ def read_input_angle_current(input_ch, standard_value, times=1):
     address = (input_ch - 1) * 14 + address
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info(f'Input Channel {input_ch} Current Phase Angle ret is:{value}')
         read_list = []
         for i in range(1):
@@ -6395,7 +6395,7 @@ def read_phase_l_l_voltage(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('read_phase_l_l_voltage ret is:{}'.format(value))
         read_list = []
         for i in range(3):
@@ -6516,7 +6516,7 @@ def read_phase_sys_power_111(standard_value, times=1):
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=48, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=48, device_id=1)
         logging.info('Phase_A_Power ret is:{}'.format(value))
         value = [value[i] for i in range(len(value)) if
                  i not in {0, 1, 8, 9, 12, 13, 20, 21, 24, 25, 32, 33, 36, 37, 44, 45}]
@@ -6546,6 +6546,6 @@ def read_baud_rate(standard_value, times=1):
     value = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address=address, count=count, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=count, device_id=1)
         logging.info('Phase_B_Active_Power ret is:{}'.format(value))
     return value[0]

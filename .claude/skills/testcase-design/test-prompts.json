@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "prompt": "项目 AcuRev-4100-WEB2。把下列脑图测试点转成 Excel 测试用例：1) Trap Port 默认 162，范围 1~65535，边界值配置后保存展示正确；超界/非法值阻止保存并提示，4个用例；2) 设备上下线 Trap 消息每次只发一条，不成对出现，1个用例；3) Alarm Trap 支持参数告警上报 待确认；4) 禁用 SNMP 后不再响应 snmpget/snmpwalk；重新启用后恢复，1个用例",
+    "expected": "「4个用例」严格按数生成且非法等价类全覆盖；「待确认」子树整棵跳过；编号从 testcase/ 已有区间续接；16列格式/LV分级/自动化列判定；先输出知识库提取表",
+    "mode": "full_test + baseline"
+  },
+  {
+    "id": 2,
+    "prompt": "把 AcuRev-4100-WEB2 Sprint2 的 3.12 更改 WiFi 默认密码（默认密码改为 accuenergy，与 AXM-WEB2 等产品线一致）写成测试用例",
+    "expected": "小需求也走完整流程：查已有用例去重+编号续接、LV分级合理（默认密码验证/修改后连接）、生成 .xlsx",
+    "mode": "full_test"
+  }
+]

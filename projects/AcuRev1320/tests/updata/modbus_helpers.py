@@ -67,7 +67,7 @@ def snapshot_config_registers():
     snap = {}
     try:
         for addr, count in CONFIG_REGISTER_BLOCKS:
-            rr = client.read_holding_registers(address=addr, count=count, slave=unit)
+            rr = client.read_holding_registers(address=addr, count=count, device_id=unit)
             if rr.isError():
                 raise RuntimeError(f'读寄存器失败 addr={addr} count={count}: {rr}')
             for i, val in enumerate(rr.registers):

@@ -15,9 +15,11 @@ Session 级（整个 session 只执行一次）：
 from __future__ import annotations
 
 import logging
+import re
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 import pytest
 from selenium import webdriver
@@ -134,3 +136,44 @@ def mqtt_page(driver):
     page = MQTTPage(driver)
     page.navigate()
     return page
+
+
+# ── pytest-html 报告：用例编号列 ──────────────────────────────────────────────
+# 与 tests/BacnetIP/conftest.py 的同名逻辑保持一致：MQTT 用例同样不是参数化用例，
+# nodeid 默认只含 `文件::类::函数名`，报告里看不到官方用例编号（TestCase_AcuHMI17_MQTT_子模块号_序号）。
+# 编号写在每个用例 docstring 首段，收集阶段读出后以 `[编号]` 形式追加到 nodeid 末尾。
+
+_CASE_ID_RE = re.compile(r"(TestCase_AcuHMI[\w\-]+)")
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """把用例编号注入 MQTT 用例的 nodeid，让 pytest-html 报告的 Test 列直接显示编号。
+
+    子目录 conftest 的 pytest_collection_modifyitems 会收到**全量** items，故先按本
+    conftest 所在目录过滤，只改 MQTT 自己的用例；并对结尾做幂等判断，避免重复追加。
+    """
+    here = Path(__file__).parent.resolve()
+    for item in items:
+        try:
+            item_path = Path(str(item.fspath)).resolve()
+        except Exception:
+            continue
+        if here != item_path.parent and here not in item_path.parents:
+            continue
+        doc = (getattr(getattr(item, "function", None), "__doc__", "") or "").strip()
+        m = _CASE_ID_RE.match(doc)
+        if not m:
+            continue
+        case_id = m.group(1)
+        suffix = f"[{case_id}]"
+        if not item._nodeid.endswith(suffix):
+            item._nodeid = f"{item._nodeid}{suffix}"
+
+
+@pytest.fixture(autouse=True)
+def _record_case_id(request: pytest.FixtureRequest, record_property: Any) -> None:
+    """将用例编号写入 JUnit XML property（兼容 CI/CD 系统）。"""
+    doc = (getattr(request.node.function, "__doc__", "") or "").strip()
+    m = _CASE_ID_RE.match(doc)
+    if m:
+        record_property("用例编号", m.group(1))

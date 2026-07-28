@@ -1,0 +1,5760 @@
+# AcuRev-100 手工用例→自动化 映射表(001~009)。工程师确认后作为用例生成的唯一输入。
+# 结构: cases[].points[]={source,checks[,checks_instant]}; meter_cfg=用例前置(接线/CT, helper 自动写寄存器); needs_review 非空运行时拒绝执行。
+# checks: source_read=现值区间判据 / energy_accumulate=窗口 Δ 增量判据; checks_instant: 仅能量类, 现值区间判据(频率等非累积量)。
+# 🔴 重名寄存器必须写地址(2026-07-27 实证): 地址表里 PHASE_A/B/C_CURRENT 同名出现在 Wiring Check 段与 Real Time 段,
+#    spec_loader.reg_by_name 取 addrs[0]=Wiring Check 段(不随实时电流刷新) → 电流判据一律写 Real Time 段地址
+#    36978/36980/36982, 并用 register_name 注明可读名。新增判据前先查 spec/registers.json 的 by_name 是否多地址。
+# ⚠️ 自供电约定(2026-07-08): 电压归零=断表电, 还原=220V/50Hz电流归零; 0V/低压用例标"自供电冲突"。
+# 🔴 电流安全(2026-07-09 烧板事故): 源电流上限由 config source.current_injection 硬限幅(via_ct=25A/direct=0.1A)。
+# 台体电流 CT = 20A/100mA(2026-07-09 接入): 显示系数=Primary/20; 原 333mV 档用例已换算(ct_type→100mA, 源电流×4)。
+# 📏 精度判据口径(2026-07-27): 统一溯源到下方 accuracy_spec(SRS v1.03 §3.5); 改口径先改 accuracy_spec 再同步测点 lo/hi。
+
+# ── 精度判据溯源块: 只读元数据, 运行时不消费(helper 只取 cases), 供人工复核/追溯 ──
+accuracy_spec:
+  source: 'AcuRev-100_软件需求规格说明书_v1.03 20260709 · §3.5 基础电参量测量'
+  synced: '2026-07-27'
+  note: '各测点 lo/hi = 期望值(显示域) ± 本表容差; 期望值为0的量(如 Q=0/Eq=0)取同相 S/Es 的容差作绝对带。'
+  system_accuracy: 'MC S-E-06(认证, 必须) + ANSI C12 Class 0.5(自测, 不出证) —— 适用于有功功率/有功电能;
+    其余分量精度为 SRS 标注"建议"的设计目标, 非独立认证项。'
+  resolution: '频率 0.1Hz / 电压 0.1V / 电流 0.1A / 功率 1W / 电能 1Wh / 相角 0.1° —— 属显示域分辨率,
+    本表判据走 Modbus 浮点回读(实测4位小数), 不受显示分辨率限制。'
+  params:
+  - name: Frequency
+    srs: '0.01 Hz (45~65Hz); IEC 61557-12 class 0.02(建议)'
+    applied: '源设定 ±0.1 Hz(分辨率受限口径, 非 SRS 精度线)'
+    register: SYSTEM_FREQUENCY
+    remark: '2026-07-27 补(原全表零覆盖): source_read 测点入 checks; energy_accumulate 测点入
+      checks_instant(该类 checks 是 Δ 增量判据, 频率属瞬时量必须另立块)。
+      ⚠️ SRS 的 0.01Hz 精度在本表无法验证: 20260727_093736 批跑实证 SYSTEM_FREQUENCY 虽为 float32,
+      固件只填 0.1Hz 量化值(72 次读数仅 0x42480000=50.0 / 0x42486666=50.1 两个, 无中间值),
+      与 SRS 自身"频率分辨率 0.1Hz"一致 → ±0.01Hz 带小于一个刻度, 判据不可测(实测 50.0:50.1=5:7
+      在舍入边界抖动, 呈抛硬币式 flaky)。故判据取一个分辨率单位 ±0.1Hz(仅验"频率通道工作且无粗差"),
+      SRS 0.01Hz 精度线待需求侧澄清(分辨率与精度矛盾)或改用外部频率计验证。
+      遗留观察项: 源设 50.00 时读 50.1 意味测量值≥50.05(达 SRS 精度 5 倍), 但 CL3021 源频率本身
+      未独立标定, 源侧/表侧责任需外部频率计才能分离, 现有数据不下结论。
+      现有测点源频率全为 50Hz, 45/65Hz 边界待换支持宽频的源后补测点。'
+  - name: VLN
+    srs: '0.2%(建议)'
+    applied: '±0.2%'
+    params: 'Van / Vbn / Vcn / Vlnavg'
+  - name: VLL
+    srs: '0.2%(建议)'
+    applied: '±0.2%'
+    params: 'Vab / Vbc / Vca / Vllavg'
+  - name: I
+    srs: '0.2%(建议)'
+    applied: '±0.2%'
+    params: 'Ia / Ib / Ic / Iavg'
+  - name: P
+    srs: 'MC S-E-06(必须) + ANSI C12 Class 0.5(自测) → 认证线 ±0.5%'
+    applied: '±0.2%'
+    remark: '2026-07-27 用户裁决: 判据维持 0.2% 不放宽——0.2% 为工程设计目标(严于 SRS 认证线),
+      放宽会掩盖 0.2%~0.5% 区间的劣化。读数超 ±0.5% = 认证口径不符(阻塞级);
+      落在 0.2%~0.5% = 工程目标未达标, 按缺陷记录后由工程师裁决是否降级。'
+  - name: Q
+    srs: '0.5%(建议)'
+    applied: '±0.5%×|Q|; 仅期望值为 0 的测点取 ±0.5%×S 绝对带'
+    remark: '2026-07-27 用户裁决(按 SRS/config 字面口径): 005 的 13 条非零 Q 判据原按 ±0.5%×S 算
+      (Δθ=60° 时 S/|Q|=1/sin60°=1.1547 → 实为 0.577%), 已收紧为 ±0.5%×|Q|, 中心值不变。
+      Q=0 的 36 个测点无法照此换算(0.5%×0=零宽度判据不可测), 继续以 S 为参照取绝对带。'
+  - name: S
+    srs: '0.5%(建议)'
+    applied: '±0.5%'
+  - name: PF
+    srs: '0.2%; 格式可配置(IEC / IEEE 约定)'
+    applied: '±0.002 绝对(=0.2%×满度1.0)'
+  - name: Angle
+    srs: '±0.5°(必须, 分辨率 0.1°)'
+    applied: '±0.5°; 0° 点用 ranges 处理 0~360 回绕([0,0.5]∪[359.5,360))'
+  - name: Ep
+    srs: 'MC S-E-06(必须) + ANSI C12 Class 0.5(自测) → 认证线 ±0.5%'
+    applied: '±0.2%'
+    remark: '同 P: 维持 0.2% 工程目标, 判读口径见 P 行。'
+  - name: Eq
+    srs: '0.5%(建议)'
+    applied: '±0.5%; 期望值为0时取 [0, 0.5%×Es] 单边带'
+  - name: Es
+    srs: '0.5%(建议)'
+    applied: '±0.5%'
+
+cases:
+- case_id: Function_AC meter_001_01_case3
+  title: 电表上设置60HZ, 交流电在40HZ 、70 Hz，无测量精度要求
+  group: 交流频率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '已裁决(2026-07-13 用户确认): 转手工执行, 不生成自动化用例——源 CL3021 两测点均无法出力:
+    40Hz 下发被拒回落 50Hz; 70Hz 接受命令但输出直接掉 0V(20260713_163600 批跑实证+台面目击,
+    自供电表随之断电), 无可自动化测点。若后续换支持 40~70Hz 的源可重新评估'
+  source_points_raw:
+  - ua: 220.0
+    ub: 220.0
+    uc: 220.0
+    ia: 0.0
+    ib: 0.0
+    ic: 0.0
+    qua: 0.0
+    qub: 240.0
+    quc: 120.0
+    qia: 0.0
+    qib: 240.0
+    qic: 120.0
+    freq: 70.0
+  check_points_raw: []
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 60Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13 用户确认: 定性判据=源设定±10%(70Hz→[63,77]); 频率测点补压 Ua/Ub/Uc=220V(自供电)'
+  - '2026-07-13 用户确认: 电表频率设置以标题 60Hz 为准(xlsx 步骤1.1 的"50HZ"判为从 case1 复制的笔误), 写 FREQUENCY_SELECTION@4161=60Hz'
+  - '2026-07-13 用户确认: 源(CL3021)不支持 40Hz(实测下发被拒回落 50Hz), 40Hz 测点跳过不自动化, 仅保留 70Hz 测点'
+  - '2026-07-13 用户裁决: 70Hz 实跑掉输出 0V(报告 20260713_163600 点1 失联) → 整条转手工, 删除已生成的 pytest 文件'
+- case_id: Function_AC meter_001_01_case4
+  title: 空载情况下，电表频率显示0
+  group: 交流频率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '已裁决(2026-07-13 用户确认): 转手工执行, 不生成自动化用例——自供电表关源=电表断电, Modbus 无法回读; USB 口供电能力未验证。若后续真机验证 USB 可维持供电, 可重新评估(将同时解锁 002_case3/4/7、003_case2/3 等 0V/低压家族)'
+  source_points_raw: []
+  check_points_raw: []
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13 用户确认: 转手工执行(自供电冲突, USB 供电未验证)'
+- case_id: Function_AC meter_002_01_case1
+  title: 交流电Van、Vbn、Vcn输入额定电压分别均为120V,测量Van、Vbn、Vcn、Vlnavg满足精度要求0.2%
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Van:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vlnavg:
+        register: AVERAGE_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13: 补 freq_selection=50Hz 前置(测点源频率均 50Hz; 防 001_01_case2/3 遗留 60Hz 设置影响计量)'
+- case_id: Function_AC meter_002_01_case2
+  title: 交流电Van、Vbn、Vcn输入额定电压分别均为220V,277V,测量Van、Vbn、Vcn、Vlnavg满足精度要求0.2%
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Van:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 219.56
+        hi: 220.44
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 219.56
+        hi: 220.44
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 219.56
+        hi: 220.44
+      Vlnavg:
+        register: AVERAGE_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 219.56
+        hi: 220.44
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 277.0
+      ub: 277.0
+      uc: 277.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Van:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 276.446
+        hi: 277.554
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 276.446
+        hi: 277.554
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 276.446
+        hi: 277.554
+      Vlnavg:
+        register: AVERAGE_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 276.446
+        hi: 277.554
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13: 补 freq_selection=50Hz 前置(测点源频率均 50Hz; 防 001_01_case2/3 遗留 60Hz 设置影响计量)'
+  - '2026-07-27 补漏(SRS §3.5 VLN 含 Vlnavg): 两测点原缺 Vlnavg 判据(标题明确要求), 按 Van 同带补齐
+    (220V→[219.56,220.44], 277V→[276.446,277.554]); 本条三相同压, 不受 A 相供电护栏影响'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+- case_id: Function_AC meter_002_01_case3
+  title: 交流电Van、Vbn、Vcn输入启动电压分别均为10.2V、20V,电表有测量值,测量Van、Vbn、Vcn、Vlnavg没有精度要求
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 10.2
+      uc: 10.2
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 9.18
+        hi: 11.22
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 9.18
+        hi: 11.22
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 20.0
+      uc: 20.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 18.0
+        hi: 22.0
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 18.0
+        hi: 22.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 用户裁决(方案A): 自供电冲突解法=A相(供电相)常驻最低供电100V(2026-07-14 用户改, config source.supply_guard 可配; =PRS§5.1 工作下限),
+    启动电压10.2V/20V测试值只加 Ub/Uc; 判据仅保留 Vbn/Vcn, Van/Vlnavg 因A相供电不可低压驱动不断言(留手工)'
+  - '2026-07-14: 定性判据"有测量值无精度要求"沿用 ±10% 口径(2026-07-13 case3 裁决)'
+- case_id: Function_AC meter_002_01_case4
+  title: 交流电Van、Vbn、Vcn输入电压分别均为0V，1V，9V,电表Van、Vbn、Vcn、Vlnavg无测量值
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 0.0
+      uc: 0.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 1.0
+      uc: 1.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 9.0
+      uc: 9.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 用户裁决(方案A): A相常驻最低供电100V(2026-07-14 用户改, config supply_guard 可配, 代码 _guard_point 兜底强制), 0V/1V/9V 只加 Ub/Uc; 判据仅 Vbn/Vcn=0(PRS: 电压<10V视为不存在),
+    Van/Vlnavg 不可断言(Vlnavg 含A相100V, 均值非0), 留手工; 手工步骤8"web页面"为模板残留(AcuRev-100 无Web), 忽略'
+  - '2026-07-14: 判据取严格 0.0(门限内应读0); 若实跑出现非零残差, 属门限未生效疑似产品bug, 按流程报告不放宽判据'
+- case_id: Function_AC meter_002_01_case5
+  title: 交流电Van、Vbn、Vcn输入额定电压为(120V,220V,277V),测量Van、Vbn、Vcn、Vlnavg满足精度要求0.2%
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 220.0
+      uc: 277.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Van:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 219.56
+        hi: 220.44
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 276.446
+        hi: 277.554
+      Vlnavg:
+        register: AVERAGE_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 205.255
+        hi: 206.078
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13: 补 freq_selection=50Hz 前置(测点源频率均 50Hz; 防 001_01_case2/3 遗留 60Hz 设置影响计量)'
+- case_id: Function_AC meter_002_01_case6
+  title: 交流电Van、Vbn、Vcn输入额定电压为(120V,120V,120V)顺序，且φA、φB、φC分别为(0°、130°、250°)，Van、Vbn、Vcn、Vlnavg测量值满足精度要求0.2%
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 130.0
+      quc: 250.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Van:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vlnavg:
+        register: AVERAGE_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13: 补 freq_selection=50Hz 前置(测点源频率均 50Hz; 防 001_01_case2/3 遗留 60Hz 设置影响计量)'
+- case_id: Function_AC meter_002_01_case7
+  title: 电压为0，只加电流, 电流测量值正常，但不计算夹角、功率、能量；电压为10V，电流测量值正常，且计算夹角、功率、能量
+  group: 相电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 0.0
+      uc: 0.0
+      ia: 0.3
+      ib: 0.3
+      ic: 0.3
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbn:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Vcn:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 2.994
+        hi: 3.006
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 2.994
+        hi: 3.006
+      Pb:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 0.0
+        hi: 0.0
+      Pc:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 10.0
+      uc: 10.0
+      ia: 0.3
+      ib: 0.3
+      ic: 0.3
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 2.994
+        hi: 3.006
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 2.994
+        hi: 3.006
+      Pb:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 27.0
+        hi: 33.0
+      Pc:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 27.0
+        hi: 33.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 用户裁决(方案A): A相常驻最低供电100V(2026-07-14 用户改, config supply_guard 可配, 代码 _guard_point 兜底强制), 0V/10V 测试电压只加 Ub/Uc; 判据仅 B/C 相(A相有压有流必有功率, 不断言)'
+  - '2026-07-14: 源电流0.3A(台体CT 20A/100mA+Primary 200A → 显示3A, 对齐手工"input1-3为3A"); 电压角=保活相序,
+    电流角同相(PF=1) → 10V点 Pb=Pc=10V×3A=30W±10%; 0V点 Pb=Pc=0(电压不存在不计功率)'
+  - '2026-07-14: 夹角/能量不计入自动断言——0V下夹角寄存器行为未知(留证不判), 能量累计由 005 系列覆盖; 手工步骤对应项转 MANUAL'
+  - '2026-07-14 风险备注: 10V 恰在门限(<10V不存在)边界, 若电表实测 9.9x 判"不存在"致功率=0, 属边界行为需拉工程师裁决, 不改判据凑通过'
+  - '2026-07-27 实证#1(已定性=脚本读错寄存器段, 非产品缺陷): 批跑中本条 Ib/Ic 恒读 0.011~0.013A,
+    但同刻 Pa=300.1W(=100V×3.0A)、Pb=30.07W(=10V×3.0A) → 电流物理上已出力。根因: 地址表里
+    PHASE_x_CURRENT 同名出现两次(Wiring Check 段 0x3012/0x3016/0x301A 与 Real Time 段
+    0x9072/0x9074/0x9076), 而 spec_loader.reg_by_name 取 addrs[0] → 按名字读一直读的是
+    Wiring Check 段, 该段不随实时电流刷新。2026-07-27 双段对照实证(源 220V/5A, 显示域 50A):
+    WC12306=0.0129 / RT36978=50.1130 / 功率反推 P÷U=50.1125 → RT 段与功率完全自洽, 电表测量正常。
+    修复: 本表全部电流判据改用 Real Time 段明确地址(36978/36980/36982)+register_name 注明,
+    不再按重名解析。此前"卡死/重启恢复/单跑正常"等现象均由该段刷新时机不同解释, 与固件无关。'
+  - '2026-07-27 实证#2(门限抖动, 独立于#1且重启后仍在): 点2 Ub/Uc 设 10.00V 恰压在 SRS §3.6
+    "相电压<10V视为不存在"门限上 → Vbn/Vcn 在 0 与 10.00 间反复跳, Pb/Pc 随之 0↔30.07 跳,
+    且两组寄存器不同步(快照中出现 Vbn=0 而 Pb=30.07)。连采10次实测 Pb 越界 6~8 次。
+    产品侧无迟滞是设计观察项; 测试侧待裁决: (a)源电压抬到 10.5V 脱离抖动区(判据 Pb/Pc→31.5W±10%,
+    偏离手工用例原文 10V) 或 (b)保留 10V 转手工。未经裁决不改判据凑通过。'
+- case_id: Function_AC meter_003_01_case1
+  title: 交流电Van、Vbn、Vcn均输入电压220V和277V, 测量Vab，Vac、Vbc、Vllavg精度均满足要求0.2%
+  group: 线电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vab:
+        register: PHASE_AB_LINE_TO_LINE_VOLTAGE
+        lo: 380.289
+        hi: 381.813
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 380.289
+        hi: 381.813
+      Vca:
+        register: PHASE_CA_LINE_TO_LINE_VOLTAGE
+        lo: 380.289
+        hi: 381.813
+      Vllavg:
+        register: AVERAGE_LINE_TO_LINE_VOLTAGE
+        lo: 380.289
+        hi: 381.813
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 277.0
+      ub: 277.0
+      uc: 277.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vab:
+        register: PHASE_AB_LINE_TO_LINE_VOLTAGE
+        lo: 478.819
+        hi: 480.738
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 478.819
+        hi: 480.738
+      Vca:
+        register: PHASE_CA_LINE_TO_LINE_VOLTAGE
+        lo: 478.819
+        hi: 480.738
+      Vllavg:
+        register: AVERAGE_LINE_TO_LINE_VOLTAGE
+        lo: 478.819
+        hi: 480.738
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13: 补 freq_selection=50Hz 前置(测点源频率均 50Hz; 防 001_01_case2/3 遗留 60Hz 设置影响计量)'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+- case_id: Function_AC meter_003_01_case2
+  title: 交流电Van、Vbn、Vcn均输入启动电压10.2V、20V,电表有测量值，测量Vab，Vac、Vbc、Vllavg精度没有要求
+  group: 线电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 10.2
+      uc: 10.2
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 15.9
+        hi: 19.434
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 20.0
+      uc: 20.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 31.177
+        hi: 38.105
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 用户裁决(方案A): A相常驻最低供电100V(2026-07-14 用户改, config supply_guard 可配, 代码 _guard_point 兜底强制), 10.2V/20V 只加 Ub/Uc; 线电压判据仅 Vbc(Vab/Vca/Vllavg 含A相, 不断言留手工);
+    期望 Vbc=U×√3(B/C相差120°): 10.2V→17.67V, 20V→34.64V, ±10% 口径'
+- case_id: Function_AC meter_003_01_case3
+  title: 交流电Van、Vbn、Vcn均输入电压0V，1V，9V,电表Vab，Vac、Vbc、Vllavg无测量值
+  group: 线电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 0.0
+      uc: 0.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 1.0
+      uc: 1.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 100.0
+      ub: 9.0
+      uc: 9.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 0.0
+        hi: 0.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 用户裁决(方案A): A相常驻最低供电100V(2026-07-14 用户改, config supply_guard 可配, 代码 _guard_point 兜底强制), 0V/1V/9V 只加 Ub/Uc; 线电压判据仅 Vbc=0(Vab/Vca/Vllavg 含A相不断言留手工)'
+  - '2026-07-14 判据依据: 相压<10V视为不存在→线电压应按0计。注意 9V 点 B/C 相量差实际≈15.6V(9×√3),
+    若固件先算线电压后套门限会读出非零→FAIL, 这正是本用例要抓的门限行为, 不放宽判据'
+- case_id: Function_AC meter_003_01_case4
+  title: 交流电Van、Vbn、Vcn输入额定电压为(120V,220V,270V), θA、θB、θC分别为(0°、60°、120°)测量Vab，Vac、Vbc、Vllavg满足精度要求0.2%
+  group: 线电压
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 220.0
+      uc: 270.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 60.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Vab:
+        register: PHASE_AB_LINE_TO_LINE_VOLTAGE
+        lo: 190.406
+        hi: 191.17
+      Vca:
+        register: PHASE_CA_LINE_TO_LINE_VOLTAGE
+        lo: 345.285
+        hi: 346.669
+      Vbc:
+        register: PHASE_BC_LINE_TO_LINE_VOLTAGE
+        lo: 248.3
+        hi: 249.295
+      Vllavg:
+        register: AVERAGE_LINE_TO_LINE_VOLTAGE
+        lo: 261.33
+        hi: 262.378
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 分析文档#156: 判据键名Vac→Vca(线电压规范命名, 寄存器PHASE_CA不变, 数值不变)'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-13: 补 freq_selection=50Hz 前置(测点源频率均 50Hz; 防 001_01_case2/3 遗留 60Hz 设置影响计量)'
+- case_id: Function_AC meter_004_01_case1
+  title: CT选型333mV(200A)，3E4WY，三路电流分别为(50A、100A，200A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 1.25
+      ib: 2.5
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 199.6
+        hi: 200.4
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 116.433
+        hi: 116.9
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case2
+  title: 'CT选型333mV(200A)，三路电流分别为Imin（2，2，2）,在上位机上分别配置为对应A相、B相、C相，精度满足精度0.2%,三路电流分别为(0.2,0.1,0.2),无精度要求
+
+    备注：0.2A为Ist'
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.05
+      ib: 0.05
+      ic: 0.05
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 1.996
+        hi: 2.004
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 1.996
+        hi: 2.004
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 1.996
+        hi: 2.004
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 1.996
+        hi: 2.004
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.005
+      ib: 0.0025
+      ic: 0.005
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks: {}
+    note: '第二测点无精度要求: 仅施加源, 不断言(2026-07-08 工程师确认)'
+  decisions:
+  - '2026-07-14 分析文档#154: 第二测点ib 0.00025→0.0025(标题0.1A显示, 系数40, 原值10倍笔误); 该测点无断言不影响判据'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-08: 仅第一测点有精度要求, 第二测点不断言'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case3
+  title: CT选型333mV(200A)，一路电流为（100A），在上位机均配置为对应A相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 2.5
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 99.8
+        hi: 100.2
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 0.0
+        hi: 0.0
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 0.0
+        hi: 0.0
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 33.267
+        hi: 33.4
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 源点补齐(原xlsx解析丢源点): 手工步骤2"一路电流2.5A配A相"按mV→mA换算×4 → ia=10A(显示100A),
+    ib/ic=0; 电压=220V保活三相(判据来自xlsx预期结果原表: Ia 99.8~100.2, Ib/Ic=0, Iavg 33.267~33.4)'
+- case_id: Function_AC meter_004_01_case4
+  title: CT选型333mV(200A)，两路电流分别为(200A、240A),在上位机均配置为对应B相和C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.0
+      ib: 5.0
+      ic: 6.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 0.0
+        hi: 0.0
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 199.6
+        hi: 200.4
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 239.52
+        hi: 240.48
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 146.373
+        hi: 146.96
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 源点补齐(原xlsx解析丢源点): 手工步骤2"两路电流5A/6A配B/C相"换算×4 → ib=20A/ic=24A(显示200A/240A,
+    均低于 via_ct 25A 硬限幅), ia=0; 电压=220V保活三相(判据来自xlsx预期结果原表)'
+- case_id: Function_AC meter_004_01_case5
+  title: CT选型333mV(200A)，三路电流分别为(50A、100A，120A)，顺序ABC，相角设置为(0°、240°、120°)，电表设置电流分别为Positive、Negative，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - direction: Positive
+    source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 1.25
+      ib: 2.5
+      ic: 3.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 119.76
+        hi: 120.24
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 89.82
+        hi: 90.18
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - direction: Negative
+    source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 1.25
+      ib: 2.5
+      ic: 3.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 119.76
+        hi: 120.24
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 89.82
+        hi: 90.18
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: -1.002
+        hi: -0.998
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: -1.002
+        hi: -0.998
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: -1.002
+        hi: -0.998
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: -11022.0
+        hi: -10978.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: -22044.0
+        hi: -21956.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: -26452.8
+        hi: -26347.2
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  - '2026-07-14 用户确认: 两测点同源(220V三相, ia5/ib10/ic12A→显示50/100/120A), 区别在逐测点
+    direction(写 CHANNEL_x_CURRENT_DIRECTION 4168/4172/4176, spec 枚举 0:positive/1:negative);
+    用例末 helpers 强制还原 Positive(失败重试一次, 仍失败整例 FAIL 置顶告警)'
+  - '2026-07-14: 点2判据=电流幅值同点1(RMS 与方向无关) + PF_A/B/C∈[-1.002,-0.998](xlsx"PF为-1")
+    + P_A/B/C 为负按 V×I±10%(11k/22k/26.4kW 取负); 电压补 220V 三相(算功率需有压, xlsx 未写)'
+- case_id: Function_AC meter_004_01_case6
+  title: CT选型333mV(400A)，3E4WY，三路电流分别为(50A、200A，400A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.625
+      ib: 2.5
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 199.6
+        hi: 200.4
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 399.2
+        hi: 400.8
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 216.233
+        hi: 217.1
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case7
+  title: 'CT选型333mV(400A)，三路电流分别为Imin（4A，4A，4A）,在上位机上分别配置为对应A相、B相、C相，精度保证的电流范围0.2%,输入三路电流分别为（0.4A，0.4A，0.4A）
+
+    备注：0.4A为Ist'
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.05
+      ib: 0.05
+      ic: 0.05
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 3.992
+        hi: 4.008
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 3.992
+        hi: 4.008
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 3.992
+        hi: 4.008
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 3.992
+        hi: 4.008
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case8
+  title: CT选型100mA(200A)，3E4WY，三路电流分别为(50A、100A，200A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 20.0
+      ib: 10.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 199.6
+        hi: 200.4
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 49.9
+        hi: 50.1
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 116.433
+        hi: 116.9
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 用户裁决: 源Ic带载不足(实测20A即过载) → 20A测点改由Ia输出(源电流A↔C对调, Ia/Ic判据同步对调, Iavg/其余不变)'
+- case_id: Function_AC meter_004_01_case9
+  title: 'CT选型100mA(200A)，三路电流分别为Imin（2，2，2）,在上位机上分别配置为对应A相、B相、C相，精度满足精度0.2%,三路电流分别为(0.2,0.1,0.2),无精度要求
+
+    备注：0.2A为Ist'
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.2
+      ib: 0.2
+      ic: 0.2
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 1.996
+        hi: 2.004
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 1.996
+        hi: 2.004
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 1.996
+        hi: 2.004
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 1.996
+        hi: 2.004
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions: []
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case10
+  title: CT选型100mA(400A)，3E4WY，三路电流分别为(50A、200A，400A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 20.0
+      ib: 10.0
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 399.2
+        hi: 400.8
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 199.6
+        hi: 200.4
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 49.9
+        hi: 50.1
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 216.233
+        hi: 217.1
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 用户裁决: 源Ic带载不足(实测20A即过载) → 20A测点改由Ia输出(源电流A↔C对调, Ia/Ic判据同步对调, Iavg/其余不变)'
+- case_id: Function_AC meter_004_01_case11
+  title: 'CT选型100mA(400A)，三路电流分别为Imin（4A，4A，4A）,在上位机上分别配置为对应A相、B相、C相，精度保证的电流范围0.2%,输入三路电流分别为（0.4A，0A，0.4A）
+
+    备注：0.4A为Ist'
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.2
+      ib: 0.2
+      ic: 0.2
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 3.992
+        hi: 4.008
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 3.992
+        hi: 4.008
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 3.992
+        hi: 4.008
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 3.992
+        hi: 4.008
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.02
+      ib: 0.0
+      ic: 0.02
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks: {}
+    note: '第二测点无精度要求: 仅施加源, 不断言(2026-07-08 工程师确认)'
+  decisions:
+  - '2026-07-08: 仅第一测点有精度要求, 第二测点不断言'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case12
+  title: CT选型100mA(800A)，3E4WY，三路电流分别为(50A、400A，800A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 20.0
+      ib: 10.0
+      ic: 1.25
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 798.4
+        hi: 801.6
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 399.2
+        hi: 400.8
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 49.9
+        hi: 50.1
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 415.833
+        hi: 417.5
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 800
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 用户裁决: 源Ic带载不足(实测20A即过载) → 20A测点改由Ia输出(源电流A↔C对调, Ia/Ic判据同步对调, Iavg/其余不变)'
+- case_id: Function_AC meter_004_01_case13
+  title: 'CT选型100mA(800A)，三路电流分别为（8，8，8）,在上位机上分别配置为对应A相、B相、C相，精度保证的电流范围0.2%,输入三路电流分别为（0.8A，0A，0.8A）
+
+    备注：0.8A为Ist'
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.2
+      ib: 0.2
+      ic: 0.2
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 7.984
+        hi: 8.016
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 7.984
+        hi: 8.016
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 7.984
+        hi: 8.016
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 7.984
+        hi: 8.016
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions: []
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 800
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case14
+  title: CT选型100mA(1200A)，3E4WY，三路电流分别为(50A、600A，1200A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 20.0
+      ib: 10.0
+      ic: 0.8333
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 1197.6
+        hi: 1202.4
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 598.8
+        hi: 601.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 49.9
+        hi: 50.1
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 615.433
+        hi: 617.9
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 1200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 用户裁决: 源Ic带载不足(实测20A即过载) → 20A测点改由Ia输出(源电流A↔C对调, Ia/Ic判据同步对调, Iavg/其余不变)'
+- case_id: Function_AC meter_004_01_case15
+  title: 'CT选型100mA(1200A)，三路电流分别为（12，12，12）,在上位机上分别配置为对应A相、B相、C相，精度保证的电流范围0.2%,输入三路电流分别为（1.2A，1.2A，1.2A）
+
+    备注：0.8A为Ist'
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.2
+      ib: 0.2
+      ic: 0.2
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 11.976
+        hi: 12.024
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 11.976
+        hi: 12.024
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 11.976
+        hi: 12.024
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 11.976
+        hi: 12.024
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions: []
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 1200
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case16
+  title: CT选型RCT(500A)，3E4WY，输入三路电流分别为(50A、300A，500A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 0.5
+      ib: 3.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 299.4
+        hi: 300.6
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 499.0
+        hi: 501.0
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 282.767
+        hi: 283.9
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions: []
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 500
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case17
+  title: CT选型RCT(1000A)，3E4WY，输入三路电流分别为(400A、600A，800A)，在上位机上分别配置为对应A相、B相、C相，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 2.0
+      ib: 3.0
+      ic: 4.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 399.2
+        hi: 400.8
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 598.8
+        hi: 601.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 798.4
+        hi: 801.6
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 598.8
+        hi: 601.2
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions: []
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 1000
+    wiring: 3E4WY
+- case_id: Function_AC meter_004_01_case18
+  title: CT选型100mA(5A)，3E4WY，CT一次侧额定电流取5-2000A范围下限5A，三路显示电流均为2.5A，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 2.495
+        hi: 2.505
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 2.495
+        hi: 2.505
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 2.495
+        hi: 2.505
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 2.495
+        hi: 2.505
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 5
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 用户台面反馈: 源Ic 20A过载(带载不足, 同case8/007_case5口径, Ic不取>15A) → 三相源电流20A→10A(显示2.5A), 判据2.495~2.505'
+  - '2026-07-14 解除阻塞(用户确认+真机实证): 4170固件已支持5-2000A字面值(铅封未锁, 写1000/5回读一致, 已恢复1000); helpers 改字面值写入(CT_PRIMARY_MAP枚举口径废止, 全部既有用例随之切换)'
+  - '2026-07-14 生成(用户指令): 分析文档#5 补 CT 一次额定电流 5-2000A 边界/任意值用例; 台体CT 20A/100mA 显示系数=Primary/20; 判据=显示域±0.2%'
+  - '2026-07-14 xlsx步骤5「恢复Primary=1000」依赖同一固件能力(1000亦非旧枚举档), 解除needs_review时随固件方案一并落实; 现行引擎各用例前置自设CT, 无跨用例污染'
+- case_id: Function_AC meter_004_01_case19
+  title: CT选型100mA(2000A)，3E4WY，CT一次侧额定电流取5-2000A范围上限2000A，三路显示电流均为1000A，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 998.0
+        hi: 1002.0
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 998.0
+        hi: 1002.0
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 998.0
+        hi: 1002.0
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 998.0
+        hi: 1002.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 2000
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 解除阻塞(用户确认+真机实证): 4170固件已支持5-2000A字面值(铅封未锁, 写1000/5回读一致, 已恢复1000); helpers 改字面值写入(CT_PRIMARY_MAP枚举口径废止, 全部既有用例随之切换)'
+  - '2026-07-14 生成(用户指令): 分析文档#5 补 CT 一次额定电流 5-2000A 边界/任意值用例; 台体CT 20A/100mA 显示系数=Primary/20; 判据=显示域±0.2%'
+  - '2026-07-14 xlsx步骤5「恢复Primary=1000」依赖同一固件能力(1000亦非旧枚举档), 解除needs_review时随固件方案一并落实; 现行引擎各用例前置自设CT, 无跨用例污染'
+- case_id: Function_AC meter_004_01_case20
+  title: CT选型100mA(1500A)，3E4WY，CT一次侧额定电流取5-2000A范围内任意值1500A，三路显示电流均为750A，测量Ia,Ib,Ic,Iavg满足精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 748.5
+        hi: 751.5
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 748.5
+        hi: 751.5
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 748.5
+        hi: 751.5
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 748.5
+        hi: 751.5
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 1500
+    wiring: 3E4WY
+    freq_selection: 50Hz
+  decisions:
+  - '2026-07-14 解除阻塞(用户确认+真机实证): 4170固件已支持5-2000A字面值(铅封未锁, 写1000/5回读一致, 已恢复1000); helpers 改字面值写入(CT_PRIMARY_MAP枚举口径废止, 全部既有用例随之切换)'
+  - '2026-07-14 生成(用户指令): 分析文档#5 补 CT 一次额定电流 5-2000A 边界/任意值用例; 台体CT 20A/100mA 显示系数=Primary/20; 判据=显示域±0.2%'
+  - '2026-07-14 xlsx步骤5「恢复Primary=1000」依赖同一固件能力(1000亦非旧枚举档), 解除needs_review时随固件方案一并落实; 现行引擎各用例前置自设CT, 无跨用例污染'
+- case_id: Function_AC meter_004_02_case1
+  title: CT选型333mV(200A)，1E1p2w输入InputA电流为100A，测量InputA电流精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 99.8
+        hi: 100.2
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 1E2W
+- case_id: Function_AC meter_004_02_case2
+  title: CT选型333mV(200A)，2ELEMENT_3_WIRE_PHASE_1接线输入InputA、InputC电流为(100A、200A)，测量InputA、InputC电流精度0.2%
+  group: 相电流
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 2.5
+      ib: 0.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 199.6
+        hi: 200.4
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-08: 用例原文明确 InputA、InputC, A/C 相分配成立'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 2E3W1P
+- case_id: Function_AC meter_005_01_case1
+  title: CT选型333mV(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为220V，(A&B&C相)电流为(50A、50A、50A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC mete
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 1.25
+      ib: 1.25
+      ic: 1.25
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 10978.0
+        hi: 11022.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 10978.0
+        hi: 11022.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 10978.0
+        hi: 11022.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 32934.0
+        hi: 33066.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -55.0
+        hi: 55.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -55.0
+        hi: 55.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -55.0
+        hi: 55.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -165.0
+        hi: 165.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 10945.0
+        hi: 11055.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 10945.0
+        hi: 11055.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 10945.0
+        hi: 11055.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 32835.0
+        hi: 33165.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case2
+  title: 'CT选型333mV(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(100A、100A、100A)，电压角度分别为(0、240、120)，电流角度分别为(30、270、150)，AC '
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 30.0
+      qib: 270.0
+      qic: 150.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 10371.5
+        hi: 10413.1
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 10371.5
+        hi: 10413.1
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 10371.5
+        hi: 10413.1
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 31114.5
+        hi: 31239.3
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -6030.0
+        hi: -5970.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -6030.0
+        hi: -5970.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -6030.0
+        hi: -5970.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -18090.0
+        hi: -17910.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 11940.0
+        hi: 12060.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 11940.0
+        hi: 12060.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 11940.0
+        hi: 12060.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 35820.0
+        hi: 36180.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.864
+        hi: 0.868
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.864
+        hi: 0.868
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.864
+        hi: 0.868
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.864
+        hi: 0.868
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+- case_id: Function_AC meter_005_01_case3
+  title: CT选型333mV(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为220V，(A&B&C相)电流为(50A、50A、50A)，电压角度分别为(0、240、120)，电流角度分别为(300、180、60)，AC met
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 1.25
+      ib: 1.25
+      ic: 1.25
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 300.0
+      qib: 180.0
+      qic: 60.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 5489.0
+        hi: 5511.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 5489.0
+        hi: 5511.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 5489.0
+        hi: 5511.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 16467.0
+        hi: 16533.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: 9478.7
+        hi: 9573.9
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: 9478.7
+        hi: 9573.9
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: 9478.7
+        hi: 9573.9
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: 28435.9
+        hi: 28721.7
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 10945.0
+        hi: 11055.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 10945.0
+        hi: 11055.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 10945.0
+        hi: 11055.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 32835.0
+        hi: 33165.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case4
+  title: CT选型333mV(200A)，1E2W接线下，输入A相电压均为277V，A相电流为100A，电压角度0°，电流角度为120°，AC meter上检查测量PF、功率
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 277.0
+      ub: 277.0
+      uc: 277.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 120.0
+      qib: 0.0
+      qic: 240.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: -13877.7
+        hi: -13822.2
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: -13877.7
+        hi: -13822.2
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -24108.8
+        hi: -23869.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -24108.8
+        hi: -23869.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 27561.5
+        hi: 27838.5
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 27561.5
+        hi: 27838.5
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: -0.502
+        hi: -0.498
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: -0.502
+        hi: -0.498
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 1E2W
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+- case_id: Function_AC meter_005_01_case5
+  title: CT选型333mV(200A)，2 ELEMENT_3_WIRE_PHASE_1输入InputA、C电流为(200A 200A)，ABC电压均为100V,电压相角θ和电流相角ϕ差值为60°，AC meter上检查测量PF、功率
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 300.0
+      qib: 180.0
+      qic: 60.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 9980.0
+        hi: 10020.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 9980.0
+        hi: 10020.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 19960.0
+        hi: 20040.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: 17233.9
+        hi: 17407.1
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: 17233.9
+        hi: 17407.1
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: 34467.8
+        hi: 34814.2
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 19900.0
+        hi: 20100.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 19900.0
+        hi: 20100.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 39800.0
+        hi: 40200.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-14 A相电压按xlsx原文恢复100V: supply_guard下限已改100V无需抬压; 07-13重建遗留的220V抬压与P_A判据(100V基准)矛盾'
+  - '2026-07-14 用户指示: 解除20A过载临时门禁, 重跑观察过载现象'
+  - '2026-07-08: 用例原文明确 InputA、InputC, A/C 相分配成立'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 2E3W1P
+- case_id: Function_AC meter_005_01_case6
+  title: CT选型333mV(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC m
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行'
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 71856.0
+        hi: 72144.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -360.0
+        hi: 360.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 71640.0
+        hi: 72360.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例回归原文(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流恢复xlsx原文(=07-09映射÷4), 07-09 mA等效口径废止'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case7
+  title: 'CT选型100mA(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为270V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0、240、120)，电流角度分别为(60、300、180)，AC '
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 270.0
+      ub: 270.0
+      uc: 270.0
+      ia: 20.0
+      ib: 20.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 60.0
+      qib: 300.0
+      qic: 180.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 26946.0
+        hi: 27054.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 26946.0
+        hi: 27054.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 20209.5
+        hi: 20290.5
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 74101.5
+        hi: 74398.5
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -46999.2
+        hi: -46531.6
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -46999.2
+        hi: -46531.6
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -35249.4
+        hi: -34898.6
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -129247.8
+        hi: -127961.8
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 53730.0
+        hi: 54270.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 53730.0
+        hi: 54270.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 40297.5
+        hi: 40702.5
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 147757.5
+        hi: 149242.5
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.498
+        hi: 0.502
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 用户裁决: 三相均流点必须Ic出流 → Ic降为15A(源带载上限内), C相/系统判据按显示域重算(V=270,IcD=150A,Δθ=60°: P_C=20250,S_C=40500,Q_C=-35074.0,SYS随和), 偏离xlsx原文属实测环境适配'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-14 用户指示: 解除20A过载临时门禁, 重跑观察过载现象'
+- case_id: Function_AC meter_005_01_case8
+  title: CT选型100mA(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC m
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 71856.0
+        hi: 72144.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -360.0
+        hi: 360.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 71640.0
+        hi: 72360.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case8_01
+  title: CT选型80mA(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC me
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '80mA 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 8.0
+      ib: 8.0
+      ic: 8.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 71856.0
+        hi: 72144.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -120.0
+        hi: 120.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -360.0
+        hi: 360.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 23880.0
+        hi: 24120.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 71640.0
+        hi: 72360.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: 80mA
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case9
+  title: CT选型100mA(800A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(400A、400A、400A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC m
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 47904.0
+        hi: 48096.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 47904.0
+        hi: 48096.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 47904.0
+        hi: 48096.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 143712.0
+        hi: 144288.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -240.0
+        hi: 240.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -240.0
+        hi: 240.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -240.0
+        hi: 240.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -720.0
+        hi: 720.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 47760.0
+        hi: 48240.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 47760.0
+        hi: 48240.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 47760.0
+        hi: 48240.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 143280.0
+        hi: 144720.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 800
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case10
+  title: 'CT选型100mA(1200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、600A、600A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC '
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 179640.0
+        hi: 180360.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -900.0
+        hi: 900.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 179100.0
+        hi: 180900.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-14 A相电压按xlsx原文恢复100V: supply_guard下限已改100V无需抬压; 07-13重建遗留的220V抬压与P_A判据(100V基准)矛盾'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 1200
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case10_01
+  title: CT选型80mA(1200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、600A、600A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC m
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '80mA 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 8.0
+      ib: 8.0
+      ic: 8.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 179640.0
+        hi: 180360.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -900.0
+        hi: 900.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 179100.0
+        hi: 180900.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-14 A相电压按xlsx原文恢复100V: supply_guard下限已改100V无需抬压; 07-13重建遗留的220V抬压与P_A判据(100V基准)矛盾'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: 80mA
+    ct_primary: 1200
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case11
+  title: CT选型RCT(500A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(200A、300A、400A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC met
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 2.0
+      ib: 3.0
+      ic: 4.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 19960.0
+        hi: 20040.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 29940.0
+        hi: 30060.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 39920.0
+        hi: 40080.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 89820.0
+        hi: 90180.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -100.0
+        hi: 100.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -150.0
+        hi: 150.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -200.0
+        hi: 200.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -450.0
+        hi: 450.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 19900.0
+        hi: 20100.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 29850.0
+        hi: 30150.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 39800.0
+        hi: 40200.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 89550.0
+        hi: 90450.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-14 A相电压按xlsx原文恢复100V: supply_guard下限已改100V无需抬压; 07-13重建遗留的220V抬压与P_A判据(100V基准)矛盾'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 500
+    wiring: 3E4WY
+- case_id: Function_AC meter_005_01_case12
+  title: CT选型RCT(1000A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、800A、1000A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC m
+  group: PF/功率
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 3.0
+      ib: 4.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 59880.0
+        hi: 60120.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 79840.0
+        hi: 80160.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 99800.0
+        hi: 100200.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 239520.0
+        hi: 240480.0
+      Q_A:
+        register: PHASE_A_REACTIVE_POWER
+        lo: -300.0
+        hi: 300.0
+      Q_B:
+        register: PHASE_B_REACTIVE_POWER
+        lo: -400.0
+        hi: 400.0
+      Q_C:
+        register: PHASE_C_REACTIVE_POWER
+        lo: -500.0
+        hi: 500.0
+      Q_SYS:
+        register: SYSTEM_REACTIVE_POWER
+        lo: -1200.0
+        hi: 1200.0
+      S_A:
+        register: PHASE_A_APPARENT_POWER
+        lo: 59700.0
+        hi: 60300.0
+      S_B:
+        register: PHASE_B_APPARENT_POWER
+        lo: 79600.0
+        hi: 80400.0
+      S_C:
+        register: PHASE_C_APPARENT_POWER
+        lo: 99500.0
+        hi: 100500.0
+      S_SYS:
+        register: SYSTEM_APPARENT_POWER
+        lo: 238800.0
+        hi: 241200.0
+      PF_A:
+        register: PHASE_A_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_B:
+        register: PHASE_B_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_C:
+        register: PHASE_C_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.998
+        hi: 1.002
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  decisions:
+  - '2026-07-14 分析文档#6: 无功Q/视在S判据 0.2%→0.5%(SRS §3.5建议值, 与007 Eq/Es 0.5%对齐), 区间半宽x2.5; P/PF维持0.2%/0.002工程设计目标'
+  - '2026-07-14 独立复核(对照手工xlsx原文): 源设定/角度/判据区间逐项一致, 清空07-13待复核标记'
+  - '2026-07-14 A相电压按xlsx原文恢复100V: supply_guard下限已改100V无需抬压; 07-13重建遗留的220V抬压与P_A判据(100V基准)矛盾'
+  - '2026-07-08: 确认为单测点(源点2为解析误判), 已合并'
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 1000
+    wiring: 3E4WY
+- case_id: Function_AC meter_006_01_case1
+  title: ABC三相电压角度为(0°  120° 240°)，上位机上检查phaseA、phaseB、PhaseC的相角满足精度±0.5°
+  group: 相角
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ang_UA:
+        register: PHASE_A_VOLTAGE_PHASE_ANGLE
+        ranges:            # 0°回绕并集(2026-07-14 用户定): [0,0.5]∪[359.5,360)
+        - [0.0, 0.5]
+        - [359.5, 360.0]
+      Ang_UB:
+        register: PHASE_B_VOLTAGE_PHASE_ANGLE
+        lo: 119.5
+        hi: 120.5
+      Ang_UC:
+        register: PHASE_C_VOLTAGE_PHASE_ANGLE
+        lo: 239.5
+        hi: 240.5
+      Ua:                  # 电压幅值完整性判据(2026-07-28 补, 见 decisions)
+        register: 36950
+        register_name: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE@RealTime(0x9056)
+        lo: 99.8
+        hi: 100.2
+      Ub:
+        register: 36952
+        register_name: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE@RealTime(0x9058)
+        lo: 99.8
+        hi: 100.2
+      Uc:
+        register: 36954
+        register_name: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE@RealTime(0x905A)
+        lo: 99.8
+        hi: 100.2
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 相角判据=源设定值±0.5°(xlsx"用excel公式计算具体值"口径); 寄存器用 Real Time 组(电压角36956/36958/36960, 电流角36986/36988/36990)'
+  - '2026-07-14 假设待真机复核: 表读数为绝对角(参考Ua)且与源角度同向; 0°点若表按0~360回绕读359.x、或电流角实为相对本相电压, 届时改判据/源角度不改代码'
+  - 2026-07-14 电压角按xlsx原文(0,120,240)下发(与标准序0,240,120相反, 属用例设计)
+- case_id: Function_AC meter_006_01_case2
+  title: ABC三相电压角度为(0°  1°  5°)，上位机上检查phaseA、phaseB、PhaseC的相角满足精度±0.5°
+  group: 相角
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 1.0
+      quc: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ang_UA:
+        register: PHASE_A_VOLTAGE_PHASE_ANGLE
+        ranges:            # 0°回绕并集(2026-07-14 用户定): [0,0.5]∪[359.5,360)
+        - [0.0, 0.5]
+        - [359.5, 360.0]
+      Ang_UB:
+        register: PHASE_B_VOLTAGE_PHASE_ANGLE
+        lo: 0.5
+        hi: 1.5
+      Ang_UC:
+        register: PHASE_C_VOLTAGE_PHASE_ANGLE
+        lo: 4.5
+        hi: 5.5
+      Ua:                  # 电压幅值完整性判据(2026-07-28 补, 见 decisions)
+        register: 36950
+        register_name: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE@RealTime(0x9056)
+        lo: 99.8
+        hi: 100.2
+      Ub:
+        register: 36952
+        register_name: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE@RealTime(0x9058)
+        lo: 99.8
+        hi: 100.2
+      Uc:
+        register: 36954
+        register_name: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE@RealTime(0x905A)
+        lo: 99.8
+        hi: 100.2
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 相角判据=源设定值±0.5°(xlsx"用excel公式计算具体值"口径); 寄存器用 Real Time 组(电压角36956/36958/36960, 电流角36986/36988/36990)'
+  - '2026-07-14 假设待真机复核: 表读数为绝对角(参考Ua)且与源角度同向; 0°点若表按0~360回绕读359.x、或电流角实为相对本相电压, 届时改判据/源角度不改代码'
+- case_id: Function_AC meter_006_02_case1
+  title: ABC三相电流相角分设置为0°、1°、5°，上位机上检查input1的相角满足精度±0.5°
+  group: 相角
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 1.0
+      qic: 5.0
+      freq: 50.0
+    checks:
+      Ang_IA:
+        register: PHASE_A_CURRENT_PHASE_ANGLE
+        ranges:            # 0°回绕并集(2026-07-14 用户定): [0,0.5]∪[359.5,360)
+        - [0.0, 0.5]
+        - [359.5, 360.0]
+      Ang_IB:
+        register: PHASE_B_CURRENT_PHASE_ANGLE
+        lo: 0.5
+        hi: 1.5
+      Ang_IC:
+        register: PHASE_C_CURRENT_PHASE_ANGLE
+        lo: 4.5
+        hi: 5.5
+      Ia:                  # 电流幅值完整性判据(2026-07-28 补, 见 decisions)
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 49.9
+        hi: 50.1
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 49.9
+        hi: 50.1
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 相角判据=源设定值±0.5°(xlsx"用excel公式计算具体值"口径); 寄存器用 Real Time 组(电压角36956/36958/36960, 电流角36986/36988/36990)'
+  - '2026-07-14 假设待真机复核: 表读数为绝对角(参考Ua)且与源角度同向; 0°点若表按0~360回绕读359.x、或电流角实为相对本相电压, 届时改判据/源角度不改代码'
+  - 2026-07-14 xlsx未给电压设定 → 补三相100V标准序(0,240,120)作供电与相角参考(自供电表不可无压)
+  - '2026-07-28 补电压幅值判据 Ua/Ub/Uc=100V±0.2%: 原用例只断言相角, 某相电压回路不通时相角
+    读数即为噪声, 用例只会报"角度不对"而不暴露"这一相压根没进表" —— 与 006_02 补电流幅值判据
+    同口径, 属自动化侧完整性兜底, 手工用例 xlsx 未改'
+  - '2026-07-28 补电流幅值判据 Ia/Ib/Ic=50A±0.2%(源5A × CT Primary 200 ÷ 台体CT 20A): 原用例
+    只断言电流角, 台面某相电流回路不通时角度读数就是噪声, 用例只会报"角度不对"而不会暴露
+    "电流根本没进表" —— 补幅值判据是自动化侧的完整性兜底, 手工用例 xlsx 未改'
+- case_id: Function_AC meter_006_02_case2
+  title: ABC三相电流相角分设置为60°、90°、120°，上位机上检查input1的相角满足精度±0.5°
+  group: 相角
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 60.0
+      qib: 90.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ang_IA:
+        register: PHASE_A_CURRENT_PHASE_ANGLE
+        lo: 59.5
+        hi: 60.5
+      Ang_IB:
+        register: PHASE_B_CURRENT_PHASE_ANGLE
+        lo: 89.5
+        hi: 90.5
+      Ang_IC:
+        register: PHASE_C_CURRENT_PHASE_ANGLE
+        lo: 119.5
+        hi: 120.5
+      Ia:                  # 电流幅值完整性判据(2026-07-28 补, 见 decisions)
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 49.9
+        hi: 50.1
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 49.9
+        hi: 50.1
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 相角判据=源设定值±0.5°(xlsx"用excel公式计算具体值"口径); 寄存器用 Real Time 组(电压角36956/36958/36960, 电流角36986/36988/36990)'
+  - '2026-07-14 假设待真机复核: 表读数为绝对角(参考Ua)且与源角度同向; 0°点若表按0~360回绕读359.x、或电流角实为相对本相电压, 届时改判据/源角度不改代码'
+  - 2026-07-14 xlsx未给电压设定 → 补三相100V标准序(0,240,120)作供电与相角参考(自供电表不可无压)
+  - '2026-07-28 补电压幅值判据 Ua/Ub/Uc=100V±0.2%: 原用例只断言相角, 某相电压回路不通时相角
+    读数即为噪声, 用例只会报"角度不对"而不暴露"这一相压根没进表" —— 与 006_02 补电流幅值判据
+    同口径, 属自动化侧完整性兜底, 手工用例 xlsx 未改'
+  - '2026-07-28 补电流幅值判据 Ia/Ib/Ic=50A±0.2%(源5A × CT Primary 200 ÷ 台体CT 20A): 原用例
+    只断言电流角, 台面某相电流回路不通时角度读数就是噪声, 用例只会报"角度不对"而不会暴露
+    "电流根本没进表" —— 补幅值判据是自动化侧的完整性兜底, 手工用例 xlsx 未改'
+- case_id: Function_AC meter_007_01_case1
+  title: CT选型333mV(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(100A、100A、100A)，电压角度分别为(0、240、120)，电流角度分别为(30、270、150)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - 2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行
+  duration_s: 600
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 30.0
+      qib: 270.0
+      qic: 150.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 1.7285
+        hi: 1.7355
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 1.7285
+        hi: 1.7355
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 1.7285
+        hi: 1.7355
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 5.186
+        hi: 5.206
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_EXPORT
+        lo: 0.995
+        hi: 1.005
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_EXPORT
+        lo: 0.995
+        hi: 1.005
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_EXPORT
+        lo: 0.995
+        hi: 1.005
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_EXPORT
+        lo: 2.985
+        hi: 3.015
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 1.99
+        hi: 2.01
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 1.99
+        hi: 2.01
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 1.99
+        hi: 2.01
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 5.97
+        hi: 6.03
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 分析文档#9: 源电流5A→2.5A(标题100A显示/333mV系数Primary/5=40), xlsx步骤同步改2.5A, 预置条件CT统一为333mV'
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例按原文配置(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流=xlsx原文'
+- case_id: Function_AC meter_007_01_case2
+  title: CT选型333mV(200A)，1E2W接线，输入A相电压均为277V，A相电流为100A，电压角度0°，电流角度为120°，AC meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - 2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行
+  duration_s: 600
+  points:
+  - source:
+      ua: 277.0
+      ub: 277.0
+      uc: 277.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 120.0
+      qib: 0.0
+      qic: 240.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_EXPORT
+        lo: 2.3039
+        hi: 2.3131
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_EXPORT
+        lo: 2.3039
+        hi: 2.3131
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_EXPORT
+        lo: 3.978
+        hi: 4.018
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_EXPORT
+        lo: 3.978
+        hi: 4.018
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 4.594
+        hi: 4.64
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 4.594
+        hi: 4.64
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 1E2W
+  decisions:
+  - '2026-07-14 分析文档#9: 源电流5A→2.5A(标题100A显示/333mV系数Primary/5=40), xlsx步骤同步改2.5A, 预置条件CT统一为333mV'
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例按原文配置(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流=xlsx原文'
+  - 2026-07-14 1E2W只断言A相/系统; B/C源输出仅陪跑(表不采)
+- case_id: Function_AC meter_007_01_case3
+  title: CT选型333mV(200A)，2ELEMENT_3_WIRE_PHASE_1接线，输入InputA、C电流为(200A, 200A)，ABC电压均为100V，电压相角θ和电流相角ϕ差值为60°，AC meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - 2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行
+  duration_s: 600
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 300.0
+      qib: 180.0
+      qic: 60.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 1.6632
+        hi: 1.6698
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 1.6632
+        hi: 1.6698
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 3.3268
+        hi: 3.3402
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 2.872
+        hi: 2.901
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 2.872
+        hi: 2.901
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 5.7446
+        hi: 5.8024
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 3.317
+        hi: 3.35
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 3.317
+        hi: 3.35
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 6.6332
+        hi: 6.6998
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 200
+    wiring: 2E3W1P
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例按原文配置(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流=xlsx原文'
+  - 2026-07-14 A/C两相判据(2E3W1P, B相不接)
+- case_id: Function_AC meter_007_01_case4
+  title: CT选型333mV(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - 2026-07-14 mV用例回归原文配置(ct_type=333mV), 待台面接入 5A/333mV CT 回路并经用户确认后执行
+  duration_s: 600
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 2.5
+      ib: 2.5
+      ic: 2.5
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 3.992
+        hi: 4.008
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 3.992
+        hi: 4.008
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 3.992
+        hi: 4.008
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 11.976
+        hi: 12.024
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.008
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.008
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.008
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.024
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 3.98
+        hi: 4.02
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 3.98
+        hi: 4.02
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 3.98
+        hi: 4.02
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 11.94
+        hi: 12.06
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 333mV
+    ct_primary: 400
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 用户裁决: 台面有5A/333mV CT → mV用例按原文配置(ct_type=333mV, primary模拟CT型号, 显示系数=primary/5), 源电流=xlsx原文'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_007_01_case5
+  title: CT选型100mA(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为270V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0、240、120)，电流角度分别为(60、300、180)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review: []
+  duration_s: 600
+  points:
+  - source:
+      ua: 270.0
+      ub: 270.0
+      uc: 270.0
+      ia: 20.0
+      ib: 20.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 60.0
+      qib: 300.0
+      qic: 180.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 4.4915
+        hi: 4.5095
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 4.4915
+        hi: 4.5095
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 3.3687
+        hi: 3.3823
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 12.348
+        hi: 12.402
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_EXPORT
+        lo: 7.755
+        hi: 7.833
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_EXPORT
+        lo: 7.755
+        hi: 7.833
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_EXPORT
+        lo: 5.816
+        hi: 5.875
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_EXPORT
+        lo: 21.3273
+        hi: 21.5417
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 8.955
+        hi: 9.045
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 8.955
+        hi: 9.045
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 6.7162
+        hi: 6.7838
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 24.6262
+        hi: 24.8738
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 用户裁决: 源Ic带载不足(20A过载) → Ic降为15A, C相/系统能量判据按显示域×0.75重算(A/B相与xlsx原文一致), 偏离原文属实测环境适配'
+- case_id: Function_AC meter_007_01_case6
+  title: CT选型100mA(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review: []
+  duration_s: 600
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 3.992
+        hi: 4.008
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 3.992
+        hi: 4.008
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 3.992
+        hi: 4.008
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 11.976
+        hi: 12.024
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.008
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.008
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.008
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.024
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 3.98
+        hi: 4.02
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 3.98
+        hi: 4.02
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 3.98
+        hi: 4.02
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 11.94
+        hi: 12.06
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_007_01_case7
+  title: CT选型100mA(800A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(400A、400A、400A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review: []
+  duration_s: 600
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 23.952
+        hi: 24.048
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.048
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 23.88
+        hi: 24.12
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 800
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_007_01_case7_01
+  title: CT选型80mA(800A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(400A、400A、400A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - '80mA 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  duration_s: 600
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 8.0
+      ib: 8.0
+      ic: 8.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 23.952
+        hi: 24.048
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.048
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 23.88
+        hi: 24.12
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 80mA
+    ct_primary: 800
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_007_01_case8
+  title: CT选型100mA(1200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、600A、600A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review: []
+  duration_s: 600
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 9.98
+        hi: 10.02
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 9.98
+        hi: 10.02
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 9.98
+        hi: 10.02
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 29.94
+        hi: 30.06
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.02
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.02
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.02
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.06
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 9.95
+        hi: 10.05
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 9.95
+        hi: 10.05
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 9.95
+        hi: 10.05
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 29.85
+        hi: 30.15
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 1200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_007_01_case9
+  title: CT选型100mA(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为220V，(A&B&C相)电流为(100A、100A、100A)，电压角度分别为(0、240、120)，电流角度分别为(240、120、0)，AC
+    meter上检查能量累计Ep、Eq、Es精度（第二象限：Ep−/Eq+，发电+感性）
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review: []
+  duration_s: 600
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 10.0
+      ib: 10.0
+      ic: 10.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 240.0
+      qib: 120.0
+      qic: 0.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_EXPORT
+        lo: 1.8293
+        hi: 1.8367
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_EXPORT
+        lo: 1.8293
+        hi: 1.8367
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_EXPORT
+        lo: 1.8293
+        hi: 1.8367
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_EXPORT
+        lo: 5.4885
+        hi: 5.5105
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 3.16
+        hi: 3.191
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 3.16
+        hi: 3.191
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 3.16
+        hi: 3.191
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 9.4784
+        hi: 9.5736
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 3.648
+        hi: 3.685
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 3.648
+        hi: 3.685
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 3.648
+        hi: 3.685
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 10.945
+        hi: 11.055
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 第二象限(φ=120°): Ep-映射ACTIVE_EXPORT(区间取绝对值), Eq+映射REACTIVE_IMPORT'
+- case_id: Function_AC meter_007_01_case10
+  title: CT选型100mA(200A)，3ELEMENT_4_WIRE_Y接线，三相电压均为220V，三相电流不平衡（A相50A、B相100A、C相150A），三相电压角度(0、240、120)，三相电流角度(330、210、90)（各相φ均为30°，感性），AC
+    meter上检查各相及系统能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review: []
+  duration_s: 600
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      ia: 5.0
+      ib: 10.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 330.0
+      qib: 210.0
+      qic: 90.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 1.5848
+        hi: 1.5912
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 3.1691
+        hi: 3.1819
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 4.7535
+        hi: 4.7725
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 9.507
+        hi: 9.545
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.912
+        hi: 0.921
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 1.824
+        hi: 1.842
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 2.736
+        hi: 2.764
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 5.4725
+        hi: 5.5275
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 1.824
+        hi: 1.842
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 3.648
+        hi: 3.685
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 5.4725
+        hi: 5.5275
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 10.945
+        hi: 11.055
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+- case_id: Function_AC meter_007_01_case11
+  title: CT选型RCT(500A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(400A、400A、400A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  duration_s: 600
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 4.0
+      ib: 4.0
+      ic: 4.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 7.984
+        hi: 8.016
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 23.952
+        hi: 24.048
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.016
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.048
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 7.96
+        hi: 8.04
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 23.88
+        hi: 24.12
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 500
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_007_01_case12
+  title: CT选型RCT(1000A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、600A、600A)，电压角度分别为(0，240，120)，电流角度分别为(0，240，120)，AC
+    meter上检查能量累计Ep、Eq、Es精度
+  group: 能量累计
+  type: energy_accumulate
+  page: Energy
+  needs_review:
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  duration_s: 600
+  points:
+  - source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 3.0
+      ib: 3.0
+      ic: 3.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Ep_A:
+        register: PHASE_A_ACTIVE_ENERGY_IMPORT
+        lo: 9.98
+        hi: 10.02
+      Ep_B:
+        register: PHASE_B_ACTIVE_ENERGY_IMPORT
+        lo: 9.98
+        hi: 10.02
+      Ep_C:
+        register: PHASE_C_ACTIVE_ENERGY_IMPORT
+        lo: 9.98
+        hi: 10.02
+      Ep_SYS:
+        register: SYSTEM_ACTIVE_ENERGY_IMPORT
+        lo: 29.94
+        hi: 30.06
+      Eq_A:
+        register: PHASE_A_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.02
+      Eq_B:
+        register: PHASE_B_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.02
+      Eq_C:
+        register: PHASE_C_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.02
+      Eq_SYS:
+        register: SYSTEM_REACTIVE_ENERGY_IMPORT
+        lo: 0.0
+        hi: 0.06
+      Es_A:
+        register: PHASE_A_APPARENT_ENERGY_TOTAL
+        lo: 9.95
+        hi: 10.05
+      Es_B:
+        register: PHASE_B_APPARENT_ENERGY_TOTAL
+        lo: 9.95
+        hi: 10.05
+      Es_C:
+        register: PHASE_C_APPARENT_ENERGY_TOTAL
+        lo: 9.95
+        hi: 10.05
+      Es_SYS:
+        register: SYSTEM_APPARENT_ENERGY_TOTAL
+        lo: 29.85
+        hi: 30.15
+    checks_instant:
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 1000
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-14 生成: 增量断言(E1-E0)等效手工"清零→读绝对值"——不写CLEAR_ENERGY@4400(清零类操作需人工确认红线), 零破坏免还原; 判据=xlsx原文T=10min显示域; 负向能量(Ep-/Eq-)映射EXPORT计数器、区间取绝对值'
+  - '2026-07-14 待真机确认: 能量寄存器scale/分辨率(4196 ENERGY_READING_DISPLAY_FORMAT), 读数与kWh量纲不符时调spec scale不改判据'
+  - '2026-07-14 纯阻性 Eq≈0 判据: IMPORT计数器 0~0.2%×Es(EXPORT未断言, 需要时后续补)'
+- case_id: Function_AC meter_008_01_case1
+  title: CT选型333mV(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(100A、100A、100A)，电压角度(0、240、120)，电流角度(30、270、150)，配置LED光脉冲常
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+- case_id: Function_AC meter_008_01_case1_01
+  title: CT选型333mV(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(100A、100A、100A)，电压角度(0、240、120)，电流角度(30、270、150)，配置电脉冲常数50
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+- case_id: Function_AC meter_008_01_case2
+  title: CT选型333mV(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度(0，240，120)，电流角度(0，240，120)，LED光配置脉冲常数
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+  decisions:
+  - '2026-07-09: mV档在mA表等效换算(台体CT 20A/100mA, 系数=Primary/20): ct_type→100mA, 源电流×4, Primary与期望值不变'
+- case_id: Function_AC meter_008_01_case3
+  title: CT选型100mA(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(100A、100A、100A)，电压角度(0、240、120)，电流角度(30、270、150)，LED光配置脉冲常
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case3_.01
+  title: CT选型80mA(200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(100A、100A、100A)，电压角度(0、240、120)，电流角度(30、270、150)，LED光配置脉冲常数
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  - '80mA 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 80mA
+    ct_primary: 200
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case4
+  title: CT选型100mA(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度(0，240，120)，电流角度(0，240，120)，LED光配置脉冲常数
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case4_01
+  title: 'CT选型100mA(400A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(200A、200A、200A)，电压角度(0，240，120)，电流角度(0，240，120)，电配置脉冲常数20 '
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case5
+  title: CT选型100mA(800A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(400A、400A、400A)，电压角度(0，240，120)，电流角度(0，240，120)，LED光配置脉冲常数
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 800
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case6
+  title: CT选型100mA(1200A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、600A、600A)，电压角度(0，240，120)，电流角度(0，240，120)，LED光配置脉冲常
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 1200
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case7
+  title: CT选型RCT(500A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为120V，(A&B&C相)电流为(400A、400A、400A)，电压角度(0，240，120)，电流角度(0，240，120)，LED光配置脉冲常数10
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 500
+    wiring: 3E4WY
+- case_id: Function_AC meter_008_01_case8
+  title: CT选型RCT(1000A)，3ELEMENT_4_WIRE_Y接线，输入ABC电压均为100V，(A&B&C相)电流为(600A、600A、600A)，电压角度(0，240，120)，电流角度(0，240，120)， LED光配置脉冲常数
+  group: 脉冲
+  type: pulse_special
+  page: Real_Time_Metering
+  needs_review:
+  - '脉冲类: 需脉冲采集台架, 转 accuracy_pulse'
+  - 'RCT 型 CT: AcuRev-100 寄存器映射无此类型(工具注释"无RCT"), 待与固件/工程师确认'
+  note: 走 tools/accuracy_pulse 工具链, 不走 acuview 引擎
+  meter_cfg:
+    ct_type: RCT
+    ct_primary: 1000
+    wiring: 3E4WY
+- case_id: Function_AC meter_009_01_case1
+  title: 1 ELEMENT_2_WIRE 接线方式， 上位机 realtime数据中“显示”符合接线方式中的显示规划
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 10.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Va:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 99.8
+        hi: 100.2
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 11976.0
+        hi: 12024.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 11976.0
+        hi: 12024.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 1E2W
+  decisions:
+  - 2026-07-14 "根据接线方式说明书检查显示"的'-'项与 Energy 页显示为 GUI 显示层, 寄存器层行为未定义 → 转 MANUAL 目视项不计判据; 仅断言可测寄存器
+  - 2026-07-14 用例未指定CT → 按台面现状 100mA(200A)配置, 显示系数=Primary/20=10
+  - '2026-07-14 1E2W 仅A相计量: 断言 Va/Ia/P_A/P_SYS(=A); B/C 源输出仅陪跑'
+- case_id: Function_AC meter_009_01_case2
+  title: 1 ELEMENT_2_WIRE 接线测量5分钟， 切换到2e2P3W phase1接线方式，再次切换到1 ELEMENT_2_WIRE 接线，检查HMI和上位机上能量是否全部被置为0, 电压电流测量正确
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 涉及接线切换时的能量清零(清零类操作需人工确认红线)与 Acuview 切接线弹窗交互(GUI write_verify 引擎未就绪), 暂缓——待 015/016 引擎就绪后再转
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 1E2W
+  decisions: []
+- case_id: Function_AC meter_009_02_case1
+  title: 上位机配2e2P3W phase1接线，压流夹角30°
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      qia: 330.0
+      qib: 240.0
+      qic: 150.0
+      freq: 50.0
+    checks:
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 5185.7
+        hi: 5206.6
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 5185.7
+        hi: 5206.6
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 10371.5
+        hi: 10413.1
+      PF_SYS:
+        register: SYSTEM_POWER_FACTOR
+        lo: 0.864
+        hi: 0.868
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 49.9
+        hi: 50.1
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 2E3W1P
+  decisions:
+  - 2026-07-14 用例未指定CT → 按台面现状 100mA(200A)配置, 显示系数=Primary/20=10
+  - '2026-07-14 判据: P=120×50×cos30°=5196.2W(±0.2%), PF=0.866±0.002, Iavg=(50+50)/2=50A(±0.2%); Va/Vc角0/180°, 电流角滞后30°(330/150);
+    ''默认配置Va、Vc''为GUI检查转MANUAL'
+- case_id: Function_AC meter_009_02_case2
+  title: 上位机配2e2P3W phase1接线， 系统功率数据是A、C相数据之和
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    checks:
+      Iavg:
+        register: AVERAGE_CURRENT
+        lo: 99.8
+        hi: 100.2
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 5988.0
+        hi: 6012.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 17964.0
+        hi: 18036.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 2E3W1P
+  decisions:
+  - 2026-07-14 用例未指定CT → 按台面现状 100mA(200A)配置, 显示系数=Primary/20=10
+  - 2026-07-14 xlsx'PhaseC+PhaseB之和'按笔误纠正为 A+C=SYS(2E3W1P无B相), 以分项区间等效断言和恒等式; Iavg=(50+150)/2=100A
+- case_id: Function_AC meter_009_02_case3
+  title: 2e2P3W phase1接线测量5分钟， 切换到1e1P2W接线方式，检查上位机上电压，电流，能量是否与1e1P2W接线方式测量数据保持一致，2e2P3W phase1接线测量数据全部重置为0
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 涉及接线切换时的能量清零(清零类操作需人工确认红线)与 Acuview 切接线弹窗交互(GUI write_verify 引擎未就绪), 暂缓——待 015/016 引擎就绪后再转
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 2E3W1P
+  decisions: []
+- case_id: Function_AC meter_009_02_case4
+  title: 2e2P3W phase1接线配置，上位机 realtime数据中“显示”符合接线方式中的显示规划
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 10.0
+      ib: 0.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    checks:
+      Va:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vc:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 149.7
+        hi: 150.3
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 11976.0
+        hi: 12024.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 17964.0
+        hi: 18036.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 29940.0
+        hi: 30060.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 2E3W1P
+  decisions:
+  - 2026-07-14 "根据接线方式说明书检查显示"的'-'项与 Energy 页显示为 GUI 显示层, 寄存器层行为未定义 → 转 MANUAL 目视项不计判据; 仅断言可测寄存器
+  - 2026-07-14 用例未指定CT → 按台面现状 100mA(200A)配置, 显示系数=Primary/20=10
+  - '2026-07-14 用户裁决: 源Ic带载不足(20A过载) → C相 200A 显示点降为 150A(源15A), 判据按显示域重算; A/B 相按原文'
+- case_id: Function_AC meter_009_02_case5
+  title: 2e3W phase1接线配置，验证Va为0时，Vc 相的角度为0，，input的角度为0，电压电流测量正常，功率计算正确
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 自供电冲突: 用例要求 Va=0/源关输出=给电表断电, 本台面不可自动化(参照 001_case4 口径), 建议转手工或待外部供电方案'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 2E3W1P
+  decisions: []
+- case_id: Function_AC meter_009_03_case1
+  title: 上位机配3P4W Y接线，A\B\C三相电流分别配Va、Vb、Vc，压流角0°，对应功率正确
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 5.0
+      ib: 10.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Va:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vb:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vc:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 49.9
+        hi: 50.1
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 99.8
+        hi: 100.2
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 149.7
+        hi: 150.3
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 5988.0
+        hi: 6012.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 11976.0
+        hi: 12024.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 17964.0
+        hi: 18036.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 35928.0
+        hi: 36072.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - 2026-07-14 用例未指定CT → 按台面现状 100mA(200A)配置, 显示系数=Primary/20=10
+  - '2026-07-14 判据: I显示=(50,100,150)A, 压流角0° → P=(6,12,18)kW, SYS=36kW(±0.2%)'
+- case_id: Function_AC meter_009_03_case2
+  title: 3E4w y Y型接线接线测量5分钟， 切换到1e1P2W接线方式，再次切换到3E4w y Y型接线，检查HMI和上位机上能量是否全部被置为0, 电压电流测量正确
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 涉及接线切换时的能量清零(清零类操作需人工确认红线)与 Acuview 切接线弹窗交互(GUI write_verify 引擎未就绪), 暂缓——待 015/016 引擎就绪后再转
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions: []
+- case_id: Function_AC meter_009_03_case3
+  title: 3E4w y Y接线配置，上位机 realtime数据中“显示”符合接线方式中的显示规划
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review: []
+  points:
+  - source:
+      ua: 120.0
+      ub: 120.0
+      uc: 120.0
+      ia: 20.0
+      ib: 20.0
+      ic: 15.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    checks:
+      Va:
+        register: PHASE_A_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vb:
+        register: PHASE_B_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Vc:
+        register: PHASE_C_LINE_TO_NEUTRAL_VOLTAGE
+        lo: 119.76
+        hi: 120.24
+      Ia:
+        register: 36978
+        register_name: PHASE_A_CURRENT@RealTime(0x9072)
+        lo: 199.6
+        hi: 200.4
+      Ib:
+        register: 36980
+        register_name: PHASE_B_CURRENT@RealTime(0x9074)
+        lo: 199.6
+        hi: 200.4
+      Ic:
+        register: 36982
+        register_name: PHASE_C_CURRENT@RealTime(0x9076)
+        lo: 149.7
+        hi: 150.3
+      P_A:
+        register: PHASE_A_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_B:
+        register: PHASE_B_ACTIVE_POWER
+        lo: 23952.0
+        hi: 24048.0
+      P_C:
+        register: PHASE_C_ACTIVE_POWER
+        lo: 17964.0
+        hi: 18036.0
+      P_SYS:
+        register: SYSTEM_ACTIVE_POWER
+        lo: 65868.0
+        hi: 66132.0
+      Freq:
+        register: SYSTEM_FREQUENCY
+        lo: 49.90
+        hi: 50.10
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions:
+  - 2026-07-14 "根据接线方式说明书检查显示"的'-'项与 Energy 页显示为 GUI 显示层, 寄存器层行为未定义 → 转 MANUAL 目视项不计判据; 仅断言可测寄存器
+  - 2026-07-14 用例未指定CT → 按台面现状 100mA(200A)配置, 显示系数=Primary/20=10
+  - '2026-07-14 用户裁决: 源Ic带载不足(20A过载) → C相 200A 显示点降为 150A(源15A), 判据按显示域重算; A/B 相按原文'
+  - 2026-07-14 步骤5'user1添加3路input'为 Acuview GUI 操作(用户通道), 转 MANUAL 不计判据
+- case_id: Function_AC meter_009_03_case4
+  title: 3e4w y 接线配置，验证Va为0时，Vb、Vc相的角度为0，input的角度为0，电压电流测量正常，功率计算正确
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - '2026-07-14 自供电冲突: 用例要求 Va=0/源关输出=给电表断电, 本台面不可自动化(参照 001_case4 口径), 建议转手工或待外部供电方案'
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions: []
+- case_id: Function_AC meter_009_03_case5
+  title: 上位机setting的Current&Wiring界面，修改CT Type&CT变比
+  group: 接线验证
+  type: source_read
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 GUI 下拉选项集校验需驱动 Acuview 界面(write_verify 引擎+Current_Wire 页模板未就绪), 暂缓; Modbus 读写一致部分并入 015/016 批
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  decisions: []
+- case_id: Function_AC meter_011_01_case1
+  title: 铅封未封闭，通过上位机设置时间，年/月/日和时/分/秒，遍历所有时间，遍历所有日期(包括闰年)，遍历所有周
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: clock_set
+  tol_s: 8
+  clock_points:
+  - '2000-01-01 00:00:00'
+  - '2099-12-31 23:59:00'
+  - '2024-11-04 00:00:00'
+  - '2024-11-05 00:00:00'
+  - '2024-11-13 00:00:00'
+  - '2024-11-15 23:00:00'
+  - '2024-11-30 23:59:00'
+  - '2024-11-24 23:58:59'
+  - '2024-02-29 23:58:00'
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - 2026-07-14 星期(周几)为显示派生值无寄存器, 转MANUAL目视; 自动判据=年月日时分秒总秒差
+  - 2026-07-14 掉电重启类步骤由 config run.allow_power_cycle 把关(默认false→MANUAL不计判据), 用户确认后置true自动执行(三相归零给自供电表断电再拉回)
+  - '2026-07-14 判据: 逐点写4128~4133→读回, (读回-设定)总秒差∈[0,10]s(含2s读写间隔); 总秒差比较天然覆盖分钟滚动(23:58:59)与闰年(2024-02-29); 结束还原PC时间'
+- case_id: Function_AC meter_011_01_case2
+  title: 铅封未封闭，通过上位机设置本地PC时间，年/月/日和时/分/秒，设置和显示正常
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: clock_set
+  tol_s: 60
+  clock_points:
+  - PC
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - 2026-07-14 掉电重启类步骤由 config run.allow_power_cycle 把关(默认false→MANUAL不计判据), 用户确认后置true自动执行(三相归零给自供电表断电再拉回)
+  - 2026-07-14 "Use PC Time"为Acuview GUI功能, 等效=Modbus写PC当前时间; 判据按xlsx"精度1min"取±60s
+- case_id: Function_AC meter_011_01_case3
+  title: 断电时保留时间为1周
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 断电保留7天类长时验证不可自动化, 转手工
+  type: clock_set
+  clock_points: []
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+- case_id: Function_AC meter_011_01_case4
+  title: 铅封封闭，通过上位机设置时间，年/月/日和时/分/秒，遍历所有时间，遍历所有日期(包括闰年)，遍历所有周
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 需物理拨码使铅封处于封闭态(人工配合后才可执行); SRS§11.2 锁定时时间设置/运行时间重置应仍成功, 待人工配合场次再自动化
+  type: clock_set
+  clock_points: []
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+- case_id: Function_AC meter_011_01_case5
+  title: 设备开始运行以来的累计时间正常
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: counter_accumulate
+  counter: DEVICE_RUN_TIME
+  cycle_keep_check: true
+  segments:
+  - label: 运行时间累计5min
+    wait_s: 300
+    expect: wait
+    tol_s: 10
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - 2026-07-14 掉电重启类步骤由 config run.allow_power_cycle 把关(默认false→MANUAL不计判据), 用户确认后置true自动执行(三相归零给自供电表断电再拉回)
+  - '2026-07-14 判据: Δ(DEVICE_RUN_TIME@4121)≈实际等待时长±10s; 运行时间与ADC无关, 本判据在ADC损坏期也应真实PASS; adc_triage短窗下判据随实际等待缩放依然有效'
+- case_id: Function_AC meter_011_01_case6
+  title: 使用100mA（200A）的CT，设备有负载的累计时间；即电流输入 > Ist (0.2A) 且电压 > 10V
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: counter_accumulate
+  counter: DEVICE_LOAD_TIME
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 200
+    wiring: 3E4WY
+  segments:
+  - label: Ist以上点(显示0.3A,源0.03A)
+    wait_s: 300
+    expect: wait
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.03
+      ib: 0.03
+      ic: 0.03
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  - label: 1A点(显示1A,源0.1A)
+    wait_s: 300
+    expect: wait
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.1
+      ib: 0.1
+      ic: 0.1
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  - label: 低于Ist(0.004A→0A等效)
+    wait_s: 300
+    expect: zero
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  - label: 未接源等效(保活电压+0电流)
+    wait_s: 300
+    expect: zero
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  decisions:
+  - '2026-07-14 分析文档#155: 负载判定定义为电流>Ist, =Ist等号边界歧义 → 首段0.2A(=Ist)改0.3A(>Ist); 电压条件xlsx改15V(>10V), 自动化仍以A相常驻100V覆盖'
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - '2026-07-14 自供电适配: 电压条件用A相常驻100V(>10V恒满足), 10V/9V电压边界转手工; 自动化验证电流边界(Ist上下); 0.004A低于源档位能力→0A等效验证''无负载不累计'''
+  - 2026-07-14 负载判定依赖电流测量, ADC损坏期读零→负载时间不累计, expect=wait 两段将按已知口径FAIL留证
+- case_id: Function_AC meter_011_01_case7
+  title: 使用100mA（400A）的CT,设备有负载的累计时间；即电流输入 > Ist (0.4A) 且电压 > 10V，修改CT如下：100mA（800A），100mA（1200A）
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: counter_accumulate
+  counter: DEVICE_LOAD_TIME
+  meter_cfg:
+    ct_type: 100mA
+    ct_primary: 400
+    wiring: 3E4WY
+  segments:
+  - label: Ist点(显示0.4A,源0.02A)
+    wait_s: 300
+    expect: wait
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.02
+      ib: 0.02
+      ic: 0.02
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  - label: 1A点(显示1A,源0.05A)
+    wait_s: 300
+    expect: wait
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.05
+      ib: 0.05
+      ic: 0.05
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  - label: 低于Ist(0A等效)
+    wait_s: 300
+    expect: zero
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  - label: 未接源等效
+    wait_s: 300
+    expect: zero
+    tol_s: 10
+    source:
+      ua: 100.0
+      ub: 100.0
+      uc: 100.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - 2026-07-14 步骤5'修改CT 800/1200遍历'无具体判据, 转MANUAL(或后续按case6结构补两条)
+  - '2026-07-14 同case6: 电压边界转手工, 负载判定ADC期FAIL留证'
+- case_id: Function_AC meter_011_01_case8
+  title: 铅封封闭，上位机上用户可重置这些设备运行时间
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 需物理拨码使铅封处于封闭态(人工配合后才可执行); SRS§11.2 锁定时时间设置/运行时间重置应仍成功, 待人工配合场次再自动化
+  type: op_clear
+  op:
+    clear_addr: 4404
+    counter: DEVICE_RUN_TIME
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+- case_id: Function_AC meter_011_01_case9
+  title: 铅封封闭，上位机上用户可重置这些设备负载时间。
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 需物理拨码使铅封处于封闭态(人工配合后才可执行); SRS§11.2 锁定时时间设置/运行时间重置应仍成功, 待人工配合场次再自动化
+  type: op_clear
+  op:
+    clear_addr: 4405
+    counter: DEVICE_LOAD_TIME
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+- case_id: Function_AC meter_011_01_case10
+  title: 铅封未封闭，上位机上用户可重置这些设备运行时间
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: op_clear
+  op:
+    clear_addr: 4404
+    counter: DEVICE_RUN_TIME
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - 2026-07-14 写CLEAR_DEVICE_RUN_TIME@4404=1→读DEVICE_RUN_TIME@4121≤10s判清除成功; 运行时间统计清除属用例目的本身, 非红线清零(energy)类; HMI显示部分MANUAL
+- case_id: Function_AC meter_011_01_case11
+  title: 铅封未封闭，上位机上用户可重置这些设备负载时间。
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review: []
+  type: op_clear
+  op:
+    clear_addr: 4405
+    counter: DEVICE_LOAD_TIME
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions
+  - 2026-07-14 写CLEAR_LOAD_TIME@4405=1→读DEVICE_LOAD_TIME@4123≤10s判清除成功; HMI部分MANUAL
+- case_id: Function_AC meter_011_01_case12
+  title: 表计长时间掉电，表计时钟不能未非法值
+  group: 计时功能
+  page: Real_Time_Metering
+  needs_review:
+  - 2026-07-14 断电保留7天类长时验证不可自动化, 转手工
+  type: clock_set
+  clock_points: []
+  decisions:
+  - 2026-07-14 xlsx"是否可自动化"列未标注, 按用户口头指令生成; 自动化范围/排除项见本条decisions

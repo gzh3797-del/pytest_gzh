@@ -40,7 +40,7 @@ description: 把电表手工用例 xlsx 转成 pytest 自动化用例(驱动 Acu
    2. **定目标**：从「测试步骤/预期结果」抽出设置项与值(write)或被读项与期望(read)。
    3. **定位**：`python -m comm.ctl_acuview.find_register --config projects/<项目>/config_acuview.yaml "<关键词>"` 找寄存器(addr/dtype/rw/range)；
       `python -m comm.ctl_acuview.find_widget --config projects/<项目>/config_acuview.yaml "<关键词>"` 找 page/widget(并反查对应寄存器地址)。
-   4. **确认**：把候选 register/page/widget 列给工程师确认(尤其大白话→控件名不唯一时)。
+   4. **🔴 CHECKPOINT · 确认**：把候选 register/page/widget 列给工程师确认(尤其大白话→控件名不唯一时)；未确认不进入第 5 步生成/下发。
    5. **安全校验**：寄存器不在 `forbid_write_*`、目标值在 `range` 内、可逆。
 
 5. **生成用例**：每条用例写一个文件 `projects/<项目>/tests/acuview_auto/test_acuview_<用例编号>.py`：
@@ -85,6 +85,38 @@ description: 把电表手工用例 xlsx 转成 pytest 自动化用例(驱动 Acu
 - `read_compare` **依赖 Tesseract OCR**；未装时引擎记 FAIL/"需 OCR"，应转 skip 并回填「调试结果」。
 - `comboBox` 选项设值依赖 OCR；`spinBox/lineEdit/ipEdit` 走键盘输入(不需 OCR)。
 - 换分辨率/缩放后需重标 `content_origin`：`python -m comm.ctl_acuview.calibrate --config projects/<项目>/config_acuview.yaml --page <页> --ox <> --oy <>`，把值写进项目 `config_acuview.yaml`。
+
+## 异常与兜底（if-then）
+
+| 触发条件 | 一线处理 | 仍失败兜底 |
+|---|---|---|
+| spec 未建 / `data_acuview/` 缺地址表 xlsx 或控件 JSON | 先跑 `spec_loader --build`；缺原料 🛑 STOP 向工程师要文件 | 不得跳过建模直接猜地址 |
+| `find_register`/`find_widget` 无结果 | 换关键词重搜（中英文、缩写、HMI 菜单词→Acuview 术语） | 仍无 → 记入"定位不了"清单报工程师，该条跳过，禁止硬编地址 |
+| 候选多个不唯一 | 🔴 CHECKPOINT 列候选给工程师选定 | 未确认不生成、不下发 |
+| 会话锁屏 / 远程断开 | 模板 `skipif(is_session_locked())` 已兜底，用例整体 skip | 需实跑时请工程师解锁后重跑 |
+| Tesseract 未装（read_compare / comboBox 设值） | 用例转 skip 并 `write_back(debug="需 OCR")` | 装好 Tesseract 后重跑 |
+| Modbus TCP 空闲 5min 断连 | 用例连续跑；断连报错先重连再续跑 | 仍断 → 查设备在线/端口占用后报工程师 |
+| 页面不在 `PAGE_NAV` / 无 `tree_<page>.png` 模板 | 注册 PAGE_NAV 或补树节点截图 | 补不了 → 该条记"暂不可自动化"并回填调试结果 |
+| OCR 取值乱码 / 点击落点偏移 | 核对基线 1920×1080/125%/最大化；跑 `calibrate` 重标 `content_origin` 写回项目 config | 仍偏 → 回填调试结果转人工 |
+| 手工 xlsx 缺「是否可自动化」列 / 列结构不符 | 🛑 STOP 报工程师确认列结构 | 禁止自行猜列硬解析 |
+| write_verify 回读值 ≠ 目标值 | 先排环境（重连后重读一次、确认读的是同一寄存器/scale） | 复现 → 按疑似产品 bug 回填 `debug` 并报工程师，不得改断言凑通过 |
+| 还原步骤写失败（设备留在非默认状态） | 立即重试还原一次 | 仍失败 → 🛑 STOP 在汇总里置顶告警"设备 X 寄存器 Y 未还原(当前值 Z)"，待工程师手动恢复后再继续跑后续用例 |
+| Acuview2 未启动 / 崩溃 / connection_row 连不上设备 | 启动/重启 Acuview2 并重连（锁屏另见上行） | 仍连不上 → 该批用例整体 skip 并回填"上位机不可用"，报工程师 |
+
+## ❌ 反例黑名单（不要做）
+
+以下任一命中即停止返工（安全类直接中止，不下发）：
+
+| # | 反例 | 纠正 |
+|---|------|------|
+| 1 | 候选 register/page/widget 未经工程师确认就生成用例或下发 | 🔴 CHECKPOINT 确认后才进第 5 步（人在环铁律） |
+| 2 | 写 `safety.forbid_write_*` 列出的通信链路寄存器 | 写了会断链失联 → 安全校验不过直接中止 |
+| 3 | 目标值超出寄存器 `range`，或选了不可逆值 | 选 range 内可逆值，用例自带还原 |
+| 4 | 用例文件里手插 `sys.path` | 仓库根 conftest.py 已加根路径 → 导入纯用 `comm.ctl_acuview` |
+| 5 | 一个文件塞多条用例，或文件名不用完整用例编号 | 一条用例一个文件：`test_acuview_<完整用例编号>.py` |
+| 6 | 物理观察项（如背光亮灭）计入自动断言 | 无寄存器可读 → 记 MANUAL 目视项，不计入判据 |
+| 7 | 用例跑失败只报 pytest 输出，不回填手工 xlsx | `write_back(xlsx, 编号, debug=...)` 写「调试结果」列 |
+| 8 | 多条用例间隔久跑（TCP 5min 空闲断连） | 连续跑，断连后需重连再跑 |
 
 ## 相关文件
 - 引擎：`comm/ctl_acuview/testcase_engine.py`（`run_write_verify_case` / `run_read_compare_case` / `navigate_to` / `PAGE_NAV`）

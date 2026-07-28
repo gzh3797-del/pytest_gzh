@@ -192,7 +192,7 @@ def read_value_to_address_table(address_file_path):
             value_message = ModbusClient.read_measurement(
                 address=int(row['Start(Dec)']),
                 count=int(row['Reg']),
-                slave=1
+                device_id=1
             )
             print(f'转换的数值：{value_message}')
 

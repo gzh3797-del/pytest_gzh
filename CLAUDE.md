@@ -3,10 +3,11 @@
 ## 项目一览
 | 项目      | 类型  | 描述                                | 详情                                  |
 |---------|-----|-----------------------------------|-------------------------------------|
-| ACM-41-WEB2 | 网关  | AcuRev-4100-WEB2 网络扩展模块测试，附加在表本体，支持下挂 3 台 4100 + 8 台 AcuIOM，提供 BACnet/IP、Modbus TCP、MQTT、SNMP、Ethernet/IP 北向协议及 AcuCloud/AWS IoT/Azure IoT 数据上传 | knowledge/gateway/web2/context.md   |
-| AcuHMI-1-7  | 网关  | AcuHMI-1-7 独立工业物联网网关测试，支持下挂多型号电表，提供 BACnet/IP、Modbus TCP、SNMP、MQTT 北向协议及 AcuCloud/AWS IoT/Azure IoT 云端上传，含接线检查功能 | knowledge/gateway/hmi1-7/context.md |
+| AcuRev-4100-WEB2 | 网关  | AcuRev-4100-WEB2 网络扩展模块测试，附加在表本体，支持下挂 3 台 4100 + 8 台 AcuIOM，提供 BACnet/IP、Modbus TCP、MQTT、SNMP、Ethernet/IP 北向协议及 AcuCloud/AWS IoT/Azure IoT 数据上传 | knowledge/gateway/AcuRev4100WEB2/context.md |
+| AcuHMI-1-7  | 网关  | AcuHMI-1-7 独立工业物联网网关测试，支持下挂多型号电表，提供 BACnet/IP、Modbus TCP、SNMP、MQTT 北向协议及 AcuCloud/AWS IoT/Azure IoT 云端上传，含接线检查功能 | knowledge/gateway/AcuHMI17/context.md |
 | AcuRev-4100 | 电表  | AcuRev-4100 多回路交流电表测试，24路电流输入，12个用户通道，支持 Modbus TCP/RTU + BACnet MS/TP，可搭配 ACM-41-WEB2 扩展北向协议 | knowledge/meters/AcuRev4100/context.md |
 | AcuDC-320   | 电表  | AcuDC-320 直流电能表测试，面向 EV 快充充电桩，支持 OCMF 交易日志与 ECDSA 签名、Echilog 法定计量事件日志，MID + UL 认证，配分立显示模块（AcuDC-RDU），通信仅 RS485 Modbus RTU | knowledge/meters/AcuDC320/context.md   |
+| AcuRev-100  | 电表  | AcuRev-100 计费级 kWh 子表测试，产品系列含 AcuRev-101-mA（CT 二次侧 80mA/100mA）与 AcuRev-101-mV（CT 二次侧 333mV，CTEP 认证专用）两型号，支持 1E2W/2E3W1P(A+C)/3E4WY 三种接线，通信仅 RS-485+USB 双口 Modbus RTU（无北向协议），面向北美 MC/CTEP/NYPSC 计费认证，配套上位机 Acuview2 | knowledge/meters/AcuRev100/context.md |
 | AcuRev-1320 | 电表  | AcuRev-1320 三相电表测试，支持 Modbus TCP/RTU + BACnet MS/TP/IP，含电压闪变、Independent Input Channel、Dual Source Energy、AcuCloud、Data Post、HTTPs Web 页面等新功能；型号分 1321（精简）和 1322（全功能） | knowledge/meters/AcuRev1320/context.md |
 | RPP         | 电表  | RPP（Remote Power Panel）远程电力面板测量系统，MH 主控通过 AccuBus 连接最多 2 VMM + 4 CMM（96 路电流通道），最多 96（基线）/192（期望）个 Meter Point；北向支持 Modbus TCP/RTU、SNMP、BACnet/IP、MQTT、AcuCloud；兼具 Gateway 功能（≥32台 Modbus 下挂设备） | knowledge/meters/RPP/context.md     |
 | AcuCloud    | 云平台 | AcuCloud 云端能源管理平台（EMS SaaS）测试，支持电力/水/天然气三种能源类型，覆盖 Installation/Dashboard/Analysis/Billing/Power Quality/Carbon Model/Report/Data 全模块，订阅 Plan 分 Free/Lite/AcuBilling/AcuPQ/Plus/AcuEMS 六级 | knowledge/cloud/context.md          |
@@ -39,15 +40,12 @@
 ## 技能（斜杠命令）
 | 命令                 | 用途                                          |
 |--------------------|---------------------------------------------|
-| /new-device        | 在当前项目适配新电表设备                                |
-| /add-bug           | 将 bug 记录追加到项目索引                             |
-| /new-module        | 在当前项目新增功能模块                                 |
-| /new-project       | 初始化新项目目录结构                                  |
 | /read-modbus-table | 解析 Modbus 地址表 Excel，提取地址、数据类型、功能码、缩放系数      |
 | /strategy-design   | 将功能需求转化为测试策略脑图并导出 XMind 文件（兼容 XMind 26）     |
 | /testcase-design   | 将测试策略/测试点转化为规范的 Excel 测试用例文件（.xlsx）         |
 | /coverage-check    | 对已生成脑图/用例做查漏复核（独立重导+多基准回扫，三档分级，仅对话结论）；由 strategy-design/testcase-design 末尾自动调用，也可单独触发 |
 | /acuview_auto_testcase_generate | 把电表手工用例 xlsx 转成 pytest 自动化用例（驱动 Acuview2 上位机下发/读取 + Modbus 跨传输回读断言）。多项目共享 `comm/ctl_acuview` 引擎（+`comm/templates_acuview`），各项目自带 `data_acuview/`+`config_acuview.yaml`；用例落 `projects/<项目>/tests/acuview_auto/`。详见 skill 目录 README |
+| /run-workflow | 通用工作流执行器：按 `knowledge/shared/workflows/<工作流名>/workflow.yaml` 执行 AI 辅助工作流（调度/人工门禁/回炉/续跑/runs 记账），如 `/run-workflow 用例设计 项目：xxx 需求文档：<路径>`。工作流登记表与使用说明见 `knowledge/shared/workflows/README.md` |
 
 ## 高频约定（完整版见 knowledge/shared/conventions.md）
 1. 新增设备必须同时实现 `build_param_map()` 和 `build_cloud_col_map()`
@@ -60,6 +58,8 @@
 8. 所有 Python 代码须符合 PyCharm 代码规范，不得出现任何告警（含 PEP 8 格式告警、未使用 import/变量、类型注解不一致），零告警是硬性要求
 9. Playwright UI 测试交互优先用 `locator` + `expect` 风格（保留 auto-wait 与 actionability 检查）；仅当 Element Plus 拦截事件链（如 el-radio 合成事件）才降级坐标点击，且必须先 `scrollIntoView` 再取坐标；JS 循环点按钮须加 `offsetParent !== null` 可见性过滤；测试体内禁止 `asyncio.run()`（用 `_run_coro` 线程模式）。完整版见 conventions.md「Playwright UI 测试编码约定」
 10. pytest 测试函数名必须嵌入对应用例编号，做到一函数一用例，格式 `test_<模块号>_<子模块号>_case<编号>`（如 `test_013_01_case01`）；禁止用泛化函数名 + parametrize 合并多条不同编号用例。作用域：全工程所有项目
+11. UI 选择器复用：写/调试 UI 用例或派 `ui-test-engineer` 现场探查**前**，必须先查该项目的选择器沉淀文档，目录为 `<项目知识库根>/requirements/context/`（`<项目知识库根>`=项目一览中该项目 context.md 所在目录）。沉淀文档以**被测页面的 Web 导航菜单路径**命名、按可路由子页拆分（PascalCase，如 `Devices_DataLog_DataLogger_context.md`），与 `projects/<项目>/tests/ui/` 一级目录名（小写）为多对多；**先读该目录的 `_INDEX_context.md`** 按菜单路径定位对应 `<Prefix_SubPage>_context.md`，禁止用测试目录名直接拼文件名。命中即复用、不重复探查，仅缺失部分才现场探。agent 探明的新选择器由主 AI 沉淀回该目录（agent 不写 knowledge/），并在项目 context.md 加指针。完整版见 conventions.md「选择器沉淀复用」
+12. 用例编号一一对应：测试代码/报告中的用例编号（参数化 ID、文件名中的 `TestCase_xxx`）必须与测试用例 Excel「用例编号」列**逐字符严格一致**（前缀、分隔符、编号顺序均不得有差异），一编号一用例。回填测试结果时**禁止改动用例表编号列**；发现编号不匹配的，整理成清单（报告编号 ↔ 用例表编号 ↔ 差异类型）交相关负责人修改**代码侧** ID。作用域：全工程所有项目
 
 ## 知识库维护快速参考
 
@@ -71,7 +71,7 @@
 | 上传需求、新需求来了、需求文档、SRS、变更说明 | 提取全文（docx 图片用 zipfile 解包后读取）→ 写 requirements/summaries/<版本>.md → 同步更新项目 context.md → **检查项目一览中该项目名是否为占位符或与文档中官方名不符，是则同步更新** → 判断是否改 CLAUDE.md |
 | 记录决策、记一下为什么、写进 decisions | 追加到 knowledge/shared/decisions.md |
 | 适配新设备、新加一台表、新增设备 | 创建 devices/<name>.md → 更新 devices/INDEX.md → 更新 templates/INDEX.md → 更新 CLAUDE.md 设备速查表 |
-| 更新 context、同步项目状态、项目有新模块 | 仅更新对应项目 context.md |
+| 更新 context、同步项目状态、项目有新模块 | 仅更新对应项目 context.md；涉及「测试设计必读区」八字段（设备/协议端口/接线/容量/共存约束/安全默认/高频缺陷/环境）的必须同步更新该区块（字段名固定不得增删，skill 按字段名提取） |
 | 约定变了、规范更新 | 仅更新 knowledge/shared/conventions.md |
 | Bug 状态变了、关掉了几个 bug | 重新导入 Jira 导出文件走完整 Jira 流程；不接受口头修改单条状态 |
 | 上传测试用例、用例文件、Excel 用例 | 存入对应项目 testcase/ → 在 testcase/ 内生成摘要 .md → 不上浮至 CLAUDE.md / context.md |

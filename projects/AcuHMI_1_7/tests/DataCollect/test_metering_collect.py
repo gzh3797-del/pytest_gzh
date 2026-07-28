@@ -60,6 +60,34 @@ TOL_REL  = 0.01
 TOL_ABS  = 0.05
 # ══════════════════════════════════════════════════════════
 
+# 用例方法名 → 用例编号（供本地 conftest 在 HTML 报告里加「用例编号」列；与 metering.py 用例Mapping一致）
+CASE_ID_MAP = {
+    "test_json_generated":        "DC-001",
+    "test_has_devices":           "DC-002",
+    "test_connection_info":       "DC-003",
+    "test_metering_views":        "DC-004",
+    "test_param_count":           "DC-005",
+    "test_csv_generated":         "DC-006",
+    "test_match_count":           "DC-007",
+    "test_exact_match_ratio":     "DC-008",
+    "test_no_unmatched_excess":   "DC-009",
+    "test_xlsx_generated":        "DC-010",
+    # 数据比对（网页值↔Modbus）这条关联数据采集覆盖的全部 TC 用例编号
+    "test_fail_count_zero": ",".join([
+        "TestCase_AcuHMI_001_03_case01", "TestCase_AcuHMI_001_03_case08",
+        "TestCase_AcuHMI_001_03_case16", "TestCase_AcuHMI_001_03_case27",
+        "FTS_AcuHMI_001_03_case29", "FTS_AcuHMI_001_03_case30",
+        "TestCase_AcuHMI_001_03_case05", "TestCase_AcuHMI_001_03_case09",
+        "TestCase_AcuHMI_001_03_case14", "TestCase_AcuHMI_001_03_case30",
+        "TestCase_AcuHMI_001_03_case31",
+        "TestCase_AcuRev4100_WEB2_001_001_001", "TestCase_AcuRev4100_WEB2_001_001_002",
+        "TestCase_AcuRev4100_WEB2_001_001_003", "TestCase_AcuRev4100_WEB2_001_001_004",
+        "TestCase_AcuRev4100_WEB2_001_001_005",
+    ]),
+    "test_pass_rate":             "DC-012",
+    "test_modbus_read_failure_zero": "DC-013",
+}
+
 
 @pytest.fixture(scope="module", autouse=True)
 def apply_config():

@@ -52,6 +52,8 @@ tools/Protocols/Datas/DatalogDatas/ftp/
 debug_*.png
 logs/
 test_output.txt
+# 根目录 pytest-html 报告（每次运行重新生成，不入库）
+/report.html
 
 # Large media files
 *.mp4
@@ -103,6 +105,16 @@ projects/AcuHMI_1_7/tests/**/~$*.xlsx
 projects/AcuHMI_1_7/tests/DataCollect/metering_collect.json
 projects/AcuHMI_1_7/tests/DataCollect/metering_register_match.csv
 projects/AcuHMI_1_7/tests/Device Mirror/downloads/
+# RPP 协议套件（DataCollect / Device Mirror / Pass Through）测试运行产物，随运行重新生成，不入库。
+projects/RPP/tests/report.html
+projects/RPP/tests/**/用例执行结果.html
+projects/RPP/tests/**/数据对比结果.xlsx
+projects/RPP/tests/**/数据对比结果_new.xlsx
+projects/RPP/tests/**/不一致参数核查.xlsx
+projects/RPP/tests/**/~$*.xlsx
+projects/RPP/tests/DataCollect/metering_collect.json
+projects/RPP/tests/DataCollect/metering_register_match.csv
+projects/RPP/tests/Device Mirror/downloads/
 __pycache__/
 *.pyc
 .pytest_cache/
@@ -126,3 +138,19 @@ projects/*/reports_acuview/
 # MQTT mTLS 证书（含本机 IP，各自本地生成，不入库）
 projects/AcuHMI_1_7/tests/mqtt/certs/
 projects/AcuHMI_1_7/tests/mqtt/screenshots/
+
+# Excel 临时锁文件（打开 xlsx 时生成，禁止入库）
+~$*
+# 一次性排查报告（本地留存，不入库）
+projects/AcuHMI_1_7/自动化脚本-用例对应关系排查_20260701.xlsx
+
+# AcuRev1320 需量测试每日运行结果目录（不入库）
+projects/AcuRev1320/demand_test/2*/
+# RPP 需量测试每日运行结果目录（不入库，模块由 AcuRev1320 迁移）
+projects/RPP/tests/demand_test/2*/
+
+# DataLog 模块每次测试下载的原始 CSV 数据（不入库）
+projects/AcuHMI_1_7/tests/data_log/data/
+
+# AcuRev-100 源角度状态(运行时产物, 每次角度帧下发即更新)
+projects/AcuRev100/.source_state.json

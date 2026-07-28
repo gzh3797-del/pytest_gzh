@@ -36,7 +36,7 @@ def read_iom_ai_voltage_current(standard_value: float = 0.000, ai_num: int = 1, 
     val_list = []
     for v in range(times):
         time.sleep(0.2)
-        value = ModbusClient.read_measurement(address, count, slave=1)
+        value = ModbusClient.read_measurement(address, count, device_id=1)
         logging.info('AI{} input original data float32 ret is: {}'.format(ai_num,value,))
         reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -85,17 +85,17 @@ def set_iom_ai_ao_configuration(ai_num: int, line_num: int, type_value: int, bop
     address_line_point_y = modbus_address_setting['AI{} Line Point \nY1 Y2 Y3 Y4 int32_t'.format(ai_num)]['Start(Dec)']
     logging.info('AI{} Line Point_Y: {}'.format(ai_num, address_line_point_y))
 
-    ModbusClient.write_registers(address=address_ai_type, values=type_value, slave=1)
-    ModbusClient.write_registers(address=address_line_num, values=line_num, slave=1)
-    ModbusClient.write_registers(address=address_bot_limit, values=bop_limit, slave=1)
-    ModbusClient.write_registers(address=address_top_limit, values=top_limit, slave=1)
+    ModbusClient.write_registers(address=address_ai_type, values=type_value, device_id=1)
+    ModbusClient.write_registers(address=address_line_num, values=line_num, device_id=1)
+    ModbusClient.write_registers(address=address_bot_limit, values=bop_limit, device_id=1)
+    ModbusClient.write_registers(address=address_top_limit, values=top_limit, device_id=1)
     num_x = 0
     num_y = 0
     for i in range(4):
-        ModbusClient.write_registers(address=address_line_point_x + num_x, values=point_x[i], slave=1)
+        ModbusClient.write_registers(address=address_line_point_x + num_x, values=point_x[i], device_id=1)
         num_x = num_x + 2
     for i in range(4):
-        ModbusClient.write_registers(address=address_line_point_y + num_y, values=point_y[i], slave=1)
+        ModbusClient.write_registers(address=address_line_point_y + num_y, values=point_y[i], device_id=1)
         num_y = num_y + 2
 
 

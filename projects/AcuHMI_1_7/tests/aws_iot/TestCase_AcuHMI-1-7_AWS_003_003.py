@@ -29,7 +29,7 @@ import pytest
 from utils.aws_iot_verifier import run_verifier_params_only
 
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent  # AcuHMI-1-7/
+_PROJECT_ROOT = _THIS_DIR.parent.parent  # AcuHMI-1-7/
 
 log = logging.getLogger(__name__)
 

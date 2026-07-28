@@ -25,7 +25,7 @@ def set_OCMF_Command(values):
     :return:
     """
 
-    mes.write_registers(address=20992, values=values, slave=1)
+    mes.write_registers(address=20992, values=values, device_id=1)
 
 
 def set_enable_cable_loss_compensation(values):
@@ -34,11 +34,11 @@ def set_enable_cable_loss_compensation(values):
     :param values:0: Disable 1: Enable
     :return:
     """
-    mes.write_registers(address=4130, values=values, slave=1)
+    mes.write_registers(address=4130, values=values, device_id=1)
 
 
 def read_transaction_import_export_energy():
-    energy_list = mes.read_measurement(address=20999, count=8, slave=1)
+    energy_list = mes.read_measurement(address=20999, count=8, device_id=1)
     transaction_import_energy = hex(energy_list[0]).replace('0x', '').zfill(4) + hex(energy_list[1]).replace('0x',
                                                                                                              '').zfill(
         4) + hex(energy_list[2]).replace('0x', '').zfill(4) + hex(energy_list[3]).replace('0x', '').zfill(4)
@@ -53,7 +53,7 @@ def read_transaction_import_export_energy():
 
 
 def read_device_import_export_energy():
-    energy_list = mes.read_measurement(address=16384, count=8, slave=1)
+    energy_list = mes.read_measurement(address=16384, count=8, device_id=1)
     device_import_energy = hex(energy_list[0]).replace('0x', '').zfill(4) + hex(energy_list[1]).replace('0x', '').zfill(
         4) + hex(energy_list[2]).replace('0x', '').zfill(4) + hex(energy_list[3]).replace('0x', '').zfill(4)
     integer_num = int(device_import_energy, 16)

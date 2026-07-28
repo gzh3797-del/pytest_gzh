@@ -26,7 +26,7 @@ import yaml
 from utils.aws_iot_verifier import run_verifier
 
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent
+_PROJECT_ROOT = _THIS_DIR.parent.parent
 
 _AZURE_CFG_PATH = _THIS_DIR.parent / "azure_iot" / "config.yaml"
 

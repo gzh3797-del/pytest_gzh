@@ -15,7 +15,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
     自动运行充电，并获取交易日志，检查电表电压电流，充电开始结束时间，充电能量与实际是否一致
     """
 
-    def write_transaction_command(modbus, command, slave=1, channel=1):
+    def write_transaction_command(modbus, command, device_id=1, channel=1):
         """
         开始充电功能
 
@@ -35,7 +35,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
         try:
             # 将字符转换为寄存器值（ASCII码）
             transaction_value = ord(command)
-            resp = modbus.write_registers(address=Modbus_address, values=[transaction_value], slave=slave)
+            resp = modbus.write_registers(address=Modbus_address, values=[transaction_value], device_id=slave)
 
             command_description = valid_commands.get(command, f"未知命令 '{command}'")
 
@@ -51,23 +51,23 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
             logging.error(f"{command_description}异常 - 从站{slave} - 错误: {e}")
             return e
 
-    def read_power_data(modbus, slave=1):
+    def read_power_data(modbus, device_id=1):
         """
         带详细日志记录的电参数读取 - 32位数据转为浮点数
         """
         try:
             # 读取电压 (32位浮点数)
-            voltage_data = modbus.read_measurement(address=0x3000, count=2, slave=slave)
+            voltage_data = modbus.read_measurement(address=0x3000, count=2, device_id=slave)
             if voltage_data == "resp is error" or isinstance(voltage_data, Exception):
                 return "读取电压失败"
 
             # 读取电流 (32位浮点数)
-            current_data = modbus.read_measurement(address=0x3002, count=2, slave=slave)
+            current_data = modbus.read_measurement(address=0x3002, count=2, device_id=slave)
             if current_data == "resp is error" or isinstance(current_data, Exception):
                 return "读取电流失败"
 
             # 读取功率 (32位浮点数)
-            power_data = modbus.read_measurement(address=0x3004, count=2, slave=slave)
+            power_data = modbus.read_measurement(address=0x3004, count=2, device_id=slave)
             if power_data == "resp is error" or isinstance(power_data, Exception):
                 return "读取功率失败"
 
@@ -103,7 +103,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
             print(error_msg)
             return error_msg
 
-    def read_OCMF_num(modbus, slave=1):
+    def read_OCMF_num(modbus, device_id=1):
         """
         获取交易日志总数量
         """
@@ -157,7 +157,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
             logging.error(error_msg)
             return False, error_msg
 
-    def write_OCMF(modbus, id, address=0x5218, slave=1):
+    def write_OCMF(modbus, id, address=0x5218, device_id=1):
         """
         写入OCMF ID并读取相关数据
 
@@ -179,7 +179,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
             else:
                 values = [0, id]
 
-            resp = modbus.write_registers(address=address, values=values, slave=slave)
+            resp = modbus.write_registers(address=address, values=values, device_id=slave)
             time.sleep(5)
 
             # 检查写入是否成功
@@ -200,7 +200,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
                         response_data = modbus.read_measurement(
                             address=cmd['address'],
                             count=cmd['count'],
-                            slave=slave
+                            device_id=slave
                         )
 
                         if isinstance(response_data, list):
@@ -381,7 +381,7 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
             # 开始充电
             try:
                 start_charge_time = time.time()
-                write_transaction_command(modbus, 'B', slave=1)
+                write_transaction_command(modbus, 'B', device_id=1)
                 round_results.append(True)
             except Exception as e:
                 error_msg = f"开始充电命令失败: {str(e)}"
@@ -395,10 +395,10 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
             # 结束充电
             try:
                 end_charge_time = time.time()
-                result_end = write_transaction_command(modbus, command, slave=1)
+                result_end = write_transaction_command(modbus, command, device_id=1)
                 result2 = not isinstance(result_end, str)
                 if not result2:
-                    write_transaction_command(modbus, command, slave=1)
+                    write_transaction_command(modbus, command, device_id=1)
                 round_results.append(True)
             except Exception as e:
                 error_msg = f"结束充电命令失败: {str(e)}"
@@ -411,14 +411,14 @@ def run_stress_charge(charge_count, charge_time, charge_voltage=0.0, charge_curr
 
             try:
                 # 读取功率数据
-                end_power_data = read_power_data(modbus, slave=1)
+                end_power_data = read_power_data(modbus, device_id=1)
                 sour_stop()
                 power_result, power_msg = validate_voltage_current(charge_voltage, charge_current, end_power_data)
 
                 # OCMF操作
                 ocmf_id = read_OCMF_num(modbus)
                 print(f"交易日志数量：{ocmf_id}")
-                res = write_OCMF(modbus, id=ocmf_id, slave=1)
+                res = write_OCMF(modbus, id=ocmf_id, device_id=1)
                 ocmf_info = read_json(res['OCMF'])
 
             except Exception as e:

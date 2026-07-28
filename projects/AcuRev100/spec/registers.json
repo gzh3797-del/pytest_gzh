@@ -1,0 +1,4535 @@
+{
+ "source": "RACG Modbus Address Table.xlsx",
+ "count": 247,
+ "by_addr": {
+  "4096": {
+   "addr": 4096,
+   "addr_hex": "0x1000",
+   "end_dec": 4096,
+   "name": "PASSWORD",
+   "description": "Password",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4097": {
+   "addr": 4097,
+   "addr_hex": "0x1001",
+   "end_dec": 4097,
+   "name": "RS485_BAUD_RATE",
+   "description": "RS485 Baud Rate",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "9600\\19200\\38400\\57600\\76800\\115200(76800 need send 7680 115200need send 11520)",
+   "enum": null,
+   "enum_options": [
+    "9600",
+    "19200",
+    "38400",
+    "57600",
+    "76800",
+    "115200"
+   ],
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4098": {
+   "addr": 4098,
+   "addr_hex": "0x1002",
+   "end_dec": 4098,
+   "name": "RS485_PARITY",
+   "description": "RS485 Parity",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: even 1: odd 2: None2 3: None1",
+   "enum": {
+    "0": "even",
+    "1": "odd",
+    "2": "None2",
+    "3": "None1"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4099": {
+   "addr": 4099,
+   "addr_hex": "0x1003",
+   "end_dec": 4099,
+   "name": "RESERVED_1320_ETHERNET_COMMUNICATION_MODE",
+   "description": "Reserved(1320 Ethernet Communication Mode)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4100": {
+   "addr": 4100,
+   "addr_hex": "0x1004",
+   "end_dec": 4100,
+   "name": "RESERVED_1320_DHCP_ENABLE",
+   "description": "Reserved(1320 DHCP enable)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4101": {
+   "addr": 4101,
+   "addr_hex": "0x1005",
+   "end_dec": 4101,
+   "name": "RESERVED_1320_IP_ADDRESS_1ST_BYTE_IP_ADDRESS_2ND_BYTE",
+   "description": "Reserved(1320 IP address 1st byte IP address 2nd byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4102": {
+   "addr": 4102,
+   "addr_hex": "0x1006",
+   "end_dec": 4102,
+   "name": "RESERVED_1320_IP_ADDRESS_3RD_BYTE_IP_ADDRESS_4TH_BYTE",
+   "description": "Reserved(1320 IP address 3rd byte IP address 4th byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4103": {
+   "addr": 4103,
+   "addr_hex": "0x1007",
+   "end_dec": 4103,
+   "name": "RESERVED_1320_SUBNET_MASK_1ST_BYTE_SUBNET_MASK_2ND_BYTE",
+   "description": "Reserved(1320 Subnet mask 1st byte Subnet mask 2nd byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4104": {
+   "addr": 4104,
+   "addr_hex": "0x1008",
+   "end_dec": 4104,
+   "name": "RESERVED_1320_SUBNET_MASK_3RD_BYTE_SUBNET_MASK_4TH_BYTE",
+   "description": "Reserved(1320 Subnet mask 3rd byte Subnet mask 4th byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4105": {
+   "addr": 4105,
+   "addr_hex": "0x1009",
+   "end_dec": 4105,
+   "name": "RESERVED_1320_GATEWAY_1ST_BYTE_GATEWAY_2ND_BYTE",
+   "description": "Reserved(1320 Gateway 1st byte Gateway 2nd byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4106": {
+   "addr": 4106,
+   "addr_hex": "0x100A",
+   "end_dec": 4106,
+   "name": "RESERVED_1320_GATEWAY_3RD_BYTE_GATEWAY_4TH_BYTE",
+   "description": "Reserved(1320 Gateway 3rd byte Gateway 4th byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4107": {
+   "addr": 4107,
+   "addr_hex": "0x100B",
+   "end_dec": 4107,
+   "name": "RESERVED_1320_DNS_PRIMARY_SERVER_1ST_BYTE_DNS_PRIMARY_SERVER_2ND_BYTE",
+   "description": "Reserved(1320 DNS primary server 1st byte DNS primary server 2nd byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4108": {
+   "addr": 4108,
+   "addr_hex": "0x100C",
+   "end_dec": 4108,
+   "name": "RESERVED_1320_DNS_PRIMARY_SERVER_3RD_BYTE_DNS_PRIMARY_SERVER_4TH_BYTE",
+   "description": "Reserved(1320 DNS primary server 3rd byte DNS primary server 4th byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4109": {
+   "addr": 4109,
+   "addr_hex": "0x100D",
+   "end_dec": 4109,
+   "name": "RESERVED_1320_DNS_SECONDARY_SERVER_1ST_BYTE_DNS_SECONDARY_SERVER_2ND_BYTE",
+   "description": "Reserved(1320 DNS secondary server 1st byte DNS secondary server 2nd byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4110": {
+   "addr": 4110,
+   "addr_hex": "0x100E",
+   "end_dec": 4110,
+   "name": "RESERVED_1320_DNS_SECONDARY_SERVER_3RD_BYTE_DNS_SECONDARY_SERVER_4TH_BYTE",
+   "description": "Reserved(1320 DNS secondary server 3rd byte DNS secondary server 4th byte )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4111": {
+   "addr": 4111,
+   "addr_hex": "0x100F",
+   "end_dec": 4111,
+   "name": "MODBUS_SLAVE_ID",
+   "description": "Modbus Slave ID",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1-247",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4112": {
+   "addr": 4112,
+   "addr_hex": "0x1010",
+   "end_dec": 4112,
+   "name": "RESERVED_1320_RS485_PROTOCOL",
+   "description": "Reserved(1320 RS485 protocol)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4113": {
+   "addr": 4113,
+   "addr_hex": "0x1011",
+   "end_dec": 4113,
+   "name": "RESERVED_1320_MODBUS_TCP_ENABLE",
+   "description": "Reserved(1320 Modbus TCP Enable)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4114": {
+   "addr": 4114,
+   "addr_hex": "0x1012",
+   "end_dec": 4114,
+   "name": "RESERVED_1320_MODBUS_TCP_PORT",
+   "description": "Reserved(1320 Modbus TCP port)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4115": {
+   "addr": 4115,
+   "addr_hex": "0x1013",
+   "end_dec": 4115,
+   "name": "RESERVED_1320_BACNET_MS_TP_METER_ADDRESS",
+   "description": "Reserved(1320 BACnet MS/TP Meter address)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4116": {
+   "addr": 4116,
+   "addr_hex": "0x1014",
+   "end_dec": 4116,
+   "name": "RESERVED_1320_BACNET_MS_TP_MAXIMUM_NUMBER_OF_MESSAGE_FRAMES",
+   "description": "Reserved(1320 BACnet MS/TP Maximum number of message frames)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4117": {
+   "addr": 4117,
+   "addr_hex": "0x1015",
+   "end_dec": 4118,
+   "name": "RESERVED_1320_BACNET_MS_TP_ID",
+   "description": "Reserved(1320 BACnet MS/TP ID)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4119": {
+   "addr": 4119,
+   "addr_hex": "0x1017",
+   "end_dec": 4119,
+   "name": "RESERVED_1320_BACNET_DATABASE_REVISION",
+   "description": "Reserved(1320 BACnet Database Revision)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4120": {
+   "addr": 4120,
+   "addr_hex": "0x1018",
+   "end_dec": 4120,
+   "name": "LCD_BACKLIGHT_TIME",
+   "description": "LCD Backlight Time",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0-120 minute",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4121": {
+   "addr": 4121,
+   "addr_hex": "0x1019",
+   "end_dec": 4122,
+   "name": "DEVICE_RUN_TIME",
+   "description": "Device run time",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "uint in second",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4123": {
+   "addr": 4123,
+   "addr_hex": "0x101B",
+   "end_dec": 4124,
+   "name": "DEVICE_LOAD_TIME",
+   "description": "Device load time",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "uint in second",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4125": {
+   "addr": 4125,
+   "addr_hex": "0x101D",
+   "end_dec": 4125,
+   "name": "RESERVED_1320_NON_STANDARD_SEAL_PARAMETER_SELECT",
+   "description": "Reserved(1320 Non-standard Seal Parameter Select)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4126": {
+   "addr": 4126,
+   "addr_hex": "0x101E",
+   "end_dec": 4126,
+   "name": "RESERVED_1320_TIME_ZONE",
+   "description": "Reserved(1320 Time Zone)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4127": {
+   "addr": 4127,
+   "addr_hex": "0x101F",
+   "end_dec": 4127,
+   "name": "WEEK",
+   "description": "Week",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1~7",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4128": {
+   "addr": 4128,
+   "addr_hex": "0x1020",
+   "end_dec": 4128,
+   "name": "YEAR",
+   "description": "Year",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "2000~2099",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4129": {
+   "addr": 4129,
+   "addr_hex": "0x1021",
+   "end_dec": 4129,
+   "name": "MONTH",
+   "description": "Month",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1~12",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4130": {
+   "addr": 4130,
+   "addr_hex": "0x1022",
+   "end_dec": 4130,
+   "name": "DAY",
+   "description": "Day",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1~31",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4131": {
+   "addr": 4131,
+   "addr_hex": "0x1023",
+   "end_dec": 4131,
+   "name": "HOUR",
+   "description": "Hour",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0~23",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4132": {
+   "addr": 4132,
+   "addr_hex": "0x1024",
+   "end_dec": 4132,
+   "name": "MINUTE",
+   "description": "Minute",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0~59",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4133": {
+   "addr": 4133,
+   "addr_hex": "0x1025",
+   "end_dec": 4133,
+   "name": "SECOND",
+   "description": "Second",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0~59",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4134": {
+   "addr": 4134,
+   "addr_hex": "0x1026",
+   "end_dec": 4134,
+   "name": "RESERVED_1320_MILLISECOND",
+   "description": "Reserved(1320 millisecond)",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4135": {
+   "addr": 4135,
+   "addr_hex": "0x1027",
+   "end_dec": 4135,
+   "name": "USB_TTL_BAUD_RATE",
+   "description": "USB_TTL Baud Rate",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "9600\\19200\\38400\\57600\\76800\\115200(76800 need send 7680 115200need send 11520)",
+   "enum": null,
+   "enum_options": [
+    "9600",
+    "19200",
+    "38400",
+    "57600",
+    "76800",
+    "115200"
+   ],
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4136": {
+   "addr": 4136,
+   "addr_hex": "0x1028",
+   "end_dec": 4136,
+   "name": "USB_TTL_PARITY",
+   "description": "USB_TTL Parity",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: even 1: odd 2: None2 3: None1",
+   "enum": {
+    "0": "even",
+    "1": "odd",
+    "2": "None2",
+    "3": "None1"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4137": {
+   "addr": 4137,
+   "addr_hex": "0x1029",
+   "end_dec": 4138,
+   "name": "DEVICE_STATUS_FAULT_CODE",
+   "description": "Device Status / Fault Code",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "Bit definitions TBD (设备运行状态/故障; 位定义待补充)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "System Setting"
+  },
+  "4160": {
+   "addr": 4160,
+   "addr_hex": "0x1040",
+   "end_dec": 4160,
+   "name": "SEALING_STATUS",
+   "description": "Sealing Status",
+   "dtype": "uint16_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "sealed: 0x0A unsealed: 0",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4161": {
+   "addr": 4161,
+   "addr_hex": "0x1041",
+   "end_dec": 4161,
+   "name": "FREQUENCY_SELECTION",
+   "description": "Frequency Selection",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: 50Hz 1: 60Hz",
+   "enum": {
+    "0": "50Hz",
+    "1": "60Hz"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4162": {
+   "addr": 4162,
+   "addr_hex": "0x1042",
+   "end_dec": 4162,
+   "name": "SERVICE_CONFIGURATION",
+   "description": "Service Configuration",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: ELEMENT_1_WIRE_2 1: ELEMENT_2_WIRE_3_PHASE_1 2: ELEMENT_3_WIRE_4_Y",
+   "enum": {
+    "0": "ELEMENT_1_WIRE_2",
+    "1": "ELEMENT_2_WIRE_3_PHASE_1",
+    "2": "ELEMENT_3_WIRE_4_Y"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4163": {
+   "addr": 4163,
+   "addr_hex": "0x1043",
+   "end_dec": 4164,
+   "name": "RESERVED_1320_PT1",
+   "description": "Reserved(1320 PT1)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4165": {
+   "addr": 4165,
+   "addr_hex": "0x1045",
+   "end_dec": 4165,
+   "name": "RESERVED_1320_PT2",
+   "description": "Reserved(1320 PT2)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4166": {
+   "addr": 4166,
+   "addr_hex": "0x1046",
+   "end_dec": 4166,
+   "name": "RESERVED_1320_IN_METHOD",
+   "description": "Reserved(1320 In Method)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4167": {
+   "addr": 4167,
+   "addr_hex": "0x1047",
+   "end_dec": 4167,
+   "name": "CHANNEL_1_INPUT_WIRING_ID",
+   "description": "channel 1 input wiring ID",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1~3",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4168": {
+   "addr": 4168,
+   "addr_hex": "0x1048",
+   "end_dec": 4168,
+   "name": "CHANNEL_1_CURRENT_DIRECTION",
+   "description": "channel 1 Current Direction",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0:positive 1:negative",
+   "enum": {
+    "0": "positive",
+    "1": "negative"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4169": {
+   "addr": 4169,
+   "addr_hex": "0x1049",
+   "end_dec": 4169,
+   "name": "CHANNEL_1_INPUT_CT_TYPE",
+   "description": "channel 1 input CT Type",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: 100mA",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4170": {
+   "addr": 4170,
+   "addr_hex": "0x104A",
+   "end_dec": 4170,
+   "name": "CHANNEL_1_INPUT_CT_PRIMARY",
+   "description": "channel 1 input CT Primary",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "200/400/800/1200（Standard Type only）",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4171": {
+   "addr": 4171,
+   "addr_hex": "0x104B",
+   "end_dec": 4171,
+   "name": "CHANNEL_2_INPUT_WIRING_ID",
+   "description": "channel 2 input wiring ID",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1~3",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4172": {
+   "addr": 4172,
+   "addr_hex": "0x104C",
+   "end_dec": 4172,
+   "name": "CHANNEL_2_CURRENT_DIRECTION",
+   "description": "channel 2 Current Direction",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0:positive 1:negative",
+   "enum": {
+    "0": "positive",
+    "1": "negative"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4173": {
+   "addr": 4173,
+   "addr_hex": "0x104D",
+   "end_dec": 4173,
+   "name": "CHANNEL_2_INPUT_CT_TYPE",
+   "description": "channel 2 input CT Type",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: 100mA",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4174": {
+   "addr": 4174,
+   "addr_hex": "0x104E",
+   "end_dec": 4174,
+   "name": "CHANNEL_2_INPUT_CT_PRIMARY",
+   "description": "channel 2 input CT Primary",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "200/400/800/1200（Standard Type only）",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4175": {
+   "addr": 4175,
+   "addr_hex": "0x104F",
+   "end_dec": 4175,
+   "name": "CHANNEL_3_INPUT_WIRING_ID",
+   "description": "channel 3 input wiring ID",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "1~3",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4176": {
+   "addr": 4176,
+   "addr_hex": "0x1050",
+   "end_dec": 4176,
+   "name": "CHANNEL_3_CURRENT_DIRECTION",
+   "description": "channel 3 Current Direction",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0:positive 1:negative",
+   "enum": {
+    "0": "positive",
+    "1": "negative"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4177": {
+   "addr": 4177,
+   "addr_hex": "0x1051",
+   "end_dec": 4177,
+   "name": "CHANNEL_3_INPUT_CT_TYPE",
+   "description": "channel 3 input CT Type",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: 100mA",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4178": {
+   "addr": 4178,
+   "addr_hex": "0x1052",
+   "end_dec": 4178,
+   "name": "CHANNEL_3_INPUT_CT_PRIMARY",
+   "description": "channel 3 input CT Primary",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "200/400/800/1200（Standard Type only）",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4179": {
+   "addr": 4179,
+   "addr_hex": "0x1053",
+   "end_dec": 4179,
+   "name": "RESERVED_1320_CHANNEL_4_INPUT_WIRING_ID",
+   "description": "Reserved(1320 channel 4 input wiring ID)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4180": {
+   "addr": 4180,
+   "addr_hex": "0x1054",
+   "end_dec": 4180,
+   "name": "RESERVED_1320_CHANNEL_4_CURRENT_DIRECTION",
+   "description": "Reserved(1320 channel 4 Current Direction)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4181": {
+   "addr": 4181,
+   "addr_hex": "0x1055",
+   "end_dec": 4181,
+   "name": "RESERVED_1320_CHANNEL_4_INPUT_CT_TYPE",
+   "description": "Reserved(1320 channel 4 input CT Type )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4182": {
+   "addr": 4182,
+   "addr_hex": "0x1056",
+   "end_dec": 4182,
+   "name": "RESERVED_1320_CHANNEL_4_INPUT_CT_PRIMARY",
+   "description": "Reserved(1320 channel 4 input CT Primary)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4183": {
+   "addr": 4183,
+   "addr_hex": "0x1057",
+   "end_dec": 4183,
+   "name": "REACTIVE_POWER_CALCULATION_METHOD",
+   "description": "Reactive Power Calculation Method",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "General: 0 True: 1",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4184": {
+   "addr": 4184,
+   "addr_hex": "0x1058",
+   "end_dec": 4184,
+   "name": "PF_CONVENTION",
+   "description": "PF Convention",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "PF Format IEC: 0 PF Format IEEE: 1",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4185": {
+   "addr": 4185,
+   "addr_hex": "0x1059",
+   "end_dec": 4185,
+   "name": "RESERVED_1320_DEMAND_ALGORITHM",
+   "description": "Reserved(1320 Demand Algorithm)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4186": {
+   "addr": 4186,
+   "addr_hex": "0x105A",
+   "end_dec": 4186,
+   "name": "RESERVED_1320_DEMAND_INTERVAL",
+   "description": "Reserved(1320 Demand Interval)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4187": {
+   "addr": 4187,
+   "addr_hex": "0x105B",
+   "end_dec": 4187,
+   "name": "RESERVED_1320_DEMAND_UPDATE_INTERVAL",
+   "description": "Reserved(1320 Demand Update Interval)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4188": {
+   "addr": 4188,
+   "addr_hex": "0x105C",
+   "end_dec": 4188,
+   "name": "RESERVED_1320_MAXDEMAND_CLEAR_MODE",
+   "description": "Reserved(1320 MaxDemand Clear Mode)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4189": {
+   "addr": 4189,
+   "addr_hex": "0x105D",
+   "end_dec": 4190,
+   "name": "RESERVED_1320_MAXDEMAND_CLEAR_DATE_SETTING",
+   "description": "Reserved(1320 MaxDemand Clear Date Setting)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4191": {
+   "addr": 4191,
+   "addr_hex": "0x105F",
+   "end_dec": 4191,
+   "name": "RESERVED_1320_MAXDEMAND_CLEAR_TOTAL_COUNT",
+   "description": "Reserved(1320 MaxDemand Clear Total Count)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4192": {
+   "addr": 4192,
+   "addr_hex": "0x1060",
+   "end_dec": 4194,
+   "name": "RESERVED_1320_TIMESTAMP_OF_THE_MOST_RECENT_MAXDEMAND_CLEAR",
+   "description": "Reserved(1320 Timestamp of the most recent MaxDemand Clear)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 3,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4195": {
+   "addr": 4195,
+   "addr_hex": "0x1063",
+   "end_dec": 4195,
+   "name": "PHASE_ORDER",
+   "description": "Phase Order",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "ABC: 0 ACB: 1",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4196": {
+   "addr": 4196,
+   "addr_hex": "0x1064",
+   "end_dec": 4196,
+   "name": "ENERGY_READING_DISPLAY_FORMAT",
+   "description": "Energy Reading Display format",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: Primary in 0.1 kWh;1:0.01kWh; 2: Primary in 0.001kWh",
+   "enum": {
+    "0": "Primary in 0.1 kWh;1:0.01kWh;",
+    "2": "Primary in 0.001kWh"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4197": {
+   "addr": 4197,
+   "addr_hex": "0x1065",
+   "end_dec": 4197,
+   "name": "ENERGY_CALCULATION_METHOD",
+   "description": "Energy Calculation Method",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "Generic: 0 Fundamental: 1",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4198": {
+   "addr": 4198,
+   "addr_hex": "0x1066",
+   "end_dec": 4199,
+   "name": "ENERGY_PULSE_CONSTANT",
+   "description": "Energy pulse constant",
+   "dtype": "uint32_t",
+   "rw": "R/W",
+   "reg_num": 2,
+   "range": "100~50000 (=0.1~50 imp/kWh, reg value = actual ×1000)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4200": {
+   "addr": 4200,
+   "addr_hex": "0x1068",
+   "end_dec": 4200,
+   "name": "PULSE_WIDTH",
+   "description": "Pulse width",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "20",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4201": {
+   "addr": 4201,
+   "addr_hex": "0x1069",
+   "end_dec": 4202,
+   "name": "LED_PULSE_CONSTANT",
+   "description": "LED pulse constant",
+   "dtype": "uint32_t",
+   "rw": "R/W",
+   "reg_num": 2,
+   "range": "100~50000 (=0.1~50 imp/kWh, reg value = actual ×1000)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Metrology Settings"
+  },
+  "4400": {
+   "addr": 4400,
+   "addr_hex": "0x1130",
+   "end_dec": 4400,
+   "name": "CLEAR_ENERGY",
+   "description": "Clear energy",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None 1: Clearing",
+   "enum": {
+    "0": "None",
+    "1": "Clearing"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4401": {
+   "addr": 4401,
+   "addr_hex": "0x1131",
+   "end_dec": 4401,
+   "name": "RESERVED_1320_CLEAR_MAX_DEMAND",
+   "description": "Reserved(1320 Clear Max demand )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4402": {
+   "addr": 4402,
+   "addr_hex": "0x1132",
+   "end_dec": 4402,
+   "name": "RESERVED_1320_CLEAR_MAXDEMAND_CLEARCOUNT_AND_TIMESTAMP",
+   "description": "Reserved(1320 Clear MaxDemand ClearCount and Timestamp)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4403": {
+   "addr": 4403,
+   "addr_hex": "0x1133",
+   "end_dec": 4403,
+   "name": "RESERVED_1320_CLEAR_MAX_MIN",
+   "description": "Reserved(1320 Clear max/min)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4404": {
+   "addr": 4404,
+   "addr_hex": "0x1134",
+   "end_dec": 4404,
+   "name": "CLEAR_DEVICE_RUN_TIME",
+   "description": "Clear device run time",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None 1: Clearing",
+   "enum": {
+    "0": "None",
+    "1": "Clearing"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4405": {
+   "addr": 4405,
+   "addr_hex": "0x1135",
+   "end_dec": 4405,
+   "name": "CLEAR_LOAD_TIME",
+   "description": "Clear load time",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None 1: Reset",
+   "enum": {
+    "0": "None",
+    "1": "Reset"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4406": {
+   "addr": 4406,
+   "addr_hex": "0x1136",
+   "end_dec": 4406,
+   "name": "FACTORY_RESET",
+   "description": "Factory reset",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None 1: Resetting",
+   "enum": {
+    "0": "None",
+    "1": "Resetting"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4407": {
+   "addr": 4407,
+   "addr_hex": "0x1137",
+   "end_dec": 4407,
+   "name": "RESERVED_1320_NETWORK_RESET",
+   "description": "Reserved(1320 Network reset)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4408": {
+   "addr": 4408,
+   "addr_hex": "0x1138",
+   "end_dec": 4408,
+   "name": "RESERVED_1320_CLEAR_SOE_LOG",
+   "description": "Reserved(1320 Clear SOE Log )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4409": {
+   "addr": 4409,
+   "addr_hex": "0x1139",
+   "end_dec": 4409,
+   "name": "RESERVED_1320_CLEAR_ALARM_LOG",
+   "description": "Reserved(1320 Clear alarm Log)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4410": {
+   "addr": 4410,
+   "addr_hex": "0x113A",
+   "end_dec": 4410,
+   "name": "RESERVED_1320_CLEAR_PQ_EVENT_LOG",
+   "description": "Reserved(1320 Clear PQ event Log)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4411": {
+   "addr": 4411,
+   "addr_hex": "0x113B",
+   "end_dec": 4411,
+   "name": "RESERVED_1320_CLEAR_WAVEFORM",
+   "description": "Reserved(1320 Clear Waveform )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4412": {
+   "addr": 4412,
+   "addr_hex": "0x113C",
+   "end_dec": 4412,
+   "name": "RESERVED_1320_CLEAR_DATA_LOG1",
+   "description": "Reserved(1320 Clear Data Log1)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4413": {
+   "addr": 4413,
+   "addr_hex": "0x113D",
+   "end_dec": 4413,
+   "name": "RESERVED_1320_CLEAR_DATA_LOG2",
+   "description": "Reserved(1320 Clear Data Log2)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4414": {
+   "addr": 4414,
+   "addr_hex": "0x113E",
+   "end_dec": 4414,
+   "name": "RESERVED_1320_CLEAR_DATA_LOG3",
+   "description": "Reserved(1320 Clear Data Log3)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4415": {
+   "addr": 4415,
+   "addr_hex": "0x113F",
+   "end_dec": 4415,
+   "name": "RESERVED_1320_CLEAR_TREND_LOG",
+   "description": "Reserved(1320 Clear Trend Log)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4416": {
+   "addr": 4416,
+   "addr_hex": "0x1140",
+   "end_dec": 4416,
+   "name": "RESERVED_1320_CLEAR_DI_COUNT",
+   "description": "Reserved(1320 Clear DI Count )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4417": {
+   "addr": 4417,
+   "addr_hex": "0x1141",
+   "end_dec": 4417,
+   "name": "RESERVED_1320_CLEAR_YEAR_10_HOLIDAY_NUMBER_SETTING",
+   "description": "Reserved(1320 Clear Year 10 Holiday Number Setting)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4418": {
+   "addr": 4418,
+   "addr_hex": "0x1142",
+   "end_dec": 4418,
+   "name": "RESERVED_1320_RESTORE_TOU_FACTORY_SETTING",
+   "description": "Reserved(1320 Restore TOU factory setting)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4419": {
+   "addr": 4419,
+   "addr_hex": "0x1143",
+   "end_dec": 4419,
+   "name": "RESERVED_1320_CLEAR_TOU_ENERGY",
+   "description": "Reserved(1320 Clear TOU Energy )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4420": {
+   "addr": 4420,
+   "addr_hex": "0x1144",
+   "end_dec": 4420,
+   "name": "RESERVED_1320_CLEAR_TOU_MAX_DEMAND",
+   "description": "Reserved(1320 Clear TOU Max Demand )",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4421": {
+   "addr": 4421,
+   "addr_hex": "0x1145",
+   "end_dec": 4421,
+   "name": "RESERVED_1320_CLEAR_DUAL_SOURCE_ENERGY",
+   "description": "Reserved(1320 Clear Dual Source energy)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4422": {
+   "addr": 4422,
+   "addr_hex": "0x1146",
+   "end_dec": 4422,
+   "name": "RESERVED_1320_CLEAR_DUAL_SOURCE_ENERGY_SWITCHING_RECORD",
+   "description": "Reserved(1320 Clear Dual Source energy switching record)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4423": {
+   "addr": 4423,
+   "addr_hex": "0x1147",
+   "end_dec": 4423,
+   "name": "DEVICE_REBOOT",
+   "description": "Device Reboot",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None 1: Reset",
+   "enum": {
+    "0": "None",
+    "1": "Reset"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "4424": {
+   "addr": 4424,
+   "addr_hex": "0x1148",
+   "end_dec": 4424,
+   "name": "COMMUNICATION_RESET",
+   "description": "Communication reset",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None 1: Reset",
+   "enum": {
+    "0": "None",
+    "1": "Reset"
+   },
+   "enum_options": null,
+   "sheet": "Basic Setting",
+   "block": "Operations"
+  },
+  "8192": {
+   "addr": 8192,
+   "addr_hex": "0x2000",
+   "end_dec": 8192,
+   "name": "FACTORY_CALIBRATION_CMD",
+   "description": "factory calibration cmd",
+   "dtype": "",
+   "rw": "W",
+   "reg_num": 1,
+   "range": "0:start 1:abort",
+   "enum": {
+    "0": "start",
+    "1": "abort"
+   },
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration Commands"
+  },
+  "8193": {
+   "addr": 8193,
+   "addr_hex": "0x2001",
+   "end_dec": 8193,
+   "name": "FACTORY_CALIBRATION_RESULT",
+   "description": "factory calibration result",
+   "dtype": "uint16_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "bit0:sampling frequency calibration fail bit1:current gain calibration fail bit2:acc signals calibration fail bit3:angle error calibration fail bit4: EM Save fail bit5: FRAM Save fail 0x00: calibration ok",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration Commands"
+  },
+  "8194": {
+   "addr": 8194,
+   "addr_hex": "0x2002",
+   "end_dec": 8194,
+   "name": "IS_CALIBRATING",
+   "description": "is calibrating",
+   "dtype": "uint16_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "0: Measuring 1: Calibrating",
+   "enum": {
+    "0": "Measuring",
+    "1": "Calibrating"
+   },
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration Commands"
+  },
+  "8208": {
+   "addr": 8208,
+   "addr_hex": "0x2010",
+   "end_dec": 8209,
+   "name": "SAMPLING_FREQUENCY",
+   "description": "Sampling frequency",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8210": {
+   "addr": 8210,
+   "addr_hex": "0x2012",
+   "end_dec": 8211,
+   "name": "PHASE_A_COEFF_OF_VRMS",
+   "description": "Phase a coeff of vrms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8212": {
+   "addr": 8212,
+   "addr_hex": "0x2014",
+   "end_dec": 8213,
+   "name": "PHASE_A_COEFF_OF_IRMS",
+   "description": "Phase a coeff of irms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8214": {
+   "addr": 8214,
+   "addr_hex": "0x2016",
+   "end_dec": 8215,
+   "name": "PHASE_A_COEFF_OF_ACTIVE_POWER",
+   "description": "Phase a coeff of active power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8216": {
+   "addr": 8216,
+   "addr_hex": "0x2018",
+   "end_dec": 8217,
+   "name": "PHASE_A_COEFF_OF_REACTIVE_POWER",
+   "description": "Phase a coeff of reactive power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8218": {
+   "addr": 8218,
+   "addr_hex": "0x201A",
+   "end_dec": 8219,
+   "name": "PHASE_A_COEFF_OF_APPARENT_POWER",
+   "description": "Phase a coeff of apparent power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8220": {
+   "addr": 8220,
+   "addr_hex": "0x201C",
+   "end_dec": 8221,
+   "name": "PHASE_B_COEFF_OF_VRMS",
+   "description": "Phase b coeff of vrms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8222": {
+   "addr": 8222,
+   "addr_hex": "0x201E",
+   "end_dec": 8223,
+   "name": "PHASE_B_COEFF_OF_IRMS",
+   "description": "Phase b coeff of irms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8224": {
+   "addr": 8224,
+   "addr_hex": "0x2020",
+   "end_dec": 8225,
+   "name": "PHASE_B_COEFF_OF_ACTIVE_POWER",
+   "description": "Phase b coeff of active power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8226": {
+   "addr": 8226,
+   "addr_hex": "0x2022",
+   "end_dec": 8227,
+   "name": "PHASE_B_COEFF_OF_REACTIVE_POWER",
+   "description": "Phase b coeff of reactive power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8228": {
+   "addr": 8228,
+   "addr_hex": "0x2024",
+   "end_dec": 8229,
+   "name": "PHASE_B_COEFF_OF_APPARENT_POWER",
+   "description": "Phase b coeff of apparent power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8230": {
+   "addr": 8230,
+   "addr_hex": "0x2026",
+   "end_dec": 8231,
+   "name": "PHASE_C_COEFF_OF_VRMS",
+   "description": "Phase c coeff of vrms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8232": {
+   "addr": 8232,
+   "addr_hex": "0x2028",
+   "end_dec": 8233,
+   "name": "PHASE_C_COEFF_OF_IRMS",
+   "description": "Phase c coeff of irms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8234": {
+   "addr": 8234,
+   "addr_hex": "0x202A",
+   "end_dec": 8235,
+   "name": "PHASE_C_COEFF_OF_ACTIVE_POWER",
+   "description": "Phase c coeff of active power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8236": {
+   "addr": 8236,
+   "addr_hex": "0x202C",
+   "end_dec": 8237,
+   "name": "PHASE_C_COEFF_OF_REACTIVE_POWER",
+   "description": "Phase c coeff of reactive power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8238": {
+   "addr": 8238,
+   "addr_hex": "0x202E",
+   "end_dec": 8239,
+   "name": "PHASE_C_COEFF_OF_APPARENT_POWER",
+   "description": "Phase c coeff of apparent power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8240": {
+   "addr": 8240,
+   "addr_hex": "0x2030",
+   "end_dec": 8241,
+   "name": "COEFF_OF_NEUTRAL_IRMS",
+   "description": "Coeff of Neutral irms",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8242": {
+   "addr": 8242,
+   "addr_hex": "0x2032",
+   "end_dec": 8243,
+   "name": "PHASE_A_DEGREE_0",
+   "description": "Phase a degree[0]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8244": {
+   "addr": 8244,
+   "addr_hex": "0x2034",
+   "end_dec": 8245,
+   "name": "PHASE_A_DEGREE_1",
+   "description": "Phase a degree[1]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8246": {
+   "addr": 8246,
+   "addr_hex": "0x2036",
+   "end_dec": 8247,
+   "name": "PHASE_B_DEGREE_0",
+   "description": "Phase b degree[0]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8248": {
+   "addr": 8248,
+   "addr_hex": "0x2038",
+   "end_dec": 8249,
+   "name": "PHASE_B_DEGREE_1",
+   "description": "Phase b degree[1]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8250": {
+   "addr": 8250,
+   "addr_hex": "0x203A",
+   "end_dec": 8251,
+   "name": "PHASE_C_DEGREE_0",
+   "description": "Phase c degree[0]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8252": {
+   "addr": 8252,
+   "addr_hex": "0x203C",
+   "end_dec": 8253,
+   "name": "PHASE_C_DEGREE_1",
+   "description": "Phase c degree[1]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8254": {
+   "addr": 8254,
+   "addr_hex": "0x203E",
+   "end_dec": 8255,
+   "name": "PHASE_A_GAIN_0",
+   "description": "Phase a gain[0]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8256": {
+   "addr": 8256,
+   "addr_hex": "0x2040",
+   "end_dec": 8257,
+   "name": "PHASE_A_GAIN_1",
+   "description": "Phase a gain[1]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8258": {
+   "addr": 8258,
+   "addr_hex": "0x2042",
+   "end_dec": 8259,
+   "name": "PHASE_B_GAIN_0",
+   "description": "Phase b gain[0]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8260": {
+   "addr": 8260,
+   "addr_hex": "0x2044",
+   "end_dec": 8261,
+   "name": "PHASE_B_GAIN_1",
+   "description": "Phase b gain[1]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8262": {
+   "addr": 8262,
+   "addr_hex": "0x2046",
+   "end_dec": 8263,
+   "name": "PHASE_C_GAIN_0",
+   "description": "Phase c gain[0]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8264": {
+   "addr": 8264,
+   "addr_hex": "0x2048",
+   "end_dec": 8265,
+   "name": "PHASE_C_GAIN_1",
+   "description": "Phase c gain[1]",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "8266": {
+   "addr": 8266,
+   "addr_hex": "0x204A",
+   "end_dec": 8267,
+   "name": "SDADGCR",
+   "description": "SDADGCR",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "SDADGCR [31:0] bits[ 3: 0] → CH0（V Phase a） bits[ 7: 4] → CH1（V Phase b） bits[11: 8] → CH2（V Phase c） bits[15:12] → CH3（I Phase a） bits[19:16] → CH4（I Phase b） bits[23:20] → CH5（I Phase c） bits[27:24] → CH6（I Neutral）",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Calibration",
+   "block": "Calibration OffSet Coef（50Hz/60Hz）"
+  },
+  "12288": {
+   "addr": 12288,
+   "addr_hex": "0x3000",
+   "end_dec": 12288,
+   "name": "WIRE_CHECK_SWITCH",
+   "description": "Wire Check Switch",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0:ON 1:OFF",
+   "enum": {
+    "0": "ON",
+    "1": "OFF"
+   },
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12289": {
+   "addr": 12289,
+   "addr_hex": "0x3001",
+   "end_dec": 12289,
+   "name": "WIRE_CHECK_STATUS",
+   "description": "Wire Check Status",
+   "dtype": "uint16_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "0: Not Started 1: In Progress 2: Completed",
+   "enum": {
+    "0": "Not Started",
+    "1": "In Progress",
+    "2": "Completed"
+   },
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12290": {
+   "addr": 12290,
+   "addr_hex": "0x3002",
+   "end_dec": 12290,
+   "name": "PHASE_VOLTAGE_ERROR_CODE",
+   "description": "Phase Voltage Error Code",
+   "dtype": "uint16_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "Bit0:Voltage terminals Va wiring is missing Bit1:Voltage terminals Vb wiring is missing Bit2:Voltage terminals Vc wiring is missing Bit3:The voltage terminals Va and Vn are reversed. Bit4: The voltage terminals Vb and Vn are reversed. Bit5: The voltage terminals Vc and Vn are reversed. Bit6: Phase error of voltage terminals Vb Bit7: Phase error of voltage terminals Vc Bit8: ABC/ACB sequence is configured incorrectly",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12291": {
+   "addr": 12291,
+   "addr_hex": "0x3003",
+   "end_dec": 12291,
+   "name": "PHASE_CURRENT_ERROR_CODE",
+   "description": "Phase Current Error Code",
+   "dtype": "uint16_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "Bit0:Current terminals Ia wiring is missing Bit1:Current terminals Ib wiring is missing Bit2:Current terminals Ic wiring is missing Bit3:Current terminals Ia positive and negative are reversed Bit4:Current terminals Ib positive and negative are reversed Bit5:Current terminals Ic positive and negative are reversed Bit6:Current terminals Ia and Ib are reversed Bit7:Current terminals Ia and Ic are reversed Bit8:Current terminals Ib and Ic are reversed",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12292": {
+   "addr": 12292,
+   "addr_hex": "0x3004",
+   "end_dec": 12293,
+   "name": "PHASE_A_LINE_TO_NEUTRAL",
+   "description": "Phase A Line-to-Neutral",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12294": {
+   "addr": 12294,
+   "addr_hex": "0x3006",
+   "end_dec": 12295,
+   "name": "PHASE_A_LINE_TO_NEUTRAL_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase A Line-to-Neutral Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12296": {
+   "addr": 12296,
+   "addr_hex": "0x3008",
+   "end_dec": 12297,
+   "name": "PHASE_B_LINE_TO_NEUTRAL",
+   "description": "Phase B Line-to-Neutral",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12298": {
+   "addr": 12298,
+   "addr_hex": "0x300A",
+   "end_dec": 12299,
+   "name": "PHASE_B_LINE_TO_NEUTRAL_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase B Line-to-Neutral Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12300": {
+   "addr": 12300,
+   "addr_hex": "0x300C",
+   "end_dec": 12301,
+   "name": "PHASE_C_LINE_TO_NEUTRAL",
+   "description": "Phase C Line-to-Neutral",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12302": {
+   "addr": 12302,
+   "addr_hex": "0x300E",
+   "end_dec": 12303,
+   "name": "PHASE_C_LINE_TO_NEUTRAL_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase C Line-to-Neutral Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12304": {
+   "addr": 12304,
+   "addr_hex": "0x3010",
+   "end_dec": 12305,
+   "name": "VOLTAGE_PHASE_ORDER",
+   "description": "Voltage Phase Order",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "0：ABC 1：ACB 2：不存在",
+   "enum": {
+    "0": "ABC",
+    "1": "ACB",
+    "2": "不存在"
+   },
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12306": {
+   "addr": 12306,
+   "addr_hex": "0x3012",
+   "end_dec": 12307,
+   "name": "PHASE_A_CURRENT",
+   "description": "Phase A Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12308": {
+   "addr": 12308,
+   "addr_hex": "0x3014",
+   "end_dec": 12309,
+   "name": "PHASE_A_CURRENT_ANGLE",
+   "description": "Phase A Current Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12310": {
+   "addr": 12310,
+   "addr_hex": "0x3016",
+   "end_dec": 12311,
+   "name": "PHASE_B_CURRENT",
+   "description": "Phase B Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12312": {
+   "addr": 12312,
+   "addr_hex": "0x3018",
+   "end_dec": 12313,
+   "name": "PHASE_B_CURRENT_ANGLE",
+   "description": "Phase B Current Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12314": {
+   "addr": 12314,
+   "addr_hex": "0x301A",
+   "end_dec": 12315,
+   "name": "PHASE_C_CURRENT",
+   "description": "Phase C Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "12316": {
+   "addr": 12316,
+   "addr_hex": "0x301C",
+   "end_dec": 12317,
+   "name": "PHASE_C_CURRENT_ANGLE",
+   "description": "Phase C Current Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Wiring Check",
+   "block": "Wiring Check"
+  },
+  "18944": {
+   "addr": 18944,
+   "addr_hex": "0x4A00",
+   "end_dec": 18945,
+   "name": "PHASE_A_ACTIVE_ENERGY_IMPORT",
+   "description": "Phase A active energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18946": {
+   "addr": 18946,
+   "addr_hex": "0x4A02",
+   "end_dec": 18947,
+   "name": "PHASE_B_ACTIVE_ENERGY_IMPORT",
+   "description": "Phase B active energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18948": {
+   "addr": 18948,
+   "addr_hex": "0x4A04",
+   "end_dec": 18949,
+   "name": "PHASE_C_ACTIVE_ENERGY_IMPORT",
+   "description": "Phase C active energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18950": {
+   "addr": 18950,
+   "addr_hex": "0x4A06",
+   "end_dec": 18951,
+   "name": "SYSTEM_ACTIVE_ENERGY_IMPORT",
+   "description": "System active energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18952": {
+   "addr": 18952,
+   "addr_hex": "0x4A08",
+   "end_dec": 18953,
+   "name": "PHASE_A_ACTIVE_ENERGY_EXPORT",
+   "description": "Phase A active energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18954": {
+   "addr": 18954,
+   "addr_hex": "0x4A0A",
+   "end_dec": 18955,
+   "name": "PHASE_B_ACTIVE_ENERGY_EXPORT",
+   "description": "Phase B active energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18956": {
+   "addr": 18956,
+   "addr_hex": "0x4A0C",
+   "end_dec": 18957,
+   "name": "PHASE_C_ACTIVE_ENERGY_EXPORT",
+   "description": "Phase C active energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18958": {
+   "addr": 18958,
+   "addr_hex": "0x4A0E",
+   "end_dec": 18959,
+   "name": "SYSTEM_ACTIVE_ENERGY_EXPORT",
+   "description": "System active energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18960": {
+   "addr": 18960,
+   "addr_hex": "0x4A10",
+   "end_dec": 18961,
+   "name": "PHASE_A_ACTIVE_ENERGY_TOTAL",
+   "description": "Phase A active energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18962": {
+   "addr": 18962,
+   "addr_hex": "0x4A12",
+   "end_dec": 18963,
+   "name": "PHASE_B_ACTIVE_ENERGY_TOTAL",
+   "description": "Phase B active energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18964": {
+   "addr": 18964,
+   "addr_hex": "0x4A14",
+   "end_dec": 18965,
+   "name": "PHASE_C_ACTIVE_ENERGY_TOTAL",
+   "description": "Phase C active energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18966": {
+   "addr": 18966,
+   "addr_hex": "0x4A16",
+   "end_dec": 18967,
+   "name": "SYSTEM_ACTIVE_ENERGY_TOTAL",
+   "description": "System active energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18968": {
+   "addr": 18968,
+   "addr_hex": "0x4A18",
+   "end_dec": 18969,
+   "name": "PHASE_A_ACTIVE_ENERGY_NET",
+   "description": "Phase A active energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18970": {
+   "addr": 18970,
+   "addr_hex": "0x4A1A",
+   "end_dec": 18971,
+   "name": "PHASE_B_ACTIVE_ENERGY_NET",
+   "description": "Phase B active energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18972": {
+   "addr": 18972,
+   "addr_hex": "0x4A1C",
+   "end_dec": 18973,
+   "name": "PHASE_C_ACTIVE_ENERGY_NET",
+   "description": "Phase C active energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18974": {
+   "addr": 18974,
+   "addr_hex": "0x4A1E",
+   "end_dec": 18975,
+   "name": "SYSTEM_ACTIVE_ENERGY_NET",
+   "description": "System active energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18976": {
+   "addr": 18976,
+   "addr_hex": "0x4A20",
+   "end_dec": 18977,
+   "name": "PHASE_A_REACTIVE_ENERGY_IMPORT",
+   "description": "Phase A reactive energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18978": {
+   "addr": 18978,
+   "addr_hex": "0x4A22",
+   "end_dec": 18979,
+   "name": "PHASE_B_REACTIVE_ENERGY_IMPORT",
+   "description": "Phase B reactive energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18980": {
+   "addr": 18980,
+   "addr_hex": "0x4A24",
+   "end_dec": 18981,
+   "name": "PHASE_C_REACTIVE_ENERGY_IMPORT",
+   "description": "Phase C reactive energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18982": {
+   "addr": 18982,
+   "addr_hex": "0x4A26",
+   "end_dec": 18983,
+   "name": "SYSTEM_REACTIVE_ENERGY_IMPORT",
+   "description": "System reactive energy import",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18984": {
+   "addr": 18984,
+   "addr_hex": "0x4A28",
+   "end_dec": 18985,
+   "name": "PHASE_A_REACTIVE_ENERGY_EXPORT",
+   "description": "Phase A reactive energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18986": {
+   "addr": 18986,
+   "addr_hex": "0x4A2A",
+   "end_dec": 18987,
+   "name": "PHASE_B_REACTIVE_ENERGY_EXPORT",
+   "description": "Phase B reactive energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18988": {
+   "addr": 18988,
+   "addr_hex": "0x4A2C",
+   "end_dec": 18989,
+   "name": "PHASE_C_REACTIVE_ENERGY_EXPORT",
+   "description": "Phase C reactive energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18990": {
+   "addr": 18990,
+   "addr_hex": "0x4A2E",
+   "end_dec": 18991,
+   "name": "SYSTEM_REACTIVE_ENERGY_EXPORT",
+   "description": "System reactive energy export",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18992": {
+   "addr": 18992,
+   "addr_hex": "0x4A30",
+   "end_dec": 18993,
+   "name": "PHASE_A_REACTIVE_ENERGY_TOTAL",
+   "description": "Phase A reactive energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18994": {
+   "addr": 18994,
+   "addr_hex": "0x4A32",
+   "end_dec": 18995,
+   "name": "PHASE_B_REACTIVE_ENERGY_TOTAL",
+   "description": "Phase B reactive energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18996": {
+   "addr": 18996,
+   "addr_hex": "0x4A34",
+   "end_dec": 18997,
+   "name": "PHASE_C_REACTIVE_ENERGY_TOTAL",
+   "description": "Phase C reactive energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "18998": {
+   "addr": 18998,
+   "addr_hex": "0x4A36",
+   "end_dec": 18999,
+   "name": "SYSTEM_REACTIVE_ENERGY_TOTAL",
+   "description": "System reactive energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19000": {
+   "addr": 19000,
+   "addr_hex": "0x4A38",
+   "end_dec": 19001,
+   "name": "PHASE_A_REACTIVE_ENERGY_NET",
+   "description": "Phase A reactive energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19002": {
+   "addr": 19002,
+   "addr_hex": "0x4A3A",
+   "end_dec": 19003,
+   "name": "PHASE_B_REACTIVE_ENERGY_NET",
+   "description": "Phase B reactive energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19004": {
+   "addr": 19004,
+   "addr_hex": "0x4A3C",
+   "end_dec": 19005,
+   "name": "PHASE_C_REACTIVE_ENERGY_NET",
+   "description": "Phase C reactive energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19006": {
+   "addr": 19006,
+   "addr_hex": "0x4A3E",
+   "end_dec": 19007,
+   "name": "SYSTEM_REACTIVE_ENERGY_NET",
+   "description": "System reactive energy net",
+   "dtype": "int32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19008": {
+   "addr": 19008,
+   "addr_hex": "0x4A40",
+   "end_dec": 19009,
+   "name": "PHASE_A_APPARENT_ENERGY_TOTAL",
+   "description": "Phase A apparent energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19010": {
+   "addr": 19010,
+   "addr_hex": "0x4A42",
+   "end_dec": 19011,
+   "name": "PHASE_B_APPARENT_ENERGY_TOTAL",
+   "description": "Phase B apparent energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19012": {
+   "addr": 19012,
+   "addr_hex": "0x4A44",
+   "end_dec": 19013,
+   "name": "PHASE_C_APPARENT_ENERGY_TOTAL",
+   "description": "Phase C apparent energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "19014": {
+   "addr": 19014,
+   "addr_hex": "0x4A46",
+   "end_dec": 19015,
+   "name": "SYSTEM_APPARENT_ENERGY_TOTAL",
+   "description": "System apparent energy total",
+   "dtype": "uint32_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Energy",
+   "block": "Energy(1 second)"
+  },
+  "36944": {
+   "addr": 36944,
+   "addr_hex": "0x9050",
+   "end_dec": 36947,
+   "name": "RESERVED_1320_HS_PARAM_UPDATE_TIME_STAMP",
+   "description": "Reserved(1320 HS Param Update Time Stamp)",
+   "dtype": "uint64_t",
+   "rw": "R",
+   "reg_num": 4,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36948": {
+   "addr": 36948,
+   "addr_hex": "0x9054",
+   "end_dec": 36949,
+   "name": "SYSTEM_FREQUENCY",
+   "description": "System Frequency",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36950": {
+   "addr": 36950,
+   "addr_hex": "0x9056",
+   "end_dec": 36951,
+   "name": "PHASE_A_LINE_TO_NEUTRAL_VOLTAGE",
+   "description": "Phase A Line-to-Neutral Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36952": {
+   "addr": 36952,
+   "addr_hex": "0x9058",
+   "end_dec": 36953,
+   "name": "PHASE_B_LINE_TO_NEUTRAL_VOLTAGE",
+   "description": "Phase B Line-to-Neutral Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36954": {
+   "addr": 36954,
+   "addr_hex": "0x905A",
+   "end_dec": 36955,
+   "name": "PHASE_C_LINE_TO_NEUTRAL_VOLTAGE",
+   "description": "Phase C Line-to-Neutral Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36956": {
+   "addr": 36956,
+   "addr_hex": "0x905C",
+   "end_dec": 36957,
+   "name": "PHASE_A_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase A Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36958": {
+   "addr": 36958,
+   "addr_hex": "0x905E",
+   "end_dec": 36959,
+   "name": "PHASE_B_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase B Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36960": {
+   "addr": 36960,
+   "addr_hex": "0x9060",
+   "end_dec": 36961,
+   "name": "PHASE_C_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase C Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36962": {
+   "addr": 36962,
+   "addr_hex": "0x9062",
+   "end_dec": 36963,
+   "name": "AVERAGE_LINE_TO_NEUTRAL_VOLTAGE",
+   "description": "Average Line-to-Neutral Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36964": {
+   "addr": 36964,
+   "addr_hex": "0x9064",
+   "end_dec": 36965,
+   "name": "PHASE_AB_LINE_TO_LINE_VOLTAGE",
+   "description": "Phase AB Line-to-Line Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36966": {
+   "addr": 36966,
+   "addr_hex": "0x9066",
+   "end_dec": 36967,
+   "name": "PHASE_BC_LINE_TO_LINE_VOLTAGE",
+   "description": "Phase BC Line-to-Line Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36968": {
+   "addr": 36968,
+   "addr_hex": "0x9068",
+   "end_dec": 36969,
+   "name": "PHASE_CA_LINE_TO_LINE_VOLTAGE",
+   "description": "Phase CA Line-to-Line Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36970": {
+   "addr": 36970,
+   "addr_hex": "0x906A",
+   "end_dec": 36971,
+   "name": "PHASE_AB_LINE_TO_LINE_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase AB Line-to-Line Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36972": {
+   "addr": 36972,
+   "addr_hex": "0x906C",
+   "end_dec": 36973,
+   "name": "PHASE_BC_LINE_TO_LINE_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase BC Line-to-Line Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36974": {
+   "addr": 36974,
+   "addr_hex": "0x906E",
+   "end_dec": 36975,
+   "name": "PHASE_CA_LINE_TO_LINE_VOLTAGE_PHASE_ANGLE",
+   "description": "Phase CA Line-to-Line Voltage Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36976": {
+   "addr": 36976,
+   "addr_hex": "0x9070",
+   "end_dec": 36977,
+   "name": "AVERAGE_LINE_TO_LINE_VOLTAGE",
+   "description": "Average Line-to-Line Voltage",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36978": {
+   "addr": 36978,
+   "addr_hex": "0x9072",
+   "end_dec": 36979,
+   "name": "PHASE_A_CURRENT",
+   "description": "Phase A Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36980": {
+   "addr": 36980,
+   "addr_hex": "0x9074",
+   "end_dec": 36981,
+   "name": "PHASE_B_CURRENT",
+   "description": "Phase B Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36982": {
+   "addr": 36982,
+   "addr_hex": "0x9076",
+   "end_dec": 36983,
+   "name": "PHASE_C_CURRENT",
+   "description": "Phase C Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36984": {
+   "addr": 36984,
+   "addr_hex": "0x9078",
+   "end_dec": 36985,
+   "name": "RESERVED_1320_NEUTRAL_CURRENT",
+   "description": "Reserved(1320 Neutral Current)",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36986": {
+   "addr": 36986,
+   "addr_hex": "0x907A",
+   "end_dec": 36987,
+   "name": "PHASE_A_CURRENT_PHASE_ANGLE",
+   "description": "Phase A Current Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36988": {
+   "addr": 36988,
+   "addr_hex": "0x907C",
+   "end_dec": 36989,
+   "name": "PHASE_B_CURRENT_PHASE_ANGLE",
+   "description": "Phase B Current Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36990": {
+   "addr": 36990,
+   "addr_hex": "0x907E",
+   "end_dec": 36991,
+   "name": "PHASE_C_CURRENT_PHASE_ANGLE",
+   "description": "Phase C Current Phase Angle",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36992": {
+   "addr": 36992,
+   "addr_hex": "0x9080",
+   "end_dec": 36993,
+   "name": "RESERVED_1320_NEUTRAL_CURRENT_PHASE_ANGLE",
+   "description": "Reserved(1320 Neutral Current Phase Angle)",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36994": {
+   "addr": 36994,
+   "addr_hex": "0x9082",
+   "end_dec": 36995,
+   "name": "AVERAGE_CURRENT",
+   "description": "Average Current",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36996": {
+   "addr": 36996,
+   "addr_hex": "0x9084",
+   "end_dec": 36997,
+   "name": "PHASE_A_ACTIVE_POWER",
+   "description": "Phase A Active Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "36998": {
+   "addr": 36998,
+   "addr_hex": "0x9086",
+   "end_dec": 36999,
+   "name": "PHASE_B_ACTIVE_POWER",
+   "description": "Phase B Active Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37000": {
+   "addr": 37000,
+   "addr_hex": "0x9088",
+   "end_dec": 37001,
+   "name": "PHASE_C_ACTIVE_POWER",
+   "description": "Phase C Active Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37002": {
+   "addr": 37002,
+   "addr_hex": "0x908A",
+   "end_dec": 37003,
+   "name": "SYSTEM_ACTIVE_POWER",
+   "description": "System Active Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37004": {
+   "addr": 37004,
+   "addr_hex": "0x908C",
+   "end_dec": 37005,
+   "name": "PHASE_A_REACTIVE_POWER",
+   "description": "Phase A Reactive Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37006": {
+   "addr": 37006,
+   "addr_hex": "0x908E",
+   "end_dec": 37007,
+   "name": "PHASE_B_REACTIVE_POWER",
+   "description": "Phase B Reactive Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37008": {
+   "addr": 37008,
+   "addr_hex": "0x9090",
+   "end_dec": 37009,
+   "name": "PHASE_C_REACTIVE_POWER",
+   "description": "Phase C Reactive Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37010": {
+   "addr": 37010,
+   "addr_hex": "0x9092",
+   "end_dec": 37011,
+   "name": "SYSTEM_REACTIVE_POWER",
+   "description": "System Reactive Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37012": {
+   "addr": 37012,
+   "addr_hex": "0x9094",
+   "end_dec": 37013,
+   "name": "PHASE_A_APPARENT_POWER",
+   "description": "Phase A Apparent Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37014": {
+   "addr": 37014,
+   "addr_hex": "0x9096",
+   "end_dec": 37015,
+   "name": "PHASE_B_APPARENT_POWER",
+   "description": "Phase B Apparent Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37016": {
+   "addr": 37016,
+   "addr_hex": "0x9098",
+   "end_dec": 37017,
+   "name": "PHASE_C_APPARENT_POWER",
+   "description": "Phase C Apparent Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37018": {
+   "addr": 37018,
+   "addr_hex": "0x909A",
+   "end_dec": 37019,
+   "name": "SYSTEM_APPARENT_POWER",
+   "description": "System Apparent Power",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37020": {
+   "addr": 37020,
+   "addr_hex": "0x909C",
+   "end_dec": 37021,
+   "name": "PHASE_A_POWER_FACTOR",
+   "description": "Phase A Power Factor",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37022": {
+   "addr": 37022,
+   "addr_hex": "0x909E",
+   "end_dec": 37023,
+   "name": "PHASE_B_POWER_FACTOR",
+   "description": "Phase B Power Factor",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37024": {
+   "addr": 37024,
+   "addr_hex": "0x90A0",
+   "end_dec": 37025,
+   "name": "PHASE_C_POWER_FACTOR",
+   "description": "Phase C Power Factor",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "37026": {
+   "addr": 37026,
+   "addr_hex": "0x90A2",
+   "end_dec": 37027,
+   "name": "SYSTEM_POWER_FACTOR",
+   "description": "System Power Factor",
+   "dtype": "float",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Real Time",
+   "block": "Real time basic parameters（100ms)"
+  },
+  "61440": {
+   "addr": 61440,
+   "addr_hex": "0xF000",
+   "end_dec": 61441,
+   "name": "FIRMWARE_VERSION",
+   "description": "Firmware version",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "In the format like x.yz (e.g., 1.01)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Firmware Version Info"
+  },
+  "61442": {
+   "addr": 61442,
+   "addr_hex": "0xF002",
+   "end_dec": 61444,
+   "name": "FIRMWARE_RELEASE_DATE",
+   "description": "Firmware release date",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 3,
+   "range": "In the format like YYMMDD (221228)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Firmware Version Info"
+  },
+  "61445": {
+   "addr": 61445,
+   "addr_hex": "0xF005",
+   "end_dec": 61445,
+   "name": "FIRMWARE_PATCH_NUMBER",
+   "description": "Firmware patch number",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "In the format like xy (01)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Firmware Version Info"
+  },
+  "61456": {
+   "addr": 61456,
+   "addr_hex": "0xF010",
+   "end_dec": 61457,
+   "name": "BOOTLOADER_PRODUCT_STRING",
+   "description": "bootloader product string",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "e.g. MAA1",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Bootloader Info"
+  },
+  "61458": {
+   "addr": 61458,
+   "addr_hex": "0xF012",
+   "end_dec": 61459,
+   "name": "BOOTLOADER_VERSION",
+   "description": "bootloader version",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 2,
+   "range": "In the format like x.yz (e.g., 1.01)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Bootloader Info"
+  },
+  "61460": {
+   "addr": 61460,
+   "addr_hex": "0xF014",
+   "end_dec": 61462,
+   "name": "BOOTLOADER_RELEASE_DATE",
+   "description": "bootloader release date",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 3,
+   "range": "ASCII, in format of YYMMDD (e.g. 241108)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Bootloader Info"
+  },
+  "61463": {
+   "addr": 61463,
+   "addr_hex": "0xF017",
+   "end_dec": 61463,
+   "name": "BOOTLOADER_PATCH_NUMBER",
+   "description": "bootloader patch number",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 1,
+   "range": "In the format like xy (01)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Bootloader Info"
+  },
+  "61504": {
+   "addr": 61504,
+   "addr_hex": "0xF040",
+   "end_dec": 61519,
+   "name": "SERIAL_NUMBER",
+   "description": "Serial Number",
+   "dtype": "uint8_t",
+   "rw": "R/W",
+   "reg_num": 16,
+   "range": "In the format like MAC(YY+30)MMabcde (PRS v1.04 / SRS v1.02)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61520": {
+   "addr": 61520,
+   "addr_hex": "0xF050",
+   "end_dec": 61521,
+   "name": "HARDWARE_VERSION",
+   "description": "Hardware version",
+   "dtype": "uint8_t",
+   "rw": "R/W",
+   "reg_num": 2,
+   "range": "In the format like x.yz (e.g., 1.01) The main version and sub-version are released to the factory by the hardware engineers from the R&D department.",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61522": {
+   "addr": 61522,
+   "addr_hex": "0xF052",
+   "end_dec": 61522,
+   "name": "FUNCTION_MODEL_TYPE",
+   "description": "Function Model Type",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: AcuRev-101",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61523": {
+   "addr": 61523,
+   "addr_hex": "0xF053",
+   "end_dec": 61523,
+   "name": "RESERVED_1320_RESERVED",
+   "description": "Reserved(1320 Reserved)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61524": {
+   "addr": 61524,
+   "addr_hex": "0xF054",
+   "end_dec": 61524,
+   "name": "RESERVED_1320_CURRENT_INPUT_TYPE",
+   "description": "Reserved(1320 Current Input Type)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61525": {
+   "addr": 61525,
+   "addr_hex": "0xF055",
+   "end_dec": 61525,
+   "name": "RESERVED_1320_POWER_SUPPLY_TYPE",
+   "description": "Reserved(1320 Power Supply Type)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 1,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61526": {
+   "addr": 61526,
+   "addr_hex": "0xF056",
+   "end_dec": 61541,
+   "name": "RESERVED_MAC_ADDRESS_PORT3",
+   "description": "Reserved(MAC address(port3))",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 16,
+   "range": "",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61542": {
+   "addr": 61542,
+   "addr_hex": "0xF066",
+   "end_dec": 61542,
+   "name": "CERTIFICATION_TYPE",
+   "description": "Certification Type",
+   "dtype": "uint16_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "0: None; 1: MC; Default:0",
+   "enum": {
+    "0": "None;",
+    "1": "MC;  Default:0"
+   },
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61543": {
+   "addr": 61543,
+   "addr_hex": "0xF067",
+   "end_dec": 61551,
+   "name": "RESERVED_1320_RESERVED",
+   "description": "Reserved(1320 Reserved)",
+   "dtype": "",
+   "rw": "",
+   "reg_num": 9,
+   "range": "Set the register to 0",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61552": {
+   "addr": 61552,
+   "addr_hex": "0xF070",
+   "end_dec": 61552,
+   "name": "HARDWARE_PATCH_NUMBER",
+   "description": "Hardware Patch Number",
+   "dtype": "uint8_t",
+   "rw": "R/W",
+   "reg_num": 1,
+   "range": "In the format like xy (01) The hardware patch version. The content of this register is controlled and configured by the factory.",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61553": {
+   "addr": 61553,
+   "addr_hex": "0xF071",
+   "end_dec": 61562,
+   "name": "MODEL",
+   "description": "Model",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 10,
+   "range": "Model name string (ASCII)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  },
+  "61563": {
+   "addr": 61563,
+   "addr_hex": "0xF07B",
+   "end_dec": 61578,
+   "name": "MANUFACTURER",
+   "description": "Manufacturer",
+   "dtype": "uint8_t",
+   "rw": "R",
+   "reg_num": 16,
+   "range": "Manufacturer name string (ASCII)",
+   "enum": null,
+   "enum_options": null,
+   "sheet": "Information",
+   "block": "Product Info\n(0x6A to write in factory)"
+  }
+ },
+ "by_name": {
+  "FIRMWARE_VERSION": [
+   61440
+  ],
+  "FIRMWARE_RELEASE_DATE": [
+   61442
+  ],
+  "FIRMWARE_PATCH_NUMBER": [
+   61445
+  ],
+  "BOOTLOADER_PRODUCT_STRING": [
+   61456
+  ],
+  "BOOTLOADER_VERSION": [
+   61458
+  ],
+  "BOOTLOADER_RELEASE_DATE": [
+   61460
+  ],
+  "BOOTLOADER_PATCH_NUMBER": [
+   61463
+  ],
+  "SERIAL_NUMBER": [
+   61504
+  ],
+  "HARDWARE_VERSION": [
+   61520
+  ],
+  "FUNCTION_MODEL_TYPE": [
+   61522
+  ],
+  "RESERVED_1320_RESERVED": [
+   61523,
+   61543
+  ],
+  "RESERVED_1320_CURRENT_INPUT_TYPE": [
+   61524
+  ],
+  "RESERVED_1320_POWER_SUPPLY_TYPE": [
+   61525
+  ],
+  "RESERVED_MAC_ADDRESS_PORT3": [
+   61526
+  ],
+  "CERTIFICATION_TYPE": [
+   61542
+  ],
+  "HARDWARE_PATCH_NUMBER": [
+   61552
+  ],
+  "MODEL": [
+   61553
+  ],
+  "MANUFACTURER": [
+   61563
+  ],
+  "PASSWORD": [
+   4096
+  ],
+  "RS485_BAUD_RATE": [
+   4097
+  ],
+  "RS485_PARITY": [
+   4098
+  ],
+  "RESERVED_1320_ETHERNET_COMMUNICATION_MODE": [
+   4099
+  ],
+  "RESERVED_1320_DHCP_ENABLE": [
+   4100
+  ],
+  "RESERVED_1320_IP_ADDRESS_1ST_BYTE_IP_ADDRESS_2ND_BYTE": [
+   4101
+  ],
+  "RESERVED_1320_IP_ADDRESS_3RD_BYTE_IP_ADDRESS_4TH_BYTE": [
+   4102
+  ],
+  "RESERVED_1320_SUBNET_MASK_1ST_BYTE_SUBNET_MASK_2ND_BYTE": [
+   4103
+  ],
+  "RESERVED_1320_SUBNET_MASK_3RD_BYTE_SUBNET_MASK_4TH_BYTE": [
+   4104
+  ],
+  "RESERVED_1320_GATEWAY_1ST_BYTE_GATEWAY_2ND_BYTE": [
+   4105
+  ],
+  "RESERVED_1320_GATEWAY_3RD_BYTE_GATEWAY_4TH_BYTE": [
+   4106
+  ],
+  "RESERVED_1320_DNS_PRIMARY_SERVER_1ST_BYTE_DNS_PRIMARY_SERVER_2ND_BYTE": [
+   4107
+  ],
+  "RESERVED_1320_DNS_PRIMARY_SERVER_3RD_BYTE_DNS_PRIMARY_SERVER_4TH_BYTE": [
+   4108
+  ],
+  "RESERVED_1320_DNS_SECONDARY_SERVER_1ST_BYTE_DNS_SECONDARY_SERVER_2ND_BYTE": [
+   4109
+  ],
+  "RESERVED_1320_DNS_SECONDARY_SERVER_3RD_BYTE_DNS_SECONDARY_SERVER_4TH_BYTE": [
+   4110
+  ],
+  "MODBUS_SLAVE_ID": [
+   4111
+  ],
+  "RESERVED_1320_RS485_PROTOCOL": [
+   4112
+  ],
+  "RESERVED_1320_MODBUS_TCP_ENABLE": [
+   4113
+  ],
+  "RESERVED_1320_MODBUS_TCP_PORT": [
+   4114
+  ],
+  "RESERVED_1320_BACNET_MS_TP_METER_ADDRESS": [
+   4115
+  ],
+  "RESERVED_1320_BACNET_MS_TP_MAXIMUM_NUMBER_OF_MESSAGE_FRAMES": [
+   4116
+  ],
+  "RESERVED_1320_BACNET_MS_TP_ID": [
+   4117
+  ],
+  "RESERVED_1320_BACNET_DATABASE_REVISION": [
+   4119
+  ],
+  "LCD_BACKLIGHT_TIME": [
+   4120
+  ],
+  "DEVICE_RUN_TIME": [
+   4121
+  ],
+  "DEVICE_LOAD_TIME": [
+   4123
+  ],
+  "RESERVED_1320_NON_STANDARD_SEAL_PARAMETER_SELECT": [
+   4125
+  ],
+  "RESERVED_1320_TIME_ZONE": [
+   4126
+  ],
+  "WEEK": [
+   4127
+  ],
+  "YEAR": [
+   4128
+  ],
+  "MONTH": [
+   4129
+  ],
+  "DAY": [
+   4130
+  ],
+  "HOUR": [
+   4131
+  ],
+  "MINUTE": [
+   4132
+  ],
+  "SECOND": [
+   4133
+  ],
+  "RESERVED_1320_MILLISECOND": [
+   4134
+  ],
+  "USB_TTL_BAUD_RATE": [
+   4135
+  ],
+  "USB_TTL_PARITY": [
+   4136
+  ],
+  "DEVICE_STATUS_FAULT_CODE": [
+   4137
+  ],
+  "SEALING_STATUS": [
+   4160
+  ],
+  "FREQUENCY_SELECTION": [
+   4161
+  ],
+  "SERVICE_CONFIGURATION": [
+   4162
+  ],
+  "RESERVED_1320_PT1": [
+   4163
+  ],
+  "RESERVED_1320_PT2": [
+   4165
+  ],
+  "RESERVED_1320_IN_METHOD": [
+   4166
+  ],
+  "CHANNEL_1_INPUT_WIRING_ID": [
+   4167
+  ],
+  "CHANNEL_1_CURRENT_DIRECTION": [
+   4168
+  ],
+  "CHANNEL_1_INPUT_CT_TYPE": [
+   4169
+  ],
+  "CHANNEL_1_INPUT_CT_PRIMARY": [
+   4170
+  ],
+  "CHANNEL_2_INPUT_WIRING_ID": [
+   4171
+  ],
+  "CHANNEL_2_CURRENT_DIRECTION": [
+   4172
+  ],
+  "CHANNEL_2_INPUT_CT_TYPE": [
+   4173
+  ],
+  "CHANNEL_2_INPUT_CT_PRIMARY": [
+   4174
+  ],
+  "CHANNEL_3_INPUT_WIRING_ID": [
+   4175
+  ],
+  "CHANNEL_3_CURRENT_DIRECTION": [
+   4176
+  ],
+  "CHANNEL_3_INPUT_CT_TYPE": [
+   4177
+  ],
+  "CHANNEL_3_INPUT_CT_PRIMARY": [
+   4178
+  ],
+  "RESERVED_1320_CHANNEL_4_INPUT_WIRING_ID": [
+   4179
+  ],
+  "RESERVED_1320_CHANNEL_4_CURRENT_DIRECTION": [
+   4180
+  ],
+  "RESERVED_1320_CHANNEL_4_INPUT_CT_TYPE": [
+   4181
+  ],
+  "RESERVED_1320_CHANNEL_4_INPUT_CT_PRIMARY": [
+   4182
+  ],
+  "REACTIVE_POWER_CALCULATION_METHOD": [
+   4183
+  ],
+  "PF_CONVENTION": [
+   4184
+  ],
+  "RESERVED_1320_DEMAND_ALGORITHM": [
+   4185
+  ],
+  "RESERVED_1320_DEMAND_INTERVAL": [
+   4186
+  ],
+  "RESERVED_1320_DEMAND_UPDATE_INTERVAL": [
+   4187
+  ],
+  "RESERVED_1320_MAXDEMAND_CLEAR_MODE": [
+   4188
+  ],
+  "RESERVED_1320_MAXDEMAND_CLEAR_DATE_SETTING": [
+   4189
+  ],
+  "RESERVED_1320_MAXDEMAND_CLEAR_TOTAL_COUNT": [
+   4191
+  ],
+  "RESERVED_1320_TIMESTAMP_OF_THE_MOST_RECENT_MAXDEMAND_CLEAR": [
+   4192
+  ],
+  "PHASE_ORDER": [
+   4195
+  ],
+  "ENERGY_READING_DISPLAY_FORMAT": [
+   4196
+  ],
+  "ENERGY_CALCULATION_METHOD": [
+   4197
+  ],
+  "ENERGY_PULSE_CONSTANT": [
+   4198
+  ],
+  "PULSE_WIDTH": [
+   4200
+  ],
+  "LED_PULSE_CONSTANT": [
+   4201
+  ],
+  "CLEAR_ENERGY": [
+   4400
+  ],
+  "RESERVED_1320_CLEAR_MAX_DEMAND": [
+   4401
+  ],
+  "RESERVED_1320_CLEAR_MAXDEMAND_CLEARCOUNT_AND_TIMESTAMP": [
+   4402
+  ],
+  "RESERVED_1320_CLEAR_MAX_MIN": [
+   4403
+  ],
+  "CLEAR_DEVICE_RUN_TIME": [
+   4404
+  ],
+  "CLEAR_LOAD_TIME": [
+   4405
+  ],
+  "FACTORY_RESET": [
+   4406
+  ],
+  "RESERVED_1320_NETWORK_RESET": [
+   4407
+  ],
+  "RESERVED_1320_CLEAR_SOE_LOG": [
+   4408
+  ],
+  "RESERVED_1320_CLEAR_ALARM_LOG": [
+   4409
+  ],
+  "RESERVED_1320_CLEAR_PQ_EVENT_LOG": [
+   4410
+  ],
+  "RESERVED_1320_CLEAR_WAVEFORM": [
+   4411
+  ],
+  "RESERVED_1320_CLEAR_DATA_LOG1": [
+   4412
+  ],
+  "RESERVED_1320_CLEAR_DATA_LOG2": [
+   4413
+  ],
+  "RESERVED_1320_CLEAR_DATA_LOG3": [
+   4414
+  ],
+  "RESERVED_1320_CLEAR_TREND_LOG": [
+   4415
+  ],
+  "RESERVED_1320_CLEAR_DI_COUNT": [
+   4416
+  ],
+  "RESERVED_1320_CLEAR_YEAR_10_HOLIDAY_NUMBER_SETTING": [
+   4417
+  ],
+  "RESERVED_1320_RESTORE_TOU_FACTORY_SETTING": [
+   4418
+  ],
+  "RESERVED_1320_CLEAR_TOU_ENERGY": [
+   4419
+  ],
+  "RESERVED_1320_CLEAR_TOU_MAX_DEMAND": [
+   4420
+  ],
+  "RESERVED_1320_CLEAR_DUAL_SOURCE_ENERGY": [
+   4421
+  ],
+  "RESERVED_1320_CLEAR_DUAL_SOURCE_ENERGY_SWITCHING_RECORD": [
+   4422
+  ],
+  "DEVICE_REBOOT": [
+   4423
+  ],
+  "COMMUNICATION_RESET": [
+   4424
+  ],
+  "WIRE_CHECK_SWITCH": [
+   12288
+  ],
+  "WIRE_CHECK_STATUS": [
+   12289
+  ],
+  "PHASE_VOLTAGE_ERROR_CODE": [
+   12290
+  ],
+  "PHASE_CURRENT_ERROR_CODE": [
+   12291
+  ],
+  "PHASE_A_LINE_TO_NEUTRAL": [
+   12292
+  ],
+  "PHASE_A_LINE_TO_NEUTRAL_VOLTAGE_PHASE_ANGLE": [
+   12294
+  ],
+  "PHASE_B_LINE_TO_NEUTRAL": [
+   12296
+  ],
+  "PHASE_B_LINE_TO_NEUTRAL_VOLTAGE_PHASE_ANGLE": [
+   12298
+  ],
+  "PHASE_C_LINE_TO_NEUTRAL": [
+   12300
+  ],
+  "PHASE_C_LINE_TO_NEUTRAL_VOLTAGE_PHASE_ANGLE": [
+   12302
+  ],
+  "VOLTAGE_PHASE_ORDER": [
+   12304
+  ],
+  "PHASE_A_CURRENT": [
+   12306,
+   36978
+  ],
+  "PHASE_A_CURRENT_ANGLE": [
+   12308
+  ],
+  "PHASE_B_CURRENT": [
+   12310,
+   36980
+  ],
+  "PHASE_B_CURRENT_ANGLE": [
+   12312
+  ],
+  "PHASE_C_CURRENT": [
+   12314,
+   36982
+  ],
+  "PHASE_C_CURRENT_ANGLE": [
+   12316
+  ],
+  "RESERVED_1320_HS_PARAM_UPDATE_TIME_STAMP": [
+   36944
+  ],
+  "SYSTEM_FREQUENCY": [
+   36948
+  ],
+  "PHASE_A_LINE_TO_NEUTRAL_VOLTAGE": [
+   36950
+  ],
+  "PHASE_B_LINE_TO_NEUTRAL_VOLTAGE": [
+   36952
+  ],
+  "PHASE_C_LINE_TO_NEUTRAL_VOLTAGE": [
+   36954
+  ],
+  "PHASE_A_VOLTAGE_PHASE_ANGLE": [
+   36956
+  ],
+  "PHASE_B_VOLTAGE_PHASE_ANGLE": [
+   36958
+  ],
+  "PHASE_C_VOLTAGE_PHASE_ANGLE": [
+   36960
+  ],
+  "AVERAGE_LINE_TO_NEUTRAL_VOLTAGE": [
+   36962
+  ],
+  "PHASE_AB_LINE_TO_LINE_VOLTAGE": [
+   36964
+  ],
+  "PHASE_BC_LINE_TO_LINE_VOLTAGE": [
+   36966
+  ],
+  "PHASE_CA_LINE_TO_LINE_VOLTAGE": [
+   36968
+  ],
+  "PHASE_AB_LINE_TO_LINE_VOLTAGE_PHASE_ANGLE": [
+   36970
+  ],
+  "PHASE_BC_LINE_TO_LINE_VOLTAGE_PHASE_ANGLE": [
+   36972
+  ],
+  "PHASE_CA_LINE_TO_LINE_VOLTAGE_PHASE_ANGLE": [
+   36974
+  ],
+  "AVERAGE_LINE_TO_LINE_VOLTAGE": [
+   36976
+  ],
+  "RESERVED_1320_NEUTRAL_CURRENT": [
+   36984
+  ],
+  "PHASE_A_CURRENT_PHASE_ANGLE": [
+   36986
+  ],
+  "PHASE_B_CURRENT_PHASE_ANGLE": [
+   36988
+  ],
+  "PHASE_C_CURRENT_PHASE_ANGLE": [
+   36990
+  ],
+  "RESERVED_1320_NEUTRAL_CURRENT_PHASE_ANGLE": [
+   36992
+  ],
+  "AVERAGE_CURRENT": [
+   36994
+  ],
+  "PHASE_A_ACTIVE_POWER": [
+   36996
+  ],
+  "PHASE_B_ACTIVE_POWER": [
+   36998
+  ],
+  "PHASE_C_ACTIVE_POWER": [
+   37000
+  ],
+  "SYSTEM_ACTIVE_POWER": [
+   37002
+  ],
+  "PHASE_A_REACTIVE_POWER": [
+   37004
+  ],
+  "PHASE_B_REACTIVE_POWER": [
+   37006
+  ],
+  "PHASE_C_REACTIVE_POWER": [
+   37008
+  ],
+  "SYSTEM_REACTIVE_POWER": [
+   37010
+  ],
+  "PHASE_A_APPARENT_POWER": [
+   37012
+  ],
+  "PHASE_B_APPARENT_POWER": [
+   37014
+  ],
+  "PHASE_C_APPARENT_POWER": [
+   37016
+  ],
+  "SYSTEM_APPARENT_POWER": [
+   37018
+  ],
+  "PHASE_A_POWER_FACTOR": [
+   37020
+  ],
+  "PHASE_B_POWER_FACTOR": [
+   37022
+  ],
+  "PHASE_C_POWER_FACTOR": [
+   37024
+  ],
+  "SYSTEM_POWER_FACTOR": [
+   37026
+  ],
+  "PHASE_A_ACTIVE_ENERGY_IMPORT": [
+   18944
+  ],
+  "PHASE_B_ACTIVE_ENERGY_IMPORT": [
+   18946
+  ],
+  "PHASE_C_ACTIVE_ENERGY_IMPORT": [
+   18948
+  ],
+  "SYSTEM_ACTIVE_ENERGY_IMPORT": [
+   18950
+  ],
+  "PHASE_A_ACTIVE_ENERGY_EXPORT": [
+   18952
+  ],
+  "PHASE_B_ACTIVE_ENERGY_EXPORT": [
+   18954
+  ],
+  "PHASE_C_ACTIVE_ENERGY_EXPORT": [
+   18956
+  ],
+  "SYSTEM_ACTIVE_ENERGY_EXPORT": [
+   18958
+  ],
+  "PHASE_A_ACTIVE_ENERGY_TOTAL": [
+   18960
+  ],
+  "PHASE_B_ACTIVE_ENERGY_TOTAL": [
+   18962
+  ],
+  "PHASE_C_ACTIVE_ENERGY_TOTAL": [
+   18964
+  ],
+  "SYSTEM_ACTIVE_ENERGY_TOTAL": [
+   18966
+  ],
+  "PHASE_A_ACTIVE_ENERGY_NET": [
+   18968
+  ],
+  "PHASE_B_ACTIVE_ENERGY_NET": [
+   18970
+  ],
+  "PHASE_C_ACTIVE_ENERGY_NET": [
+   18972
+  ],
+  "SYSTEM_ACTIVE_ENERGY_NET": [
+   18974
+  ],
+  "PHASE_A_REACTIVE_ENERGY_IMPORT": [
+   18976
+  ],
+  "PHASE_B_REACTIVE_ENERGY_IMPORT": [
+   18978
+  ],
+  "PHASE_C_REACTIVE_ENERGY_IMPORT": [
+   18980
+  ],
+  "SYSTEM_REACTIVE_ENERGY_IMPORT": [
+   18982
+  ],
+  "PHASE_A_REACTIVE_ENERGY_EXPORT": [
+   18984
+  ],
+  "PHASE_B_REACTIVE_ENERGY_EXPORT": [
+   18986
+  ],
+  "PHASE_C_REACTIVE_ENERGY_EXPORT": [
+   18988
+  ],
+  "SYSTEM_REACTIVE_ENERGY_EXPORT": [
+   18990
+  ],
+  "PHASE_A_REACTIVE_ENERGY_TOTAL": [
+   18992
+  ],
+  "PHASE_B_REACTIVE_ENERGY_TOTAL": [
+   18994
+  ],
+  "PHASE_C_REACTIVE_ENERGY_TOTAL": [
+   18996
+  ],
+  "SYSTEM_REACTIVE_ENERGY_TOTAL": [
+   18998
+  ],
+  "PHASE_A_REACTIVE_ENERGY_NET": [
+   19000
+  ],
+  "PHASE_B_REACTIVE_ENERGY_NET": [
+   19002
+  ],
+  "PHASE_C_REACTIVE_ENERGY_NET": [
+   19004
+  ],
+  "SYSTEM_REACTIVE_ENERGY_NET": [
+   19006
+  ],
+  "PHASE_A_APPARENT_ENERGY_TOTAL": [
+   19008
+  ],
+  "PHASE_B_APPARENT_ENERGY_TOTAL": [
+   19010
+  ],
+  "PHASE_C_APPARENT_ENERGY_TOTAL": [
+   19012
+  ],
+  "SYSTEM_APPARENT_ENERGY_TOTAL": [
+   19014
+  ],
+  "FACTORY_CALIBRATION_CMD": [
+   8192
+  ],
+  "FACTORY_CALIBRATION_RESULT": [
+   8193
+  ],
+  "IS_CALIBRATING": [
+   8194
+  ],
+  "SAMPLING_FREQUENCY": [
+   8208
+  ],
+  "PHASE_A_COEFF_OF_VRMS": [
+   8210
+  ],
+  "PHASE_A_COEFF_OF_IRMS": [
+   8212
+  ],
+  "PHASE_A_COEFF_OF_ACTIVE_POWER": [
+   8214
+  ],
+  "PHASE_A_COEFF_OF_REACTIVE_POWER": [
+   8216
+  ],
+  "PHASE_A_COEFF_OF_APPARENT_POWER": [
+   8218
+  ],
+  "PHASE_B_COEFF_OF_VRMS": [
+   8220
+  ],
+  "PHASE_B_COEFF_OF_IRMS": [
+   8222
+  ],
+  "PHASE_B_COEFF_OF_ACTIVE_POWER": [
+   8224
+  ],
+  "PHASE_B_COEFF_OF_REACTIVE_POWER": [
+   8226
+  ],
+  "PHASE_B_COEFF_OF_APPARENT_POWER": [
+   8228
+  ],
+  "PHASE_C_COEFF_OF_VRMS": [
+   8230
+  ],
+  "PHASE_C_COEFF_OF_IRMS": [
+   8232
+  ],
+  "PHASE_C_COEFF_OF_ACTIVE_POWER": [
+   8234
+  ],
+  "PHASE_C_COEFF_OF_REACTIVE_POWER": [
+   8236
+  ],
+  "PHASE_C_COEFF_OF_APPARENT_POWER": [
+   8238
+  ],
+  "COEFF_OF_NEUTRAL_IRMS": [
+   8240
+  ],
+  "PHASE_A_DEGREE_0": [
+   8242
+  ],
+  "PHASE_A_DEGREE_1": [
+   8244
+  ],
+  "PHASE_B_DEGREE_0": [
+   8246
+  ],
+  "PHASE_B_DEGREE_1": [
+   8248
+  ],
+  "PHASE_C_DEGREE_0": [
+   8250
+  ],
+  "PHASE_C_DEGREE_1": [
+   8252
+  ],
+  "PHASE_A_GAIN_0": [
+   8254
+  ],
+  "PHASE_A_GAIN_1": [
+   8256
+  ],
+  "PHASE_B_GAIN_0": [
+   8258
+  ],
+  "PHASE_B_GAIN_1": [
+   8260
+  ],
+  "PHASE_C_GAIN_0": [
+   8262
+  ],
+  "PHASE_C_GAIN_1": [
+   8264
+  ],
+  "SDADGCR": [
+   8266
+  ]
+ },
+ "sheets": {
+  "Information": 20,
+  "Basic Setting": 101,
+  "Wiring Check": 17,
+  "Real Time": 41,
+  "Energy": 36,
+  "Calibration": 33
+ }
+}

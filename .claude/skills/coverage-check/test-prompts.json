@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "prompt": "对 knowledge/gateway/AcuRev4100WEB2/testcase/接线检查_测试用例_WEB2_v1.xlsx 做用例查漏复核，原始需求为 knowledge/gateway/AcuRev4100WEB2/requirements/summaries/wiring_check_v1.00_20260519.md，模式：用例",
+    "expected": "两层评测：① 确定性自检层(内联解析，🔴确定性红线命中直接打回) ② 派 binary-eval-judge 盲评判官按关联context分批逐题判定+举证，红线优先、低置信3判官投票；主线程按公式算维度加权分+红线verdict+门槛(≥90/70/<70)；报告含 未校准声明 + 维度分表 + 逐题结果 + 🔴/🟡/🟢 三档漏点(每条定位+题号+建议)；设备泛称按🔴报；判官只读不改产物；不生成/不改任何文件",
+    "mode": "full_test + judge + baseline"
+  },
+  {
+    "id": 2,
+    "prompt": "帮我查一下接线检查这份用例有没有漏（不提供需求文档路径）",
+    "expected": "输入三项缺失 → 按 if-then 表向调用方索要缺失项，拿不到则终止并列出缺什么，不臆测继续查漏",
+    "mode": "full_test（异常输入场景）"
+  }
+]

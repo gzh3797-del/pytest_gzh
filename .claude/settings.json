@@ -8,7 +8,23 @@
     }
   },
   "enabledPlugins": {
-    "testcase-design@accuenergy-testing-tools": true,
-    "strategy-design@accuenergy-testing-tools": true
+    "testcase-design@accuenergy-testing-tools": false,
+    "strategy-design@accuenergy-testing-tools": false
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Task|Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/ui_selector_sink_reminder.py\"",
+            "shell": "bash",
+            "timeout": 15,
+            "statusMessage": "检查是否需要沉淀 UI 选择器…"
+          }
+        ]
+      }
+    ]
   }
 }

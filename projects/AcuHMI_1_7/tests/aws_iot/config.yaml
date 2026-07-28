@@ -1,8 +1,8 @@
 gateway:
-  url: https://192.168.2.8
+  url: https://192.168.3.71
   username: admin
-  password: Admin@110002
-  device_name: PX-EMD-G
+  password: Admin@080066
+  device_name: AcuHMI-1-7
 aws_iot:
   url: apbmxreennh9b-ats.iot.cn-northwest-1.amazonaws.com.cn
   client_id: AHI260110002
@@ -14,44 +14,76 @@ aws_iot:
   sub_key_file: tests/aws_iot/certs/a01fc88bfb456f3b9e5e8edeed55882ed5fffaa196e25199b0bd36fe39137530-private.pem.key
   ca_file: tests/aws_iot/certs/AmazonRootCA1.pem
   expected_devices:
-  - AcuRev1300
-  - AcuvimIIR
-  - AcuRev4100a
-  - AcuRev4100
+  - pxm350
+  - Acurev1234100
+  - AcuRev2100
   - AcuvimIIW
-  - virtual_003
-  - virtual_device_003
-  - virtual_device01
-  interval_test_device: AcuRev4100
-  virtual_device: virtual_device01
+  - Acurev4100242
+  - Acurev41002179
+  - VD_Param001
+  - VD_Unit001
+  - VD_DelParam
+  - VD_Param001
+  - VD_Test001
+  - VD_SN001
+  - VD_MaxParam
+  - VD_DelParam
+  - VD_DelParam
+  - test_VirtualDevice_020_885045
+  - VD_Param001
+  - test_VirtualDevice_020_933735
+  - VD_Param001
+  - VD_Param001
+  - test_VirtualDevice_020_884752
+  - VD_DelParam
+  - VD_Param001
+  - VD_Test001
+  - VD_DelParam
+  - VD_DelParam
+  - VD_Param001
+  - VD_Keep001
+  - VD_Test001
+  - VD_SN002
+  - VD_Unit001
+  - VD_Param001
+  - VD_DelParam
+  - VD_Test001
+  - VD_MaxParam
+  - VD_Param001
+  - VD_SN003
+  interval_test_device: Acurev4100242
+  virtual_device: VD_Param001
   tolerance_pct: 5.0
   tolerance_abs: 1.0
 modbus:
-  alias_map:
-    PXB: AcuRev4100
-    AcuRev4100b: AcuRev4100
-    PXE1: AcuvimIIR
-    PXE2: AcuvimIIW
-    PXM350: AcuRev1300
+  alias_map: {}
   tcp:
     devices:
-      AcuRev4100:
-        ip: 192.168.2.30
-        port: 502
-        unit: 102
-      AcuRev4100a:
+      Acurev1234100:
         ip: 192.168.2.29
         port: 502
-        unit: 203
+        unit: 103
+      AcuRev2100:
+        ip: 192.168.2.64
+        port: 502
+        unit: 101
       AcuvimIIW:
         ip: 192.168.2.27
         port: 502
         unit: 2
-      AcuvimIIR:
-        ip: 192.168.2.8
+      Acurev4100242:
+        ip: 192.168.2.242
         port: 502
-        unit: 103
-      AcuRev1300:
-        ip: 192.168.2.8
+        unit: 23
+      Acurev41002179:
+        ip: 192.168.2.179
         port: 502
-        unit: 102
+        unit: 1
+      Acucim3:
+        ip: 192.168.2.32
+        port: 502
+        unit: 1
+      pxm350:
+        ip: ''
+        port: 0
+        unit: 2

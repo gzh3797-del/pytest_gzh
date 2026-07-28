@@ -86,6 +86,45 @@ def set_shared_page(page: object) -> None:
     _shared_page = page
 
 
+# ── 设备自发现（复用本项目 physical_devices_reader，同项目内、不跨项目依赖）──────────
+_discovered_devices: object = None   # 缓存：list=发现结果，None=未成功→回退旧逻辑
+_discovery_attempted: bool = False
+
+
+def _discover_devices():
+    """基于已登录的共享 page 自发现网关下挂 Modbus 设备（含 name/template/ip/port/unit）。
+
+    复用 projects/AcuHMI_1_7/helpers/physical_devices_reader（本项目内，非跨项目）。
+    session 内只发现一次并缓存；page 未注入或发现失败时返回 None → 调用方回退旧逻辑
+    （mib_mapping 选名 + devices.yaml 连接）。
+
+    注意：该 reader 以 projects.AcuHMI_1_7.settings.HMI_URL 作网关基址，运行时需保证
+    HMI_URL 指向所测网关（与本 session 登录的是同一台，与 parameter_settings 一致）。
+    """
+    global _discovered_devices, _discovery_attempted
+    if _discovery_attempted:
+        return _discovered_devices
+    _discovery_attempted = True
+    page = _shared_page
+    if page is None:
+        return None
+    try:
+        import sys as _sys
+        from pathlib import Path as _Path
+        _root = str(_Path(__file__).resolve().parents[4])  # → 仓库根 autotest
+        if _root not in _sys.path:
+            _sys.path.insert(0, _root)
+        from projects.AcuHMI_1_7.helpers.physical_devices_reader import discover_modbus_devices
+        devs = discover_modbus_devices(page)
+    except Exception as exc:  # noqa: BLE001  发现失败回退旧逻辑，不阻断用例
+        log.warning("[SNMP] 设备自发现失败，回退 mib_mapping/devices.yaml：%s", exc)
+        return None
+    log.info("[SNMP] 自发现 %d 台下挂设备：%s", len(devs),
+             [(d.name, d.template, d.transport, d.online) for d in devs])
+    _discovered_devices = devs
+    return devs
+
+
 def _get_tolerance(name: str, typ: str, ref: float = 0.0) -> float:
     """Per-category tolerance for SNMP vs Modbus comparison.
 
@@ -516,6 +555,24 @@ class SNMPDataBase:
         匹配规则：精确匹配优先（nav_ok=True：Physical Devices 名 == DEVICE_REGISTRY name），
         回退前缀匹配（nav_ok=False：SNMP 页面拼接名如 "AcuRev1300PXM350Modbus RTU" 以 "AcuRev1300" 开头）。
         """
+        # 优先「设备自发现」：选名侧(snmp_names)与连接侧(registered)均以网关自发现为唯一
+        # 事实源，按型号(template，转小写兜底 Acuvim3/AcuVIM3)匹配——避免 mib_mapping 与
+        # 写死 devices.yaml 不对应导致的漏比/跳过；仅当该型号真的未接入网关时才 skip。
+        mt = model_type.lower()
+        devs = _discover_devices()
+        if devs is not None:
+            matched = [d for d in devs if (d.template or "").lower() == mt]
+            if not matched:
+                pytest.skip(f"{model_type} 未在网关自发现到实例（下挂设备中无此型号）")
+            snmp_names = [d.name for d in matched]
+            registered = [
+                {"name": d.name, "modbus_host": d.ip, "modbus_port": d.port,
+                 "modbus_unit": d.unit, "model_type": model_type}
+                for d in matched if d.transport == "tcp"
+            ]
+            return snmp_names, registered
+
+        # 回退（自发现不可用）：mib_mapping 选名 + devices.yaml 连接（原逻辑）
         mapping = load_mapping()
         snmp_names = [name for name, info in mapping.items()
                       if info.get("model_type") == model_type]

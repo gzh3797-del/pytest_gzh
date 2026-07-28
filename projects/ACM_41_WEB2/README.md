@@ -2,7 +2,7 @@
 
 AcuRev-4100-WEB2 网关模块测试脚本目录。
 
-算法规格：`knowledge/gateway/web2/requirements/summaries/wiring_check_v1.05.md`
+算法规格：`knowledge/gateway/AcuRev4100WEB2/requirements/summaries/wiring_check_v1.05.md`
 
 ---
 
@@ -208,7 +208,7 @@ python test_case/ACM_41_WEB2/Wiring_check/test_2e3w_delta.py V-05-REG V-06-REG
 
 ## 相关知识库
 
-- 算法规格摘要（v1.05）：`knowledge/gateway/web2/requirements/summaries/wiring_check_v1.05.md`
+- 算法规格摘要（v1.05）：`knowledge/gateway/AcuRev4100WEB2/requirements/summaries/wiring_check_v1.05.md`
 - 算法规格原件：`test_case/ACM_41_WEB2/wiring_check/core/接线检测总表_ver1.05.xlsx`
-- 用例摘要：`knowledge/gateway/web2/testcase/wiring_check_v1.md`
-- 项目 context：`knowledge/gateway/web2/context.md`
+- 用例摘要：`knowledge/gateway/AcuRev4100WEB2/testcase/wiring_check_v1.md`
+- 项目 context：`knowledge/gateway/AcuRev4100WEB2/context.md`

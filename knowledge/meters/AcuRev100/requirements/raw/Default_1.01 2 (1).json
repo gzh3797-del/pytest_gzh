@@ -1,0 +1,2872 @@
+{
+	"Select_Tree": {
+		"Setting_Tree": {
+			"Sequence": [
+				"General",
+				"Communication",				
+				"Current & Wiring",
+				"Device Information"
+			]
+		},
+		"Reading_Tree": {
+			"Sequence": [
+				"Real-Time Metering",
+				"Energy",
+				"Wiring Check",
+				"System Status"
+			]
+		},
+    	"Important_Page": {
+    	  "List": [
+    	    "Device Information"
+    	  ]
+    	}
+	},
+	"Device_Information": {
+		"Page_Detail": {
+			"template": "SETTING_DISPLAY_TEMPLATE",
+			"width": 1244,
+			"height": 500,
+			"datalogEnabled": false
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 61440,
+				"regNum": 6,
+				"readCmd": 3
+			},
+			"2": {
+				"startAddr": 61456,
+				"regNum": 8,
+				"readCmd": 3
+			},
+			"3": {
+				"startAddr": 61504,
+				"regNum": 49,
+				"readCmd": 3
+			},
+			"4": {
+				"startAddr": 4160,
+				"regNum": 1,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"Device_Info_Setting": [
+				"SERIAL_NUMBER",
+				"HARDWARE_VERSION",
+				"Hardware_Patch_Number",
+				"FIRMWARE_VERSION",
+				"Firmware_Version_Splic",
+				"Function_Model_Type",
+				"Current_Input_Type",
+				"Power_Supply_Type",
+				"MODEL_INITIAL",
+				"Bootloader_Version",
+				"Bootloader_Version_Splic",
+				"Certification_Type"
+			],
+			"System_Status_Reading": [
+				"Seal_Status"
+			]
+		},
+		"Device_Info_Table": {
+			"widgetType": "readLabelTable",
+			"basicAttribute": {
+				"text": "Device Information",
+				"x": 30,
+				"y": 20,
+				"width": 480,
+				"height": 400,
+				"row": 7,
+				"column": 2,
+				"saveTitle": "Device Information"
+			},
+			"level": 0
+		},
+		"Serial_Number_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Serial Number"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 2,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Serial_Number_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "SERIAL_NUMBER"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 2,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Firmware_Version_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Firmware Version"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 5,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Firmware_Version_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Firmware_Version_Splic"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 5,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Hardware_Version_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Hardware Version"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 4,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Hardware_Version_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "HARDWARE_VERSION"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 4,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Function_Model_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Model"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 1,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Function_Model_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Function_Model_Type"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 1,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Current_Type_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Current Input"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 3,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Current_Type_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Current_Input_Type"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 3,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Bootloader_Version_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Bootloader Version"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 6,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Bootloader_Version_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Bootloader_Version_Splic"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 6,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Manufacture_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Manufacturer"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 7,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Manufacture_Value_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Accuenergy (Canada) Inc.",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "Device_Info_Table",
+				"rowIndex": 7,
+				"colIndex": 1
+			},
+			"level": 1
+		}
+	},
+	"Communication": {
+		"Page_Detail": {
+			"template": "SETTING_TEMPLATE",
+			"width": 1244,
+			"height": 300,
+			"datalogEnabled": false
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 4097,
+				"regNum": 22,
+				"readCmd": 3
+			},
+			"2": {
+				"startAddr": 4160,
+				"regNum": 1,
+				"readCmd": 3
+			},
+			"3": {
+				"startAddr": 4135,
+				"regNum": 2,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"Communication_Setting": [
+				"Baud_Rate",
+				"Parity",
+				"Baud_Rate_USB",
+				"Parity_USB",
+				"Modbus_Slave_ID"
+			],
+			"System_Status_Reading": [
+				"Seal_Status"
+			]
+		},
+		"RS485_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "RS485",
+				"x": 30,
+				"y": 16,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"RS485_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 10,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"RS485_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 56,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"RS485_Baud_Rate_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Baud Rate",
+				"x": 40,
+				"y": 60,
+				"width": 120,
+				"height": 30
+			},
+			"level": 1
+		},
+		"RS485_Baud_Rate_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 205,
+				"y": 60,
+				"width": 130,
+				"height": 30,
+				"data": "Baud_Rate"
+			},
+			"level": 1
+		},
+		"RS485_Parity_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Parity",
+				"x": 640,
+				"y": 60,
+				"width": 100,
+				"height": 30
+			},
+			"level": 1
+		},
+		"RS485_Parity_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 775,
+				"y": 60,
+				"width": 130,
+				"height": 30,
+				"data": "Parity"
+			},
+			"level": 1
+		},
+		"USB_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "USB",
+				"x": 30,
+				"y": 106,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"USB_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 100,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"USB_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 146,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"USB_Baud_Rate_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Baud Rate",
+				"x": 40,
+				"y": 150,
+				"width": 120,
+				"height": 30
+			},
+			"level": 1
+		},
+		"USB_Baud_Rate_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 205,
+				"y": 150,
+				"width": 130,
+				"height": 30,
+				"data": "Baud_Rate_USB"
+			},
+			"level": 1
+		},
+		"USB_Parity_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Parity",
+				"x": 640,
+				"y": 150,
+				"width": 100,
+				"height": 30
+			},
+			"level": 1
+		},
+		"USB_Parity_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 775,
+				"y": 150,
+				"width": 130,
+				"height": 30,
+				"data": "Parity_USB"
+			},
+			"level": 1
+		},
+		"Modbus_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Modbus",
+				"x": 30,
+				"y": 196,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Modbus_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 190,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Modbus_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 236,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"Modbus_Slave_ID_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Modbus Slave ID",
+				"x": 40,
+				"y": 240,
+				"width": 150,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Modbus_Slave_ID_Value_Spin": {
+			"widgetType": "spinBox",
+			"basicAttribute": {
+				"x": 205,
+				"y": 240,
+				"width": 130,
+				"height": 30,
+				"data": "Modbus_Slave_ID"
+			},
+			"level": 1
+		}
+	},
+	"General": {
+		"Page_Detail": {
+			"template": "SETTING_TEMPLATE",
+			"width": 1244,
+			"height": 460,
+			"datalogEnabled": false
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 4096,
+				"regNum": 1,
+				"readCmd": 3
+			},
+			"2": {
+				"startAddr": 4160,
+				"regNum": 2,
+				"readCmd": 3
+			},
+			"3": {
+				"startAddr": 4183,
+				"regNum": 2,
+				"readCmd": 3
+			},
+			"4": {
+				"startAddr": 4195,
+				"regNum": 7,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"General_Setting": [
+				"Password",
+				"Frequency_Selection",
+				"Reactive_Power_Calculation_Method",
+				"PF_Convention",
+				"Phase_Order",
+				"Energy_Reading_Display_Format",
+				"Energy_Calculation_Method",
+				"Energy_Pulse_Constant",
+				"Pulse_LED_Width",
+				"Energy_LED_Constant"
+			],
+			"System_Status_Reading": [
+				"Seal_Status"
+			]
+		},
+		"Basic_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Basic",
+				"x": 30,
+				"y": 16,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Basic_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 10,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Basic_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 56,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"Password_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Password",
+				"x": 40,
+				"y": 60,
+				"width": 100,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Password_Value_Edit": {
+			"widgetType": "lineEdit",
+			"basicAttribute": {
+				"x": 155,
+				"y": 60,
+				"width": 130,
+				"height": 30,
+				"data": "Password"
+			},
+			"level": 1
+		},
+		"Nominal_Frequency_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Nominal Frequency (Hz)",
+				"x": 400,
+				"y": 60,
+				"width": 190,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Nominal_Frequency_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 605,
+				"y": 60,
+				"width": 130,
+				"height": 30,
+				"data": "Frequency_Selection"
+			},
+			"level": 1
+		},
+		"Phase_Order_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Phase Order",
+				"x": 800,
+				"y": 60,
+				"width": 110,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Phase_Order_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 925,
+				"y": 60,
+				"width": 130,
+				"height": 30,
+				"data": "Phase_Order"
+			},
+			"level": 1
+		},
+		"Advanced_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Advanced",
+				"x": 30,
+				"y": 106,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Advanced_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 100,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Advanced_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 146,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"PF_Convention_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "VAR/PF Convention",
+				"x": 40,
+				"y": 150,
+				"width": 155,
+				"height": 30
+			},
+			"level": 1
+		},
+		"PF_Convention_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 210,
+				"y": 150,
+				"width": 130,
+				"height": 30,
+				"data": "PF_Convention"
+			},
+			"level": 1
+		},
+		"Energy_Calculation_Method_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Energy Calculation Method",
+				"x": 400,
+				"y": 150,
+				"width": 210,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Energy_Calculation_Method_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 625,
+				"y": 150,
+				"width": 130,
+				"height": 30,
+				"data": "Energy_Calculation_Method"
+			},
+			"level": 1
+		},
+		"Reactive_Power_Calculation_Method_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Reactive Power Calculation Method",
+				"x": 810,
+				"y": 150,
+				"width": 220,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Reactive_Power_Calculation_Method_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 1045,
+				"y": 150,
+				"width": 130,
+				"height": 30,
+				"data": "Reactive_Power_Calculation_Method"
+			},
+			"level": 1
+		},
+		"Energy_Pulse_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Energy Pulse",
+				"x": 30,
+				"y": 196,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Energy_Pulse_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 190,
+				"width": 1186,
+				"height": 160,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Energy_Pulse_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 236,
+				"width": 1174,
+				"height": 108,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"Energy_Pulse_Constant_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Energy Pulse Constant\n(imp/kWh,kvarh or kVAh)",
+				"x": 40,
+				"y": 243,
+				"width": 200,
+				"height": 50
+			},
+			"level": 1
+		},
+		"Energy_Pulse_Constant_Value_Edit": {
+			"widgetType": "lineEdit",
+			"basicAttribute": {
+				"x": 255,
+				"y": 253,
+				"width": 130,
+				"height": 30,
+				"data": "Energy_Pulse_Constant"
+			},
+			"level": 1
+		},
+		"Pulse_LED_Width_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "LED Pulse Width(ms)",
+				"x": 40,
+				"y": 306,
+				"width": 160,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Pulse_LED_Width_Value_Spin": {
+			"widgetType": "spinBox",
+			"basicAttribute": {
+				"x": 215,
+				"y": 306,
+				"width": 110,
+				"height": 30,
+				"data": "Pulse_LED_Width"
+			},
+			"level": 1
+		},
+		"Energy_LED_Constant_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Energy LED constant\n(imp/kWh,kvarh or kVAh)",
+				"x": 390,
+				"y": 300,
+				"width": 210,
+				"height": 50
+			},
+			"level": 1
+		},
+		"Energy_LED_Constant_Value_Edit": {
+			"widgetType": "lineEdit",
+			"basicAttribute": {
+				"x": 615,
+				"y": 310,
+				"width": 130,
+				"height": 30,
+				"data": "Energy_LED_Constant"
+			},
+			"level": 1
+		},
+		"Display_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Display",
+				"x": 30,
+				"y": 356,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Display_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 350,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Display_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 396,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"Energy_Reading_Display_Format_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Energy Reading Display Format",
+				"x": 40,
+				"y": 400,
+				"width": 230,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Energy_Reading_Display_Format_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 285,
+				"y": 400,
+				"width": 130,
+				"height": 30,
+				"data": "Energy_Reading_Display_Format"
+			},
+			"level": 1
+		}
+	},
+	"Real_Time_Metering": {
+		"Page_Detail": {
+			"template": "READING_TABLE_TEMPLATE",
+			"width": 1244,
+			"height": 1160,
+			"datalogEnabled": true
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 36948,
+				"regNum": 80,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"Real_Time_Reading": [
+				"PA_READ_ALL",
+				"System_Frequency",
+				"Phase_A_Line_To_Neutral_Voltage",
+				"Phase_B_Line_To_Neutral_Voltage",
+				"Phase_C_Line_To_Neutral_Voltage",
+				"Phase_A_Voltage_Phase_Angle",
+				"Phase_B_Voltage_Phase_Angle",
+				"Phase_C_Voltage_Phase_Angle",
+				"Average_Line_To_Neutral_Voltage",
+				"Phase_AB_Line_To_Line_Voltage",
+				"Phase_BC_Line_To_Line_Voltage",
+				"Phase_CA_Line_To_Line_Voltage",
+				"Phase_AB_Line_To_Line_Voltage_Phase_Angle",
+				"Phase_BC_Line_To_Line_Voltage_Phase_Angle",
+				"Phase_CA_Line_To_Line_Voltage_Phase_Angle",
+				"Average_Line_To_Line_Voltage",
+				"Phase_A_Current",
+				"Phase_B_Current",
+				"Phase_C_Current",
+				"Phase_A_Current_Phase_Angle",
+				"Phase_B_Current_Phase_Angle",
+				"Phase_C_Current_Phase_Angle",
+				"Average_Current",
+				"Phase_A_Active_Power",
+				"Phase_B_Active_Power",
+				"Phase_C_Active_Power",
+				"System_Active_Power",
+				"Phase_A_Reactive_Power",
+				"Phase_B_Reactive_Power",
+				"Phase_C_Reactive_Power",
+				"System_Reactive_Power",
+				"Phase_A_Apparent_Power",
+				"Phase_B_Apparent_Power",
+				"Phase_C_Apparent_Power",
+				"System_Apparent_Power",
+				"Phase_A_Power_Factor",
+				"Phase_B_Power_Factor",
+				"Phase_C_Power_Factor",
+				"System_Power_Factor"
+			]
+		},
+		"System_Table_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "System",
+				"x": 30,
+				"y": 20,
+				"width": 160,
+				"height": 30
+			},
+			"level": 0
+		},
+		"System_Table": {
+			"widgetType": "readItemTable",
+			"basicAttribute": {
+				"horizontalHeader": [
+					"Parameter",
+					"Phase A",
+					"Phase B",
+					"Phase C",
+					"Average",
+					"System"
+				],
+				"verticalHeader": [
+					"Line-to-Neutral Voltage (V)",
+					"Line-to-Line Voltage (V)",
+					"Current (A)",
+					"Line-to-Neutral Voltage Phase Angle (°)",
+					"Line-to-Line Voltage Phase Angle (°)",
+					"Current Phase Angle (°)",
+					"Active Power (kW)",
+					"Reactive Power (kvar)",
+					"Apparent Power (kVA)",
+					"Power Factor",
+					"Frequency (Hz)"
+				],
+				"verticalHeader_Delta": true,
+				"x": 30,
+				"y": 60,
+				"width": 1000,
+				"height": 450,
+				"row": 11,
+				"column": 5,
+				"saveTitle": "System"
+			},
+			"additionAttribute": {
+				"columnWidth": [
+					323,
+					135,
+					135,
+					135,
+					135,
+					135
+				]
+			},
+			"level": 0
+		},
+		"Phase_Angle_Polar_Chart": {
+			"widgetType": "phaseCfgPolarChart",
+			"basicAttribute": {
+				"text": "Phase Angles",
+				"data": "PA_READ_ALL",
+				"angularMin": 0,
+				"angularMax": 360,
+				"radialMin": 0,
+				"radialMax": 30,
+				"x": 30,
+				"y": 520,
+				"width": 900,
+				"height": 620,
+				"isDefaultUaNeeded": true
+			},
+			"level": 0
+		},
+		"Phase_A_Line_To_Neutral_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Line_To_Neutral_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 1,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Line_To_Neutral_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Line_To_Neutral_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 1,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Line_To_Neutral_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Line_To_Neutral_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 1,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Line_To_Neutral_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Average_Line_To_Neutral_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 1,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Line_To_Neutral_Voltage_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 1,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_AB_Line_To_Line_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_AB_Line_To_Line_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 2,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_BC_Line_To_Line_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_BC_Line_To_Line_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 2,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_CA_Line_To_Line_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_CA_Line_To_Line_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 2,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Line_To_Line_Voltage_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Average_Line_To_Line_Voltage"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 2,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Line_To_Line_Voltage_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 2,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Current_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Current"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 3,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Current_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Current"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 3,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Current_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Current"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 3,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Current_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Average_Current"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 3,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Current_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 3,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Voltage_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Voltage_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 4,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Voltage_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Voltage_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 4,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Voltage_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Voltage_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 4,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Voltage_Phase_Angle_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 4,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Voltage_Phase_Angle_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 4,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_AB_Line_To_Line_Voltage_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_AB_Line_To_Line_Voltage_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 5,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_BC_Line_To_Line_Voltage_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_BC_Line_To_Line_Voltage_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 5,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_CA_Line_To_Line_Voltage_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_CA_Line_To_Line_Voltage_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 5,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Line_To_Line_Voltage_Phase_Angle_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 5,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Line_To_Line_Voltage_Phase_Angle_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 5,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Current_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Current_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 6,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Current_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Current_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 6,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Current_Phase_Angle_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Current_Phase_Angle"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 6,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Current_Phase_Angle_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 6,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Current_Phase_Angle_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 6,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Active_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Active_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 7,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Active_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Active_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 7,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Active_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Active_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 7,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Active_Power_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 7,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Active_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Active_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 7,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Reactive_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Reactive_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 8,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Reactive_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Reactive_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 8,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Reactive_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Reactive_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 8,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Reactive_Power_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 8,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Reactive_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Reactive_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 8,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Apparent_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Apparent_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 9,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Apparent_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Apparent_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 9,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Apparent_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Apparent_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 9,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Apparent_Power_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 9,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Apparent_Power_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Apparent_Power"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 9,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Power_Factor_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Power_Factor"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 10,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Power_Factor_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Power_Factor"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 10,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Power_Factor_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Power_Factor"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 10,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Power_Factor_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 10,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Power_Factor_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Power_Factor"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 10,
+				"colIndex": 5
+			},
+			"level": 1
+		},
+		"Phase_A_Frequency_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 11,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Frequency_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 11,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Frequency_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 11,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"Average_Frequency_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "-",
+				"style": "normal"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 11,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"System_Frequency_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Frequency"
+			},
+			"additionAttribute": {
+				"parent": "System_Table",
+				"rowIndex": 11,
+				"colIndex": 5
+			},
+			"level": 1
+		}
+	},
+	"Energy": {
+		"Page_Detail": {
+			"template": "READING_TABLE_TEMPLATE",
+			"width": 1244,
+			"height": 960,
+			"datalogEnabled": true
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 18944,
+				"regNum": 72,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"Energy_Reading": [
+				"Phase_A_Active_Energy_Import",
+				"Phase_B_Active_Energy_Import",
+				"Phase_C_Active_Energy_Import",
+				"System_Active_Energy_Import",
+				"Phase_A_Active_Energy_Export",
+				"Phase_B_Active_Energy_Export",
+				"Phase_C_Active_Energy_Export",
+				"System_Active_Energy_Export",
+				"Phase_A_Active_Energy_Total",
+				"Phase_B_Active_Energy_Total",
+				"Phase_C_Active_Energy_Total",
+				"System_Active_Energy_Total",
+				"Phase_A_Active_Energy_Net",
+				"Phase_B_Active_Energy_Net",
+				"Phase_C_Active_Energy_Net",
+				"System_Active_Energy_Net",
+				"Phase_A_Reactive_Energy_Import",
+				"Phase_B_Reactive_Energy_Import",
+				"Phase_C_Reactive_Energy_Import",
+				"System_Reactive_Energy_Import",
+				"Phase_A_Reactive_Energy_Export",
+				"Phase_B_Reactive_Energy_Export",
+				"Phase_C_Reactive_Energy_Export",
+				"System_Reactive_Energy_Export",
+				"Phase_A_Reactive_Energy_Total",
+				"Phase_B_Reactive_Energy_Total",
+				"Phase_C_Reactive_Energy_Total",
+				"System_Reactive_Energy_Total",
+				"Phase_A_Reactive_Energy_Net",
+				"Phase_B_Reactive_Energy_Net",
+				"Phase_C_Reactive_Energy_Net",
+				"System_Reactive_Energy_Net",
+				"Phase_A_Apparent_Energy_Total",
+				"Phase_B_Apparent_Energy_Total",
+				"Phase_C_Apparent_Energy_Total",
+				"System_Apparent_Energy_Total"
+			],
+			"General_Setting": [
+				"Energy_Clear"
+			]
+		},
+		"Energy_Clear_Button": {
+			"widgetType": "clearButton",
+			"basicAttribute": {
+				"text": "Clear Energy",
+				"x": 750,
+				"y": 23,
+				"width": 140,
+				"height": 25,
+				"data": "Energy_Clear",
+				"message": "Are you sure you want to clear energy?"
+			},
+			"level": 1
+		},
+		"Real_Time_Table_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "System",
+				"x": 30,
+				"y": 20,
+				"width": 160,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Real_Time_Table": {
+			"widgetType": "readItemTable",
+			"basicAttribute": {
+				"horizontalHeader": [
+					"Parameter",
+					"Phase A",
+					"Phase B",
+					"Phase C",
+					"System"
+				],
+				"verticalHeader": [
+					"Import Active Energy (kWh)",
+					"Export Active Energy (kWh)",
+					"Total Active Energy (kWh)",
+					"Net Active Energy (kWh)",
+					"Import Reactive Energy (kvarh)",
+					"Export Reactive Energy (kvarh)",
+					"Total Reactive Energy (kvarh)",
+					"Net Reactive Energy (kvarh)",
+					"Apparent Energy (kVAh)"
+				],
+				"x": 30,
+				"y": 60,
+				"width": 860,
+				"height": 360,
+				"row": 9,
+				"column": 4,
+				"saveTitle": "System"
+			},
+			"additionAttribute": {
+				"columnWidth": [
+					298,
+					140,
+					140,
+					140,
+					140
+				]
+			},
+			"level": 0
+		},
+		"Phase_A_Active_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Active_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 1,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Active_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Active_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 1,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Active_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Active_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 1,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Active_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Active_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 1,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Active_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Active_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 2,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Active_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Active_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 2,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Active_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Active_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 2,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Active_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Active_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 2,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Active_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Active_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 3,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Active_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Active_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 3,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Active_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Active_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 3,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Active_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Active_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 3,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Active_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Active_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 4,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Active_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Active_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 4,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Active_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Active_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 4,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Active_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Active_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 4,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Reactive_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Reactive_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 5,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Reactive_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Reactive_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 5,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Reactive_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Reactive_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 5,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Reactive_Energy_Import_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Reactive_Energy_Import"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 5,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Reactive_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Reactive_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 6,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Reactive_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Reactive_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 6,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Reactive_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Reactive_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 6,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Reactive_Energy_Export_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Reactive_Energy_Export"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 6,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Reactive_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Reactive_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 7,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Reactive_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Reactive_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 7,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Reactive_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Reactive_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 7,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Reactive_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Reactive_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 7,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Reactive_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Reactive_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 8,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Reactive_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Reactive_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 8,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Reactive_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Reactive_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 8,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Reactive_Energy_Net_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Reactive_Energy_Net"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 8,
+				"colIndex": 4
+			},
+			"level": 1
+		},
+		"Phase_A_Apparent_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_A_Apparent_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 9,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Phase_B_Apparent_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_B_Apparent_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 9,
+				"colIndex": 2
+			},
+			"level": 1
+		},
+		"Phase_C_Apparent_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Phase_C_Apparent_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 9,
+				"colIndex": 3
+			},
+			"level": 1
+		},
+		"System_Apparent_Energy_Total_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "System_Apparent_Energy_Total"
+			},
+			"additionAttribute": {
+				"parent": "Real_Time_Table",
+				"rowIndex": 9,
+				"colIndex": 4
+			},
+			"level": 1
+		}
+	},
+	"Current_Wire": {
+		"Page_Detail": {
+			"template": "SETTING_TABLE_TEMPLATE",
+			"width": 1244,
+			"height": 380,
+			"datalogEnabled": false
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 4162,
+				"regNum": 1,
+				"readCmd": 3
+			},
+			"2": {
+				"startAddr": 4167,
+				"regNum": 12,
+				"readCmd": 3
+			},
+			"3": {
+				"startAddr": 4160,
+				"regNum": 1,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"Current_Wire": [
+				"Service_Configuration",
+				"Channel_A_Input_Wiring_ID",
+				"Channel_A_Direction",
+				"Channel_A_CT_Type",
+				"Channel_A_CT_Primary",
+				"Channel_B_Input_Wiring_ID",
+				"Channel_B_Direction",
+				"Channel_B_CT_Type",
+				"Channel_B_CT_Primary",
+				"Channel_C_Input_Wiring_ID",
+				"Channel_C_Direction",
+				"Channel_C_CT_Type",
+				"Channel_C_CT_Primary"
+			],
+			"System_Status_Reading": [
+				"Seal_Status"
+			]
+		},
+		"Wiring_Config_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Wiring Configuration",
+				"x": 30,
+				"y": 16,
+				"width": 250,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Wiring_Config_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 10,
+				"width": 1186,
+				"height": 90,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Wiring_Config_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 56,
+				"width": 1174,
+				"height": 38,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"Wiring_Config_Service_Name_Label": {
+			"widgetType": "nameLabel",
+			"basicAttribute": {
+				"text": "Service Configuration",
+				"x": 40,
+				"y": 60,
+				"width": 160,
+				"height": 30
+			},
+			"level": 1
+		},
+		"Wiring_Config_Service_Value_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 210,
+				"y": 60,
+				"width": 200,
+				"height": 30,
+				"data": "Service_Configuration"
+			},
+			"level": 1
+		},
+		"Current_Input_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Current Input",
+				"x": 30,
+				"y": 126,
+				"width": 150,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Current_Input_Outer_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 24,
+				"y": 120,
+				"width": 1186,
+				"height": 240,
+				"isOuter": true
+			},
+			"level": 0
+		},
+		"Current_Input_Background_Label": {
+			"widgetType": "backgroundLabel",
+			"basicAttribute": {
+				"x": 30,
+				"y": 166,
+				"width": 1174,
+				"height": 188,
+				"isOuter": false
+			},
+			"level": 0
+		},
+		"Current_Input_Table": {
+			"widgetType": "settingItemTable",
+			"basicAttribute": {
+				"horizontalHeader": [
+					"Logic Channel",
+					"Input Channel",
+					"CT Type",
+					"Primary(A)",
+					"Direction"
+				],
+				"verticalHeader": [
+					"#A",
+					"#B",
+					"#C"
+				],
+				"x": 30,
+				"y": 170,
+				"width": 660,
+				"height": 169,
+				"row": 3,
+				"column": 4
+			},
+			"additionAttribute": {
+				"columnWidth": [
+					98,
+					140,
+					140,
+					140,
+					140
+				]
+			},
+			"level": 0
+		},
+		"Channel_A_Input_Wiring_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 149,
+				"y": 220,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_A_Input_Wiring_ID"
+			},
+			"level": 1
+		},
+		"Channel_A_CT_Type_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 289,
+				"y": 220,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_A_CT_Type"
+			},
+			"level": 1
+		},
+		"Channel_A_CT_Primary_LineEdit": {
+			"widgetType": "lineEdit",
+			"basicAttribute": {
+				"x": 430,
+				"y": 220,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_A_CT_Primary"
+			},
+			"level": 1
+		},
+		"Channel_A_Direction_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 570,
+				"y": 220,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_A_Direction"
+			},
+			"level": 1
+		},
+		"Channel_B_Input_Wiring_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 149,
+				"y": 263,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_B_Input_Wiring_ID"
+			},
+			"level": 1
+		},
+		"Channel_B_CT_Type_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 289,
+				"y": 263,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_B_CT_Type"
+			},
+			"level": 1
+		},
+		"Channel_B_CT_Primary_LineEdit": {
+			"widgetType": "lineEdit",
+			"basicAttribute": {
+				"x": 430,
+				"y": 263,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_B_CT_Primary"
+			},
+			"level": 1
+		},
+		"Channel_B_Direction_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 570,
+				"y": 263,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_B_Direction"
+			},
+			"level": 1
+		},
+		"Channel_C_Input_Wiring_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 149,
+				"y": 306,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_C_Input_Wiring_ID"
+			},
+			"level": 1
+		},
+		"Channel_C_CT_Type_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 289,
+				"y": 306,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_C_CT_Type"
+			},
+			"level": 1
+		},
+		"Channel_C_CT_Primary_LineEdit": {
+			"widgetType": "lineEdit",
+			"basicAttribute": {
+				"x": 430,
+				"y": 306,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_C_CT_Primary"
+			},
+			"level": 1
+		},
+		"Channel_C_Direction_Combo": {
+			"widgetType": "comboBox",
+			"basicAttribute": {
+				"x": 570,
+				"y": 306,
+				"width": 100,
+				"height": 30,
+				"data": "Channel_C_Direction"
+			},
+			"level": 1
+		}
+	},
+	"System_Status": {
+		"Page_Detail": {
+			"template": "READING_LABEL_TEMPLATE",
+			"width": 1244,
+			"height": 721,
+			"datalogEnabled": false
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 4121,
+				"regNum": 4,
+				"readCmd": 3
+			},
+			"2": {
+				"startAddr": 4127,
+				"regNum": 7,
+				"readCmd": 3
+			},
+			"3": {
+				"startAddr": 4160,
+				"regNum": 1,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"System_Status_Reading": [
+				"Meter_Time",
+				"Seal_Status",
+				"Device_Runtime",
+				"Device_Load_Time",
+				"Device_Runtime_Clear",
+				"Device_Loadtime_Clear",
+				"Factory_Reset",
+				"Communication_Reset",
+				"Meter_Reboot"
+			]
+		},
+		"Network_Reset_Function_Button": {
+			"widgetType": "functionButton",
+			"basicAttribute": {
+				"x": 150,
+				"y": 4,
+				"width": 160,
+				"height": 28,
+				"data": "Communication_Reset",
+				"type": 8,
+				"message": "Are you sure you want to reset Communication?"
+			},
+			"additionAttribute": {
+				"text": "Communication_Reset",
+				"loadingMsg": "Resetting...",
+				"successMsg": "Reset Successfully!",
+				"failedMsg": "Reset Failed!"
+			},
+			"level": 0
+		},
+		"Factory_Reset_Function_Button": {
+			"widgetType": "functionButton",
+			"basicAttribute": {
+				"x": 320,
+				"y": 4,
+				"width": 160,
+				"height": 28,
+				"data": "Factory_Reset",
+				"type": 8,
+				"message": "Are you sure you want to do factory reset?"
+			},
+			"additionAttribute": {
+				"text": "Factory Reset   ",
+				"loadingMsg": "Resetting...",
+				"successMsg": "Reset Successfully!",
+				"failedMsg": "Reset Failed!"
+			},
+			"level": 0
+		},
+		"Meter_Reboot_Function_Button": {
+			"widgetType": "functionButton",
+			"basicAttribute": {
+				"x": 490,
+				"y": 4,
+				"width": 160,
+				"height": 28,
+				"data": "Meter_Reboot",
+				"type": 8,
+				"message": "Are you sure you want to reboot meter?"
+			},
+			"additionAttribute": {
+				"text": "Reboot Meter   ",
+				"loadingMsg": "Rebooting...",
+				"successMsg": "Reboot Successfully!",
+				"failedMsg": "Reboot Failed!"
+			},
+			"level": 0
+		},
+		"Meter_Time_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Meter Time",
+				"x": 30,
+				"y": 20,
+				"width": 300,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Time_Status_Component": {
+			"widgetType": "timeStatusComponent",
+			"basicAttribute": {
+				"x": 30,
+				"y": 60,
+				"width": 640,
+				"height": 350,
+				"data": "Meter_Time"
+			},
+			"level": 0
+		},
+		"System_Status_Table": {
+			"widgetType": "readLabelTable",
+			"basicAttribute": {
+				"text": "System Status",
+				"x": 30,
+				"y": 380,
+				"width": 624,
+				"height": 180,
+				"row": 3,
+				"column": 3,
+				"saveTitle": "System Status"
+			},
+			"additionAttribute": {
+				"columnWidth": [
+					150,
+					322,
+					150
+				]
+			},
+			"level": 0
+		},
+		"Run_Time_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Device Run Time"
+			},
+			"additionAttribute": {
+				"parent": "System_Status_Table",
+				"rowIndex": 1,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Run_Time_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Device_Runtime"
+			},
+			"additionAttribute": {
+				"parent": "System_Status_Table",
+				"rowIndex": 1,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Run_Time_Clear_Button": {
+			"widgetType": "clearButton",
+			"basicAttribute": {
+				"text": "Clear",
+				"x": 526,
+				"y": 432,
+				"width": 100,
+				"height": 30,
+				"data": "Device_Runtime_Clear",
+				"message": "Are you sure you want to clear Device Run Time?"
+			},
+			"level": 1
+		},
+		"Load_Time_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Device Load Time"
+			},
+			"additionAttribute": {
+				"parent": "System_Status_Table",
+				"rowIndex": 2,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Load_Time_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Device_Load_Time"
+			},
+			"additionAttribute": {
+				"parent": "System_Status_Table",
+				"rowIndex": 2,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Seal_Status_Name_Label": {
+			"widgetType": "readNameLabel",
+			"basicAttribute": {
+				"text": "Seal Status"
+			},
+			"additionAttribute": {
+				"parent": "System_Status_Table",
+				"rowIndex": 3,
+				"colIndex": 0
+			},
+			"level": 1
+		},
+		"Seal_Status_Value_Label": {
+			"widgetType": "readValueLabel",
+			"basicAttribute": {
+				"data": "Seal_Status"
+			},
+			"additionAttribute": {
+				"parent": "System_Status_Table",
+				"rowIndex": 3,
+				"colIndex": 1
+			},
+			"level": 1
+		},
+		"Load_Time_Clear_Button": {
+			"widgetType": "clearButton",
+			"basicAttribute": {
+				"text": "Clear",
+				"x": 526,
+				"y": 480,
+				"width": 100,
+				"height": 30,
+				"data": "Device_Loadtime_Clear",
+				"message": "Are you sure you want to clear Device Load Time?"
+			},
+			"level": 1
+		}
+	},
+	"Wire_Check": {
+		"Page_Detail": {
+			"template": "READING_LABEL_TEMPLATE",
+			"width": 1244,
+			"height": 700,
+			"datalogEnabled": false
+		},
+		"Read_Sequence": {
+			"1": {
+				"startAddr": 12288,
+				"regNum": 4,
+				"readCmd": 3
+			},
+			"2": {
+				"startAddr": 12292,
+				"regNum": 26,
+				"readCmd": 3
+			}
+		},
+		"Read_List": {
+			"Wire_Check": [
+				"Wire_Check_Switch",
+				"Phase_Voltage_Error_Code",
+				"Phase_Current_Error_Code",
+				"Wire_Phase_A_Voltage",
+				"Wire_Phase_A_Voltage_Angle",
+				"Wire_Phase_B_Voltage",
+				"Wire_Phase_B_Voltage_Angle",
+				"Wire_Phase_C_Voltage",
+				"Wire_Phase_C_Voltage_Angle",
+				"Wire_Phase_Order",
+				"Wire_Phase_A_Current",
+				"Wire_Phase_A_Current_Angle",
+				"Wire_Phase_B_Current",
+				"Wire_Phase_B_Current_Angle",
+				"Wire_Phase_C_Current",
+				"Wire_Phase_C_Current_Angle"
+			]
+		},
+		"Wiring_Check_Title_Label": {
+			"widgetType": "titleLabelComponent",
+			"basicAttribute": {
+				"text": "Wiring Check",
+				"x": 30,
+				"y": 20,
+				"width": 300,
+				"height": 30
+			},
+			"level": 0
+		},
+		"Wire_Check_Switch_Button": {
+			"widgetType": "switchButton",
+			"basicAttribute": {
+				"x": 30,
+				"y": 60,
+				"width": 60,
+				"height": 26,
+				"data": "Wire_Check_Switch",
+				"hasOnOffText": true
+			},
+			"level": 1
+		},
+		"Wire_Check_Component": {
+			"widgetType": "customwirecheckcomponent",
+			"basicAttribute": {
+				"x": 30,
+				"y": 110,
+				"width": 1112,
+				"height": 620,
+				"currentTableType": "phase3"
+			},
+			"level": 1
+		}
+	}
+}

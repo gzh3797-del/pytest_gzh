@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "prompt": "/read-modbus-table knowledge/shared/modbus_tables/raw/RPP Modbus Address Table v1.00 20260617.xlsx",
+    "expected": "第一步先列出全部 sheet 名称并逐一确认哪些含可读寄存器（团队约定第7条）；逐 sheet 提取参数的地址(Hex/Dec)、数据类型、FC、scale；Block 列解析出功能码；输出结构化表格",
+    "mode": "full_test + baseline"
+  },
+  {
+    "id": 2,
+    "prompt": "AcuRev-1320 这个地址表里电压参数的 scale 是多少？",
+    "expected": "自行定位 knowledge/shared/modbus_tables/raw/ 下的 1320 Modbus 表；仍先列全部 sheet 再定位电压参数；给出 scale 及其出处（sheet 名+行），不凭记忆作答",
+    "mode": "full_test"
+  }
+]

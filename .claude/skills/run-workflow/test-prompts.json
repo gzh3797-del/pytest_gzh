@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "prompt": "/run-workflow 用例设计 项目：AcuRev-4100-WEB2 需求文档：knowledge/gateway/AcuRev4100WEB2/requirements/summaries/ACM-41-WEB2_Sprint2变更需求.md",
+    "expected": "重新读取 workflow.yaml 而非凭记忆；入口校验输入物齐备，缺失则 STOP 停在门口；先建 runs 运行档案再干活；回显启动确认行；到 gate 处显性 CHECKPOINT/STOP 等人工审核，不自动越门",
+    "mode": "dry_run（推演到第一个 gate 即止，不真实产出全链产物）"
+  },
+  {
+    "id": 2,
+    "prompt": "从 S3 继续上次的用例设计工作流",
+    "expected": "定位 runs/ 下对应运行档案；校验 S1-S2 产物仍存在且未损坏，缺失则报告而非硬跑；从 S3 恢复执行并按段更新档案状态",
+    "mode": "dry_run"
+  },
+  {
+    "id": 3,
+    "prompt": "/run-workflow 回归测试 项目：RPP",
+    "expected": "登记表中不存在「回归测试」工作流 → 不臆测流程，列出 README 登记表中的可用工作流让用户选择",
+    "mode": "full_test（边界场景，无需真实产物即可实测）"
+  }
+]

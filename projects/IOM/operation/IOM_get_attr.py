@@ -107,7 +107,7 @@ def get_all_ai_y_measurements(modbus_client: ModbusRtuOrTcp, slave_id=modbus_con
     ret = {}
     try:
         # 读取多个寄存器
-        energy: list = modbus_client.read_measurement(address=0x3700, count=32, slave=slave_id)
+        energy: list = modbus_client.read_measurement(address=0x3700, count=32, device_id=slave_id)
         measurement_value_list = convert_energy_registers(energy)
         # 合并两个列表为字典
         for key, value in zip(measurement_key_list, measurement_value_list):
@@ -128,7 +128,7 @@ def get_single_ai_y_measurement(ai_number, modbus_client: ModbusRtuOrTcp, slave_
     # 生成AI1-AI16对应16个寄存器地址的键值对:{1:0x3500,2:0x3502,3:0x3504,,,,,,}
     measurement_map = {i: 0x3700 + 2 * (i - 1) for i in range(1, 17)}
     try:
-        registers = modbus_client.read_measurement(address=measurement_map[ai_number], count=2, slave=slave_id)
+        registers = modbus_client.read_measurement(address=measurement_map[ai_number], count=2, device_id=slave_id)
         measurement_value = convert_energy_registers(registers)
         return measurement_value[0]
     except Exception as e:

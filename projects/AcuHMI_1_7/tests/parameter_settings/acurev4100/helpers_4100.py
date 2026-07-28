@@ -35,16 +35,14 @@ from _src_event_waveform import (  # noqa: F401
 
 logging.getLogger("pymodbus").setLevel(logging.DEBUG)
 
-# ── 设备配置 ────────────────────────────────────────────────────────
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[5]))
-import projects.AcuHMI_1_7.settings as _s
-
-DEVICE_NAME = "AcuRev4100"
-MODBUS_HOST = _s.METER_TCP_IP
-MODBUS_PORT = _s.METER_TCP_PORT
-SLAVE_ID    = _s.MODBUS_SLAVE
+# ── 设备配置：由 conftest.py 的 _bind_acurev4100_device（autouse，会话级）
+# 在测试开始前通过网关 API 动态发现当前在线的 AcuRev4100 设备后写入真实值，
+# 替代原来从 config.yaml device_modbus 段静态解析——避免物理设备切换/离线后
+# 仍连着一个旧地址。以下仅为占位默认值，实际连接前会被覆盖。
+DEVICE_NAME = ""
+MODBUS_HOST = ""
+MODBUS_PORT = 502
+SLAVE_ID    = 1
 
 # ── 寄存器地址（Basic Setting 表）──────────────────────────────────
 REG_PASSWORD        = 4096   # 0x1000  Password (0000-9999，必须 4 位)

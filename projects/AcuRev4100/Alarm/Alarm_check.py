@@ -67,7 +67,7 @@ class Alarm_log():
         number_of_alarm_log = self.client.read_measurement(
             address=number_of_alarm_log_start,
             count=reg,
-            slave=1
+            device_id=1
         )
         number_of_alarm_log = analysis_message_to_value(number_of_alarm_log, datatype)
         print(f'Alarm Log 当前的数量为{number_of_alarm_log}')
@@ -83,7 +83,7 @@ class Alarm_log():
         ret = self.client.write_registers(
             address=first_index_start,
             values=first_index_bytelist,
-            slave=1
+            device_id=1
         )
         target_ret = f'({first_index_start},{first_index_reg})'
         if target_ret not in str(ret):
@@ -98,7 +98,7 @@ class Alarm_log():
         ret = self.client.write_registers(
             address=read_num_start,
             values=read_num_bytelist,
-            slave=1
+            device_id=1
         )
         target_ret = f'({read_num_start},{read_num_reg})'
         if target_ret not in str(ret):
@@ -117,7 +117,7 @@ class Alarm_log():
         alarm_log_state = self.client.read_measurement(
             address=alarm_log_state_start,
             count=reg,
-            slave=1
+            device_id=1
         )
         alarm_log_state = analysis_message_to_value(alarm_log_state, datatype)
         print(f'Alarm Log 当前的状态为{alarm_log_state}')
@@ -172,7 +172,7 @@ class Alarm_log():
             alarm_log_message = self.client.read_measurement(
                 address=alarm_log_start,
                 count=reg,
-                slave=1
+                device_id=1
             )
         except ValueError as e:
             print(f"alarm log数据读取失败: {e}")
@@ -194,7 +194,7 @@ class Alarm_log():
         alarm_status = self.client.read_measurement(
             address=alarm_status_start,
             count=alarm_status_reg,
-            slave=1
+            device_id=1
         )
         alarm_status = analysis_message_to_value(alarm_status, alarm_status_datatype)
         state_str = format(alarm_status, '20b')
@@ -214,7 +214,7 @@ class Alarm_log():
         ret = self.client.write_registers(
             address=clear_alarm_log_start,
             values=clear_alarm_log_bytelist,
-            slave=1
+            device_id=1
         )
         target_ret = f'({clear_alarm_log_start},{clear_alarm_log_reg})'
         if target_ret not in str(ret):

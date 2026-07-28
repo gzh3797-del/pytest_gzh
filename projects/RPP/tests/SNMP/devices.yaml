@@ -1,0 +1,31 @@
+devices:
+  Acurev4100229:
+    ip: 192.168.2.29
+    port: 502
+    unit: 203
+    model_type: AcuRev4100
+  Acurev4100242:
+    ip: 192.168.2.242
+    port: 502
+    unit: 23
+    model_type: AcuRev4100
+  Acurev41002179:
+    ip: 192.168.2.179
+    port: 502
+    unit: 1
+    model_type: AcuRev4100
+  AcuRev2100:
+    ip: 192.168.2.64
+    port: 502
+    unit: 101
+    model_type: AcuRev2100
+  AcuvimIIW:
+    ip: 192.168.2.27
+    port: 502
+    unit: 2
+    model_type: AcuvimIIW
+  Acuvim3:
+    ip: 192.168.2.32
+    port: 502
+    unit: 1
+    model_type: Acuvim3

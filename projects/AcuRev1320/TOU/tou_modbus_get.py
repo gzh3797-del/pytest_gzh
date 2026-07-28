@@ -65,7 +65,7 @@ class HandleMemory:
         address = MemoryAddr.enable_tou
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
 
         return measure_value[0]
 
@@ -77,7 +77,7 @@ class HandleMemory:
         address = MemoryAddr.dst_enable
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
 
         return measure_value[0]
 
@@ -89,7 +89,7 @@ class HandleMemory:
         address = MemoryAddr.enable_special_weekday_schedule
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
 
         return measure_value[0]
 
@@ -101,7 +101,7 @@ class HandleMemory:
         address = MemoryAddr.holiday_setting_enable
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
 
         return measure_value[0]
 
@@ -113,7 +113,7 @@ class HandleMemory:
         address = MemoryAddr.monthly_billing_mode
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
 
         return measure_value[0]
 
@@ -125,7 +125,7 @@ class HandleMemory:
         address = MemoryAddr.billing_time
         count = 4
         slave = self.slave_id
-        lst = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        lst = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         formatted = f"{lst[0]:02d} {lst[1]:02d}:{lst[2]:02d}:{lst[3]:02d}"
         return formatted
 
@@ -137,7 +137,7 @@ class HandleMemory:
         address = MemoryAddr.number_of_tariffs
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         return measure_value[0]
 
     def read_number_of_seasons(self):
@@ -148,7 +148,7 @@ class HandleMemory:
         address = MemoryAddr.number_of_seasons
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         return measure_value[0]
 
     def read_number_of_schedules(self):
@@ -159,7 +159,7 @@ class HandleMemory:
         address = MemoryAddr.number_of_schedules
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         return measure_value[0]
 
     def read_number_of_segments(self):
@@ -170,7 +170,7 @@ class HandleMemory:
         address = MemoryAddr.number_of_segments
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         return measure_value[0]
 
     def read_segment_1_setting(self):
@@ -181,7 +181,7 @@ class HandleMemory:
         address = MemoryAddr.segment_1_setting
         count = 3
         slave = self.slave_id
-        lst = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        lst = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         formatted = f"{lst[0]:02d}:{lst[1]:02d} {lst[2]:01d}"
         return lst, formatted
 
@@ -193,7 +193,7 @@ class HandleMemory:
         address = MemoryAddr.device_time
         count = MemoryReg.reg_uint16
         slave = self.slave_id
-        lst = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        lst = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         # formatted = f"{lst[0]:02d}_{lst[1]:02d}_{lst[2]:02d} {lst[3]:02d}:{lst[4]:02d}:{lst[5]:02d}"
         return lst
 
@@ -213,7 +213,7 @@ class HandleMemory:
         values = year, month, day, hour, minute, second
         slave = self.slave_id
         count = MemoryReg.reg_uint16
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_device_time fail, ret is:{ret}')
             return False

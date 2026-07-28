@@ -1,5 +1,20 @@
 # AcuRev-4100 — 多回路电表测试项目
 
+## 测试设计必读（固定结构速查区）
+
+> strategy-design / testcase-design / coverage-check 的「知识库提取表」以本区块为权威来源，正文为详情补充。正文变更涉及下列字段时必须同步更新本区块。
+
+| 字段 | 内容 |
+|------|------|
+| 设备清单 | 单设备项目：AcuRev-4100 本体（24 路电流输入、12 个用户通道、3 相电压）；通信扩展：ACM-41-WEB2（→ knowledge/gateway/AcuRev4100WEB2/context.md） |
+| 协议与端口 | Modbus TCP（≤4 并发客户端，端口非标准，见 config.py）；Modbus RTU（RS485，1200~115200）；BACnet MS/TP（与 Modbus RTU 共用 RS485，分时使用） |
+| 接线方式 | 5 种：1E2W / 2E3W 1Phase（12 用户）/ 2E3W Network（12）/ 3E4W Y（8，最常用）/ 2E3W Delta（12） |
+| 容量与边界 | DI×4（脉冲计数 ≤50Hz，v1.02 起由 100Hz 修订）；DO×8（能量脉冲/告警）；RO×2（Latch/Pulse）；AI/AO 0-20mA/0-10V；频率 42.5~69Hz；TOU 4 费率/12 季节/14 时刻表；电流输入 mV（333mV/RCT，0~400mV）或 mA（80/100mA，0~120mA） |
+| 共存/联动约束 | BACnet MS/TP 与 Modbus RTU 分时使用（同一 RS485 主口） |
+| 安全与默认状态 | 无专项（见需求摘要 v1.03） |
+| 高频缺陷模式 | → 详见 bugs/INDEX.md |
+| 测试环境要点 | 精度基准：电压/电流 0.1%、功率 0.2%、有功电能 IEC 62053-22 Class 0.2s（update 100ms）、谐波 1%（2~31 次，可选 2~63 次）、频率 0.002Hz |
+
 ## 产品背景
 
 AcuRev-4100 是导轨安装多回路电表，支持 24 路电流输入、12 个用户通道、3 相电压测量。面向北美/欧洲工业/商业多回路分表计量场景。通过通信扩展模块（ACM-41-WEB2）可接入网关测试体系。
@@ -74,4 +89,4 @@ AcuRev-4100 是导轨安装多回路电表，支持 24 路电流输入、12 个�
 
 ## 关联项目
 
-- **ACM-41-WEB2**：通信扩展模块，附加在本表本体，提供 BACnet/IP、Modbus TCP、MQTT 等北向协议 → `knowledge/gateway/web2/context.md`
+- **ACM-41-WEB2**：通信扩展模块，附加在本表本体，提供 BACnet/IP、Modbus TCP、MQTT 等北向协议 → `knowledge/gateway/AcuRev4100WEB2/context.md`

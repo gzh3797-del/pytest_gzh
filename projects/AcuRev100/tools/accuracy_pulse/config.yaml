@@ -1,0 +1,24 @@
+source:  {mode: serial, com: COM3, baud: 9600, host: 192.168.0.50, port: 2404}
+counter: {mode: usb, resource: auto, host: 192.168.1.100, port: 5024}
+meter:
+  # AcuRev-100 仅 RS-485 + USB Modbus RTU（无 TCP）；按现场改 com/slave
+  mode: rtu
+  com: COM5
+  baud: 19200
+  slave: 1
+  host: 192.168.1.10        # 保留占位；AcuRev-100 无 TCP，不使用
+  port: 502
+  # Energy 脉冲常数寄存器：AcuRev-100(RACG) 0x1066=4198（uint32，reg=实际×1000，范围 100~50000=0.1~50 imp/kWh）
+  pulse_constant: {register: 4198, dtype: uint32, word_order: big, scale: 1000}
+  wiring:
+    # 接线方式寄存器 Service Configuration：AcuRev-100(RACG) 0x1042=4162
+    register: 4162
+    dtype: uint16
+    # map 的 key 必须与测点 xlsx 的工作表名一致；AcuRev-100 仅三种接线：
+    #   0: ELEMENT_1_WIRE_2 (1E2W) / 1: ELEMENT_2_WIRE_3_PHASE_1 (2E3W1P, A+C) / 2: ELEMENT_3_WIRE_4_Y (3E4WY)
+    # 下列 key 为占位（按 AcuRev-100 测点表实际 sheet 名改）
+    map:
+      "1E2W_脉冲灯测点": 0
+      "2E3W1P_脉冲灯测点": 1
+      "3E4WY_脉冲灯测点": 2
+test: {settle_s: 3, n_periods: 10, freq: 50, pf_lagging: true}

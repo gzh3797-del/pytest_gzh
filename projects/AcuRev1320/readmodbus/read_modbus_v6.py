@@ -202,7 +202,7 @@ def read_registers_batched(client, addr, count):
         batch = min(BATCH_SIZE, count - offset)
         try:
             resp = client.read_holding_registers(
-                address=addr + offset, count=batch, slave=UNIT_ID)
+                address=addr + offset, count=batch, device_id=UNIT_ID)
         except Exception as e:
             return None, f"ConnErr batch@{addr+offset}({e})"
         if resp is None or resp.isError():
@@ -233,7 +233,7 @@ def read_row(client, addr, count, dtype, desc=""):
 
     try:
         resp = client.read_holding_registers(
-            address=addr, count=count, slave=UNIT_ID)
+            address=addr, count=count, device_id=UNIT_ID)
     except Exception as e:
         return f"ConnErr({e})", ""
     if resp is None or resp.isError():

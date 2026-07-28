@@ -199,7 +199,7 @@ class TestMQTT001Entry:
 
     @pytest.mark.lv0
     def test_001_navigate_via_menu(self, mqtt_page):
-        """通过 Settings → Communications → MQTT 进入配置页，URL 及 5 个 Tab 均正确"""
+        """TestCase_AcuHMI17_MQTT_001_001: 通过 Settings → Communications → MQTT 进入配置页，URL 及 5 个 Tab 均正确"""
         url = mqtt_page.driver.current_url
         assert "mqtt" in url.lower(), f"URL 不含 mqtt：{url}"
 
@@ -215,7 +215,7 @@ class TestMQTT001Entry:
 
     @pytest.mark.lv1
     def test_002_default_disable_state(self, mqtt_page):
-        """MQTT Enable 首次进入默认为 Disable，General 字段不可见/置灰"""
+        """TestCase_AcuHMI17_MQTT_001_002: MQTT Enable 首次进入默认为 Disable，General 字段不可见/置灰"""
         mqtt_page.navigate()
         mqtt_page._switch_tab("General")
         enabled = mqtt_page._is_enabled()
@@ -235,7 +235,7 @@ class TestMQTT001Entry:
 
     @pytest.mark.lv1
     def test_003_enable_disable_toggle(self, mqtt_page):
-        """MQTT Enable ↔ Disable 切换：Enable 后字段展开，Disable 后字段隐藏"""
+        """TestCase_AcuHMI17_MQTT_001_003: MQTT Enable ↔ Disable 切换：Enable 后字段展开，Disable 后字段隐藏"""
         mqtt_page._switch_tab("General")
         mqtt_page._set_enable(True)
         time.sleep(0.5)
@@ -295,7 +295,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_014_timeout_default_and_valid(self, mqtt_page):
-        """Timeout 默认 30，修改为 60 后回读正确"""
+        """TestCase_AcuHMI17_MQTT_002_014: Timeout 默认 30，修改为 60 后回读正确"""
         mqtt_page._switch_tab("General")
         default = mqtt_page._read_input_by_label("Timeout")
         assert default == "30", f"Timeout 默认值应为 30，实为 {default!r}"
@@ -309,7 +309,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv0
     def test_001_broker_address_valid_domain(self, mqtt_page):
-        """Broker Address 输入合法域名，Save 成功，刷新后回读正确"""
+        """TestCase_AcuHMI17_MQTT_002_001: Broker Address 输入合法域名，Save 成功，刷新后回读正确"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Broker Address", BROKER_ADDR)
         assert mqtt_page.save() is True, "合法域名应保存成功"
@@ -320,7 +320,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_002_broker_address_reject_ip(self, mqtt_page):
-        """Broker Address 输入 IP 地址时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_002: Broker Address 输入 IP 地址时阻止 Save"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Broker Address", "192.168.1.100")
         _assert_rejected(mqtt_page)
@@ -330,7 +330,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_003_broker_address_reject_empty(self, mqtt_page):
-        """Broker Address 为空时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_003: Broker Address 为空时阻止 Save"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Broker Address", "")
         _assert_rejected(mqtt_page)
@@ -339,7 +339,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_004_broker_address_reject_special(self, mqtt_page):
-        """Broker Address 输入纯空格/特殊字符/超长字符串时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_004: Broker Address 输入纯空格/特殊字符/超长字符串时阻止 Save"""
         mqtt_page._switch_tab("General")
         for bad_val in ["   ", "!!!@@@", "a" * 256]:
             mqtt_page._fill_by_label("Broker Address", bad_val)
@@ -353,7 +353,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_005_broker_port_default_and_valid(self, mqtt_page):
-        """Broker Port 设为 1883 及 8883 后保存回读正确"""
+        """TestCase_AcuHMI17_MQTT_002_005: Broker Port 设为 1883 及 8883 后保存回读正确"""
         mqtt_page._switch_tab("General")
         # 显式写入 1883，避免依赖设备当前值（可能被其他用例改动）
         mqtt_page._fill_by_label("Broker Port", "1883")
@@ -375,7 +375,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_006_broker_port_boundary_1(self, mqtt_page):
-        """Broker Port 边界值 1，Save 成功，回读为 1"""
+        """TestCase_AcuHMI17_MQTT_002_006: Broker Port 边界值 1，Save 成功，回读为 1"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Broker Port", "1")
         assert mqtt_page.save() is True
@@ -387,7 +387,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_007_broker_port_boundary_65535(self, mqtt_page):
-        """Broker Port 边界值 65535，Save 成功，回读为 65535"""
+        """TestCase_AcuHMI17_MQTT_002_007: Broker Port 边界值 65535，Save 成功，回读为 65535"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Broker Port", "65535")
         assert mqtt_page.save() is True
@@ -399,7 +399,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_008_broker_port_reject_invalid(self, mqtt_page):
-        """Broker Port 输入非数字时阻止 Save（0 和 65536 设备允许）"""
+        """TestCase_AcuHMI17_MQTT_002_008: Broker Port 输入非数字时阻止 Save（0 和 65536 设备允许）"""
         mqtt_page._switch_tab("General")
         try:
             for bad_val in ["abc"]:
@@ -415,7 +415,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_009_client_id_valid(self, mqtt_page):
-        """Client ID 合法值 Save 成功，刷新后回读正确"""
+        """TestCase_AcuHMI17_MQTT_002_009: Client ID 合法值 Save 成功，刷新后回读正确"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Client ID", BASE_CLIENT_ID)
         assert mqtt_page.save() is True
@@ -425,7 +425,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_010_client_id_reject_empty(self, mqtt_page):
-        """Client ID 为空时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_010: Client ID 为空时阻止 Save"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Client ID", "")
         _assert_rejected(mqtt_page)
@@ -434,7 +434,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_011_keep_alive_valid(self, mqtt_page):
-        """Keep Alive 合法值 60，Save 成功，回读正确"""
+        """TestCase_AcuHMI17_MQTT_002_011: Keep Alive 合法值 60，Save 成功，回读正确"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Keep Alive", "60")
         assert mqtt_page.save() is True
@@ -444,7 +444,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_012_keep_alive_reject_zero(self, mqtt_page):
-        """Keep Alive = 0 时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_012: Keep Alive = 0 时阻止 Save"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Keep Alive", "0")
         _assert_rejected(mqtt_page)
@@ -453,7 +453,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_013_keep_alive_reject_out_of_range(self, mqtt_page):
-        """Keep Alive 输入超上限或非数字时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_013: Keep Alive 输入超上限或非数字时阻止 Save"""
         mqtt_page._switch_tab("General")
         for bad_val in ["99999", "abc"]:
             mqtt_page._fill_by_label("Keep Alive", bad_val)
@@ -466,7 +466,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv2
     def test_015_timeout_reject_invalid(self, mqtt_page):
-        """Timeout 输入 0 / -1 / 非数字时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_002_015: Timeout 输入 0 / -1 / 非数字时阻止 Save"""
         mqtt_page._switch_tab("General")
         try:
             for bad_val in ["0", "-1", "abc"]:
@@ -481,7 +481,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_016_clean_session_yes(self, mqtt_page):
-        """Clean Session 选 Yes，Save 成功，回读为 Yes"""
+        """TestCase_AcuHMI17_MQTT_002_016: Clean Session 选 Yes，Save 成功，回读为 Yes"""
         mqtt_page._switch_tab("General")
         mqtt_page._set_toggle("Clean Session", True)
         assert mqtt_page.save() is True
@@ -498,7 +498,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_017_clean_session_no(self, mqtt_page):
-        """Clean Session 选 No，Save 成功，回读为 No"""
+        """TestCase_AcuHMI17_MQTT_002_017: Clean Session 选 No，Save 成功，回读为 No"""
         mqtt_page._switch_tab("General")
         mqtt_page._set_toggle("Clean Session", False)
         assert mqtt_page.save() is True
@@ -516,7 +516,7 @@ class TestMQTT002General:
 
     @pytest.mark.lv1
     def test_018_all_fields_valid_save_success(self, mqtt_page):
-        """General 所有字段合法，Save 成功，刷新后全部回读一致"""
+        """TestCase_AcuHMI17_MQTT_002_018: General 所有字段合法，Save 成功，刷新后全部回读一致"""
         _restore_base(mqtt_page)
         _reload(mqtt_page)
         cfg = mqtt_page.read_config()
@@ -548,14 +548,14 @@ class TestMQTT003Credential:
 
     @pytest.mark.lv1
     def test_001_anonymous_empty_credential(self, mqtt_page):
-        """Username / Password 均空，Save 成功（匿名连接）"""
+        """TestCase_AcuHMI17_MQTT_003_001: Username / Password 均空，Save 成功（匿名连接）"""
         mqtt_page._switch_tab("User Credential")
         mqtt_page._fill_by_label("Username", "")
         assert mqtt_page.save() is True, "空凭据应能保存（匿名连接）"
 
     @pytest.mark.lv1
     def test_002_valid_credential_save_readback(self, mqtt_page):
-        """填写合法 Username，Save 成功；刷新后 Username 明文回读，Password 显示掩码"""
+        """TestCase_AcuHMI17_MQTT_003_002: 填写合法 Username，Save 成功；刷新后 Username 明文回读，Password 显示掩码"""
         mqtt_page._switch_tab("User Credential")
         mqtt_page._fill_by_label("Username", "testuser")
         mqtt_page._fill_by_label("Password", "Test@123456")
@@ -590,7 +590,7 @@ class TestMQTT003Credential:
 
     @pytest.mark.lv3
     def test_003_password_mask_toggle(self, mqtt_page):
-        """Password 字段默认掩码；点击眼睛图标（若有）可切换明文"""
+        """TestCase_AcuHMI17_MQTT_003_003: Password 字段默认掩码；点击眼睛图标（若有）可切换明文"""
         mqtt_page._switch_tab("User Credential")
         pwd_field = mqtt_page.driver.find_elements(By.XPATH,
             "//div[contains(@class,'el-form-item')]"
@@ -615,7 +615,7 @@ class TestMQTT003Credential:
 
     @pytest.mark.lv3
     def test_004_username_special_chars(self, mqtt_page):
-        """Username 含 @ 符号等特殊字符，Save 成功，回读一致"""
+        """TestCase_AcuHMI17_MQTT_003_004: Username 含 @ 符号等特殊字符，Save 成功，回读一致"""
         mqtt_page._switch_tab("User Credential")
         special_name = "user@domain.com"
         mqtt_page._fill_by_label("Username", special_name)
@@ -669,7 +669,7 @@ class TestMQTT004SSL:
 
     @pytest.mark.lv1
     def test_001_ssl_default_disable_upload_area_locked(self, mqtt_page):
-        """Enable SSL 默认 Disable，CA/Cert/Key 上传区域不可操作"""
+        """TestCase_AcuHMI17_MQTT_004_001: Enable SSL 默认 Disable，CA/Cert/Key 上传区域不可操作"""
         mqtt_page._switch_tab("SSL/TLS")
         # 确保 Disable 状态
         mqtt_page._set_toggle("SSL", False)
@@ -682,7 +682,7 @@ class TestMQTT004SSL:
 
     @pytest.mark.lv1
     def test_002_ssl_enable_upload_area_active(self, mqtt_page):
-        """Enable SSL 后上传区域变为可用；切回 Disable 后恢复禁用"""
+        """TestCase_AcuHMI17_MQTT_004_002: Enable SSL 后上传区域变为可用；切回 Disable 后恢复禁用"""
         mqtt_page._switch_tab("SSL/TLS")
         mqtt_page._set_toggle("SSL", True)
         # 等待 Browse 按钮出现（v-if 渲染需要时间，最多等 3s）
@@ -707,7 +707,7 @@ class TestMQTT004SSL:
 
     @pytest.mark.lv3
     def test_003_ca_only_update_when_certs_exist(self, mqtt_page, ensure_certs):
-        """已有证书时仅上传 CA File 可保存成功（单文件更新）
+        """TestCase_AcuHMI17_MQTT_004_003: 已有证书时仅上传 CA File 可保存成功（单文件更新）
         产品规格：首次配置需同时提供 CA + Cert + Key（三字段非空校验）；
         证书一旦上传保存后持久保留，禁用 SSL 再重新启用亦不清除，
         后续可单独替换任意一个文件。本用例验证已有证书状态下仅更新 CA File 保存成功。
@@ -731,7 +731,7 @@ class TestMQTT004SSL:
 
     @pytest.mark.lv1
     def test_004_upload_cert_and_key_save_success(self, mqtt_page, ensure_certs):
-        """上传合法 Cert File 和 Key File，Save 成功，页面显示文件名"""
+        """TestCase_AcuHMI17_MQTT_004_004: 上传合法 Cert File 和 Key File，Save 成功，页面显示文件名"""
         mqtt_page._switch_tab("SSL/TLS")
         mqtt_page._set_toggle("SSL", True)
         time.sleep(0.5)
@@ -745,7 +745,7 @@ class TestMQTT004SSL:
 
     @pytest.mark.lv2
     def test_005_upload_invalid_format_rejected(self, mqtt_page):
-        """上传非证书格式文件（.txt），记录系统实际处理行为
+        """TestCase_AcuHMI17_MQTT_004_005: 上传非证书格式文件（.txt），记录系统实际处理行为
         产品实测：不做文件格式校验，上传后直接接受，Save 成功。
         """
         import tempfile, os
@@ -769,7 +769,7 @@ class TestMQTT004SSL:
 
     @pytest.mark.lv3
     def test_006_ssl_only_ca_without_cert_key(self, mqtt_page, ensure_certs):
-        """Enable SSL 仅上传 CA File，不上传 Cert/Key，验证系统行为"""
+        """TestCase_AcuHMI17_MQTT_004_006: Enable SSL 仅上传 CA File，不上传 Cert/Key，验证系统行为"""
         mqtt_page._switch_tab("SSL/TLS")
         mqtt_page._set_toggle("SSL", True)
         time.sleep(0.5)
@@ -806,7 +806,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv1
     def test_001_lwt_default_disable_fields_hidden(self, mqtt_page):
-        """Last Will Enable 默认 Disable，Topic 和 QoS 字段不可见"""
+        """TestCase_AcuHMI17_MQTT_005_001: Last Will Enable 默认 Disable，Topic 和 QoS 字段不可见"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", False)
         time.sleep(0.3)
@@ -818,7 +818,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv1
     def test_002_lwt_enable_fields_expand_and_hide(self, mqtt_page):
-        """切换 Enable 后 Topic/QoS 展开；切换 Disable 后重新隐藏"""
+        """TestCase_AcuHMI17_MQTT_005_002: 切换 Enable 后 Topic/QoS 展开；切换 Disable 后重新隐藏"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", True)
         time.sleep(0.5)
@@ -837,7 +837,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv1
     def test_003_topic_valid_save_readback(self, mqtt_page):
-        """LWT Topic 合法值 Save 成功，刷新后回读正确"""
+        """TestCase_AcuHMI17_MQTT_005_003: LWT Topic 合法值 Save 成功，刷新后回读正确"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", True)
         time.sleep(0.5)
@@ -851,7 +851,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv1
     def test_004_qos_0_save_readback(self, mqtt_page):
-        """LWT QoS 选择 Qos 0，Save 成功，回读为 Qos 0"""
+        """TestCase_AcuHMI17_MQTT_005_004: LWT QoS 选择 Qos 0，Save 成功，回读为 Qos 0"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", True)
         time.sleep(1.0)  # 等待 Vue 渲染 Qos 字段（刚 Enable 时字段需时间显现）
@@ -865,7 +865,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv1
     def test_005_qos_1_save_readback(self, mqtt_page):
-        """LWT QoS 选择 Qos 1，Save 成功，回读为 Qos 1"""
+        """TestCase_AcuHMI17_MQTT_005_005: LWT QoS 选择 Qos 1，Save 成功，回读为 Qos 1"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", True)
         time.sleep(0.3)
@@ -879,7 +879,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv1
     def test_006_qos_2_save_readback(self, mqtt_page):
-        """LWT QoS 选择 Qos 2，Save 成功，回读为 Qos 2"""
+        """TestCase_AcuHMI17_MQTT_005_006: LWT QoS 选择 Qos 2，Save 成功，回读为 Qos 2"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", True)
         time.sleep(0.3)
@@ -893,7 +893,7 @@ class TestMQTT005LWT:
 
     @pytest.mark.lv2
     def test_007_lwt_topic_empty_rejected(self, mqtt_page):
-        """Last Will Enable=Enable 时 Topic 为空阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_005_007: Last Will Enable=Enable 时 Topic 为空阻止 Save"""
         mqtt_page._switch_tab("Last Will and Testament")
         mqtt_page._set_toggle("Last Will Enable", True)
         time.sleep(0.5)
@@ -913,7 +913,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_001_tab_displays_all_fields(self, mqtt_page):
-        """Tab 切换后显示所有配置字段"""
+        """TestCase_AcuHMI17_MQTT_006_001: Tab 切换后显示所有配置字段"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         # 可配置表单字段（el-form-item 结构）
         for label in ["Base Topic", "Qos", "Retained", "Interval"]:
@@ -929,7 +929,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_002_base_topic_valid_save_readback(self, mqtt_page):
-        """Base Topic 合法值 Save 成功，回读正确"""
+        """TestCase_AcuHMI17_MQTT_006_002: Base Topic 合法值 Save 成功，回读正确"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._fill_by_label("Base Topic", BASE_TOPIC)
         assert mqtt_page.save() is True
@@ -941,7 +941,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv2
     def test_003_base_topic_empty_rejected(self, mqtt_page):
-        """Base Topic 为空时阻止 Save"""
+        """TestCase_AcuHMI17_MQTT_006_003: Base Topic 为空时阻止 Save"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._fill_by_label("Base Topic", "")
         _assert_rejected(mqtt_page)
@@ -950,7 +950,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_004_qos_0(self, mqtt_page):
-        """Topic QoS 选 Qos 0，Save 成功，回读含 0"""
+        """TestCase_AcuHMI17_MQTT_006_004: Topic QoS 选 Qos 0，Save 成功，回读含 0"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._select_el_by_label("Qos", "Qos 0")
         assert mqtt_page.save() is True
@@ -961,7 +961,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_005_qos_1(self, mqtt_page):
-        """Topic QoS 选 Qos 1，Save 成功，回读含 1"""
+        """TestCase_AcuHMI17_MQTT_006_005: Topic QoS 选 Qos 1，Save 成功，回读含 1"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._select_el_by_label("Qos", "Qos 1")
         assert mqtt_page.save() is True
@@ -972,7 +972,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_006_qos_2(self, mqtt_page):
-        """Topic QoS 选 Qos 2，Save 成功，回读含 2"""
+        """TestCase_AcuHMI17_MQTT_006_006: Topic QoS 选 Qos 2，Save 成功，回读含 2"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._select_el_by_label("Qos", "Qos 2")
         assert mqtt_page.save() is True
@@ -987,7 +987,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_007_retained_yes(self, mqtt_page):
-        """Retained 选 Yes，Save 成功，回读为 True"""
+        """TestCase_AcuHMI17_MQTT_006_007: Retained 选 Yes，Save 成功，回读为 True"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._set_toggle("Retained", True)
         assert mqtt_page.save() is True
@@ -999,7 +999,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_008_retained_no(self, mqtt_page):
-        """Retained 选 No，Save 成功，回读为 False"""
+        """TestCase_AcuHMI17_MQTT_006_008: Retained 选 No，Save 成功，回读为 False"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._set_toggle("Retained", False)
         assert mqtt_page.save() is True
@@ -1011,7 +1011,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_009_interval_10s(self, mqtt_page):
-        """Interval 选 10 seconds，Save 成功，回读含 10"""
+        """TestCase_AcuHMI17_MQTT_006_009: Interval 选 10 seconds，Save 成功，回读含 10"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._select_el_by_label("Interval", "10 seconds")
         time.sleep(0.5)
@@ -1024,7 +1024,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_010_interval_30s(self, mqtt_page):
-        """Interval 选 30 seconds，Save 成功，回读含 30"""
+        """TestCase_AcuHMI17_MQTT_006_010: Interval 选 30 seconds，Save 成功，回读含 30"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._select_el_by_label("Interval", "30 seconds")
         time.sleep(0.5)
@@ -1036,7 +1036,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_011_interval_60s(self, mqtt_page):
-        """Interval 选 60 seconds，Save 成功，回读含 60"""
+        """TestCase_AcuHMI17_MQTT_006_011: Interval 选 60 seconds，Save 成功，回读含 60"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         mqtt_page._select_el_by_label("Interval", "60 seconds")
         time.sleep(0.5)  # 等待 Vue 响应式 model 更新
@@ -1054,7 +1054,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_012_payload_format_save_readback(self, mqtt_page):
-        """Payload Format 遍历所有选项，每个选项 Save 后回读一致"""
+        """TestCase_AcuHMI17_MQTT_006_012: Payload Format 遍历所有选项，每个选项 Save 后回读一致"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         locator = (By.XPATH,
             "//div[contains(@class,'el-form-item')]"
@@ -1086,7 +1086,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_013_devices_selection_check_and_data_reported(self, mqtt_page):
-        """Devices Selection 勾选设备，Save 成功，回读仍处于选中状态"""
+        """TestCase_AcuHMI17_MQTT_006_013: Devices Selection 勾选设备，Save 成功，回读仍处于选中状态"""
         mqtt_page._switch_tab("Topic and Parameter Selection")
         checkboxes = mqtt_page.driver.find_elements(By.XPATH,
             "//div[contains(@class,'el-form-item')]"
@@ -1111,7 +1111,7 @@ class TestMQTT006Topic:
 
     @pytest.mark.lv1
     def test_014_devices_selection_uncheck_stops_reporting(self, mqtt_page):
-        """取消勾选设备，Save 成功，回读为未选中状态。
+        """TestCase_AcuHMI17_MQTT_006_014: 取消勾选设备，Save 成功，回读为未选中状态。
         本用例独立于 test_013：若当前无已选中设备，先自行勾选再取消，
         确保单独执行时也能验证"取消勾选"功能。
         """
@@ -1167,7 +1167,7 @@ class TestMQTT007SaveRead:
 
     @pytest.mark.lv0
     def test_001_all_tabs_save_and_readback(self, mqtt_page):
-        """全 Tab 配置完成后 Save，刷新后所有 Tab 回读值与保存值一致"""
+        """TestCase_AcuHMI17_MQTT_007_001: 全 Tab 配置完成后 Save，刷新后所有 Tab 回读值与保存值一致"""
         _restore_base(mqtt_page)
         _reload(mqtt_page)
         cfg = mqtt_page.read_config()
@@ -1181,7 +1181,7 @@ class TestMQTT007SaveRead:
 
     @pytest.mark.lv3
     def test_002_unsaved_change_tab_switch(self, mqtt_page):
-        """修改参数不保存后切换 Tab，验证未保存警告或更改丢弃行为"""
+        """TestCase_AcuHMI17_MQTT_007_002: 修改参数不保存后切换 Tab，验证未保存警告或更改丢弃行为"""
         mqtt_page._switch_tab("General")
         original_port = mqtt_page._read_input_by_label("Broker Port")
         mqtt_page._fill_by_label("Broker Port", "9999")
@@ -1199,7 +1199,7 @@ class TestMQTT007SaveRead:
 
     @pytest.mark.lv3
     def test_003_per_tab_save_no_cross_override(self, mqtt_page):
-        """分 Tab 分别 Save，各 Tab 参数不互相覆盖"""
+        """TestCase_AcuHMI17_MQTT_007_003: 分 Tab 分别 Save，各 Tab 参数不互相覆盖"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Client ID", "tab-test-001")
         assert mqtt_page.save() is True
@@ -1222,7 +1222,7 @@ class TestMQTT007SaveRead:
 
     @pytest.mark.lv3
     def test_004_config_persist_after_reboot(self, mqtt_page):
-        """网关重启后 MQTT 配置参数持久保留（需手动重启设备后运行此用例）"""
+        """TestCase_AcuHMI17_MQTT_007_004: 网关重启后 MQTT 配置参数持久保留（需手动重启设备后运行此用例）"""
         pytest.skip(
             "需要手动重启设备后执行：pytest Protocols/MQTT/test_mqtt.py"
             "::TestMQTT007SaveRead::test_004_config_persist_after_reboot -v -s"
@@ -1302,7 +1302,7 @@ class TestMQTT008TestConnection:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_001_broker_online_connection_success(self, _broker, mqtt_page):
-        """Broker 在线时 Test Connection 弹窗提示连接成功"""
+        """TestCase_AcuHMI17_MQTT_008_001: Broker 在线时 Test Connection 弹窗提示连接成功"""
         _restore_base(mqtt_page)
         time.sleep(35)   # 等待设备完成重连（per-tab save 触发多次重连，需更长等待）
         result = mqtt_page.test_connection()
@@ -1314,7 +1314,7 @@ class TestMQTT008TestConnection:
     @pytest.mark.lv2
     @pytest.mark.integration
     def test_002_broker_unreachable_connection_fail(self, mqtt_page):
-        """Broker 不可达时弹窗显示失败"""
+        """TestCase_AcuHMI17_MQTT_008_002: Broker 不可达时弹窗显示失败"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Broker Address", "nonexistent.invalid.broker")
         mqtt_page._fill_by_label("Broker Port", "1883")
@@ -1332,7 +1332,7 @@ class TestMQTT008TestConnection:
     @pytest.mark.lv2
     @pytest.mark.integration
     def test_003_wrong_credential_auth_fail(self, _broker, mqtt_page):
-        """用户名/密码错误时 Test Connection 弹窗显示认证失败"""
+        """TestCase_AcuHMI17_MQTT_008_003: 用户名/密码错误时 Test Connection 弹窗显示认证失败"""
         mqtt_page._switch_tab("User Credential")
         mqtt_page._fill_by_label("Username", "wrong_user")
         mqtt_page._fill_by_label("Password", "wrong_pass")
@@ -1356,7 +1356,7 @@ class TestMQTT008TestConnection:
     @pytest.mark.lv2
     @pytest.mark.integration
     def test_004_ssl_cert_mismatch_handshake_fail(self, mqtt_page):
-        """SSL 证书不匹配时 Test Connection 弹窗显示握手失败"""
+        """TestCase_AcuHMI17_MQTT_008_004: SSL 证书不匹配时 Test Connection 弹窗显示握手失败"""
         import tempfile, os
         # 创建一个内容错误的假 CA
         with tempfile.NamedTemporaryFile(suffix=".crt", delete=False,
@@ -1399,7 +1399,7 @@ class TestMQTT009DataValidation:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_001_plain_data_received(self, mqtt_page):
-        """不加密（Plain MQTT 1883）方式能收到设备发布的数据。
+        """TestCase_AcuHMI17_MQTT_009_001: 不加密（Plain MQTT 1883）方式能收到设备发布的数据。
         使用内嵌 Broker 接收数据，不重置设备 Broker 地址配置——
         设备应已指向本机 IP（由用户在设备网页配置，或由 test_003 前置步骤设置）。
         """
@@ -1422,7 +1422,7 @@ class TestMQTT009DataValidation:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_002_ssl_data_received(self, mqtt_page, ensure_certs):
-        """SSL/TLS 加密（8883）方式能收到设备发布的数据
+        """TestCase_AcuHMI17_MQTT_009_002: SSL/TLS 加密（8883）方式能收到设备发布的数据
         使用内嵌 Broker 接收数据（设备连 www.accu.com:8883 → 解析到本机 IP）。
         先启动 Broker 再配置设备，避免设备首次连接时 Broker 尚未就绪。
         """
@@ -1512,7 +1512,7 @@ class TestMQTT009DataValidation:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_003_plain_modbus_comparison(self, mqtt_page):
-        """不加密方式：MQTT 数值与实时 Modbus 寄存器三段式比对全 PASS"""
+        """TestCase_AcuHMI17_MQTT_009_003: 不加密方式：MQTT 数值与实时 Modbus 寄存器三段式比对全 PASS"""
         from mqtt_comparator import run_mqtt_comparison, generate_html_report
 
         results = _run_async(run_mqtt_comparison(
@@ -1539,7 +1539,7 @@ class TestMQTT009DataValidation:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_004_ssl_modbus_comparison(self, mqtt_page, ensure_certs):
-        """SSL/TLS 加密方式：MQTT 数值接收验证（与 test_002 相同的直接 paho 方式）"""
+        """TestCase_AcuHMI17_MQTT_009_004: SSL/TLS 加密方式：MQTT 数值接收验证（与 test_002 相同的直接 paho 方式）"""
         import paho.mqtt.client as mqtt_client
         import ssl as ssl_lib
         from mqtt_comparator import start_embedded_broker
@@ -1641,7 +1641,7 @@ class TestMQTT010KeepAlive:
 
     @pytest.mark.lv1
     def test_001_keep_alive_10s_save_readback(self, mqtt_page):
-        """Keep Alive = 10，Save 成功，回读为 10"""
+        """TestCase_AcuHMI17_MQTT_010_001: Keep Alive = 10，Save 成功，回读为 10"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Keep Alive", "10")
         assert mqtt_page.save() is True
@@ -1651,7 +1651,7 @@ class TestMQTT010KeepAlive:
 
     @pytest.mark.lv1
     def test_002_keep_alive_60s_save_readback(self, mqtt_page):
-        """Keep Alive = 60，Save 成功，回读为 60"""
+        """TestCase_AcuHMI17_MQTT_010_002: Keep Alive = 60，Save 成功，回读为 60"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Keep Alive", "60")
         assert mqtt_page.save() is True
@@ -1661,7 +1661,7 @@ class TestMQTT010KeepAlive:
 
     @pytest.mark.lv1
     def test_003_keep_alive_120s_save_readback(self, mqtt_page):
-        """Keep Alive = 120，Save 成功，回读为 120"""
+        """TestCase_AcuHMI17_MQTT_010_003: Keep Alive = 120，Save 成功，回读为 120"""
         mqtt_page._switch_tab("General")
         mqtt_page._fill_by_label("Keep Alive", "120")
         assert mqtt_page.save() is True
@@ -1674,7 +1674,7 @@ class TestMQTT010KeepAlive:
 
     @pytest.mark.manual
     def test_pingreq_timing_wireshark(self):
-        """
+        """TestCase_AcuHMI17_MQTT_010_004:
         [手工执行] Wireshark 过滤 mqtt.msgtype==12，统计相邻 PINGREQ 时间间隔：
           Keep Alive=10s → 间隔约 10s（±1s）
           Keep Alive=60s → 间隔约 60s（±2s）
@@ -1723,7 +1723,7 @@ class TestMQTT011Retained:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_001_retained_yes_new_subscriber_gets_last_message(self, mqtt_page):
-        """Retained=Yes：新订阅者立即收到 Broker 持有的最后保留消息
+        """TestCase_AcuHMI17_MQTT_011_001: Retained=Yes：新订阅者立即收到 Broker 持有的最后保留消息
         使用内嵌 amqtt Broker（0.0.0.0:1883），paho 连 127.0.0.1。
         """
         from mqtt_comparator import start_embedded_broker
@@ -1772,7 +1772,7 @@ class TestMQTT011Retained:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_002_retained_no_new_subscriber_no_history(self, mqtt_page):
-        """Retained=No：新订阅者不会收到历史消息，需等下一个 Interval
+        """TestCase_AcuHMI17_MQTT_011_002: Retained=No：新订阅者不会收到历史消息，需等下一个 Interval
         使用内嵌 amqtt Broker（0.0.0.0:1883），paho 连 127.0.0.1。
         """
         from mqtt_comparator import start_embedded_broker
@@ -1816,7 +1816,7 @@ class TestMQTT011Retained:
     @pytest.mark.lv1
     @pytest.mark.integration
     def test_003_retained_yes_to_no_clears_broker_retain(self, mqtt_page):
-        """Retained 从 Yes 切换为 No 后，新订阅者不再收到旧保留消息
+        """TestCase_AcuHMI17_MQTT_011_003: Retained 从 Yes 切换为 No 后，新订阅者不再收到旧保留消息
         使用内嵌 amqtt Broker（0.0.0.0:1883），paho 连 127.0.0.1。
         """
         from mqtt_comparator import start_embedded_broker

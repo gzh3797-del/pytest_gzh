@@ -32,9 +32,9 @@ class ModbusRtuOrTcp:
     def close(self):
         self.client.close()
 
-    def write_registers(self, address, values, slave=0):
+    def write_registers(self, address, values, device_id=0):
         try:
-            resp = self.client.write_registers(address=address, values=values, slave=slave)
+            resp = self.client.write_registers(address=address, values=values, device_id=device_id)
             return resp
         except Exception as e:
             return e
@@ -42,7 +42,7 @@ class ModbusRtuOrTcp:
     # 快速精度测试过程，出现异常导致整个测试停止，源代码临时保留，新代码见下面新的函数
     # def read_measurement(self, address, count, slave):
     #     try:
-    #         resp = self.client.read_holding_registers(address=address, count=count, slave=slave)
+    #         resp = self.client.read_holding_registers(address=address, count=count, device_id=slave)
     #         logging.info('read_measurement ret is:{}'.format(resp))
     #         if resp.isError():
     #             return "resp is error"
@@ -51,10 +51,10 @@ class ModbusRtuOrTcp:
     #     except Exception as e:
     #         return e
 
-    def read_measurement(self, address, count, slave):
+    def read_measurement(self, address, count, device_id):
         for attempt in range(5):
             try:
-                resp = self.client.read_holding_registers(address=address, count=count, slave=slave)
+                resp = self.client.read_holding_registers(address=address, count=count, device_id=device_id)
                 if not resp.isError():
                     return resp.registers
             except Exception as e:

@@ -16,6 +16,7 @@ Claude 参考本文件了解各设备寄存器范围，无需读原始 Excel。
 | AcuIOM-03 | 同上 | FC02 | Bit | DI型号，框架暂不支持 |
 | AcuIOM-04 | 同上 | FC02 | Bit | DI型号，框架暂不支持 |
 | RPP (MH主控) | RPP Modbus Address Table v1.00 20260617.xlsx | FC03 | 混合（float / uint16 / uint32 / uint64 / double） | v1.00 / 2026-06-17；地址范围 0x1000~0x9730；含 Settings（R/W）和大量只读测量 Sheet；详见下方 Sheet 清单 |
+| AcuRev-100（内部代号 RACG） | RACG Modbus Address Table.xlsx | FC03（部分 10H 写） | 混合（uint8/uint16/uint32/uint64/float） | 最新变更记录于表内 2026-06-30；仅 RS-485+USB Modbus RTU，无 BACnet Sheet；地址范围 0x1000~0xF070；含 Basic Setting（R/W）、Wiring Check（R/W）、Real Time、Energy、Calibration 等 Sheet；详见下方 Sheet 清单 |
 
 ## RPP Modbus Address Table — Sheet 清单（v1.00）
 
@@ -43,6 +44,23 @@ Claude 参考本文件了解各设备寄存器范围，无需读原始 Excel。
 | AlarmStatus | 空 Sheet | — | 当前无内容 |
 
 **可读寄存器 Sheet（16 个）：** Basic Settings、Wring Check、HS(Half Cycle)、Energy（1s）、Demand、10\|12 Cycle、150\|180 Cycle、10 Min、2 Hr、10S Freq、MaxMin、Max Demand、Waveform\|PQ Event、Information、DeviceStatus（均 FC03 读）。Version history、Overview 为元数据/索引，AlarmStatus 为空，共 3 个 Sheet 不含可读寄存器。
+
+## RACG（AcuRev-100）Modbus Address Table — Sheet 清单
+
+> 原件：`raw/RACG Modbus Address Table.xlsx`，共 8 个 Sheet。RACG 为 AcuRev-100（含 AcuRev-101-mA / AcuRev-101-mV 两型号）内部代号，详见 knowledge/meters/AcuRev100/context.md。
+
+| Sheet 名称 | 类型 | 地址范围（十六进制） | 说明 |
+|-----------|------|------------------|------|
+| Version history | 元数据 | — | 版本变更记录，无寄存器 |
+| Overview | 索引 | 0xF000 ~ 0x301D | 各 Block 地址分布总览，无实测寄存器行 |
+| Information | 只读 | 0xF000 ~ 0xF070 | 固件版本、Bootloader、产品信息（03H 读） |
+| Basic Setting | 可读写 | 0x1000 ~ 0x1148 | 系统设置（RS485/USB 波特率与校验、密码等）、计量设置、Operations（03H 读 / 10H 写） |
+| Wiring Check | 可读写 | 0x3000 ~ 0x301D | 接线检查开关/状态/错误码 + 各相电压电流实测值（03H 读 / 10H 写） |
+| Real Time | 只读 | 0x9050 起 | 实时基础参数（频率、相电压、相角等，100ms 级） |
+| Energy | 只读 | 0x4A00 起 | 分相/系统有功电能（1 秒级），含 Energy Parameter ID 列 |
+| Calibration | 可读写 | 0x2000 起 | 工厂校准命令/结果/校准偏移系数（03H 读 / 10H 写） |
+
+**可读寄存器 Sheet（6 个）：** Information、Basic Setting、Wiring Check、Real Time、Energy、Calibration。Version history 为元数据、Overview 为索引总览，不含可读寄存器行。
 
 ## 更新说明
 新增设备后在本表追加一行，并将原始 Excel 放入 raw/ 目录。

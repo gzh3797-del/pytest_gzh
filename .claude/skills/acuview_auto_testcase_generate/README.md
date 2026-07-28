@@ -2,7 +2,7 @@
 
 把电表**手工用例 xlsx** 自动转成 **pytest 自动化用例**：驱动 **Acuview 2 上位机**做界面配置下发 / 读取，再用 **Modbus 跨传输回读**做闭环断言。一套引擎多项目共享。
 
-> 本 README 给工程师看（原理 / 用法 / 排错）。同目录 `SKILL.md` 是给 Claude 的触发指令——在 Claude Code 里说"把这份手工用例转成自动化"即触发本 skill。
+> 本 README 给工程师看（原理 / 用法 / 排错）。同目录 `SKILL.md` 是给 AI agent 的触发指令——在任意 skills 兼容的 agent 会话里说"把这份手工用例转成自动化"即触发本 skill。
 
 ---
 

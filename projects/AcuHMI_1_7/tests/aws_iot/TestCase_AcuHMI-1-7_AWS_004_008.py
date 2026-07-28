@@ -20,7 +20,7 @@ from pathlib import Path
 import pytest
 
 _THIS_DIR = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent
+_PROJECT_ROOT = _THIS_DIR.parent.parent
 
 
 def _uncheck_all_devices(page):

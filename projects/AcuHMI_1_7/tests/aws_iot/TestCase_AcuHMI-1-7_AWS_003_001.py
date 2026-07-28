@@ -23,7 +23,7 @@ from pathlib import Path
 import pytest
 
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent  # AcuHMI-1-7/
+_PROJECT_ROOT = _THIS_DIR.parent.parent  # AcuHMI-1-7/
 
 
 class TestCase_AcuHMI_1_7_AWS_003_001:

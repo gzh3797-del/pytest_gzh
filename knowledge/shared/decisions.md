@@ -116,3 +116,39 @@
 - 出现时机 ≈ 点击后 62ms；稳定可见 ≈ 2.4s；DOM 完全移除 ≈ 3.5s
 
 **关联：** 与 [调试] 页面读取/元素定位问题优先用 Playwright 脚本直接调试 一条呼应——本结论即由真机 Playwright 探查得出。模式已落地于 `projects/acuhmi_1_7/tests/ui/about/general/test_TestCase_AcuHMI_009_08_case*.py`，其他保存类用例可直接复用。
+
+---
+
+## [AcuRev-100] RACG 接线检查表 V-N 反接系数 K 不一致点裁定：以各判据表实际值为准
+**时间：** 2026-07
+**决策：** RACG 接线检查表（`knowledge/meters/AcuRev100/requirements/raw/RACG_接线检查表.xlsx`）中 V-N 反接比值阈值 K：2E3W1P=1.4、3E4WY=1.3，均以各接线方式判据表 sheet 内的实际数值为准；「修改说明」sheet 声明的"统一 K=1.4"仅对 2E3W1P 成立，对 3E4WY 为笔误，不采纳。
+**原因：** 用户于 2026-07-14 裁定：3E4WY 判据表（含条件 8/9/10）实测使用的 K=1.3 才是正确值，「修改说明」sheet 的统一声明有误。此前曾有一次"统一改成 1.4"的更新任务中途被手动停止。
+**待办：** 若后续从研发处拿到官方勘误确认，可移除本条"用户裁定"表述，直接固化为定论。
+**影响设备：** → [RACG_接线检查表.md](../meters/AcuRev100/requirements/summaries/RACG_接线检查表.md)、[context.md](../meters/AcuRev100/context.md)、[wiring_reference.md](./wiring_reference.md)
+
+---
+
+## [AcuRev-100] RACG 接线检查表检测周期口径 + PF/Q 符号约定裁定
+**时间：** 2026-07
+**决策：**
+1. **检测周期**：接线检查对外告警检测节奏按 **1 次/min** 设计；补充机制——接线检查开关**开启的瞬间立即执行一次检查**，此后若一直开着则每 1 分钟检查一次。原摘要中"检测周期 1s（APP_WiringTask，HLD §3.6.3）"与 context 必读区"1 次/min"的口径矛盾以此裁定为准：HLD §3.6.3 的 1s 是 APP_WiringTask 内部任务轮询周期，非对外告警检测周期，二者非同一概念。
+2. **PF/Q 符号约定**：按目前口径执行（进线为正，沿用现有判据符号方向），原"★ 待与 IIV3 口径核对一致性（未定稿）"风险标注解除。
+**原因：** 用户于 2026-07-14 对两处存疑点直接裁定，消除口径矛盾与未定稿风险，测试设计可按裁定口径固化用例。
+**影响设备：** → [RACG_接线检查表.md](../meters/AcuRev100/requirements/summaries/RACG_接线检查表.md)、[context.md](../meters/AcuRev100/context.md)
+
+---
+
+## [AcuRev-100] acuview_auto GUI write_verify 引擎升级：4 类用例函数 + allow_write 护栏放行
+**时间：** 2026-07
+**决策：** `comm/ctl_acuview/testcase_engine.py` 新增 4 类共享引擎函数支撑 015/016/017 及 009 GUI 类用例：`run_button_action_case`（按钮动作+确认弹窗+Modbus 效果验证，`is_reset=True` 走"等掉线→等重连恢复"判据）、`run_comm_param_case`（通讯参数 GUI 下发后用新参数 Modbus 重连校验，还原走 Modbus 直写兜底；因改 RS485 口参数会断 Acuview 自身 COM11 链路，016 波特率/校验统一改 USB 口参数）、`run_reject_case`（非法输入拒绝类，判据=Modbus 回读≠非法值）、`run_multi_write_verify_case`（多值序列写回读）。同时补齐 config 中声明却从未实现的 `safety.forbid_write_addr/forbid_write_name_substr` 护栏，并新增逐用例 `allow_write` 受控放行机制（016 需改被禁写的 SlaveID/波特率/校验寄存器，经 allow_write 显式放行+自带重连/还原兜底）；`modbus_client.py::MeterClient` 增加 slave_id/baudrate/parity 覆盖参数；`gui_driver.launch_or_connect` 改用 `_find_main_window()` 按标题排除干扰+取最大可见窗口，修复 portable debug 构建多同名窗口导致 pywinauto `connect()` 抛 ElementAmbiguousError。
+**原因：** GUI 类用例（按钮动作/通讯参数/非法输入拒绝/多值写回读）此前缺乏共享引擎，各用例各自实现易漏判据；护栏声明与实现脱节存在误写入风险；通讯参数用例天然需要突破护栏但必须受控且自带还原兜底，避免设备遗留在非默认通讯参数；多同名窗口歧义是真机调试中实测复现的连接失败根因。
+**影响设备：** → [context.md](../meters/AcuRev100/context.md)
+
+---
+
+## [AcuRev-100] RACG 接线检查表 3E4WY 条件13（相序配置错误）比较口径裁定
+**时间：** 2026-07
+**决策：** 条件13「ABC/ACB 相序配置错误」判据"相序检查方法输出 ≠ 配置相序"中，**输出 2（未判定）不参与比较，不报条件13**；只有算法明确判出 0/1 且与配置相序不符才上报。推论：①单相相位错误（条件11/12 触发，此时算法输出 2）不伴报条件13；②幅值不对称>10%（相序检查方法 Step2 失败，输出 2）不报任何相序相关告警；③条件13 仅能经"源实际相序与配置相反（算法判出 0/1 且 ≠ 配置）"触发，且该场景下相位判定窗口随配置切换，源相序与配置相反必导致 ∠Vb/∠Vc 落入错误窗口，故**条件13 必伴条件11/12 同报，无法单独触发**。
+**原因：** 用户于 2026-07-14 裁定该比较口径，消除"输出2 是否算不符"的歧义；用户提到开发有书面解释，文件暂未拿到，拿到后补入 `requirements/raw/`。同时修正 context.md 必读区中一处与 RACG 不符的旧表述（"相序配置错误判据幅值不对称度 ≥145%"——该值是 IIV3 多回路老模型判据，RACG 已改用相序检查方法输出比较）。
+**待办：** ~~待拿到开发书面解释文件后补入 `knowledge/meters/AcuRev100/requirements/raw/`~~ 已归档（2026-07-14）：`requirements/raw/RACG_相序配置错误bit8判定_开发解释_20260714.png`，实现细节（bit8/WIRING_VERR_SEQ、0x3002/0x3010、前置门三条件）已补入 `RACG_接线检查表.md`。
+**影响设备：** → [RACG_接线检查表.md](../meters/AcuRev100/requirements/summaries/RACG_接线检查表.md)、[context.md](../meters/AcuRev100/context.md)

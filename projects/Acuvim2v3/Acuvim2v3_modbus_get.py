@@ -113,11 +113,11 @@ def set_service_configuration_by_current(addr=0x1004, value=0):
     :param value: 电压接线方式值
     :return: True:写入成功,False:写入失败
     """
-    ret = ModbusClient.write_registers(address=addr, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=addr, values=value, device_id=1)
     if f'{(addr, 1)}' not in str(ret):
         logging.error('Set_Service_Configuration fail, ret is:{}'.format(ret))
         return False
-    ret = ModbusClient.read_measurement(address=addr, count=1, slave=1)
+    ret = ModbusClient.read_measurement(address=addr, count=1, device_id=1)
     if ret[0] == value:
         return True
     return False
@@ -130,11 +130,11 @@ def set_service_configuration_by_voltage(addr=0x1003, value=0):
     :param value: 电压接线方式值
     :return: True:写入成功,False:写入失败
     """
-    ret = ModbusClient.write_registers(address=addr, values=value, slave=1)
+    ret = ModbusClient.write_registers(address=addr, values=value, device_id=1)
     if f'{(addr, 1)}' not in str(ret):
         logging.error('Set_Service_Configuration fail, ret is:{}'.format(ret))
         return False
-    ret = ModbusClient.read_measurement(address=addr, count=1, slave=1)
+    ret = ModbusClient.read_measurement(address=addr, count=1, device_id=1)
     if ret[0] == value:
         return True
     return False
@@ -153,7 +153,7 @@ def read_phase_voltage(standard_value, address=0x3002, times=5, interval_time=0.
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address, count=2, device_id=1)
         # print(value)
         if address == 0x3002:
             logging.info('Phase_A_Voltage ret is:{}'.format(value))
@@ -194,7 +194,7 @@ def read_line_voltage(standard_value, address=0x300A, times=5, interval_time=0.1
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address, count=2, device_id=1)
         # print(value)
         if address == 0x300A:
             logging.info('Line_AB_Voltage ret is:{}'.format(value))
@@ -240,10 +240,10 @@ def read_phase_voltage_angle(standard_value, address=0x0000, times=5, interval_t
             value = [0x00]
             logging.info('Phase_A_Voltage_Angle ret is:{}'.format(value))
         if address == 0x42A0:
-            value = ModbusClient.read_measurement(address=address, count=1, slave=1)
+            value = ModbusClient.read_measurement(address=address, count=1, device_id=1)
             logging.info('Phase_B_Voltage_Angle ret is:{}'.format(value))
         elif address == 0x42A1:
-            value = ModbusClient.read_measurement(address=address, count=1, slave=1)
+            value = ModbusClient.read_measurement(address=address, count=1, device_id=1)
             logging.info('Phase_C_Voltage_Angle ret is:{}'.format(value))
         # print(f"value:{value}")
         # reg = hex(value[0]).replace('0x', '').zfill(4) + hex(value[1]).replace('0x', '').zfill(4)
@@ -293,7 +293,7 @@ def read_input_current_angle(standard_value, address=0x42A2, times=5, interval_t
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address=address, count=1, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=1, device_id=1)
         if address == 0x42A2:
             logging.info('Input_A_Current_Phase_Angle ret is:{}'.format(value))
         if address == 0x42A3:
@@ -350,7 +350,7 @@ def read_input_current(standard_value, address=0x3012, times=5, interval_time=0.
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address=address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=2, device_id=1)
         if address == 0x3012:
             logging.info('Input_Channel_A_Current ret is:{}'.format(value))
         elif address == 0x3014:
@@ -390,7 +390,7 @@ def read_input_sys_power(standard_value, address=0x3022, times=5, interval_time=
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address=address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=2, device_id=1)
         if address == 0x3022:
             logging.info('Sys_ABC_Active_Power ret is:{}'.format(value))
         elif address == 0x302A:
@@ -430,7 +430,7 @@ def read_input_active_power(standard_value, address=0x301C, times=5, interval_ti
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address=address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=2, device_id=1)
         if address == 0x301C:
             logging.info('Channel_A_Active_Power ret is:{}'.format(value))
         elif address == 0x301E:
@@ -470,7 +470,7 @@ def read_input_reactive_power(standard_value, address=0x3024, times=5, interval_
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address=address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=2, device_id=1)
         if address == 0x3024:
             logging.info('Input_A_Reactive_Power ret is:{}'.format(value))
         elif address == 0x3026:
@@ -510,7 +510,7 @@ def read_input_apparent_power(standard_value, address=0x302C, times=5, interval_
     val_list = []
     for v in range(times):
         time.sleep(interval_time)
-        value = ModbusClient.read_measurement(address=address, count=2, slave=1)
+        value = ModbusClient.read_measurement(address=address, count=2, device_id=1)
         if address == 0x302C:
             logging.info('Input_A_Apparent_Power ret is:{}'.format(value))
         elif address == 0x302E:

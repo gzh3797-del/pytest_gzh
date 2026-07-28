@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "prompt": "把 AcuRev100 手工用例里「Setting—Maintenance—LCD Backlight Time 设置为 30s」这条转成自动化用例",
+    "expected": "判为 write_verify；用 find_register/find_widget 定位候选并在 🔴 CHECKPOINT 列给工程师确认后才生成；安全校验（不在 forbid_write、值在 range 内、可逆）；生成 tests/acuview_auto/test_acuview_<完整用例编号>.py，docstring 含 5 项备注，用例自带还原",
+    "mode": "dry_run（无真机/Acuview2 环境，推演到生成文件模板为止）"
+  },
+  {
+    "id": 2,
+    "prompt": "「查看电表 Phase A 电压显示是否正确」和「设置背光后观察屏幕是否变暗」这两条手工用例能自动化吗？帮我转一下",
+    "expected": "第一条判 read_compare（OCR 取显示值 vs Modbus 真值），提示 Tesseract 依赖；第二条『屏幕变暗』属物理观察项无寄存器可读 → 记 MANUAL 目视项不计入自动判据，而非硬编自动断言",
+    "mode": "dry_run"
+  }
+]

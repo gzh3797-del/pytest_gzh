@@ -309,7 +309,7 @@ class TestTransaction:
     def test_Function_AcuDC320_Sprint2_003_02_case4(self, config_cable, config_time, voltage, current):
         """交易执行中，加直流源（200V，10A），开启电缆损失补偿：3Ω，本交易中的进线、出线电能精度满足0.5"""
 
-        self.modbus_client.write_registers(address=0X1022, values=[1], slave=1)
+        self.modbus_client.write_registers(address=0X1022, values=[1], device_id=1)
         # 连接设备
         self.helper.connect_device(self.device_image_path)
         self.utils.configure_Cable(value='3')
@@ -396,7 +396,7 @@ class TestTransaction:
         """交易执行中，加直流源（200V，-10A），开启电缆损失补偿：3Ω，本交易中的进线、出线电能精度满足0.5"""
 
         current = abs(current)  # 如果 current 已经是负数
-        self.modbus_client.write_registers(address=0X1022, values=[1], slave=1)
+        self.modbus_client.write_registers(address=0X1022, values=[1], device_id=1)
         # 连接设备
         self.helper.connect_device(self.device_image_path)
         time.sleep(5)
@@ -512,14 +512,14 @@ class TestTransaction:
 
     def test_Function_AcuDC320_Sprint2_003_02_case6_2(self):
         """开始交易后，读取生成的交易日志，读取成功"""
-        registers = self.modbus_client.read_measurement(0x5502, 2, slave=1)
+        registers = self.modbus_client.read_measurement(0x5502, 2, device_id=1)
         # 组合成32位数：第一个寄存器是高16位，第二个是低16位,读取交易日志数量
         OCMF_count_old = (registers[0] << 16) | registers[1]
         self.helper.connect_device(self.device_image_path)
         # 开始充电-结束充电
         self.utils.perform_charging_cycle()
         time.sleep(2)
-        registers = self.modbus_client.read_measurement(0x5502, 2, slave=1)
+        registers = self.modbus_client.read_measurement(0x5502, 2, device_id=1)
         OCMF_count_new = (registers[0] << 16) | registers[1]
         assert OCMF_count_new == OCMF_count_old + 1, f"交易日志数量增加不正确。旧值: {OCMF_count_old}, 新值: {OCMF_count_new}"
         log_data = self.utils.read_and_parse_transaction_log()
@@ -528,7 +528,7 @@ class TestTransaction:
 
     def test_Function_AcuDC320_Sprint2_003_02_case7(self):
         """交易执行中，上位机下发”交易结束“命令，交易结束并记录交易日志"""
-        registers = self.modbus_client.read_measurement(0x5502, 2, slave=1)
+        registers = self.modbus_client.read_measurement(0x5502, 2, device_id=1)
         # 组合成32位数：第一个寄存器是高16位，第二个是低16位,读取交易日志数量
         OCMF_count_old = (registers[0] << 16) | registers[1]
         self.helper.connect_device(self.device_image_path)
@@ -552,7 +552,7 @@ class TestTransaction:
             r'page_elements\Acuview_public\Reading_page\Transaction_in_Progress\Idle')
         # 断言空闲状态图片找到
         assert transaction_status_idle, "结束充电后应该显示Idle状态，但未找到Idle状态图片"
-        registers = self.modbus_client.read_measurement(0x5502, 2, slave=1)
+        registers = self.modbus_client.read_measurement(0x5502, 2, device_id=1)
         OCMF_count_new = (registers[0] << 16) | registers[1]
         assert OCMF_count_new == OCMF_count_old + 1, f"交易日志数量增加不正确。旧值: {OCMF_count_old}, 新值: {OCMF_count_new}"
         log_data = self.utils.read_and_parse_transaction_log()
@@ -567,7 +567,7 @@ class TestTransaction:
         # 连接设备
         current = abs(current)  # 如果 current 已经是负数
         self.helper.connect_device(self.device_image_path)
-        self.modbus_client.write_registers(address=0X1022, values=[0], slave=1)
+        self.modbus_client.write_registers(address=0X1022, values=[0], device_id=1)
         sour_output(voltage, current)
         # 执行充电
         actual_start_time, actual_end_time = self.utils.perform_charging_cycle(wait=config_time)
@@ -657,7 +657,7 @@ class TestTransaction:
     ])
     def test1_Function_AcuDC320_Sprint2_003_02_case9(self, config_time, voltage, current):
         """交易日志精度验证，加直流源（100V，-500A），交易日志能量精度满足能量精度满足0.5"""
-        self.modbus_client.write_registers(address=0X1022, values=[0], slave=1)
+        self.modbus_client.write_registers(address=0X1022, values=[0], device_id=1)
         current = abs(current)  # 如果 current 已经是负数
         # 连接设备
         self.helper.connect_device(self.device_image_path)
@@ -752,7 +752,7 @@ class TestTransaction:
     def test_Function_AcuDC320_Sprint2_003_02_case10(self, config_cable, config_time, voltage, current):
         """交易日志精度验证，加直流源（100V，50A），开启电缆损失补偿：3Ω，交易日志能量精度满足能量精度满足0.5"""
 
-        resp = self.modbus_client.write_registers(address=0X1022, values=[1], slave=1)
+        resp = self.modbus_client.write_registers(address=0X1022, values=[1], device_id=1)
         # 连接设备
         self.helper.connect_device(self.device_image_path)
         self.utils.configure_Cable(value='3')
@@ -839,7 +839,7 @@ class TestTransaction:
         """交易日志精度验证，加直流源（100V，-500A），开启电缆损失补偿：3Ω，交易日志能量精度满足能量精度满足0.5"""
 
         current = abs(current)  # 如果 current 已经是负数
-        resp = self.modbus_client.write_registers(address=0X1022, values=[1], slave=1)
+        resp = self.modbus_client.write_registers(address=0X1022, values=[1], device_id=1)
         # 连接设备
         self.helper.connect_device(self.device_image_path)
         self.utils.configure_Cable(value='3')
@@ -926,13 +926,13 @@ class TestTransaction:
         """交易记录数据准确性验证。交易开始和结束点的能量寄存器与交易日志中记录是否一致"""
 
         current = abs(current)  # 如果 current 已经是负数
-        self.modbus_client.write_registers(address=0X1022, values=[1], slave=1)
+        self.modbus_client.write_registers(address=0X1022, values=[1], device_id=1)
         # 连接设备
         self.helper.connect_device(self.device_image_path)
         self.utils.configure_Cable(value='3')
         # 读取Modbus寄存器进线能量值
-        import_registers = self.modbus_client.read_measurement(0x4000, 4, slave=1)
-        export_registers = self.modbus_client.read_measurement(0x4004, 4, slave=1)
+        import_registers = self.modbus_client.read_measurement(0x4000, 4, device_id=1)
+        export_registers = self.modbus_client.read_measurement(0x4004, 4, device_id=1)
         # 转换为浮点数并格式化为4位小数
         import_data_bytes = b''.join(reg.to_bytes(2, 'big') for reg in import_registers)
         import_float_value = struct.unpack('>d', import_data_bytes)[0]
@@ -950,8 +950,8 @@ class TestTransaction:
         sour_stop()
 
         # 读取Modbus寄存器进线能量值
-        import_registers = self.modbus_client.read_measurement(0x4000, 4, slave=1)
-        export_registers = self.modbus_client.read_measurement(0x4004, 4, slave=1)
+        import_registers = self.modbus_client.read_measurement(0x4000, 4, device_id=1)
+        export_registers = self.modbus_client.read_measurement(0x4004, 4, device_id=1)
         # 转换为浮点数并格式化为4位小数
         import_data_bytes = b''.join(reg.to_bytes(2, 'big') for reg in import_registers)
         import_float_value = struct.unpack('>d', import_data_bytes)[0]

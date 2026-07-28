@@ -78,7 +78,7 @@ def _can_login(browser, username: str, password: str) -> bool:
         ctx.close()
 
 
-# 用例编号：TestCase_ARM_XXL_002_04_case12_02
+# 用例编号：TestCase_ARM-XXL_002_04_case12_02（函数名/文件名因 Python 不能含 '-' 用下划线）
 # 用例标题：非admin用户点击Forgot password弹框提示联系管理员，管理员修改密码后登录成功
 # 预置条件：管理权限登录 AcuHMI 网页，存在 view 权限用户
 # 测试步骤：

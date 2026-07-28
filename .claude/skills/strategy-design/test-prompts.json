@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "prompt": "针对 AcuRev-4100-WEB2 项目 Sprint2 变更需求 3.14「BACnet 下 CSV 文件动态生成下载」功能（需求见 knowledge/gateway/AcuRev4100WEB2/requirements/summaries/ACM-41-WEB2_Sprint2变更需求.md 第四节），输出测试策略脑图并生成 XMind 文件",
+    "expected": "含功能概述节点；分组按规定顺序；叶子四要素句式并标X个用例；补充点带[补充]前缀；设备落到具体型号；先输出知识库提取表；生成可打开的 .xmind",
+    "mode": "full_test + baseline"
+  },
+  {
+    "id": 2,
+    "prompt": "帮我把 AcuRev-4100-WEB2 Sprint2 的 3.9 告警配置（DI Status 告警新增 Alarm State 配置项，支持 0/1 勾选，触发时 Reason 记录 ACTIVE）的测试点整理一下",
+    "expected": "口语化触发也应走完整流程：知识库提取表→规范测试点→XMind；非法等价类/联动/禁用效果等补充点齐全",
+    "mode": "full_test"
+  }
+]

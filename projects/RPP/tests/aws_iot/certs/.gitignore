@@ -1,0 +1,4 @@
+# AWS IoT 测试证书/私钥不入库，各环境自备（RPP 使用自己的 AWS 账号证书）
+*
+!.gitkeep
+!.gitignore

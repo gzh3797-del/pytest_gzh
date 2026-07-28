@@ -24,7 +24,7 @@ import pytest
 from utils.aws_iot_verifier import run_verifier
 
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent
+_PROJECT_ROOT = _THIS_DIR.parent.parent
 
 
 class TestCase_AcuHMI_1_7_AWS_006_001:

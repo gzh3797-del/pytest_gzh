@@ -55,10 +55,15 @@ from modbus_reader import ModbusResult
 
 
 def _patch_pymodbus_device_id() -> None:
-    """modbus_reader.py 使用 device_id= 参数，pymodbus 3.6.x 通过 **kwargs 接收但默认
-    slave=0。此补丁将 device_id 映射为 slave，确保正确的 Modbus unit ID 传递。"""
+    """modbus_reader.py 使用 device_id= 参数。pymodbus <=3.8 只认 slave=，device_id 会被
+    **kwargs 吞掉；此补丁在旧版上把 device_id 映射为 slave。pymodbus >=3.9 原生支持
+    device_id，直接跳过补丁。"""
     try:
+        import inspect
         from pymodbus.client.mixin import ModbusClientMixin
+
+        if 'device_id' in inspect.signature(ModbusClientMixin.read_holding_registers).parameters:
+            return
 
         def _make_patched(orig):
             import functools

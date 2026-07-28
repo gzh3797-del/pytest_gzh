@@ -68,8 +68,57 @@ class DataLogParamConfig:
 
 class _PageBase:
 
+    # Devices Selection 表（Data Logger / Rapid Logger 页面共用同一结构）
+    _DEVICE_HEADER_CB  = "xpath=//thead//input[@type='checkbox']"
+    _DEVICE_TBODY_ROWS = "xpath=//tbody/tr"
+
     def __init__(self, page: Page):
         self.page = page
+
+    def _select_devices(self, target_names: list):
+        """勾选 Devices Selection：target_names 为空 → 仅勾选全部物理 Modbus 设备并
+        取消虚拟设备；否则按行文本子串匹配。
+
+        禁止表头全选：虚拟设备（Virtual Device）的推送文件无法被
+        datalog_server_verifier 的文件名设备识别匹配，会兜底归入 AcuRev4100 桶
+        与物理表 Modbus 实时值比对，制造假失败。
+        """
+        try:
+            self.page.locator(self._DEVICE_TBODY_ROWS).first.wait_for(state="visible", timeout=10000)
+        except PlaywrightTimeoutError:
+            log.warning("Devices Selection 表格未找到")
+            return
+
+        rows = self.page.locator(self._DEVICE_TBODY_ROWS).all()
+        checked_any = False
+        for row in rows:
+            cells = row.locator("xpath=.//td").all()
+            # 列结构：[checkbox] | Device Name(td1) | Device Type | ...。td[0] 是
+            # checkbox 列（无文字），设备名在 td[1]。用整行文本做子串匹配，对列布局鲁棒。
+            row_text = (row.text_content() or "").strip()
+            device_name = cells[1].text_content().strip() if len(cells) > 1 else row_text.split("\n")[0]
+            is_virtual = "virtual device" in row_text.lower()
+            if target_names:
+                should_check = any(t.lower() in row_text.lower() for t in target_names)
+            else:
+                should_check = not is_virtual
+            cb = row.locator("xpath=.//input[@type='checkbox']").first
+            if cb.count() == 0:
+                continue
+            is_checked = cb.is_checked()
+            if should_check:
+                checked_any = True
+            if should_check and not is_checked:
+                cb.evaluate("el => el.click()")
+                log.info("  ✓ %s", device_name)
+                self.page.wait_for_timeout(150)
+            elif not should_check and is_checked:
+                cb.evaluate("el => el.click()")
+                log.info("  ✗ 取消 %s%s", device_name, "（虚拟设备）" if is_virtual else "")
+                self.page.wait_for_timeout(150)
+        if not checked_any:
+            log.warning("Devices Selection：未勾选任何设备（目标 %s），可能无数据推送",
+                        target_names or "全部物理设备")
 
     def _safe_click(self, selector: str, name: str = ""):
         try:
@@ -470,49 +519,7 @@ class DataLoggerPage(_PageBase):
         if not self._click_radio_in_group("Log File Name Format", fmt):
             self._select_el_by_text(self._LOG_FILE_NAME_FORMAT_SELECT, fmt, "Log File Name Format")
 
-    def _select_devices(self, target_names: list):
-        try:
-            self.page.locator(self._DEVICE_TBODY_ROWS).first.wait_for(state="visible", timeout=10000)
-        except PlaywrightTimeoutError:
-            log.warning("Devices Selection 表格未找到")
-            return
-
-        if not target_names:
-            try:
-                header_cb = self.page.locator(self._DEVICE_HEADER_CB).first
-                if not header_cb.is_checked():
-                    header_cb.evaluate("el => el.click()")
-                    log.info("Devices Selection：已点击全选 checkbox")
-                self.page.wait_for_timeout(300)
-                return
-            except Exception:
-                pass
-
-        rows = self.page.locator(self._DEVICE_TBODY_ROWS).all()
-        checked_any = False
-        for row in rows:
-            cells = row.locator("xpath=.//td").all()
-            # 列结构：[checkbox] | Device Name(td1) | Device Type | Serial Number | Protocol | Online。
-            # td[0] 是 checkbox 列（无文字），设备名在 td[1]。用整行文本做子串匹配，
-            # 对列布局鲁棒，避免依赖具体列索引。
-            row_text = (row.text_content() or "").strip()
-            device_name = cells[1].text_content().strip() if len(cells) > 1 else row_text.split("\n")[0]
-            should_check = (not target_names) or any(t.lower() in row_text.lower() for t in target_names)
-            cb = row.locator("xpath=.//input[@type='checkbox']").first
-            if cb.count() == 0:
-                continue
-            is_checked = cb.is_checked()
-            if should_check:
-                checked_any = True
-            if should_check and not is_checked:
-                cb.evaluate("el => el.click()")
-                log.info("  ✓ %s", device_name)
-                self.page.wait_for_timeout(150)
-            elif not should_check and is_checked:
-                cb.evaluate("el => el.click()")
-                self.page.wait_for_timeout(150)
-        if target_names and not checked_any:
-            log.warning("Devices Selection：目标设备 %s 未匹配到任何行，可能无数据推送", target_names)
+    # _select_devices 已上移至 _PageBase（与 Rapid Logger 页面共用）
 
     def configure_logger(self, n: int, cfg: DataLoggerConfig):
         log.info("配置 Data Loggers %d：channel=%d  format=%s  length=%s  interval=%s",
@@ -926,6 +933,7 @@ class RapidLoggerPage(_PageBase):
         prefix: str,
         log_interval: str,
         enabled: bool = True,
+        device_names: Optional[list] = None,
     ):
         log.info("配置 Rapid Logger：format=%s  length=%s  interval=%s",
                  file_format, file_length, log_interval)
@@ -973,6 +981,9 @@ class RapidLoggerPage(_PageBase):
             self._fill(self._LOG_FILE_NAME_PREFIX_INPUT, prefix, "Log File Name Prefix")
         self._select_el_by_text(self._LOG_FILE_LENGTH_SELECT, file_length, "Log File Length")
         self._select_el_by_text(self._LOG_INTERVAL_SELECT, log_interval, "Log Interval")
+        # Devices Selection 必选：一台不勾网关不会记录/推送任何文件（曾因缺此步导致
+        # Rapid 系列全部"超时未收到文件"）。device_names=None → 全选
+        self._select_devices(device_names or [])
         self._safe_click(self._SAVE_BTN, "Save")
         self.page.wait_for_timeout(2000)
 

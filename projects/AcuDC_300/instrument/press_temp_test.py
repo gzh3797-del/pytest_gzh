@@ -22,7 +22,7 @@ def read_vol(standard_value):
     for v in range(10):
         time.sleep(1)
         voltages = mes.read_measurement(address=dc_para_addr['V(Measured) float32']['Start(Dec)'],
-                                        count=dc_para_addr['V(Measured) float32']['Reg'], slave=1)
+                                        count=dc_para_addr['V(Measured) float32']['Reg'], device_id=1)
         logging.info('voltage ret is:{}'.format(voltages))
         reg = hex(voltages[0]).replace('0x', '').zfill(4) + hex(voltages[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -42,7 +42,7 @@ def read_cur(standard_value):
     for v in range(10):
         time.sleep(1)
         voltages = mes.read_measurement(address=dc_para_addr['Current float32']['Start(Dec)'],
-                                        count=dc_para_addr['Current float32']['Reg'], slave=1)
+                                        count=dc_para_addr['Current float32']['Reg'], device_id=1)
         logging.info('voltage ret is:{}'.format(voltages))
         reg = hex(voltages[0]).replace('0x', '').zfill(4) + hex(voltages[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')
@@ -62,7 +62,7 @@ def read_pow(standard_value):
     for v in range(10):
         time.sleep(1)
         voltages = mes.read_measurement(address=dc_para_addr['Power float32']['Start(Dec)'],
-                                        count=dc_para_addr['Power float32']['Reg'], slave=1)
+                                        count=dc_para_addr['Power float32']['Reg'], device_id=1)
         logging.info('voltage ret is:{}'.format(voltages))
         reg = hex(voltages[0]).replace('0x', '').zfill(4) + hex(voltages[1]).replace('0x', '').zfill(4)
         hex_num = reg.replace('0x', '')

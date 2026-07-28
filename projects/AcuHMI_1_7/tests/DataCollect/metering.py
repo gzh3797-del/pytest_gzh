@@ -979,7 +979,7 @@ def _modbus_read(client, addr, dtype, slave):
     count = {"float32": 2, "double": 4, "uint32": 2, "uint16": 1,
              "int32": 2, "int16": 1}.get(dtype.lower(), 2)
     try:
-        rr = client.read_holding_registers(addr, count=count, slave=slave)
+        rr = client.read_holding_registers(addr, count=count, device_id=slave)
         if rr.isError(): return None
         regs = rr.registers
         if dtype.lower() == "float32":

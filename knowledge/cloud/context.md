@@ -1,5 +1,20 @@
 # AcuCloud — 云端能源管理平台测试
 
+## 测试设计必读（固定结构速查区）
+
+> strategy-design / testcase-design / coverage-check 的「知识库提取表」以本区块为权威来源，正文为详情补充。正文变更涉及下列字段时必须同步更新本区块。
+
+| 字段 | 内容 |
+|------|------|
+| 设备清单 | 物理设备：Acuvim II / Acuvim III（智能电表）、AcuLink810（网关，**有下挂设备时禁止直接删除**）；软件设备类型：Calculated（公式）/ Manual Metering / Single Parameter / TOTAL（自动生成） |
+| 协议与端口 | Web 前端（Vue 3 + Element Plus，Hash 路由）+ /api/v1、/api/report REST API（Bearer Token 认证）；数据转发 MQTT / HTTP / FTP |
+| 接线方式 | 无（云平台）；Super Admin 含接线检测管理功能 |
+| 容量与边界 | **订阅 Plan 6 级功能限制（本项目核心测试维度）**：Free（无 Billing，数据间隔≥1h）/ Lite（仅电力 Billing，≥15min）/ AcuBilling（含水/气 Billing，≥5min）/ AcuPQ（Power Quality，≥5min）/ Plus（+Carbon+UB Analysis+M&V）/ AcuEMS（全功能）；能源类型 3 种：电力/水/天然气 |
+| 共存/联动约束 | 功能可用性随 Plan 变化——**每个功能的用例必须评估 Plan 维度**（低 Plan 不可见/不可用）；SMS 告警仅 Plus 及以上；完整矩阵 → requirements/raw/18_subscription_plan.md |
+| 安全与默认状态 | Bearer Token（Header Authorization）；角色体系（SUPER / Admin / 租户等，White Labeling） |
+| 高频缺陷模式 | → 详见 bugs/INDEX.md（如有） |
+| 测试环境要点 | 前端 http://acucloud-test-451397146.cn-northwest-1.elb.amazonaws.com.cn（AWS 宁夏区）；测试账号见下方「项目背景」节（SUPER 角色） |
+
 ## 项目背景
 
 AcuCloud 是爱博精电开发的 SaaS 能源管理平台，面向工业/商业设施，提供能耗监控、计费自动化、电能质量分析、碳排放追踪和报告推送。支持电力/水/天然气三种能源类型，通过智能电表（Acuvim II/III）和网关（AcuLink810）采集数据。

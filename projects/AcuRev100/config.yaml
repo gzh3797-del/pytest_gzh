@@ -1,0 +1,211 @@
+# AcuRev-100 (RACG) 项目配置(单一配置源): 标准项目键 + acuview_auto 引擎段(comm/ctl_acuview 读取)。
+# 仅 RS-485 + USB Modbus RTU, 无 TCP/北向/Web; 相对路径以本文件目录(projects/AcuRev100/)为锚。
+
+project_name: "AcuRev-100 (ACmeter)"
+
+# 被测设备(RTU-only 计费级 kWh 子表)
+device:
+  model: AcuRev-101-mA           # AcuRev-101-mA(100mA/80mA CT) 或 AcuRev-101-mV(333mV, CTEP)
+  ct_type: 100mA                 # mA型: 100mA/80mA ; mV型: 333mV
+  wiring_modes: [1E2W, 2E3W1P, 3E4WY]   # 值映射见 Service Configuration(0x1042)
+  slave_id: 1                    # 从站 1-247, 两口共享
+  baudrate: 19200                # 默认 19200(9600~115200), 8-N-1
+
+# 精度判据(精度类用例容差; 生成/校核 case_map lo/hi 的口径)。type: pct=相对% / abs=绝对。
+# 依据: 有功功率/有功电能=MC S-E-06 认证+ANSI C12 Class0.5(±0.5%); 其余为建议设计目标。
+# 逐参数完整溯源(SRS 原文口径 vs 本表实际口径)见 tests/case_map.yaml 顶部 accuracy_spec 块。
+accuracy:
+  default_pct: 10.0              # 无精度要求点的定性口径(±10%, 2026-07-13 裁决)
+  quantities:
+    frequency:       {type: abs, value: 0.1,   basis: 分辨率受限口径(SRS§3.5要求0.01Hz, 但SYSTEM_FREQUENCY只输出0.1Hz量化值不可测; 详见case_map accuracy_spec)}
+    voltage:         {type: pct, value: 0.2,   basis: 建议设计目标(非认证)}
+    current:         {type: pct, value: 0.2,   basis: 建议设计目标(非认证)}
+    active_power:    {type: pct, value: 0.2,   basis: 认证Class0.5; 测试卡更严0.2%工程目标}
+    reactive_power:  {type: pct, value: 0.5,   basis: 'SRS§3.5建议值; 按|Q|算(仅Q期望0的点改以S为参照取绝对带)'}
+    apparent_power:  {type: pct, value: 0.5,   basis: SRS§3.5建议值}
+    power_factor:    {type: abs, value: 0.002, basis: 工程目标(对应有功0.2%量级)}
+    phase_angle:     {type: abs, value: 0.5,   basis: SRS明文规定±0.5°}
+    active_energy:   {type: pct, value: 0.2,   basis: 认证Class0.5; 测试卡更严0.2%工程目标}
+    reactive_energy: {type: pct, value: 0.5,   basis: 'SRS§3.5建议值; Eq期望0的点取 [0, 0.5%×Es] 单边带'}
+    apparent_energy: {type: pct, value: 0.5,   basis: SRS§3.5建议值}
+
+# ── acuview_auto 引擎段(comm/ctl_acuview) ──
+
+# 上位机程序
+app:
+  exe_path: 'C:\Users\ZihanGao\Desktop\ACmeter\Acuview 2_Portable Application_Debug_100\Acuview 2.exe'
+  window_title_re: '.*Acuview 2.*'
+  launch_wait_s: 12
+  connection_row: 0                  # Add Connection 列表里连接名 "ACmeter" 的行号(从0)
+
+# Modbus 传输: Acuview2 占一 RTU 口(RS-485/COM11), 校验脚本走另一(USB/COM7)。
+# 引擎只为校验端(verify)建 client; gui 仅信息字段。
+transport:
+  gui: rtu
+  verify: rtu
+
+  rtu:                          # 校验端口 = 电表 USB 口(虚拟 COM)
+    port: 'COM7'
+    baudrate: 19200
+    parity: 'N'
+    bytesize: 8
+    stopbits: 1
+    slave_id: 1
+    timeout_s: 3
+
+  tcp:                          # AcuRev-100 无 TCP; 占位仅兼容引擎 selftest
+    host: '0.0.0.0'
+    port: 502
+    slave_id: 1
+    timeout_s: 3
+
+# 素材文件(相对本文件目录)。建模型: python -m comm.ctl_acuview.spec_loader --build --config <本文件>
+spec:
+  excel: 'data/RACG Modbus Address Table.xlsx'    # 地址表
+  json: 'data/Default_1.01 2 (1).json'            # Acuview 控件 JSON
+  out_dir: 'spec'
+
+# GUI 后端能力表(1920x1080 / 125% / 最大化 基线)
+gui_backend:
+  default: coord
+  by_widget_type:
+    spinBox: uia
+    comboBox: uia
+    lineEdit: uia
+    ipEdit: coord
+    switchButton: coord
+    valueLabel: coord
+  content_origin:                 # JSON 逻辑坐标→屏幕标定原点; 换分辨率/缩放需重标
+    method: fixed                 #   重标: python -m comm.ctl_acuview.calibrate --config <本文件> --page <页> --ox <> --oy <>
+    fixed_x: 294
+    fixed_y: 144
+  field_inset_x: 40
+  tesseract_cmd: 'C:\Program Files\Tesseract-OCR\tesseract.exe'   # OCR 引擎
+
+# 写护栏: 禁写通信链路寄存器(改了会断链)。
+# 涵盖 RS485/USB 波特率·校验、Slave ID、密码等。
+safety:
+  forbid_write_addr: [4097, 4098, 4111, 4135, 4136]
+  forbid_write_name_substr: ['SLAVE_ID', 'BAUD', 'IP', 'GATEWAY', 'SUBNET',
+                             'DNS', 'PASSWORD', 'PARITY', 'ETHERNET']
+
+# CL3021 三相交流源(0 网段 UDP, 源 192.168.0.50:10003 / 本机 10005)。引擎不读本段,
+# 由 helpers_accuracy.py 经 tools/accuracy_quick 的 SourceComm 使用。
+source:
+  mode: tcp                 # SourceComm 的 tcp 模式实为 UDP sendto
+  host: '192.168.0.50'
+  port: 10003
+  local_port: 10005
+  settle_s: 2               # 源输出后稳定等待秒数
+  # 🔴 电流安全门禁(2026-07-09 烧板事故后, 详见 README「硬性约定与历史教训」):
+  #   via_ct=经台体CT降流进表(≤25A) / direct=直连mA输入(禁超0.1A!)。换接线必须同步改, helper 硬限幅。
+  current_injection: via_ct     # 2026-07-13 确认: 电流经台体 mA CT(20A/100mA), 峰值≤20A
+  max_current_a:
+    via_ct: 25.0
+    direct: 0.1
+  # 🔴 逐相电流上限(A, 源侧) —— 描述的是**当前这台 CL3021 的个体缺陷**, 不是产品/测点口径:
+  #   2026-07-27 实机: 本台源 Ic 出不到 20A(报 "Ic 过载"), Ia/Ib 均可 20A; 换别的 CL3021 无此限。
+  #   测点矩阵始终按满载 100%额定(源 20A)编写; 超本表上限的测点在运行时按 over_phase_cap 处置。
+  #   ✅ 换正常源后把 c 改回 20.0(或整段删除)即恢复全覆盖, 无需重新生成测点文件。
+  max_current_a_phase:
+    a: 20.0
+    b: 20.0
+    c: 15.0
+  # 超逐相上限的测点如何处置: skip=跳过并在报告/状态里标注(默认) / abort=中止本批
+  over_phase_cap: skip
+  # 台体降流 CT 的额定一次侧电流(A), 按被测回路的 CT 类型区分。
+  # 换算口径: 电表期望读数(A) = 源侧输出电流(A) × 电表 CT Primary ÷ bench_ct_a[类型]
+  #   例 mA 型: Primary=200A, 台体 20A/100mA → 源 0.3A ⇒ 电表 3.0A(case_map 002_01 实证)
+  #   例 mV 型: Primary=200A, 台体 5A/333mV  → 源 1.25A ⇒ 电表 50A(case_map 005_01 实证)
+  # tools/accuracy_quick 按本项换算测点期望值; mV 回路尚未接入台面(见 case_map needs_review)。
+  bench_ct_a:
+    mA: 20.0
+    mV: 5.0
+  # 🔴 A相供电保障(最高优先级): 电表自供电取自 Va/Vn, 用例点 A相<phase_a_min_v 时强制抬到 keepalive 值防断电。
+  #   ≥下限的合法电压(120/220/277V)不干预(2026-07-14 裁决: 仅低压用例强制)。
+  supply_guard:
+    phase_a_min_v: 100.0          # A相断电风险阈值(=PRS 工作电压下限)
+    phase_a_keepalive_v: 100.0    # 强制抬到/保活的 A相电压
+  # 档位帧必须主动发, 但按档位号缓存只在跨档时发(≤30V档5/≤60档4/≤120档3/≤240档2/≤480档1)。
+  # 2026-07-14 实证: 不发档位帧会因档位滞留触发源过载保护。
+  send_gear_frames: true
+  # 🔴 档位钉死已废止(2026-07-28): 两个值都置 0 = 不钉档, 走逐点档位(按档位号缓存, 同档不重发)。
+  #   废止依据(实测, 不再沿用旧记录): 跨档切换**不掉源**(电压 240↔480 档、电流 20/5/0.5A 档
+  #   各切 10 次, 秒表 0 次重启 + 台面目击 0 次), 而钉档当初存在的唯一理由就是"避免切档瞬断"。
+  #   钉档的代价是实打实的: 480V 档打 100~120V 的点(占 21~25% 量程)会把**源自身误差放大到
+  #   0.2% 量级**, 而本项目电压/电流/有功的判据正是 ±0.2% —— 源误差与判据同量级会把判定整片带偏;
+  #   另外钉档量程要按批次手改(旧注释"批D钉5A, 跑004/005前改回20"), 忘改就把 20A 的点直接拒发。
+  #   逐点档位的安全网: 选档留 20% 余量(source_comm.GEAR_HEADROOM=0.8, 避开满刻度过载区) +
+  #   切档前先发"逐相 min(旧,新)电压 + 0A"预置帧(避免大幅值撞小量程, 见 _tx_point)。
+  #   ⚠️ 要回退钉档: 改回 voltage_v: 480.0 / current_a: 20(点位幅值超钉档量程会被拒发)。
+  gear_pin:
+    voltage_v: 0.0
+    current_a: 0.0
+  # 快速精度工具(tools/accuracy_quick)是否沿用上面的钉档: 默认 false。
+  #   档位切换本身不掉源输出(掉输出的只有频率切换), 且该工具每点都先降到 0A 再切换
+  #   ⇒ 逐点档位无风险, 且能保住源精度(钉档时低幅值点的源误差可达 0.2%量级, 会把电表判定整片带偏)。
+  #   选档留 20% 余量(source_comm.GEAR_HEADROOM), 避免压在量程满刻度上触发过载。
+  #   helpers_accuracy(pytest 路径)不受此项影响, 仍用 gear_pin。
+  precision_tool_gear_pin: false
+  # 🔴 暖启动角度缓存预置: 台面处于标准三相(0/240/120)+50Hz 时预置, 首点即可跳发角度帧。
+  #   角度帧一发电表必重启一次(2026-07-28 实测 6/6), 跳发=省一次重启。
+  #   ⚠️ 仅作**兜底**: 有 state_file 时以落盘状态为准(它记的是上个进程真发过的角度);
+  #      台面角度/频率被手动改动后本行即失准 —— 由电表反证(helpers_accuracy
+  #      _angles_confirmed_by_meter, 拿表实测电压相角对账, 容差 5°)兜底, 不符即强制下发。
+  assume_angles: [0.0, 240.0, 120.0, 0.0, 240.0, 120.0, 50.0]
+  # 源角度状态落盘文件(相对本文件目录): 每次角度帧成功下发即更新, 下个进程据此恢复缓存。
+  # 有了它退场不必再把角度拉回标准三相(那是每条非标角度用例白送的一次重启)。
+  # 运行时产物, 已加入 .gitignore; 删掉它只会退回 assume_angles 兜底, 不影响正确性。
+  state_file: '.source_state.json'
+
+# 页面导航(引擎 testcase_engine._nav_for 读取)。页名=spec/pages.json 键名。
+# 坐标模式=1920x1080/最大化下物理屏幕坐标(tab: Setting[209,128]/Reading[71,128]); 换分辨率需重取。
+nav:
+  pages:
+    General:            {mode: coords, tab_xy: [209, 128], node_xy: [55, 159]}
+    Communication:      {mode: coords, tab_xy: [209, 128], node_xy: [78, 184]}
+    Current_Wire:       {mode: coords, tab_xy: [209, 128], node_xy: [75, 209]}
+    Device_Information: {mode: coords, tab_xy: [209, 128], node_xy: [88, 234]}
+    Real_Time_Metering: {mode: coords, tab_xy: [71, 128],  node_xy: [92, 159]}
+    Energy:             {mode: coords, tab_xy: [71, 128],  node_xy: [48, 184]}
+    Wire_Check:         {mode: coords, tab_xy: [71, 128],  node_xy: [72, 209]}
+    System_Status:      {mode: coords, tab_xy: [71, 128],  node_xy: [75, 234]}
+
+run:
+  report_dir: 'reports'    # 相对 projects/AcuRev100/
+  screenshot_on_step: true
+  value_tolerance: 0.01
+  assert_mode: enforce     # enforce=区间判决(正式) / record=只记录不判决
+  # 每条精度判据的连采次数(2026-07-27 用户定): 快速连读 N 次, N 个值全部落区间才 PASS。
+  # 单次采样打在抖动量上是抛硬币(002 批实证: 频率 50.0/50.1 交替、电流边界 3.004~3.008 浮动)。
+  # 报告展示"中位/范围/越界数"+ detail 保留全部样本。置 1 回退旧单次口径。
+  sample_n: 10
+  # 快速精度工具: 写电表频率选择(0x1041)后"等延迟重启出现"的窗口秒数。
+  #   2026-07-13 记录写该寄存器后 30~60s 才重启 → 老口径等满 90s;
+  #   2026-07-27 两轮实测(17:01/17:37)全程未观察到重启、白等 91s;
+  #   且用户澄清"只要源把电压拉起来, 电表 <2s 就恢复工作" ⇒ 压到 10s。
+  #   安全网: 重启若砸在采样期, 引擎按频率样本出现 ≤10Hz 判定并自动重采本点(不判 FAIL)。
+  #   0=完全不等(全靠重采网) / 90=回老保守口径。
+  cfg_restart_window_s: 10
+  # ADC 排查模式: ADC 损坏坐实(源正常/Modbus正常/测量恒0)期间置 true 提速; 🔴 换板修复后改回 false。
+  adc_triage: false
+  # 源动作秒表探针(排查掉电用): 给每个会碰源的动作(开场联机/档位模式/钉档/保活、测点下发、
+  #   救源重发、冷重臂、退场)前后各取一次 DEVICE_RUN_TIME 跳变对齐样本, 逐动作打印"丢秒",
+  #   >0.6s 即该动作把电表打重启了。代价: 每动作约 +2s(等两次秒表跳变), 一条用例约 +10s,
+  #   故默认关。临时开启无需改本文件: `$env:SRC_PROBE=1`; 再配 `$env:SRC_TRACE=1` 可打印帧级时刻,
+  #   把"哪个动作"进一步缩到"哪一帧"(source_comm.TRACE_FRAMES)。
+  source_action_probe: false
+  # 掉电重启把关(011计时): true=自动执行掉电保持验证(2026-07-14 用户确认可断电)。
+  allow_power_cycle: true
+  # 刷机把关(014): false=刷机类记 FAIL 不动手; 现场授权后置 true。默认 false(无人值守安全)。
+  allow_firmware_upgrade: false
+
+# 014 Firmware升级(comm/ctl_acuview/firmware_update.py 读取)。
+firmware:
+  package: 'C:\Users\ZihanGao\Desktop\ACmeter\RACG_App 2026-07-15 1449.MFEA'  # 当前仅 1.01 版
+  expect_version: ''          # 空=不强判; 拿到新包后填 '1.02' 之类并改 package
+  invalid_package: 'C:\Users\ZihanGao\Desktop\web2sprint2\4100\AcuRev-4100_Application_v1.03p04_20260509.MFEA'  # case7 期望被拒
+  # case10 信息栏期望串; 寄存器当前为 ASCII 占位(界面 SN 乱码), 判据只对 config 期望。
+  expect_model: 'MAC1'
+  expect_hardware: '1.03'
+  update_timeout_s: 2700      # 升级单轮超时; 9600 波特率最慢

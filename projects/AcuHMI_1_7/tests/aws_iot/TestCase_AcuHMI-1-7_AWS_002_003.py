@@ -30,7 +30,7 @@ import pytest
 import paho.mqtt.client as mqtt
 
 _THIS_DIR     = Path(__file__).resolve().parent
-_PROJECT_ROOT = _THIS_DIR.parent.parent.parent      # AcuHMI-1-7/
+_PROJECT_ROOT = _THIS_DIR.parent.parent      # AcuHMI-1-7/
 
 # (UI 显示文本, 秒数) — 验证代表性档位
 INTERVALS = [

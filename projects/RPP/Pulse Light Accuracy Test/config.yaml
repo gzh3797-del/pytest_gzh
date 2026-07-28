@@ -1,0 +1,21 @@
+source:  {mode: serial, com: COM3, baud: 9600, host: 192.168.0.50, port: 2404}
+counter: {mode: usb, resource: auto, host: 192.168.1.100, port: 5024}
+meter:
+  mode: rtu
+  com: COM5
+  baud: 9600
+  slave: 1
+  host: 192.168.1.10
+  port: 502
+  pulse_constant: {register: 4122, dtype: uint32, word_order: big, scale: 1000}
+  wiring:
+    register: 4162
+    dtype: uint16
+    map:
+      "1E2W_脉冲灯测点": 0
+      "2E3w1p_脉冲灯测点(optional)": 1
+      "2E3W_Delta_脉冲灯测点": 2
+      "2E3wN_脉冲灯测点(optional)": 3
+      "3E4W Y_脉冲灯测点": 4
+      "3E3wD接线_脉冲灯测点(optional)": 5
+test: {settle_s: 3, n_periods: 10, freq: 50, pf_lagging: true}

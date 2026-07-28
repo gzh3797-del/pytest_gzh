@@ -17,17 +17,19 @@
 from __future__ import annotations
 
 import ctypes
+import re
 import time
 from dataclasses import dataclass
 
 from . import dpi  # noqa: F401  导入即设 DPI 感知(必须在 pyautogui 之前)
 import pyautogui
+from PIL import Image, ImageOps
 
 from .config import get_config
 from .spec_loader import load_spec
 
 pyautogui.FAILSAFE = True
-pyautogui.PAUSE = 0.15
+pyautogui.PAUSE = 0.1
 
 
 # --------------------------------------------------------------------------
@@ -108,11 +110,16 @@ class GuiError(RuntimeError):
 class AppDriver:
     """Acuview 2 窗口驱动 + 坐标/视觉操作原语。"""
 
+    # 会话内主窗口缓存: _find_main_window 走 UIA 全桌面枚举, portable debug 多同名窗口时单次
+    # 可达 ~20s。同一进程内首条用例定位后缓存句柄, 后续用例直接复用(20s → ~0s), 是批跑提速关键。
+    _cached_win = None
+
     def __init__(self):
         self.cfg = get_config()
         self.registers, self.pages = load_spec()
         self.app = None
         self.win = None
+        self.reused = False   # 本次 launch_or_connect 是否复用了缓存窗口(供 _connect 跳过多余步骤)
         self._tess_ready = False
         self._configure_tesseract()
 
@@ -127,15 +134,59 @@ class AppDriver:
         except Exception:
             self._pytesseract = None
 
+    # 主窗口标题过滤: 排除同样匹配 window_title_re 的干扰窗口
+    #   (Add Connection 对话框 / 打开了 portable 目录的文件资源管理器 / Program Manager 等)。
+    _MAIN_WIN_EXCLUDE = ("Add Connection", "文件资源管理器", "File Explorer",
+                         "Debug_100 -", "Program Manager")
+
+    def _find_main_window(self, timeout: float = 20.0):
+        """在所有匹配 window_title_re 的可见窗口里挑出 Acuview 2 主窗口。
+
+        portable debug 构建一次启动会拉起多个同名窗口, 且用户可能打开了名字含
+        "Acuview 2" 的资源管理器 → Application.connect(title_re=...) 会抛
+        ElementAmbiguousError。这里按"排除干扰标题 + 取可见面积最大者"稳健定位。
+        """
+        from pywinauto import Desktop
+        title_re = self.cfg.app.window_title_re
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            cands = []
+            for w in Desktop(backend="uia").windows(title_re=title_re, visible_only=True):
+                try:
+                    txt = w.window_text()
+                    if any(bad in txt for bad in self._MAIN_WIN_EXCLUDE):
+                        continue
+                    r = w.rectangle()
+                    cands.append((r.width() * r.height(), w))
+                except Exception:  # noqa: BLE001
+                    continue
+            if cands:
+                cands.sort(key=lambda x: -x[0])
+                return cands[0][1]
+            time.sleep(0.5)
+        return None
+
     # ---- 启动 / 连接 ----
     def launch_or_connect(self, require_unlocked: bool = True):
         if require_unlocked and is_session_locked():
             raise GuiError("当前为锁屏/安全桌面，无法进行界面截图与点击。请先解锁该机器再运行 GUI 演示。")
         from pywinauto import Application
-        title_re = self.cfg.app.window_title_re
-        try:
-            self.app = Application(backend="uia").connect(title_re=title_re, timeout=3)
-        except Exception:
+        # 复用会话内已定位的主窗口(仍有效则跳过昂贵的 UIA 全桌面枚举)。
+        cached = AppDriver._cached_win
+        if cached is not None:
+            try:
+                if cached.rectangle().width() > 0:
+                    self.win = cached
+                    self.reused = True
+                    try:
+                        self.win.set_focus()
+                    except Exception:
+                        pass
+                    return self
+            except Exception:
+                AppDriver._cached_win = None
+        win = self._find_main_window(timeout=3)
+        if win is None:
             # 关键: 必须在安装目录下启动，否则 Add Connection 等对话框按相对路径加载内容会渲染空白。
             import os
             from .app_locator import resolve_acuview_exe
@@ -147,8 +198,12 @@ class AppDriver:
             workdir = os.path.dirname(exe)
             self.app = Application(backend="uia").start(f'"{exe}"', work_dir=workdir, timeout=10)
             time.sleep(self.cfg.app.launch_wait_s)
-            self.app = Application(backend="uia").connect(title_re=title_re, timeout=20)
-        self.win = self.app.top_window()
+            win = self._find_main_window(timeout=20)
+        if win is None:
+            raise GuiError("未能定位 Acuview 2 主窗口(多个同名窗口干扰且过滤后为空)")
+        self.win = win
+        AppDriver._cached_win = win   # 缓存供同会话后续用例复用
+        self.reused = False
         try:
             self.win.set_focus()
         except Exception:
@@ -275,24 +330,74 @@ class AppDriver:
             pyautogui.press("tab")
         elif wt == "comboBox":
             self.click_abs(x, y)
-            time.sleep(0.4)
-            self._select_combo_option(str(value), near=(x, y))
+            time.sleep(0.5)
+            # 下拉弹层与控件*左边缘*对齐、在控件*下方*展开; 以控件几何(非中心点)为锚。
+            ox, oy = self.content_origin()
+            left = ox + int(w["x"])
+            top = oy + int(w["y"]) - scroll_y
+            ww, hh = int(w.get("w", 130)), int(w.get("h", 30))
+            popup = (left - 5, top + hh, ww + 60, 320)
+            self._select_combo_option(str(value), popup)
         elif wt == "switchButton":
             self._set_switch(page, widget_name, bool_value=bool(value), pos=(x, y))
         else:
             raise GuiError(f"暂不支持设值的控件类型: {wt}")
         time.sleep(0.3)
 
-    def _select_combo_option(self, value: str, near: tuple):
-        """下拉展开后，OCR 弹出列表找到选项文本点击。"""
-        x, y = near
-        popup = (x - 20, y + 10, 240, 320)   # 下拉弹层大致区域
-        words = self.ocr_words(popup)
-        for wd in words:
-            if value.lower() in wd["text"].lower():
-                self.click_abs(wd["left"] + wd["width"] // 2, wd["top"] + wd["height"] // 2)
-                return True
-        raise GuiError(f"下拉中找不到选项: {value}")
+    def _select_combo_option(self, value: str, popup: tuple):
+        """下拉展开后, 在 popup 区域(=控件左边缘/下方)增强 OCR 找选项文本并点击。
+
+        此 Acuview 版本下拉字号小、默认 OCR 读不出 → 灰度 + 3x 放大 + psm6;
+        数字型(波特率)加数字白名单(纠正 9→$ 类误识)。当前值行(蓝底白字高亮)读不到,
+        但选值恒为"非当前值", 不影响命中。
+        """
+        numeric = str(value).strip().replace(".", "").isdigit()
+        words = self._combo_popup_words(popup, numeric=numeric)
+        if numeric:
+            tgt = re.sub(r"\D", "", str(value))
+            match = [wd for wd in words if re.sub(r"\D", "", wd["text"]) == tgt]
+        else:
+            tgt = str(value).strip().lower()
+            match = [wd for wd in words
+                     if tgt in wd["text"].lower() or wd["text"].lower() in tgt]
+        if match:
+            self.click_abs(int(match[0]["cx"]), int(match[0]["cy"]))
+            time.sleep(0.4)
+            return True
+        # 无匹配但下拉已读到其它选项: OCR 恒读不到"当前高亮行", 故目标必为当前值 → 已选中, 免点。
+        # (回读走 Modbus 权威判决, 该启发式最坏只会误判 FAIL, 不会误 PASS。)
+        if words:
+            pyautogui.press("esc")
+            time.sleep(0.3)
+            return True
+        raise GuiError(f"下拉未读到任何选项(未展开/OCR失效): {value}")
+
+    def _combo_popup_words(self, region: tuple, numeric: bool = False) -> list[dict]:
+        """下拉弹层增强 OCR: 灰度 + 3x 放大 + psm6(数字型加白名单)。
+        返回 [{text, cx, cy, conf}], cx/cy 为绝对屏幕坐标(已把放大坐标折回)。
+        """
+        if not self._pytesseract:
+            raise GuiError("pytesseract 不可用，无法 OCR")
+        x, y, w, h = region
+        up = 3
+        img = ImageOps.grayscale(pyautogui.screenshot(region=(x, y, w, h)))
+        resample = getattr(Image, "Resampling", Image).LANCZOS
+        img = img.resize((img.width * up, img.height * up), resample)
+        cfg = "--psm 6"
+        if numeric:
+            cfg += " -c tessedit_char_whitelist=0123456789"
+        data = self._pytesseract.image_to_data(
+            img, config=cfg, output_type=self._pytesseract.Output.DICT)
+        out = []
+        for i, txt in enumerate(data["text"]):
+            if txt.strip():
+                out.append({
+                    "text": txt.strip(),
+                    "cx": x + (data["left"][i] + data["width"][i] / 2) / up,
+                    "cy": y + (data["top"][i] + data["height"][i] / 2) / up,
+                    "conf": float(data["conf"][i]),
+                })
+        return out
 
     def _set_switch(self, page: str, widget_name: str, bool_value: bool, pos: tuple):
         cur = self.get_switch_state(page, widget_name)
@@ -432,7 +537,7 @@ class AppDriver:
         did_confirm = False
         yes_clicks = 0      # 依次点掉: "Do you want to update?" 的 Yes + "Update Successful!" 结果框按钮
         while time.time() < deadline:
-            time.sleep(0.6)
+            time.sleep(0.5)
             # 弹窗密码框(权限不足时)用高阈值, 避免误匹配 "Do you want to update?" 的 Yes
             if not did_confirm and self.click_template(confirm_t, threshold=0.95):
                 did_confirm = True
@@ -444,7 +549,7 @@ class AppDriver:
                 continue
             if yes_clicks >= 1:   # 已无可点的蓝色按钮 -> 确认框与结果框都已关闭
                 break
-        time.sleep(0.8)
+        time.sleep(0.7)
         return yes_clicks >= 1
 
     # ---- 可视化:把计划点击点画在截图上(安全,不点击) ----

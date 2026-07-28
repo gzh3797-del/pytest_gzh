@@ -52,7 +52,7 @@ class MeterComm:
         """读 2 个寄存器，解析为 big-endian float32"""
         for attempt in range(5):
             try:
-                resp = self.client.read_holding_registers(address=address, count=2, slave=self.slave_id)
+                resp = self.client.read_holding_registers(address=address, count=2, device_id=self.slave_id)
                 if resp and not resp.isError():
                     raw = resp.registers
                     b = bytes([
@@ -69,7 +69,7 @@ class MeterComm:
         """读 1 个寄存器，解析为 uint16"""
         for attempt in range(5):
             try:
-                resp = self.client.read_holding_registers(address=address, count=1, slave=self.slave_id)
+                resp = self.client.read_holding_registers(address=address, count=1, device_id=self.slave_id)
                 if resp and not resp.isError():
                     return resp.registers[0]
             except Exception as e:
@@ -81,7 +81,7 @@ class MeterComm:
         """写单个寄存器"""
         for attempt in range(3):
             try:
-                resp = self.client.write_registers(address=address, values=[value], slave=self.slave_id)
+                resp = self.client.write_registers(address=address, values=[value], device_id=self.slave_id)
                 if resp and not resp.isError():
                     return True
             except Exception as e:
@@ -109,7 +109,7 @@ class MeterComm:
             for attempt in range(3):
                 try:
                     resp = self.client.read_holding_registers(
-                        address=min_addr, count=count, slave=self.slave_id)
+                        address=min_addr, count=count, device_id=self.slave_id)
                     if resp and not resp.isError():
                         regs = resp.registers
                         result = {}

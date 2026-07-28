@@ -1,0 +1,124 @@
+# 工作流声明文件 —— 手工用例转自动化（电表 Acuview 上位机）
+# 状态：草案，待试运行
+# 说明：本文件把已跑通的 acuview_auto_testcase_generate skill 的隐性链"外显"为
+#       可调度/可门禁/可记账/可续跑的工作流。业务逻辑仍全部在该 skill 内，
+#       本工作流不重复、不覆盖 skill 的任何步骤，只在阶段之间加：入口校验 +
+#       人工验收门禁 + 运行记账。skill 自带的 🔴 映射确认 checkpoint 保持权威。
+
+workflow:
+  id: wf-manual-to-auto-acuview          # 唯一 ID，全工程不重复
+  name: 手工用例转自动化-电表Acuview
+  version: "0.1"
+  owner: 待分配                          # 责任到人：本工作流维护负责人
+  scope: 电表类项目（AcuRev100 / RPP 等）manual_testcase 转 pytest 自动化
+  trigger:                              # 什么情况下启动本工作流
+    - 某电表项目 manual_testcase/*.xlsx 手工用例需转自动化
+    - 手工用例新增/修改后需补齐对应自动化用例
+
+  input:                                # 输入物：启动前必须齐备，缺则不启动
+    - 手工用例 xlsx（projects/<项目>/manual_testcase/ 或用户指定路径，须含「是否可自动化」列）
+    - 项目 config_acuview.yaml（IP/COM/connection_row/content_origin/safety/spec 相对路径已填）
+    - data_acuview/ 下 Modbus 地址表 xlsx + Acuview 控件 JSON（供 spec_loader 建模）
+    - Acuview2 上位机可用、目标设备在线（实跑阶段所需；仅生成不实跑可后补）
+
+  scope_note: |                         # 执行范围（可选，启动时声明；默认整份可自动化用例）
+    支持限定到单个用例编号段/单一用例类型（write_verify 或 read_compare），启动语句写明
+    （如"范围：仅 Function_RPP_027_* 段，read 类暂不处理"）。限定后全链只处理该范围，
+    禁止顺带转换范围外用例。
+
+  output:                               # 最终输出物及归档位置
+    - pytest 用例文件 → projects/<项目>/tests/acuview_auto/test_acuview_<用例编号>.py（一条一文件）
+    - 手工 xlsx 回填「测试结果」「调试结果」列（write_back，不动其余列）
+    - 运行记录 → knowledge/shared/workflows/runs/
+
+# 所有人工 gate（executor: human 的阶段）通用呈现规则（全工程统一）：
+gate_protocol:
+  - 验收清单呈现给审核人时，复选框一律为 [ ]（留空）；[x] 只能由审核人的回复产生，AI 不得代勾——包括 AI 自查已通过的项
+  - AI 可以（且鼓励）在 gate 前对客观项做自查，但自查结论与验收清单分开呈现，格式为「AI 自查：通过/不通过 + 证据」，勾选权留给人
+  - 判断类条目（如"回读值是否等于目标值"）AI 只提供抽样证据（如逐条列回读值 vs 目标值），不得下"通过"结论
+  - 审核人回复通过时须明示（如"全过"或逐条答复），沉默或模糊回复不视为通过
+
+stages:
+  - id: S1
+    name: 建模型 + 读用例 + 逐条定位（含 skill 自带映射确认）
+    executor: ai
+    tool: /acuview_auto_testcase_generate  # 业务全在此 skill；本阶段跑到 skill 的第 4 步
+    input: 手工 xlsx + config_acuview.yaml + data_acuview/
+    output: |
+      spec 模型（spec_acuview/）+ 逐条"待确认映射清单"（用例编号 → 候选 register/page/widget
+      + 安全校验结论 + 定位不了清单）。
+    gate: none
+    note: |
+      本阶段内含 skill 自带的 🔴 CHECKPOINT（第 4.4 步："候选 register/page/widget 未经
+      工程师确认不进入生成/下发"）——该 checkpoint 是**安全铁律**，权威性高于本工作流，
+      不得因走工作流而弱化或跳过。S2 是在其基础上的工程级验收留痕，二者不冲突。
+
+  - id: S2
+    name: 映射与安全人工确认
+    executor: human
+    role: 电表测试工程师
+    input: S1 待确认映射清单
+    output: 确认后的映射（进入生成）
+    gate:                               # 验收标准 = 过门条件，逐条可勾选
+      - 每条用例的 register/page/widget 映射经确认，大白话→控件名不唯一处已选定
+      - 写类用例目标寄存器不在 safety.forbid_write_*（通信链路寄存器），目标值落在 range 内且可逆
+      - 「定位不了清单」已逐条裁决（补关键词重搜 / 确认暂不可自动化）
+      - 物理观察项（如背光亮灭）已标记为 MANUAL 目视项，不计入自动判据
+    on_fail: |
+      A) 重定位：AI 换关键词（中英文/缩写/HMI 菜单词→Acuview 术语）重搜 find_register/find_widget，
+         更新映射清单后重新交确认。
+      B) 工程师直接指定：审核人给出确切 register 地址/page/widget，AI 据此更新清单并复述确认。
+      任一路径完成后重新过 S2。安全项（forbid_write / 超 range / 不可逆）不过则该条中止，不下发。
+
+  - id: S3
+    name: 生成用例 + 运行 + 回填
+    executor: ai
+    tool: /acuview_auto_testcase_generate  # 续 skill 第 5~7 步
+    input: S2 确认映射
+    output: |
+      每条一个 test_acuview_<用例编号>.py；pytest 连续跑（防 TCP 5min 空闲断连）；
+      write_back 回填「测试结果」，失败回填「调试结果」；产出汇总（转了哪些/跳过哪些/挂哪些）。
+    gate: none
+
+  - id: S4
+    name: 转换结果人工验收
+    executor: human
+    role: 电表测试工程师
+    input: S3 用例文件 + pytest 结果 + 汇总
+    output: 验收结论（通过/回炉）
+    gate:
+      - 通过的用例：断言对象/scale/寄存器正确，还原步骤已执行（设备停在测试前状态）
+      - 「回读值 ≠ 目标值」的疑似产品 bug 项已单独列出并报相关负责人（未被改断言凑通过）
+      - 「设备未还原」告警项（若有）已置顶处理，涉事寄存器已手动恢复
+      - skip 项原因明确（需 OCR / 页面无模板 / 上位机不可用 / 定位不了），非误判
+      - 一条用例一文件、文件名为完整用例编号，无手插 sys.path，无一次性调试脚本残留
+    on_fail: |
+      A) 按结论回炉：AI 对指定用例重定位（回 S1/S2 段）或重生成（回 S3），重跑后重新交审。
+      B) 工程师直接修订 .py（保存关闭后声明"已手改，重新读取"），AI 重读文件、与后续改动做重叠判定。
+      疑似产品 bug 项不算回炉失败，记入 runs 备注供 Jira 跟踪。
+
+  - id: S5
+    name: 运行记录归档（metrics 记账）
+    # 存废检验点：跑满 5 单时，若 runs 数据拼不出转换率/首通率/人时收益一页汇报，砍掉本阶段
+    executor: ai
+    input: 本次运行全过程（S1~S4 产物、回炉记录、验收改动）
+    output: knowledge/shared/workflows/runs/<YYYYMMDD>-<项目>-<用例段标识>.md
+    action: |
+      按 metrics 口径记成一条流水，字段：
+      - 工作流/版本、项目、用例段标识、执行日期
+      - 各阶段一行一条（S2/S4 验收结果、回炉次数与原因、路径 A/B）
+      - 转换率原料：可自动化条数 / 成功转换条数 / skip 条数（含 skip 原因分布）
+      - 首次通过率原料：首跑 PASSED 条数 / 生成条数；调试修复条数
+      - 定位失败率原料：定位不了条数 / 可自动化条数
+      - 疑似产品 bug 项清单（回读≠目标值），供 Jira 跟踪
+      - 人时原料：会话总耗时/交互轮次自动记录；实际人工投入小时数**当场向工程师提问获取**，
+        未答复留空标"待补"，禁止臆测代填
+      归档后在对话里报一份摘要，单条记录控制在十余行，不得膨胀。本阶段不产出测试产物，禁止跳过。
+
+metrics:                                # 质量评估：度量口径定义（由 S5 记录落盘）
+  - name: 自动化转换率
+    how: 成功转换（生成且非 skip）条数 / 可自动化（是否可自动化==是）条数
+  - name: 首次通过率
+    how: 首跑即 PASSED 条数 / 生成条数（衡量定位与生成质量，越高越省调试人时）
+  - name: 单用例转换人时
+    how: 从 trigger 到 S4 完成的实际人工投入小时数（对比纯手工写脚本基线）；AI 只记原料，人时由工程师补填

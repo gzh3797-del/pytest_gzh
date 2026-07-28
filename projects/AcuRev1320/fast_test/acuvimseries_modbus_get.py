@@ -136,7 +136,7 @@ class HandleMemory:
         address = MemoryAddr.freq_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read frequency ret is:{measure_value}')
@@ -150,7 +150,7 @@ class HandleMemory:
         address = MemoryAddr.set_freq_rms_addr
         count = MemoryReg.reg_single
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!H', bytes(bytes_value))[0]
         self.log.info(f'read sys_set_frequency ret is:{measure_value}')
@@ -164,9 +164,9 @@ class HandleMemory:
         address = MemoryAddr.ua_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         # if type(measure_value) == "str":
-        #     measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        #     measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ua_voltage ret is:{measure_value}')
@@ -180,7 +180,7 @@ class HandleMemory:
         address = MemoryAddr.ub_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ub_voltage ret is:{measure_value}')
@@ -194,7 +194,7 @@ class HandleMemory:
         address = MemoryAddr.uc_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read uc_voltage ret is:{measure_value}')
@@ -208,7 +208,7 @@ class HandleMemory:
         address = MemoryAddr.uv_avg_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read uv_avg_voltage ret is:{measure_value}')
@@ -222,7 +222,7 @@ class HandleMemory:
         address = MemoryAddr.uab_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read uab_voltage ret is:{measure_value}')
@@ -236,7 +236,7 @@ class HandleMemory:
         address = MemoryAddr.ubc_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ubc_voltage ret is:{measure_value}')
@@ -250,7 +250,7 @@ class HandleMemory:
         address = MemoryAddr.uca_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read uca_voltage ret is:{measure_value}')
@@ -264,7 +264,7 @@ class HandleMemory:
         address = MemoryAddr.ul_avg_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ul_avg_voltage ret is:{measure_value}')
@@ -278,7 +278,7 @@ class HandleMemory:
         address = MemoryAddr.ia_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ia_current ret is:{measure_value}')
@@ -292,7 +292,7 @@ class HandleMemory:
         address = MemoryAddr.ib_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ib_current ret is:{measure_value}')
@@ -306,7 +306,7 @@ class HandleMemory:
         address = MemoryAddr.ic_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ic_current ret is:{measure_value}')
@@ -320,7 +320,7 @@ class HandleMemory:
         address = MemoryAddr.iv_avg_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read iv_avg_current ret is:{measure_value}')
@@ -334,7 +334,7 @@ class HandleMemory:
         address = MemoryAddr.in_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read in_current ret is:{measure_value}')
@@ -348,7 +348,7 @@ class HandleMemory:
         address = MemoryAddr.pa_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pa_power ret is:{measure_value}')
@@ -363,7 +363,7 @@ class HandleMemory:
         address = MemoryAddr.pb_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pb_power ret is:{measure_value}')
@@ -378,7 +378,7 @@ class HandleMemory:
         address = MemoryAddr.pc_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pc_power ret is:{measure_value}')
@@ -393,7 +393,7 @@ class HandleMemory:
         address = MemoryAddr.p_total_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read p_total_power ret is:{measure_value}')
@@ -408,7 +408,7 @@ class HandleMemory:
         address = MemoryAddr.qa_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read qa_power ret is:{measure_value}')
@@ -422,7 +422,7 @@ class HandleMemory:
         address = MemoryAddr.qb_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read qb_power ret is:{measure_value}')
@@ -436,7 +436,7 @@ class HandleMemory:
         address = MemoryAddr.qc_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read qc_power ret is:{measure_value}')
@@ -450,7 +450,7 @@ class HandleMemory:
         address = MemoryAddr.q_total_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read q_total_power ret is:{measure_value}')
@@ -464,7 +464,7 @@ class HandleMemory:
         address = MemoryAddr.sa_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read sa_power ret is:{measure_value}')
@@ -478,7 +478,7 @@ class HandleMemory:
         address = MemoryAddr.sb_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read sb_power ret is:{measure_value}')
@@ -492,7 +492,7 @@ class HandleMemory:
         address = MemoryAddr.sc_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read sc_power ret is:{measure_value}')
@@ -506,7 +506,7 @@ class HandleMemory:
         address = MemoryAddr.s_total_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read s_total_power ret is:{measure_value}')
@@ -520,7 +520,7 @@ class HandleMemory:
         address = MemoryAddr.pf_a_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pf_a_factor ret is:{measure_value}')
@@ -534,7 +534,7 @@ class HandleMemory:
         address = MemoryAddr.pf_b_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pf_b_factor ret is:{measure_value}')
@@ -548,7 +548,7 @@ class HandleMemory:
         address = MemoryAddr.pf_c_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pf_c_factor ret is:{measure_value}')
@@ -562,7 +562,7 @@ class HandleMemory:
         address = MemoryAddr.pf_total_rms_addr
         count = MemoryReg.reg_double
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read pf_total_power ret is:{measure_value}')
@@ -576,7 +576,7 @@ class HandleMemory:
         address = MemoryAddr.ua_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         # value = math.radians(value)
@@ -596,7 +596,7 @@ class HandleMemory:
         address = MemoryAddr.ub_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         # value = measure_value[0] / 10
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
@@ -611,7 +611,7 @@ class HandleMemory:
         address = MemoryAddr.uc_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         # value = measure_value[0] / 10
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
@@ -626,7 +626,7 @@ class HandleMemory:
         address = MemoryAddr.uab_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         # value = math.radians(value)
@@ -642,7 +642,7 @@ class HandleMemory:
         address = MemoryAddr.ubc_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ubc_phase_angle ret is:{measure_value}')
@@ -656,7 +656,7 @@ class HandleMemory:
         address = MemoryAddr.uca_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read uca_phase_angle ret is:{measure_value}')
@@ -670,7 +670,7 @@ class HandleMemory:
         address = MemoryAddr.ia_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ia_phase_angle ret is:{measure_value}')
@@ -684,7 +684,7 @@ class HandleMemory:
         address = MemoryAddr.ib_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ib_phase_angle ret is:{measure_value}')
@@ -698,7 +698,7 @@ class HandleMemory:
         address = MemoryAddr.ic_phase_angle_rms_addr
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read ic_phase_angle ret is:{measure_value}')
@@ -784,11 +784,11 @@ class HandleMemory:
         values = voltage_wire_mode
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_wire_mode_by_voltage fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = voltage_wire_mode
         act_val = measure_value[0]
         self.compare_res_by_set_voltage_wire_mode(exp_val, act_val)
@@ -803,11 +803,11 @@ class HandleMemory:
         values = current_wire_mode
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_wire_mode_by_current fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = current_wire_mode
         act_val = measure_value[0]
         self.compare_res_by_set_current_wire_mode(exp_val, act_val)
@@ -827,7 +827,7 @@ class HandleMemory:
         address = MemoryAddr.pa_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -842,7 +842,7 @@ class HandleMemory:
         address = MemoryAddr.pa_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -857,7 +857,7 @@ class HandleMemory:
         address = MemoryAddr.pb_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -872,7 +872,7 @@ class HandleMemory:
         address = MemoryAddr.pb_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -887,7 +887,7 @@ class HandleMemory:
         address = MemoryAddr.pb_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -902,7 +902,7 @@ class HandleMemory:
         address = MemoryAddr.pc_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -917,7 +917,7 @@ class HandleMemory:
         address = MemoryAddr.qa_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -932,7 +932,7 @@ class HandleMemory:
         address = MemoryAddr.qa_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -947,7 +947,7 @@ class HandleMemory:
         address = MemoryAddr.qb_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -962,7 +962,7 @@ class HandleMemory:
         address = MemoryAddr.qb_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -977,7 +977,7 @@ class HandleMemory:
         address = MemoryAddr.qc_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -992,7 +992,7 @@ class HandleMemory:
         address = MemoryAddr.qc_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1007,7 +1007,7 @@ class HandleMemory:
         address = MemoryAddr.sa_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1022,7 +1022,7 @@ class HandleMemory:
         address = MemoryAddr.sa_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1037,7 +1037,7 @@ class HandleMemory:
         address = MemoryAddr.sb_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1052,7 +1052,7 @@ class HandleMemory:
         address = MemoryAddr.sb_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1067,7 +1067,7 @@ class HandleMemory:
         address = MemoryAddr.sc_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1082,7 +1082,7 @@ class HandleMemory:
         address = MemoryAddr.sc_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1097,7 +1097,7 @@ class HandleMemory:
         address = MemoryAddr.sa_app_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1112,7 +1112,7 @@ class HandleMemory:
         address = MemoryAddr.sb_app_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1127,7 +1127,7 @@ class HandleMemory:
         address = MemoryAddr.sc_app_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1142,7 +1142,7 @@ class HandleMemory:
         address = MemoryAddr.acc_start_time_energy_addr
         count = MemoryReg.reg_uint16
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!6H', bytes(bytes_value))
         self.log.info(f'read acc_start_time_energy ret is:{measure_value}')
@@ -1156,7 +1156,7 @@ class HandleMemory:
         address = MemoryAddr.acc_end_time_energy_addr
         count = MemoryReg.reg_uint16
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!6H', bytes(bytes_value))[0]
         self.log.info(f'read acc_end_time_energy ret is:{measure_value}')
@@ -1170,7 +1170,7 @@ class HandleMemory:
         address = MemoryAddr.p_sys_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1185,7 +1185,7 @@ class HandleMemory:
         address = MemoryAddr.p_sys_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1200,7 +1200,7 @@ class HandleMemory:
         address = MemoryAddr.p_sys_total_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1215,7 +1215,7 @@ class HandleMemory:
         address = MemoryAddr.p_sys_net_energy_addr
         count = MemoryReg.reg_int32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!i', bytes(bytes_value))[0]
         value = value / 1000
@@ -1230,7 +1230,7 @@ class HandleMemory:
         address = MemoryAddr.q_sys_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1245,7 +1245,7 @@ class HandleMemory:
         address = MemoryAddr.q_sys_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1260,7 +1260,7 @@ class HandleMemory:
         address = MemoryAddr.q_sys_total_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1275,7 +1275,7 @@ class HandleMemory:
         address = MemoryAddr.q_sys_net_energy_addr
         count = MemoryReg.reg_int32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!i', bytes(bytes_value))[0]
         value = value / 1000
@@ -1290,7 +1290,7 @@ class HandleMemory:
         address = MemoryAddr.s_sys_imp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1305,7 +1305,7 @@ class HandleMemory:
         address = MemoryAddr.s_sys_exp_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1320,7 +1320,7 @@ class HandleMemory:
         address = MemoryAddr.s_sys_total_energy_addr
         count = MemoryReg.reg_uint32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!I', bytes(bytes_value))[0]
         value = value / 1000
@@ -1336,7 +1336,7 @@ class HandleMemory:
         address = MemoryAddr.clear_energy_addr
         values = clear_energy_flag
         slave = self.slave_id
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_cleared_energy Failed, ret is:{ret}')
             return False
@@ -1367,11 +1367,11 @@ class HandleMemory:
         values = demand_method
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_cleared_energy fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = demand_method
         act_val = measure_value[0]
         self.compare_res_by_set_value(exp_val, act_val)
@@ -1386,11 +1386,11 @@ class HandleMemory:
         values = demand_interval
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_cleared_energy fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = demand_interval
         act_val = measure_value[0]
         self.compare_res_by_set_value(exp_val, act_val)
@@ -1405,11 +1405,11 @@ class HandleMemory:
         values = demand_update_rate
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_cleared_energy fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = demand_update_rate
         act_val = measure_value[0]
         self.compare_res_by_set_value(exp_val, act_val)
@@ -1422,7 +1422,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["system_active_power"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand system_active_power ret is:{measure_value}')
@@ -1436,7 +1436,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["system_reactive_power"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand system_reactive_power ret is:{measure_value}')
@@ -1450,7 +1450,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["system_apparent_power"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand system_apparent_power ret is:{measure_value}')
@@ -1464,7 +1464,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["phase_a_current"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand phase_a_current ret is:{measure_value}')
@@ -1478,7 +1478,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["phase_b_current"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand phase_b_current ret is:{measure_value}')
@@ -1492,7 +1492,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["phase_c_current"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand phase_c_current ret is:{measure_value}')
@@ -1506,7 +1506,7 @@ class HandleMemory:
         address = MemoryAddr.demand_addr["phase_n_current"]
         count = MemoryReg.reg_float32
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         bytes_value = self.get_bytes_value(measure_value)
         value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read demand phase_n_current ret is:{measure_value}')
@@ -1521,11 +1521,11 @@ class HandleMemory:
         values = sys_millisecond
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_sys_millisecond fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = sys_millisecond
         act_val = measure_value[0]
         self.compare_res_by_set_value(exp_val, act_val)
@@ -1538,11 +1538,11 @@ class HandleMemory:
         values = clear_max_demand
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_clear_max_demand fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = clear_max_demand
         act_val = measure_value[0]
         self.compare_res_by_set_value(exp_val, act_val)
@@ -1555,7 +1555,7 @@ class HandleMemory:
         address = MemoryAddr.time_stamp_rms_addr
         count = MemoryReg.reg_timestamp_active_energy
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         # bytes_value = self.get_bytes_value(measure_value)
         # value = struct.unpack('!f', bytes(bytes_value))[0]
         self.log.info(f'read measure_value ret is:{measure_value}')
@@ -1569,7 +1569,7 @@ class HandleMemory:
         address = MemoryAddr.sys_time_rms_addr
         count = MemoryReg.reg_uint16_t * 7
         slave = self.slave_id
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         self.log.info(f"read local_time:{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}")
         print(f"read local_time:{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}")
         bytes_value = self.get_bytes_value(measure_value)
@@ -1594,11 +1594,11 @@ class HandleMemory:
         values = freq
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_sys_freq fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = freq
         act_val = measure_value[0]
         self.compare_res(exp_val, act_val)
@@ -1613,11 +1613,11 @@ class HandleMemory:
         values = phase_order
         slave = self.slave_id
         count = MemoryReg.reg_single
-        ret = self.modbus_client.write_registers(address=address, values=values, slave=slave)
+        ret = self.modbus_client.write_registers(address=address, values=values, device_id=slave)
         if address != ret.address:
             self.log.error(f'set_phase_order fail, ret is:{ret}')
             return False
-        measure_value = self.modbus_client.read_measurement(address=address, count=count, slave=slave)
+        measure_value = self.modbus_client.read_measurement(address=address, count=count, device_id=slave)
         exp_val = phase_order
         act_val = measure_value[0]
         self.compare_res(exp_val, act_val)

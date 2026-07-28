@@ -17,8 +17,12 @@ import yaml
 
 _THIS_DIR    = Path(__file__).resolve().parent          # tests/aws_iot/
 _PROJECT_ROOT = _THIS_DIR.parent.parent                  # AcuHMI_1_7/
+_REPO_ROOT   = _PROJECT_ROOT.parent.parent               # autotest/
 
 sys.path.insert(0, str(_PROJECT_ROOT))
+# 仓库根也需在 sys.path：pages/base_page.py 等用 projects.AcuHMI_1_7.* 绝对包路径导入，
+# 单独跑本目录时 rootdir 被本地 pytest.ini 截断，不加这行会 ModuleNotFoundError: projects
+sys.path.insert(0, str(_REPO_ROOT))
 
 CONFIG_PATH = _THIS_DIR / "config.yaml"
 
@@ -79,19 +83,24 @@ def skip_if_device_not_configured(request, aws_cfg):
         pytest.skip(f"设备 '{device_name}' 未在 config.yaml 中配置，跳过")
 
 
-# ─── 自持浏览器 fixture（不依赖根目录 conftest）────────────────────────────────
+# ─── 浏览器 fixture（复用唯一 sync_playwright 实例，与 data_log 同模式）─────────
 
 @pytest.fixture(scope="session")
-def app_page(aws_cfg):
-    """Session 级已登录 Playwright Page（aws_iot 自持浏览器，不依赖项目根 conftest）。"""
-    from playwright.sync_api import sync_playwright
+def app_page(playwright, aws_cfg):
+    """Session 级已登录 Playwright Page（复用 session 级唯一 ``playwright`` 实例）。
+
+    不再自起 ``sync_playwright().start()``：全量套件运行时主线程已有共享实例留下的
+    运行中事件循环，第二个 sync_playwright 会撞上它抛 "Playwright Sync API inside
+    the asyncio loop"。改为从 session 级 ``playwright`` 实例（全量跑=项目根 conftest，
+    单独跑=pytest-playwright 插件）另起独立浏览器，保留 aws_iot 自己的有头/最大化/
+    忽略证书启动参数与生命周期。
+    """
     gw = aws_cfg.get("gateway", {})
     url      = gw.get("url", "https://192.168.2.8")
     username = gw.get("username", "admin")
     password = gw.get("password", "Admin@110002")
 
-    _pw = sync_playwright().start()
-    browser = _pw.chromium.launch(
+    browser = playwright.chromium.launch(
         headless=False,
         args=["--ignore-certificate-errors", "--start-maximized"],
     )
@@ -151,10 +160,9 @@ def app_page(aws_cfg):
     yield page
     try:
         ctx.close()
-        browser.close()
+        browser.close()   # playwright 实例归 session 级 fixture 管理，此处只关自己的浏览器
     except Exception:
         pass
-    _pw.stop()
 
 
 # ─── Session 级设备扫描与校验（在所有用例之前自动执行一次）─────────────────────

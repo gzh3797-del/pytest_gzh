@@ -1,0 +1,72 @@
+project_name: RPP
+
+# ── Modbus 直连（demand_test 专用）──────────────────────────────────────────
+# 项目级连接配置(与 configs/global.yaml 分层合并, 本文件值覆盖全局同名项)。
+# demand_test 在建立 Modbus 连接前经 _sync_project_conn_config() 读取本段;
+# 台架连接方式变化时改这里, 不要动 global.yaml(其他项目共用)。
+conn_mode: tcp
+tcp:
+  ip: 192.168.8.101   # RPP MH Ethernet 1 出厂默认 IP, 按实际台架修改
+  port: 502
+
+# Web UI
+base_url: http://192.168.2.94:3030
+browser: chromium
+headless: false
+slow_mo: 50
+timeout: 300001
+
+# HMI 设备（hmi_username / hmi_password 走根 .env）
+hmi_url: http://192.168.2.94:3030
+hmi_ip: 192.168.2.94
+# TODO(需现场确认)：RPP 下挂设备/Meter Point 命名体系与 AcuHMI-1-7 不同（MH 主控 +
+# VMM/CMM + 最多 96 个虚拟 Meter Point，不是"某台电表"），此值先留空，待确认后填写。
+hmi_device_name:
+
+# BACnet/IP 客户端（BAC0）
+bacnet_port: 49000
+local_ip: 192.168.2.45
+local_port: 47810
+bacnet_connect_wait: 4.0
+bacnet_read_timeout: 20.0
+bacnet_restart_wait: 6.0
+# BACnet vs Modbus 比对容差
+modbus_cmp_tolerance_percent: 1.0
+modbus_cmp_tolerance_absolute: 0.05
+modbus_cmp_timeout: 10.0
+modbus_cmp_max_retries: 2
+
+# ── 被测表（接线检查 + 直连 Modbus 测试共用）──
+# 这里只是"指针"：填 device_modbus 段下的某个设备名，对应 ip/port/unit 由 device_modbus
+# 统一提供，不再单列 meter_tcp_ip/port/modbus_slave。此名同时作为：
+#   1) HMI Wiring Check 页面 Device 下拉中要选的设备名；
+#   2) 从 device_modbus 段取该表 ip/port/unit 的键名。
+# 故此名必须与 device_modbus 段下某设备名、以及 HMI 下拉显示名一致。
+# TODO(需现场确认)：RPP 的"被测表"概念对应的是某个 Meter Point 还是某台下挂 Modbus
+# 设备，命名规则未知，先留空——读取该值的 parameter_settings/接线检查等模块暂不适用于 RPP。
+meter_device_name:
+# 接线检查 — 测试参数
+nominal_voltage: 100
+normal_current: 1.0
+check_timeout: 30
+
+
+
+# MQTT
+mqtt_broker_address: "www.accu.com"
+mqtt_broker_port: 1883
+mqtt_ssl_port: 8883
+mqtt_collect_timeout: 60
+mqtt_url_path: "/#/protocols/mqtt/deviceToPublish"
+# TODO(需现场确认)：RPP MQTT 页面里"Device to Publish"选择的是 Meter Point 名还是
+# 别的命名，此默认值未知，先留空。
+mqtt_default_device:
+mqtt_tolerance_percent: 1.0
+mqtt_tolerance_absolute: 0.05
+
+# ── 各下挂设备直连 Modbus TCP 参数（BACnet 上传值 vs Modbus 实时值比对专用）──
+# 每台设备的真实 IP/端口/Unit ID，None 表示未接入→段4自动跳过。
+# 格式：ip / port / unit
+# TODO(需现场确认)：以下清单是 AcuHMI-1-7 的下挂设备，RPP 架构是 MH 主控 + VMM/CMM +
+# 最多 96 个虚拟 Meter Point，设备清单需要按真机重新调研，先清空，避免误用旧数据。
+device_modbus: {}

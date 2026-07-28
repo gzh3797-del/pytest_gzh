@@ -1,0 +1,2906 @@
+# AcuRev-100 接线检查判据 手工用例→自动化 映射(010_07~010_13, 共 52 条)。
+# 来源: knowledge/meters/AcuRev100/testcase/AcuRev-100_接线检查判据_测试用例.xlsx
+# 结构: cases[].points[]={source, expect}; meter_cfg=接线方式前置(复用 helpers_accuracy);
+#       phase_order=相序配置前置(PHASE_ORDER@4195, 仅 3E4WY 用例携带)。
+# 期望: expect.v_code/i_code=错误码期望精确值(12290/12291, 短路逻辑=被跳过位必须为0);
+#       expect.i_assert=false 电压缺失类电流码只记录不断言(该相 pf 无定义, 2026-07-14 确认);
+#       expect.phase_order=VOLTAGE_PHASE_ORDER@12304 期望(仅用例表预期提及时断言)。
+# 触发: 每测点关→开 WIRE_CHECK_SWITCH@12288(0=ON/1=OFF) 触发立即检测(用户裁定 2026-07-14)。
+# ⚠️ 自供电: A相<100V 由 helpers 护栏强制抬压; 含 Van<10V 的判据(7条)不在本表(转手工)。
+# ⚠️ K阈值已裁定(2026-07-14): 2E3W1P=1.4 / 3E4WY=1.3; 输出2不参与条件13比较(bit8不置位)。
+cases:
+- case_id: Function_AC meter_010_07_case1
+  type: wiring_check
+  meter_cfg:
+    wiring: 1E2W
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+- case_id: Function_AC meter_010_07_case2
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+- case_id: Function_AC meter_010_07_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_07_case4
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 1
+  phase_order: 1
+- case_id: Function_AC meter_010_08_case2
+  type: wiring_check
+  meter_cfg:
+    wiring: 1E2W
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 0.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 1
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_08_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 1E2W
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 180.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 8
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 4
+      i_code: 0
+      i_assert: false
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case4
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 150.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 8
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case5
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 150.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 32
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case6
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 0.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 1
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case7
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 4
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case8
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 180.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 8
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_09_case9
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 0.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 32
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_10_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 5.0
+      uc: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 6
+      i_code: 0
+      i_assert: false
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case6
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 5.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 2
+      i_code: 0
+      i_assert: false
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case7
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 5.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 4
+      i_code: 0
+      i_assert: false
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case8
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 150.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 8
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case9
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 150.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 16
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case10
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 150.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 32
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case11
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 200.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 64
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case12
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 80.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 64
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 1
+- case_id: Function_AC meter_010_10_case13
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 160.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 128
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case14
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 280.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 128
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 1
+- case_id: Function_AC meter_010_10_case15
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 448
+      i_code: 0
+      phase_order: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 1
+- case_id: Function_AC meter_010_10_case16
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 448
+      i_code: 0
+      phase_order: 1
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_10_case17
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 180.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case1
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 0.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 1
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case2
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 4
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case4
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 180.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 8
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case5
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 60.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 16
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case6
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 300.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 32
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case7
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 240.0
+      qib: 0.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 64
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case8
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 120.0
+      qib: 0.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 64
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 1
+- case_id: Function_AC meter_010_11_case9
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 120.0
+      qib: 240.0
+      qic: 0.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 128
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case10
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 240.0
+      qib: 120.0
+      qic: 0.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 128
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 1
+- case_id: Function_AC meter_010_11_case11
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 256
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_11_case12
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 256
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 1
+- case_id: Function_AC meter_010_12_case1
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_12_case2
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 120.0
+      quc: 240.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 120.0
+      qic: 240.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 1
+  phase_order: 1
+- case_id: Function_AC meter_010_12_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 8.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 2
+      i_code: 0
+      i_assert: false
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_12_case4
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 180.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_12_case5
+  type: wiring_check
+  meter_cfg:
+    wiring: 1E2W
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 0.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 0.0
+      ic: 0.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+- case_id: Function_AC meter_010_12_case6
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+- case_id: Function_AC meter_010_13_case1
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 9.5
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 2
+      i_code: 0
+      i_assert: false
+  - source:
+      ua: 220.0
+      ub: 10.5
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 16
+      i_code: 0
+      i_assert: false
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_13_case2
+  type: wiring_check
+  meter_cfg:
+    wiring: 2E3W1P
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 150.0
+      ub: 0.0
+      uc: 210.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 8
+      i_code: 0
+  - source:
+      ua: 150.0
+      ub: 0.0
+      uc: 204.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 0.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 180.0
+      ia: 5.0
+      ib: 0.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 180.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+- case_id: Function_AC meter_010_13_case3
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 150.0
+      ub: 195.0
+      uc: 195.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 8
+      i_code: 0
+  - source:
+      ua: 150.0
+      ub: 190.0
+      uc: 190.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_13_case4
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 219.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 64
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 221.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_13_case5
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 188.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 2
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 190.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+      phase_order: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_13_case6
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 155.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 8
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 150.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_13_case7
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 240.0
+      qib: 0.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 64
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 250.0
+      qib: 0.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0
+- case_id: Function_AC meter_010_13_case8
+  type: wiring_check
+  meter_cfg:
+    wiring: 3E4WY
+  needs_review: []
+  points:
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 0.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 1
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 0.05
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  - source:
+      ua: 220.0
+      ub: 220.0
+      uc: 220.0
+      qua: 0.0
+      qub: 240.0
+      quc: 120.0
+      ia: 5.0
+      ib: 5.0
+      ic: 5.0
+      qia: 0.0
+      qib: 240.0
+      qic: 120.0
+      freq: 50.0
+    expect:
+      v_code: 0
+      i_code: 0
+  phase_order: 0

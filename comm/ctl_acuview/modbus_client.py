@@ -4,8 +4,8 @@
 按寄存器名或地址读写；按 Excel 数据类型自动编解码；带字序自动校准与范围校验。
 
 pymodbus 3.7 API：
-    client.read_holding_registers(address, count=N, slave=id) -> rr; rr.registers
-    client.write_registers(address, [vals], slave=id)
+    client.read_holding_registers(address, count=N, device_id=id) -> rr; rr.registers
+    client.write_registers(address, [vals], device_id=id)
 """
 from __future__ import annotations
 
@@ -95,27 +95,35 @@ class ModbusError(RuntimeError):
 class MeterClient:
     """对一路 Modbus 连接(TCP 或 RTU)的统一封装。"""
 
-    def __init__(self, transport: str | None = None, word_order: WordOrder | None = None):
+    def __init__(self, transport: str | None = None, word_order: WordOrder | None = None,
+                 slave_id: int | None = None, baudrate: int | None = None,
+                 parity: str | None = None):
         self.cfg = get_config()
         self.transport = transport or self.cfg.transport.verify
         self.wo = word_order or WordOrder()
         self.registers, self.pages = load_spec()
         self._client = None
         self._slave = None
+        # 覆盖项: 通讯参数用例(016)改 SlaveID/波特率/校验后, 需以新参数重连校验端回读/还原。
+        self._ov_slave = slave_id
+        self._ov_baud = baudrate
+        self._ov_parity = parity
 
     # ---- 连接管理 ----
     def connect(self):
         if self.transport == "tcp":
             t = self.cfg.transport.tcp
             self._client = ModbusTcpClient(host=t["host"], port=t["port"], timeout=t["timeout_s"])
-            self._slave = t["slave_id"]
+            self._slave = self._ov_slave if self._ov_slave is not None else t["slave_id"]
         elif self.transport == "rtu":
             t = self.cfg.transport.rtu
             self._client = ModbusSerialClient(
-                port=t["port"], baudrate=t["baudrate"], parity=t["parity"],
+                port=t["port"],
+                baudrate=self._ov_baud if self._ov_baud is not None else t["baudrate"],
+                parity=self._ov_parity if self._ov_parity is not None else t["parity"],
                 bytesize=t["bytesize"], stopbits=t["stopbits"], timeout=t["timeout_s"],
             )
-            self._slave = t["slave_id"]
+            self._slave = self._ov_slave if self._ov_slave is not None else t["slave_id"]
         else:
             raise ModbusError(f"未知传输方式: {self.transport}")
         if not self._client.connect():
@@ -136,9 +144,9 @@ class MeterClient:
     # ---- 兼容不同 pymodbus 版本的 slave 关键字 ----
     def _read_regs(self, address: int, count: int) -> list[int]:
         try:
-            rr = self._client.read_holding_registers(address, count=count, slave=self._slave)
+            rr = self._client.read_holding_registers(address, count=count, device_id=self._slave)
         except TypeError:
-            rr = self._client.read_holding_registers(address, count, slave=self._slave)
+            rr = self._client.read_holding_registers(address, count, device_id=self._slave)
         if rr is None or rr.isError():
             raise ModbusError(f"读寄存器失败 addr={address} count={count}: {rr}")
         return list(rr.registers)
@@ -147,7 +155,7 @@ class MeterClient:
         # 统一用 FC16(write multiple)，即使单寄存器：AcuRev 对 FC6 的响应帧会让
         # pymodbus 解析报错(struct unpack 4 bytes)，FC16 响应规整、更通用。
         try:
-            rr = self._client.write_registers(address, values, slave=self._slave)
+            rr = self._client.write_registers(address, values, device_id=self._slave)
         except TypeError:
             rr = self._client.write_registers(address, values, self._slave)
         if rr is None or rr.isError():

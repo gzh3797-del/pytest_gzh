@@ -82,9 +82,22 @@ INTERFACE_ETHERNET = "Ethernet"
 REPORT = pathlib.Path(__file__).resolve().parent   # 报告输出到本协议自身目录
 DOWNLOAD_DIR = REPORT / "downloads"                 # 镜像配置 CSV 下载到本协议目录
 
+# 用例函数名 → 关联TC编号（供本地 conftest 并入 Test 列显示；与 xlsx 用例Mapping 的「关联TC编号」列一致）
+CASE_ID_MAP = {
+    "test_dm_001_config_and_export":        "TestCase_AcuHMI_008_04_case06",
+    "test_dm_002_modbus_read":              "TestCase_AcuHMI_008_04_case05(子)",
+    "test_dm_003_mirror_matches_direct":    "TestCase_AcuHMI_008_04_case05",
+    "test_dm_case01_enable_disable_toggle": "TestCase_AcuHMI_008_04_case01",
+    "test_dm_case02_valid_slaveid_save":    "TestCase_AcuHMI_008_04_case02",
+    "test_dm_case03_slaveid_boundary":      "TestCase_AcuHMI_008_04_case03",
+    "test_dm_case04_duplicate_slaveid":     "TestCase_AcuHMI_008_04_case04",
+    "test_dm_case07_offline_stability":     "TestCase_AcuHMI_008_04_case07",
+    "test_dm_case08_concurrent_masters":    "TestCase_AcuHMI_008_04_case08",
+}
+
 
 # ═══════════════════════════════════════════════════════════════════════════
-# Modbus TCP 读取 + 解码（pymodbus 3.x，slave= 参数）
+# Modbus TCP 读取 + 解码（pymodbus 3.x，device_id= 参数）
 # ═══════════════════════════════════════════════════════════════════════════
 from pymodbus.client import ModbusTcpClient
 
@@ -123,17 +136,17 @@ class Modbus:
 
     def _read_regs(self, fc, address, count, slave):
         if fc == 3:
-            rr = self.client.read_holding_registers(address, count=count, slave=slave)
+            rr = self.client.read_holding_registers(address, count=count, device_id=slave)
         elif fc == 4:
-            rr = self.client.read_input_registers(address, count=count, slave=slave)
+            rr = self.client.read_input_registers(address, count=count, device_id=slave)
         elif fc == 1:
-            rr = self.client.read_coils(address, count=count, slave=slave)
+            rr = self.client.read_coils(address, count=count, device_id=slave)
         elif fc == 2:
-            rr = self.client.read_discrete_inputs(address, count=count, slave=slave)
+            rr = self.client.read_discrete_inputs(address, count=count, device_id=slave)
         else:
             raise IOError(f"不支持的功能码 {fc}")
         if rr.isError():
-            raise IOError(f"slave={slave} fc={fc} addr={address} -> {rr}")
+            raise IOError(f"device_id={slave} fc={fc} addr={address} -> {rr}")
         return list(rr.bits)[:count] if fc in (1, 2) else list(rr.registers)
 
     def read(self, rec, unit=None, retries=2):
